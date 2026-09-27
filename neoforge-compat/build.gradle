@@ -85,7 +85,7 @@ dependencies {
 tasks.named('jar', Jar).configure {
     archiveBaseName.set(mod_id)
     archiveVersion.set(mod_version)
-    archiveClassifier.set("${neoforge_id}-${minecraft_support_version}")
+    archiveClassifier.set("${neoforge_id}-${minecraft_version_range}")
     duplicatesStrategy = DuplicatesStrategy.EXCLUDE
     from project(':core').sourceSets.main.output
 }
