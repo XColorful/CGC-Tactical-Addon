@@ -12,7 +12,7 @@ import net.neoforged.fml.loading.FMLLoader;
 public class CgcTacticalNeoforge {
 
     public CgcTacticalNeoforge(IEventBus modEventBus) {
-        Dist dist = FMLLoader.getDist();
+        Dist dist = FMLLoader.getCurrent().getDist();
         McSide mcSide = dist.isClient() ? McSide.CLIENT : McSide.DEDICATED_SERVER;
 
         CgcTactical.init(mcSide);
