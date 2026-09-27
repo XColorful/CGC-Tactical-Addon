@@ -27,4 +27,4 @@ sourceControl {
     }
 }
 
-include("core", "forge-compat", "neoforge-compat")
+include("core", "neoforge-compat")
