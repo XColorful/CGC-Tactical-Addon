@@ -13,7 +13,7 @@ dependencies {
     minecraft "net.minecraftforge:forge:${minecraft_version}-${forge_version}"
     compileOnly fg.deobf("net.minecraftforge:forge:${minecraft_version}-${forge_version}")
 
-    compileOnly fg.deobf(files(customgun_local))
+    implementation fg.deobf(files(customgun_local))
 
     // LuaJ
     compileOnly "${luaj_figuramc_core}"
