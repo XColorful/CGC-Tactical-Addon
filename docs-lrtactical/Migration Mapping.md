@@ -17,6 +17,15 @@ Notation:
 
 ## Common
 
+### Capability
+> ```java
+> package me.xjqsh.lrtactical.capability;
+> ```
+
+| |dev.xcolorful.cgctactical.core.mixin|
+|---|---|
+|net.minecraftforge.common.capabilities.`AutoRegisterCapability`|entity.`PlayerMixin`|
+
 ### Network
 > ```java
 > package me.xjqsh.lrtactical.network;
