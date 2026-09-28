@@ -74,7 +74,7 @@ dependencies {
 
     implementation project(":core")
 
-    compileOnly fg.deobf(files(customgun_local))
+    implementation fg.deobf(files(customgun_local))
 
     // LuaJ
     compileOnly "${luaj_figuramc_core}"
