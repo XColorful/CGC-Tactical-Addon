@@ -15,7 +15,7 @@ import dev.xcolorful.cgctactical.core.resource.instance.data.ThrowableIndexInsta
 import dev.xcolorful.cgctactical.core.resource.network.SyncDataType;
 import dev.xcolorful.customgun.core.resource.ResourcePojo;
 import dev.xcolorful.customgun.core.util.JsonUtils;
-import net.minecraft.resources.ResourceLocation;
+import net.minecraft.resources.Identifier;
 import org.jetbrains.annotations.ApiStatus;
 import org.jetbrains.annotations.NotNull;
 
@@ -32,20 +32,20 @@ public final class SyncDataCache {
     /**
      * ./datapacks/{datapack}/data/{namespace}/{@link dev.xcolorful.customgun.core.api.resource.data.DataFolderType#DATA}
      */
-    public @NotNull volatile Map<ResourceLocation, ConsumableData> consumableData = new HashMap<>();
-    public @NotNull volatile Map<ResourceLocation, MeleeData> meleeData = new HashMap<>();
-    public @NotNull volatile Map<ResourceLocation, ThrowableData> throwableData = new HashMap<>();
+    public @NotNull volatile Map<Identifier, ConsumableData> consumableData = new HashMap<>();
+    public @NotNull volatile Map<Identifier, MeleeData> meleeData = new HashMap<>();
+    public @NotNull volatile Map<Identifier, ThrowableData> throwableData = new HashMap<>();
     /**
      * ./datapacks/{datapack}/data/{namespace}/{@link dev.xcolorful.customgun.core.api.resource.data.DataFolderType#INDEX}
      */
-    public @NotNull volatile Map<ResourceLocation, ConsumableIndex> consumableIndex = new HashMap<>();
-    public @NotNull volatile Map<ResourceLocation, MeleeIndex> meleeIndex = new HashMap<>();
-    public @NotNull volatile Map<ResourceLocation, ThrowableIndex> throwableIndex = new HashMap<>();
+    public @NotNull volatile Map<Identifier, ConsumableIndex> consumableIndex = new HashMap<>();
+    public @NotNull volatile Map<Identifier, MeleeIndex> meleeIndex = new HashMap<>();
+    public @NotNull volatile Map<Identifier, ThrowableIndex> throwableIndex = new HashMap<>();
 
     // data instance
-    public final Map<ResourceLocation, ConsumableIndexInstance> CONSUMABLE_INDEX = new HashMap<>();
-    public final Map<ResourceLocation, MeleeIndexInstance> MELEE_INDEX = new HashMap<>();
-    public final Map<ResourceLocation, ThrowableIndexInstance> THROWABLE_INDEX = new HashMap<>();
+    public final Map<Identifier, ConsumableIndexInstance> CONSUMABLE_INDEX = new HashMap<>();
+    public final Map<Identifier, MeleeIndexInstance> MELEE_INDEX = new HashMap<>();
+    public final Map<Identifier, ThrowableIndexInstance> THROWABLE_INDEX = new HashMap<>();
 
     @ApiStatus.Internal
     public void clear() {
@@ -68,16 +68,16 @@ public final class SyncDataCache {
      */
     @SuppressWarnings("unchecked")
     @ApiStatus.Internal
-    public void setParseResult(Map<SyncDataType, Map<ResourceLocation, ? extends ResourcePojo<?>>> result) {
+    public void setParseResult(Map<SyncDataType, Map<Identifier, ? extends ResourcePojo<?>>> result) {
         if (result == null) return;
 
-        this.consumableData = (Map<ResourceLocation, ConsumableData>) result.getOrDefault(SyncDataType.CONSUMABLE_DATA, new HashMap<>());
-        this.meleeData = (Map<ResourceLocation, MeleeData>) result.getOrDefault(SyncDataType.MELEE_DATA, new HashMap<>());
-        this.throwableData = (Map<ResourceLocation, ThrowableData>) result.getOrDefault(SyncDataType.THROWABLE_DATA, new HashMap<>());
+        this.consumableData = (Map<Identifier, ConsumableData>) result.getOrDefault(SyncDataType.CONSUMABLE_DATA, new HashMap<>());
+        this.meleeData = (Map<Identifier, MeleeData>) result.getOrDefault(SyncDataType.MELEE_DATA, new HashMap<>());
+        this.throwableData = (Map<Identifier, ThrowableData>) result.getOrDefault(SyncDataType.THROWABLE_DATA, new HashMap<>());
 
-        this.consumableIndex = (Map<ResourceLocation, ConsumableIndex>) result.getOrDefault(SyncDataType.CONSUMABLE_INDEX, new HashMap<>());
-        this.meleeIndex = (Map<ResourceLocation, MeleeIndex>) result.getOrDefault(SyncDataType.MELEE_INDEX, new HashMap<>());
-        this.throwableIndex = (Map<ResourceLocation, ThrowableIndex>) result.getOrDefault(SyncDataType.THROWABLE_INDEX, new HashMap<>());
+        this.consumableIndex = (Map<Identifier, ConsumableIndex>) result.getOrDefault(SyncDataType.CONSUMABLE_INDEX, new HashMap<>());
+        this.meleeIndex = (Map<Identifier, MeleeIndex>) result.getOrDefault(SyncDataType.MELEE_INDEX, new HashMap<>());
+        this.throwableIndex = (Map<Identifier, ThrowableIndex>) result.getOrDefault(SyncDataType.THROWABLE_INDEX, new HashMap<>());
 
         // data instance
         buildPojoInstance(ResourceApi.getAllConsumableIndex(), this.CONSUMABLE_INDEX, ConsumableIndexInstance::fromPojo, ConsumableIndexInstance.class);
@@ -87,9 +87,9 @@ public final class SyncDataCache {
     /**
      * 线程安全
      */
-    public Map<SyncDataType, Map<ResourceLocation, ? extends ResourcePojo<?>>> rebuildFromNetworkAsync(Map<SyncDataType, Map<ResourceLocation, String>> cache) {
-        Map<SyncDataType, Map<ResourceLocation, ? extends ResourcePojo<?>>> resultMap = new HashMap<>();
-        for (Map.Entry<SyncDataType, Map<ResourceLocation, String>> entry : cache.entrySet()) {
+    public Map<SyncDataType, Map<Identifier, ? extends ResourcePojo<?>>> rebuildFromNetworkAsync(Map<SyncDataType, Map<Identifier, String>> cache) {
+        Map<SyncDataType, Map<Identifier, ? extends ResourcePojo<?>>> resultMap = new HashMap<>();
+        for (Map.Entry<SyncDataType, Map<Identifier, String>> entry : cache.entrySet()) {
             switch (entry.getKey()) {
                 case CONSUMABLE_INDEX -> resultMap.put(SyncDataType.CONSUMABLE_INDEX, parseFromNetworkAsync(entry.getValue(), ConsumableIndex::fromJson));
                 case MELEE_INDEX -> resultMap.put(SyncDataType.MELEE_INDEX, parseFromNetworkAsync(entry.getValue(), MeleeIndex::fromJson));
@@ -103,10 +103,10 @@ public final class SyncDataCache {
         return resultMap;
     }
 
-    private <T extends ResourcePojo<T>> Map<ResourceLocation, T> parseFromNetworkAsync(Map<ResourceLocation, String> cache,
+    private <T extends ResourcePojo<T>> Map<Identifier, T> parseFromNetworkAsync(Map<Identifier, String> cache,
                                                                                        JsonUtils.ReadFunction<T> parser) {
-        Map<ResourceLocation, T> map = new HashMap<>();
-        for (Map.Entry<ResourceLocation, String> entry : cache.entrySet()) {
+        Map<Identifier, T> map = new HashMap<>();
+        for (Map.Entry<Identifier, String> entry : cache.entrySet()) {
             String jsonStr = entry.getValue();
             if (jsonStr == null || jsonStr.isEmpty()) {
                 continue;

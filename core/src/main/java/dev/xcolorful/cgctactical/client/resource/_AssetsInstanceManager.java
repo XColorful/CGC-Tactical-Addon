@@ -8,7 +8,7 @@ import dev.xcolorful.cgctactical.client.resource.instance.data.ClientConsumableI
 import dev.xcolorful.cgctactical.client.resource.instance.data.ClientMeleeIndexInstance;
 import dev.xcolorful.cgctactical.client.resource.instance.data.ClientThrowableIndexInstance;
 import dev.xcolorful.cgctactical.core.api.resource.ResourceApi;
-import net.minecraft.resources.ResourceLocation;
+import net.minecraft.resources.Identifier;
 import org.jetbrains.annotations.ApiStatus;
 
 import java.util.HashMap;
@@ -25,14 +25,14 @@ import static dev.xcolorful.customgun.core.resource._DataInstanceManager.buildPo
 public class _AssetsInstanceManager {
 
     // data
-    public static final Map<ResourceLocation, ClientConsumableIndexInstance> CONSUMABLE_INDEX = new HashMap<>();
-    public static final Map<ResourceLocation, ClientMeleeIndexInstance> MELEE_INDEX = new HashMap<>();
-    public static final Map<ResourceLocation, ClientThrowableIndexInstance> THROWABLE_INDEX = new HashMap<>();
+    public static final Map<Identifier, ClientConsumableIndexInstance> CONSUMABLE_INDEX = new HashMap<>();
+    public static final Map<Identifier, ClientMeleeIndexInstance> MELEE_INDEX = new HashMap<>();
+    public static final Map<Identifier, ClientThrowableIndexInstance> THROWABLE_INDEX = new HashMap<>();
 
     // assets
-    public static final Map<ResourceLocation, ConsumableDisplayInstance> CONSUMABLE_DISPLAY = new HashMap<>(); // displayLocation -> ConsumableDisplay
-    public static final Map<ResourceLocation, MeleeDisplayInstance> MELEE_DISPLAY = new HashMap<>();
-    public static final Map<ResourceLocation, ThrowableDisplayInstance> THROWABLE_DISPLAY = new HashMap<>();
+    public static final Map<Identifier, ConsumableDisplayInstance> CONSUMABLE_DISPLAY = new HashMap<>(); // displayLocation -> ConsumableDisplay
+    public static final Map<Identifier, MeleeDisplayInstance> MELEE_DISPLAY = new HashMap<>();
+    public static final Map<Identifier, ThrowableDisplayInstance> THROWABLE_DISPLAY = new HashMap<>();
 
     private _AssetsInstanceManager() {}
 

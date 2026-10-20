@@ -7,7 +7,7 @@ import dev.xcolorful.cgctactical.core.resource.instance.data.MeleeIndexInstance;
 import dev.xcolorful.cgctactical.core.resource.instance.data.ThrowableIndexInstance;
 import dev.xcolorful.customgun.core.resource.ResourcePojo;
 import dev.xcolorful.customgun.core.resource.instance.PojoInstance;
-import net.minecraft.resources.ResourceLocation;
+import net.minecraft.resources.Identifier;
 import org.jetbrains.annotations.ApiStatus;
 import org.jetbrains.annotations.Nullable;
 
@@ -25,9 +25,9 @@ import java.util.function.Function;
 public class _DataInstanceManager {
 
     // data
-    public static final Map<ResourceLocation, ConsumableIndexInstance> CONSUMABLE_INDEX = new HashMap<>();
-    public static final Map<ResourceLocation, MeleeIndexInstance> MELEE_INDEX = new HashMap<>();
-    public static final Map<ResourceLocation, ThrowableIndexInstance> THROWABLE_INDEX = new HashMap<>();
+    public static final Map<Identifier, ConsumableIndexInstance> CONSUMABLE_INDEX = new HashMap<>();
+    public static final Map<Identifier, MeleeIndexInstance> MELEE_INDEX = new HashMap<>();
+    public static final Map<Identifier, ThrowableIndexInstance> THROWABLE_INDEX = new HashMap<>();
 
     private _DataInstanceManager() {}
 
@@ -50,12 +50,12 @@ public class _DataInstanceManager {
         buildPojoInstance(ResourceApi.getAllThrowableIndex(), THROWABLE_INDEX, ThrowableIndexInstance::fromPojo, ThrowableIndexInstance.class);
     }
     public static <T extends ResourcePojo<T>, I extends PojoInstance<T>> void buildPojoInstance(
-            Set<Map.Entry<ResourceLocation, T>> entries,
-            Map<ResourceLocation, I> targetMap,
+            Set<Map.Entry<Identifier, T>> entries,
+            Map<Identifier, I> targetMap,
             Function<T, @Nullable I> instanceFactory,
             Class<I> instanceClass) {
 
-        for (Map.Entry<ResourceLocation, T> entry : entries) {
+        for (Map.Entry<Identifier, T> entry : entries) {
             var location = entry.getKey();
             T pojo = entry.getValue();
             I instance = instanceFactory.apply(pojo);
