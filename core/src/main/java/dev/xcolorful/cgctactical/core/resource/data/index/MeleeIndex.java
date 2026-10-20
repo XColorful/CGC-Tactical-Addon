@@ -6,14 +6,14 @@ import dev.xcolorful.cgctactical.core.api.resource.data.index.MeleeIndexTag;
 import dev.xcolorful.customgun.core.api.resource.ResourceTag;
 import dev.xcolorful.customgun.core.resource.data.index._DataIndex;
 import dev.xcolorful.customgun.core.util.JsonUtils;
-import net.minecraft.resources.ResourceLocation;
+import net.minecraft.resources.Identifier;
 
 import java.io.IOException;
 
 public final class MeleeIndex extends _DataIndex<MeleeIndex> {
 
-    private ResourceLocation meleeCategoryLocation; // TODO
-    private ResourceLocation baseItemLocation;
+    private Identifier meleeCategoryLocation; // TODO
+    private Identifier baseItemLocation;
 
     private static final MeleeIndex PARSER = new MeleeIndex();
     public static MeleeIndex fromJson(JsonReader reader) throws IOException {
@@ -76,17 +76,17 @@ public final class MeleeIndex extends _DataIndex<MeleeIndex> {
 
     // --------Getter & Setter--------
 
-    public ResourceLocation getMeleeCategoryLocation() {
+    public Identifier getMeleeCategoryLocation() {
         return meleeCategoryLocation;
     }
-    public ResourceLocation getBaseItemLocation() {
+    public Identifier getBaseItemLocation() {
         return baseItemLocation;
     }
 
-    public void setMeleeCategoryLocation(ResourceLocation meleeCategoryLocation) {
+    public void setMeleeCategoryLocation(Identifier meleeCategoryLocation) {
         this.meleeCategoryLocation = meleeCategoryLocation;
     }
-    public void setBaseItemLocation(ResourceLocation baseItemLocation) {
+    public void setBaseItemLocation(Identifier baseItemLocation) {
         this.baseItemLocation = baseItemLocation;
     }
 
