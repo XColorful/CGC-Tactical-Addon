@@ -15,7 +15,7 @@ import dev.xcolorful.cgctactical.core.resource.instance.data.MeleeIndexInstance;
 import dev.xcolorful.cgctactical.core.resource.instance.data.ThrowableIndexInstance;
 import dev.xcolorful.customgun.core.resource.ResourcePojo;
 import dev.xcolorful.customgun.core.resource.instance.PojoInstance;
-import net.minecraft.resources.ResourceLocation;
+import net.minecraft.resources.Identifier;
 import org.jetbrains.annotations.NotNull;
 import org.jetbrains.annotations.Nullable;
 
@@ -33,32 +33,32 @@ public class ResourceApi {
 
     // --------data--------
 
-    public static @Nullable ConsumableData getConsumableData(ResourceLocation dataLocation) {
+    public static @Nullable ConsumableData getConsumableData(Identifier dataLocation) {
         var dataManager = _AllDataManager.getCurrent();
         if (dataManager != null && dataManager.consumableDataManager != null) return dataManager.consumableDataManager.getPojo(dataLocation);
         else return SyncDataCache.INSTANCE.consumableData.get(dataLocation);
     }
-    public static Set<Map.Entry<ResourceLocation, ConsumableData>> getAllConsumableData() {
+    public static Set<Map.Entry<Identifier, ConsumableData>> getAllConsumableData() {
         var dataManager = _AllDataManager.getCurrent();
         if (dataManager != null && dataManager.consumableDataManager != null) return dataManager.consumableDataManager.getAllPojo().entrySet();
         else return SyncDataCache.INSTANCE.consumableData.entrySet();
     }
-    public static @Nullable MeleeData getMeleeData(ResourceLocation dataLocation) {
+    public static @Nullable MeleeData getMeleeData(Identifier dataLocation) {
         var dataManager = _AllDataManager.getCurrent();
         if (dataManager != null && dataManager.meleeDataManager != null) return dataManager.meleeDataManager.getPojo(dataLocation);
         else return SyncDataCache.INSTANCE.meleeData.get(dataLocation);
     }
-    public static Set<Map.Entry<ResourceLocation, MeleeData>> getAllMeleeData() {
+    public static Set<Map.Entry<Identifier, MeleeData>> getAllMeleeData() {
         var dataManager = _AllDataManager.getCurrent();
         if (dataManager != null && dataManager.meleeDataManager != null) return dataManager.meleeDataManager.getAllPojo().entrySet();
         else return SyncDataCache.INSTANCE.meleeData.entrySet();
     }
-    public static @Nullable ThrowableData getThrowableData(ResourceLocation dataLocation) {
+    public static @Nullable ThrowableData getThrowableData(Identifier dataLocation) {
         var dataManager = _AllDataManager.getCurrent();
         if (dataManager != null && dataManager.throwableDataManager != null) return dataManager.throwableDataManager.getPojo(dataLocation);
         else return SyncDataCache.INSTANCE.throwableData.get(dataLocation);
     }
-    public static Set<Map.Entry<ResourceLocation, ThrowableData>> getAllThrowableData() {
+    public static Set<Map.Entry<Identifier, ThrowableData>> getAllThrowableData() {
         var dataManager = _AllDataManager.getCurrent();
         if (dataManager != null && dataManager.throwableDataManager != null) return dataManager.throwableDataManager.getAllPojo().entrySet();
         else return SyncDataCache.INSTANCE.throwableData.entrySet();
@@ -66,32 +66,32 @@ public class ResourceApi {
 
     // --------index--------
 
-    public static @Nullable ConsumableIndex getConsumableIndex(ResourceLocation consumableLocation) {
+    public static @Nullable ConsumableIndex getConsumableIndex(Identifier consumableLocation) {
         var dataManager = _AllDataManager.getCurrent();
         if (dataManager != null && dataManager.consumableIndexManager != null) return dataManager.consumableIndexManager.getPojo(consumableLocation);
         else return SyncDataCache.INSTANCE.consumableIndex.get(consumableLocation);
     }
-    public static Set<Map.Entry<ResourceLocation, ConsumableIndex>> getAllConsumableIndex() {
+    public static Set<Map.Entry<Identifier, ConsumableIndex>> getAllConsumableIndex() {
         var dataManager = _AllDataManager.getCurrent();
         if (dataManager != null && dataManager.consumableIndexManager != null) return dataManager.consumableIndexManager.getAllPojo().entrySet();
         else return SyncDataCache.INSTANCE.consumableIndex.entrySet();
     }
-    public static @Nullable MeleeIndex getMeleeIndex(ResourceLocation meleeLocation) {
+    public static @Nullable MeleeIndex getMeleeIndex(Identifier meleeLocation) {
         var dataManager = _AllDataManager.getCurrent();
         if (dataManager != null && dataManager.meleeIndexManager != null) return dataManager.meleeIndexManager.getPojo(meleeLocation);
         else return SyncDataCache.INSTANCE.meleeIndex.get(meleeLocation);
     }
-    public static Set<Map.Entry<ResourceLocation, MeleeIndex>> getAllMeleeIndex() {
+    public static Set<Map.Entry<Identifier, MeleeIndex>> getAllMeleeIndex() {
         var dataManager = _AllDataManager.getCurrent();
         if (dataManager != null && dataManager.meleeIndexManager != null) return dataManager.meleeIndexManager.getAllPojo().entrySet();
         else return SyncDataCache.INSTANCE.meleeIndex.entrySet();
     }
-    public static @Nullable ThrowableIndex getThrowableIndex(ResourceLocation throwableLocation) {
+    public static @Nullable ThrowableIndex getThrowableIndex(Identifier throwableLocation) {
         var dataManager = _AllDataManager.getCurrent();
         if (dataManager != null && dataManager.throwableIndexManager != null) return dataManager.throwableIndexManager.getPojo(throwableLocation);
         else return SyncDataCache.INSTANCE.throwableIndex.get(throwableLocation);
     }
-    public static Set<Map.Entry<ResourceLocation, ThrowableIndex>> getAllThrowableIndex() {
+    public static Set<Map.Entry<Identifier, ThrowableIndex>> getAllThrowableIndex() {
         var dataManager = _AllDataManager.getCurrent();
         if (dataManager != null && dataManager.throwableIndexManager != null) return dataManager.throwableIndexManager.getAllPojo().entrySet();
         else return SyncDataCache.INSTANCE.throwableIndex.entrySet();
@@ -99,27 +99,27 @@ public class ResourceApi {
 
     // --------data instance--------
 
-    public static @Nullable ConsumableIndexInstance getConsumableIndexInstance(ResourceLocation consumableLocation) {
+    public static @Nullable ConsumableIndexInstance getConsumableIndexInstance(Identifier consumableLocation) {
         if (CgcTactical.getSideExecutor().getLogicalSide().isServer()) return _DataInstanceManager.CONSUMABLE_INDEX.get(consumableLocation);
         else return SyncDataCache.INSTANCE.CONSUMABLE_INDEX.get(consumableLocation);
     }
-    public static Set<Map.Entry<ResourceLocation, @NotNull ConsumableIndexInstance>> getAllConsumableIndexInstance() {
+    public static Set<Map.Entry<Identifier, @NotNull ConsumableIndexInstance>> getAllConsumableIndexInstance() {
         if (CgcTactical.getSideExecutor().getLogicalSide().isServer()) return _DataInstanceManager.CONSUMABLE_INDEX.entrySet();
         else return SyncDataCache.INSTANCE.CONSUMABLE_INDEX.entrySet();
     }
-    public static @Nullable MeleeIndexInstance getMeleeIndexInstance(ResourceLocation meleeLocation) {
+    public static @Nullable MeleeIndexInstance getMeleeIndexInstance(Identifier meleeLocation) {
         if (CgcTactical.getSideExecutor().getLogicalSide().isServer()) return _DataInstanceManager.MELEE_INDEX.get(meleeLocation);
         else return SyncDataCache.INSTANCE.MELEE_INDEX.get(meleeLocation);
     }
-    public static Set<Map.Entry<ResourceLocation, @NotNull MeleeIndexInstance>> getAllMeleeIndexInstance() {
+    public static Set<Map.Entry<Identifier, @NotNull MeleeIndexInstance>> getAllMeleeIndexInstance() {
         if (CgcTactical.getSideExecutor().getLogicalSide().isServer()) return _DataInstanceManager.MELEE_INDEX.entrySet();
         else return SyncDataCache.INSTANCE.MELEE_INDEX.entrySet();
     }
-    public static @Nullable ThrowableIndexInstance getThrowableIndexInstance(ResourceLocation throwableLocation) {
+    public static @Nullable ThrowableIndexInstance getThrowableIndexInstance(Identifier throwableLocation) {
         if (CgcTactical.getSideExecutor().getLogicalSide().isServer()) return _DataInstanceManager.THROWABLE_INDEX.get(throwableLocation);
         else return SyncDataCache.INSTANCE.THROWABLE_INDEX.get(throwableLocation);
     }
-    public static Set<Map.Entry<ResourceLocation, @NotNull ThrowableIndexInstance>> getAllThrowableIndexInstance() {
+    public static Set<Map.Entry<Identifier, @NotNull ThrowableIndexInstance>> getAllThrowableIndexInstance() {
         if (CgcTactical.getSideExecutor().getLogicalSide().isServer()) return _DataInstanceManager.THROWABLE_INDEX.entrySet();
         else return SyncDataCache.INSTANCE.THROWABLE_INDEX.entrySet();
     }

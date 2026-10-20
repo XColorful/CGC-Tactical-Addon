@@ -6,14 +6,14 @@ import dev.xcolorful.cgctactical.core.api.resource.data.index.ThrowableIndexTag;
 import dev.xcolorful.customgun.core.api.resource.ResourceTag;
 import dev.xcolorful.customgun.core.resource.data.index._DataIndex;
 import dev.xcolorful.customgun.core.util.JsonUtils;
-import net.minecraft.resources.ResourceLocation;
+import net.minecraft.resources.Identifier;
 
 import java.io.IOException;
 
 public final class ThrowableIndex extends _DataIndex<ThrowableIndex> {
 
-    private ResourceLocation throwableCategoryLocation; // TODO
-    private ResourceLocation baseItemLocation;
+    private Identifier throwableCategoryLocation; // TODO
+    private Identifier baseItemLocation;
 
     private static final ThrowableIndex PARSER = new ThrowableIndex();
     public static ThrowableIndex fromJson(JsonReader reader) throws IOException {
@@ -76,17 +76,17 @@ public final class ThrowableIndex extends _DataIndex<ThrowableIndex> {
 
     // --------Getter & Setter--------
 
-    public ResourceLocation getThrowableCategoryLocation() {
+    public Identifier getThrowableCategoryLocation() {
         return throwableCategoryLocation;
     }
-    public ResourceLocation getBaseItemLocation() {
+    public Identifier getBaseItemLocation() {
         return baseItemLocation;
     }
 
-    public void setThrowableCategoryLocation(ResourceLocation throwableCategoryLocation) {
+    public void setThrowableCategoryLocation(Identifier throwableCategoryLocation) {
         this.throwableCategoryLocation = throwableCategoryLocation;
     }
-    public void setBaseItemLocation(ResourceLocation baseItemLocation) {
+    public void setBaseItemLocation(Identifier baseItemLocation) {
         this.baseItemLocation = baseItemLocation;
     }
 

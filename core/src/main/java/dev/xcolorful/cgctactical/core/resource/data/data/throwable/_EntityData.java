@@ -5,14 +5,14 @@ import com.google.gson.stream.JsonWriter;
 import dev.xcolorful.cgctactical.core.api.resource.data.data.throwable._EntityDataTag;
 import dev.xcolorful.customgun.core.resource.ResourcePojo;
 import dev.xcolorful.customgun.core.util.JsonUtils;
-import net.minecraft.resources.ResourceLocation;
+import net.minecraft.resources.Identifier;
 import org.jetbrains.annotations.Nullable;
 
 import java.io.IOException;
 
 public final class _EntityData extends ResourcePojo<_EntityData> {
 
-    private static final ResourceLocation DEFAULT_TAIL_PARTICLES = JsonUtils.mcRegistry.createResourceLocation("minecraft:smoke"); // TODO
+    private static final Identifier DEFAULT_TAIL_PARTICLES = JsonUtils.mcRegistry.createResourceLocation("minecraft:smoke"); // TODO
 
     private int lifeTime = 100;
     private float gravity = 0.07f;
@@ -20,7 +20,7 @@ public final class _EntityData extends ResourcePojo<_EntityData> {
     private boolean brokeOnGround = false;
     private float bounceFactor = 0.75f;
     private float hitDamage = 1.0f;
-    private @Nullable ResourceLocation tailParticlesLocation = DEFAULT_TAIL_PARTICLES;
+    private @Nullable Identifier tailParticlesLocation = DEFAULT_TAIL_PARTICLES;
 
     private static final _EntityData PARSER = new _EntityData();
     public static _EntityData fromJson(JsonReader reader) throws IOException {
@@ -90,7 +90,7 @@ public final class _EntityData extends ResourcePojo<_EntityData> {
     public float getHitDamage() {
         return hitDamage;
     }
-    public @Nullable ResourceLocation getTailParticlesLocation() {
+    public @Nullable Identifier getTailParticlesLocation() {
         return tailParticlesLocation;
     }
 
@@ -112,7 +112,7 @@ public final class _EntityData extends ResourcePojo<_EntityData> {
     public void setHitDamage(float hitDamage) {
         this.hitDamage = hitDamage;
     }
-    public void setTailParticlesLocation(ResourceLocation tailParticlesLocation) {
+    public void setTailParticlesLocation(Identifier tailParticlesLocation) {
         this.tailParticlesLocation = tailParticlesLocation;
     }
 
