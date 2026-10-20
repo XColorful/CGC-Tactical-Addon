@@ -6,6 +6,7 @@ import org.jetbrains.annotations.ApiStatus;
 @ApiStatus.Internal
 public class _S2CMessageSyncDataPack {
 
-    public static void handle(S2CMessageSyncDataPack message) {
+    public static void doSync(S2CMessageSyncDataPack message) {
+        // TODO SyncDataCache, _AssetsInstanceManager
     }
 }

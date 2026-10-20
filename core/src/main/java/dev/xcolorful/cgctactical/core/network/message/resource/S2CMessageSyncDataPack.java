@@ -24,7 +24,7 @@ public class S2CMessageSyncDataPack implements IMessage<S2CMessageSyncDataPack> 
         if (context.direction() == MessageDirection.SERVER_TO_CLIENT) {
             handler.accept(() -> {
                 CustomGun.getSideExecutor().executeOn(McSide.CLIENT, () -> () ->
-                        _S2CMessageSyncDataPack.handle(this)
+                        _S2CMessageSyncDataPack.doSync(this)
                 );
             });
         }

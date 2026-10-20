@@ -7,5 +7,6 @@ import org.jetbrains.annotations.ApiStatus;
 public class _S2CMessageNearbyExplosion {
 
     public static void handle(S2CMessageNearbyExplosion message) {
+        // TODO
     }
 }
