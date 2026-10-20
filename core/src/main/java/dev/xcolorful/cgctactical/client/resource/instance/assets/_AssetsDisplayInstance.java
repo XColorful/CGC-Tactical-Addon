@@ -7,7 +7,7 @@ import dev.xcolorful.customgun.client.resource.assets.animation.BedrockAnimation
 import dev.xcolorful.customgun.client.resource.assets.model.BedrockModel;
 import dev.xcolorful.customgun.client.resource.assets.script.AssetsScript;
 import dev.xcolorful.customgun.core.resource.instance.PojoInstance;
-import net.minecraft.resources.ResourceLocation;
+import net.minecraft.resources.Identifier;
 import org.jetbrains.annotations.NotNull;
 import org.jetbrains.annotations.Nullable;
 
@@ -86,16 +86,16 @@ public abstract class _AssetsDisplayInstance<T extends _AssetsDisplay<T>> extend
     public @Nullable AssetsScript getScript() {
         return this.scriptCache;
     }
-    public @Nullable ResourceLocation getTextureLocation() {
+    public @Nullable Identifier getTextureLocation() {
         return this.getPojo().getTextureLocation();
     }
-    public @Nullable ResourceLocation getSlotTextureLocation() {
+    public @Nullable Identifier getSlotTextureLocation() {
         return this.getPojo().getSlotTextureLocation();
     }
     public float[] getDisplayOffset() {
         return this.getPojo().getDisplayOffset();
     }
-    public Map<String, ResourceLocation> getSounds() {
+    public Map<String, Identifier> getSounds() {
         return this.getPojo().getSounds();
     }
     public @Nullable Object getThirdPersonAnimation() {

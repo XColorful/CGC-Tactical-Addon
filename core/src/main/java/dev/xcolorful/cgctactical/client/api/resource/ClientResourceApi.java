@@ -13,7 +13,7 @@ import dev.xcolorful.cgctactical.client.resource.instance.data.ClientMeleeIndexI
 import dev.xcolorful.cgctactical.client.resource.instance.data.ClientThrowableIndexInstance;
 import dev.xcolorful.customgun.core.resource.ResourcePojo;
 import dev.xcolorful.customgun.core.resource.instance.PojoInstance;
-import net.minecraft.resources.ResourceLocation;
+import net.minecraft.resources.Identifier;
 import org.jetbrains.annotations.NotNull;
 import org.jetbrains.annotations.Nullable;
 
@@ -32,70 +32,70 @@ public class ClientResourceApi {
 
     // --------display--------
 
-    public static @Nullable ConsumableDisplay getConsumableDisplay(ResourceLocation displayLocation) {
+    public static @Nullable ConsumableDisplay getConsumableDisplay(Identifier displayLocation) {
         var assetsManager = _AllAssetsManager.INSTANCE.consumableDisplayManager;
         return assetsManager != null ? assetsManager.getPojo(displayLocation) : null;
     }
-    public static Set<Map.Entry<ResourceLocation, ConsumableDisplay>> getAllConsumableDisplay() {
+    public static Set<Map.Entry<Identifier, ConsumableDisplay>> getAllConsumableDisplay() {
         var assetsManager = _AllAssetsManager.INSTANCE.consumableDisplayManager;
         return assetsManager != null ? assetsManager.getAllPojo().entrySet() : new HashSet<>();
     }
-    public static @Nullable MeleeDisplay getMeleeDisplay(ResourceLocation displayLocation) {
+    public static @Nullable MeleeDisplay getMeleeDisplay(Identifier displayLocation) {
         var assetsManager = _AllAssetsManager.INSTANCE.meleeDisplayManager;
         return assetsManager != null ? assetsManager.getPojo(displayLocation) : null;
     }
-    public static Set<Map.Entry<ResourceLocation, MeleeDisplay>> getAllMeleeDisplay() {
+    public static Set<Map.Entry<Identifier, MeleeDisplay>> getAllMeleeDisplay() {
         var assetsManager = _AllAssetsManager.INSTANCE.meleeDisplayManager;
         return assetsManager != null ? assetsManager.getAllPojo().entrySet() : new HashSet<>();
     }
-    public static @Nullable ThrowableDisplay getThrowableDisplay(ResourceLocation displayLocation) {
+    public static @Nullable ThrowableDisplay getThrowableDisplay(Identifier displayLocation) {
         var assetsManager = _AllAssetsManager.INSTANCE.throwableDisplayManager;
         return assetsManager != null ? assetsManager.getPojo(displayLocation) : null;
     }
-    public static Set<Map.Entry<ResourceLocation, ThrowableDisplay>> getAllThrowableDisplay() {
+    public static Set<Map.Entry<Identifier, ThrowableDisplay>> getAllThrowableDisplay() {
         var assetsManager = _AllAssetsManager.INSTANCE.throwableDisplayManager;
         return assetsManager != null ? assetsManager.getAllPojo().entrySet() : new HashSet<>();
     }
 
     // --------data instance--------
 
-    public static @Nullable ClientConsumableIndexInstance getClientConsumableIndexInstance(ResourceLocation consumableLocation) {
+    public static @Nullable ClientConsumableIndexInstance getClientConsumableIndexInstance(Identifier consumableLocation) {
         return _AssetsInstanceManager.CONSUMABLE_INDEX.get(consumableLocation);
     }
-    public static Set<Map.Entry<ResourceLocation, @NotNull ClientConsumableIndexInstance>> getAllClientConsumableIndexInstance() {
+    public static Set<Map.Entry<Identifier, @NotNull ClientConsumableIndexInstance>> getAllClientConsumableIndexInstance() {
         return _AssetsInstanceManager.CONSUMABLE_INDEX.entrySet();
     }
-    public static @Nullable ClientMeleeIndexInstance getClientMeleeIndexInstance(ResourceLocation meleeLocation) {
+    public static @Nullable ClientMeleeIndexInstance getClientMeleeIndexInstance(Identifier meleeLocation) {
         return _AssetsInstanceManager.MELEE_INDEX.get(meleeLocation);
     }
-    public static Set<Map.Entry<ResourceLocation, @NotNull ClientMeleeIndexInstance>> getAllClientMeleeIndexInstance() {
+    public static Set<Map.Entry<Identifier, @NotNull ClientMeleeIndexInstance>> getAllClientMeleeIndexInstance() {
         return _AssetsInstanceManager.MELEE_INDEX.entrySet();
     }
-    public static @Nullable ClientThrowableIndexInstance getClientThrowableIndexInstance(ResourceLocation throwableLocation) {
+    public static @Nullable ClientThrowableIndexInstance getClientThrowableIndexInstance(Identifier throwableLocation) {
         return _AssetsInstanceManager.THROWABLE_INDEX.get(throwableLocation);
     }
-    public static Set<Map.Entry<ResourceLocation, @NotNull ClientThrowableIndexInstance>> getAllClientThrowableIndexInstance() {
+    public static Set<Map.Entry<Identifier, @NotNull ClientThrowableIndexInstance>> getAllClientThrowableIndexInstance() {
         return _AssetsInstanceManager.THROWABLE_INDEX.entrySet();
     }
 
     // --------assets instance--------
 
-    public static @Nullable ConsumableDisplayInstance getConsumableDisplayInstance(ResourceLocation displayLocation) {
+    public static @Nullable ConsumableDisplayInstance getConsumableDisplayInstance(Identifier displayLocation) {
         return _AssetsInstanceManager.CONSUMABLE_DISPLAY.get(displayLocation);
     }
-    public static Set<Map.Entry<ResourceLocation, @NotNull ConsumableDisplayInstance>> getAllConsumableDisplayInstance() {
+    public static Set<Map.Entry<Identifier, @NotNull ConsumableDisplayInstance>> getAllConsumableDisplayInstance() {
         return _AssetsInstanceManager.CONSUMABLE_DISPLAY.entrySet();
     }
-    public static @Nullable MeleeDisplayInstance getMeleeDisplayInstance(ResourceLocation displayLocation) {
+    public static @Nullable MeleeDisplayInstance getMeleeDisplayInstance(Identifier displayLocation) {
         return _AssetsInstanceManager.MELEE_DISPLAY.get(displayLocation);
     }
-    public static Set<Map.Entry<ResourceLocation, @NotNull MeleeDisplayInstance>> getAllMeleeDisplayInstance() {
+    public static Set<Map.Entry<Identifier, @NotNull MeleeDisplayInstance>> getAllMeleeDisplayInstance() {
         return _AssetsInstanceManager.MELEE_DISPLAY.entrySet();
     }
-    public static @Nullable ThrowableDisplayInstance getThrowableDisplayInstance(ResourceLocation displayLocation) {
+    public static @Nullable ThrowableDisplayInstance getThrowableDisplayInstance(Identifier displayLocation) {
         return _AssetsInstanceManager.THROWABLE_DISPLAY.get(displayLocation);
     }
-    public static Set<Map.Entry<ResourceLocation, @NotNull ThrowableDisplayInstance>> getAllThrowableDisplayInstance() {
+    public static Set<Map.Entry<Identifier, @NotNull ThrowableDisplayInstance>> getAllThrowableDisplayInstance() {
         return _AssetsInstanceManager.THROWABLE_DISPLAY.entrySet();
     }
 }

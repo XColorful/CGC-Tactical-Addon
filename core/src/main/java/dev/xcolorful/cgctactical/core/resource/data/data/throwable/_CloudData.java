@@ -6,7 +6,7 @@ import dev.xcolorful.cgctactical.core.api.resource.data.data.throwable._CloudDat
 import dev.xcolorful.cgctactical.core.resource.data.data.throwable.cloud._EffectData;
 import dev.xcolorful.customgun.core.resource.ResourcePojo;
 import dev.xcolorful.customgun.core.util.JsonUtils;
-import net.minecraft.resources.ResourceLocation;
+import net.minecraft.resources.Identifier;
 
 import java.io.IOException;
 import java.util.ArrayList;
@@ -14,14 +14,14 @@ import java.util.List;
 
 public final class _CloudData extends ResourcePojo<_CloudData> {
 
-    private static final ResourceLocation DEFAULT_PARTICLES = JsonUtils.mcRegistry.createResourceLocation("minecraft:effect"); // TODO
+    private static final Identifier DEFAULT_PARTICLES = JsonUtils.mcRegistry.createResourceLocation("minecraft:effect"); // TODO
 
     private boolean areaCloud = true;
     private float radius = 5.5f;
     private float radiusPerTick = 0.01f;
     private int waitTime = 20;
     private int duration = 200;
-    private ResourceLocation particlesLocation = DEFAULT_PARTICLES;
+    private Identifier particlesLocation = DEFAULT_PARTICLES;
     private boolean ignite = false;
     private int igniteTime = 2;
     private boolean extinguishBySmoke = false;
@@ -114,7 +114,7 @@ public final class _CloudData extends ResourcePojo<_CloudData> {
     public int getDuration() {
         return duration;
     }
-    public ResourceLocation getParticlesLocation() {
+    public Identifier getParticlesLocation() {
         return particlesLocation;
     }
     public boolean isIgnite() {
@@ -145,7 +145,7 @@ public final class _CloudData extends ResourcePojo<_CloudData> {
     public void setDuration(int duration) {
         this.duration = duration;
     }
-    public void setParticlesLocation(ResourceLocation particlesLocation) {
+    public void setParticlesLocation(Identifier particlesLocation) {
         this.particlesLocation = particlesLocation;
     }
     public void setIgnite(boolean ignite) {

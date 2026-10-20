@@ -6,7 +6,7 @@ import dev.xcolorful.customgun.core.api.minecraft.IMcRegistry;
 import dev.xcolorful.customgun.core.api.resource.FileExtensionType;
 import dev.xcolorful.customgun.core.api.resource.ResourceTag;
 import dev.xcolorful.customgun.core.resource.ResourcePojo;
-import net.minecraft.resources.ResourceLocation;
+import net.minecraft.resources.Identifier;
 import org.jetbrains.annotations.Nullable;
 
 import java.util.HashMap;
@@ -14,16 +14,16 @@ import java.util.Map;
 
 public abstract class _AssetsDisplay<T extends _AssetsDisplay<T>> extends ResourcePojo<T> {
 
-    private @Nullable ResourceLocation modelLocation;
+    private @Nullable Identifier modelLocation;
 //    private @Nullable Transformation itemTransforms; // TODO
-    private @Nullable ResourceLocation textureLocation;
-    private @Nullable ResourceLocation slotTextureLocation;
+    private @Nullable Identifier textureLocation;
+    private @Nullable Identifier slotTextureLocation;
 
-    private @Nullable ResourceLocation animationLocation;
-    private @Nullable ResourceLocation scriptLocation;
+    private @Nullable Identifier animationLocation;
+    private @Nullable Identifier scriptLocation;
 
     private float[] displayOffset;
-    private Map<String, ResourceLocation> sounds;
+    private Map<String, Identifier> sounds;
     private Object thirdPersonAnimation; // TODO
 
     @Override
@@ -42,50 +42,50 @@ public abstract class _AssetsDisplay<T extends _AssetsDisplay<T>> extends Resour
 
     // --------Getter & Setter--------
 
-    public final @Nullable ResourceLocation getModelLocation() {
+    public final @Nullable Identifier getModelLocation() {
         return modelLocation;
     }
-    public final @Nullable ResourceLocation getTextureLocation() {
+    public final @Nullable Identifier getTextureLocation() {
         return textureLocation;
     }
-    public final @Nullable ResourceLocation getSlotTextureLocation() {
+    public final @Nullable Identifier getSlotTextureLocation() {
         return slotTextureLocation;
     }
-    public final @Nullable ResourceLocation getAnimationLocation() {
+    public final @Nullable Identifier getAnimationLocation() {
         return animationLocation;
     }
-    public final @Nullable ResourceLocation getScriptLocation() {
+    public final @Nullable Identifier getScriptLocation() {
         return scriptLocation;
     }
     public final float[] getDisplayOffset() {
         return displayOffset;
     }
-    public final Map<String, ResourceLocation> getSounds() {
+    public final Map<String, Identifier> getSounds() {
         return sounds;
     }
     public final @Nullable Object getThirdPersonAnimation() {
         return thirdPersonAnimation;
     }
 
-    public final void setModelLocation(ResourceLocation modelLocation) {
+    public final void setModelLocation(Identifier modelLocation) {
         this.modelLocation = modelLocation;
     }
-    public final void setTextureLocation(ResourceLocation textureLocation) {
+    public final void setTextureLocation(Identifier textureLocation) {
         this.textureLocation = textureLocation;
     }
-    public final void setSlotTextureLocation(ResourceLocation slotTextureLocation) {
+    public final void setSlotTextureLocation(Identifier slotTextureLocation) {
         this.slotTextureLocation = slotTextureLocation;
     }
-    public final void setAnimationLocation(ResourceLocation animationLocation) {
+    public final void setAnimationLocation(Identifier animationLocation) {
         this.animationLocation = animationLocation;
     }
-    public final void setScriptLocation(ResourceLocation scriptLocation) {
+    public final void setScriptLocation(Identifier scriptLocation) {
         this.scriptLocation = scriptLocation;
     }
     public final void setDisplayOffset(float[] displayOffset) {
         this.displayOffset = displayOffset;
     }
-    public final void setSounds(Map<String, ResourceLocation> sounds) {
+    public final void setSounds(Map<String, Identifier> sounds) {
         this.sounds = sounds;
     }
 
@@ -106,7 +106,7 @@ public abstract class _AssetsDisplay<T extends _AssetsDisplay<T>> extends Resour
     private static final IMcRegistry mcRegistry = CustomGun.getMcRegistry();
     private static final String textureLocationPrefix = AssetsFolderType.TEXTURES.getFolderPathPrefix();
     private static final String textureLocationSuffix = FileExtensionType.PNG.getExtensionNameWithDot();
-    public static @Nullable ResourceLocation applyTextureLocationBackCompatibility(@Nullable ResourceLocation textureLocation) {
+    public static @Nullable Identifier applyTextureLocationBackCompatibility(@Nullable Identifier textureLocation) {
         if (textureLocation == null) return null;
 
         String rlPath = textureLocation.getPath();
