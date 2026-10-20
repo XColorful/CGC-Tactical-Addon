@@ -1,12 +1,63 @@
 package dev.xcolorful.cgctactical.client.network.message.resource;
 
+import dev.xcolorful.cgctactical.CgcTactical;
+import dev.xcolorful.cgctactical.client.resource._AssetsInstanceManager;
+import dev.xcolorful.cgctactical.client.resource.network.SyncDataCache;
 import dev.xcolorful.cgctactical.core.network.message.resource.S2CMessageSyncDataPack;
+import dev.xcolorful.cgctactical.core.resource._AllDataManager;
 import org.jetbrains.annotations.ApiStatus;
+
+import java.util.concurrent.CompletableFuture;
+import java.util.concurrent.ForkJoinPool;
+import java.util.concurrent.atomic.AtomicLong;
+import java.util.function.Consumer;
 
 @ApiStatus.Internal
 public class _S2CMessageSyncDataPack {
+    private static final AtomicLong TICKET_COUNTER = new AtomicLong(0);
+    private static volatile long lastActiveTicket = -1;
+    private static volatile long lastCompletedTicket = -1;
 
-    public static void doSync(S2CMessageSyncDataPack message) {
-        // TODO SyncDataCache, _AssetsInstanceManager
+    public static void doSync(S2CMessageSyncDataPack message, Consumer<Runnable> handler, boolean remoteConnection) {
+        if (remoteConnection) {
+            _AllDataManager.clearInstance();
+        }
+
+        final long currentTicket = TICKET_COUNTER.incrementAndGet();
+        lastActiveTicket = currentTicket;
+        // 扔到后台线程池去解析
+        CompletableFuture.supplyAsync(() -> {
+            if (currentTicket < lastActiveTicket) {
+                return null; // 有新包送达，老包直接提前放弃
+            }
+
+            // 纯Pojo解析可以放网络线程异步处理
+            long t0 = System.nanoTime();
+            var parsed = SyncDataCache.INSTANCE.rebuildFromNetworkAsync(message.cache());
+            long t1 = System.nanoTime();
+            CgcTactical.LOGGER.debug("S2CMessageSyncDataPack: rebuildFromNetworkAsync: {} ms", (t1 - t0) / 1_000_000.0);
+            return parsed;
+        }, ForkJoinPool.commonPool()).thenAcceptAsync((parsedResult) -> {
+            // 此时已由handler::accept切回主线程排队队列中
+
+            if (parsedResult == null
+                    || currentTicket < lastActiveTicket
+                    || currentTicket <= lastCompletedTicket) {
+                return; // 过时校验不通过，拒绝合流与刷新
+            }
+
+            // 在主线程完成全套字段引用的替换
+            long t2 = System.nanoTime();
+            SyncDataCache.INSTANCE.setParseResult(parsedResult);
+            long t3 = System.nanoTime();
+            CgcTactical.LOGGER.debug("S2CMessageSyncDataPack: setParseResult: {} ms", (t3 - t2) / 1_000_000.0);
+
+            // 通知客户端重新构建PojoInstance (主线程)
+            lastCompletedTicket = currentTicket;
+            long t4 = System.nanoTime();
+            _AssetsInstanceManager.reload();
+            long t5 = System.nanoTime();
+            CgcTactical.LOGGER.debug("S2CMessageSyncDataPack: reload AssetsInstanceManager: {} ms", (t5 - t4) / 1_000_000.0);
+        }, handler::accept);
     }
 }

@@ -2,31 +2,40 @@ package dev.xcolorful.cgctactical.core.network.message.resource;
 
 import dev.xcolorful.cgctactical.CgcTactical;
 import dev.xcolorful.cgctactical.client.network.message.resource._S2CMessageSyncDataPack;
-import dev.xcolorful.customgun.core.api.common.McSide;
+import dev.xcolorful.cgctactical.core.resource.network.SyncDataType;
 import dev.xcolorful.customgun.core.api.network.MessageDirection;
 import dev.xcolorful.customgun.core.api.network.message.IMessage;
+import dev.xcolorful.customgun.core.util.NetworkUtils;
+import net.minecraft.network.Connection;
 import net.minecraft.network.FriendlyByteBuf;
+import net.minecraft.resources.ResourceLocation;
 
+import java.util.Map;
 import java.util.function.Consumer;
 
-public class S2CMessageSyncDataPack implements IMessage<S2CMessageSyncDataPack> {
+public record S2CMessageSyncDataPack(Map<SyncDataType, Map<ResourceLocation, String>> cache)
+        implements IMessage<S2CMessageSyncDataPack> {
 
     @Override
     public void encode(FriendlyByteBuf buffer) {
+        var message = this;
+        NetworkUtils.writeEnumMap(buffer, message.cache(), NetworkUtils::writeResourceLocationMap);
     }
 
     public static S2CMessageSyncDataPack decode(FriendlyByteBuf buffer) {
-        return new S2CMessageSyncDataPack();
+        var map = NetworkUtils.readEnumMap(buffer, SyncDataType.class, NetworkUtils::readResourceLocationMap);
+        return new S2CMessageSyncDataPack(map);
     }
 
     @Override
     public void handle(Consumer<Runnable> handler, NetworkContext context) {
+        var message = this;
         if (context.direction() == MessageDirection.SERVER_TO_CLIENT) {
-            handler.accept(() -> {
-                CgcTactical.getSideExecutor().executeOn(McSide.CLIENT, () -> () ->
-                        _S2CMessageSyncDataPack.doSync(this)
-                );
-            });
+            CgcTactical.LOGGER.debug("S2CMessageSyncDataPack: Received sync pack message from server");
+            Connection connection = context.connection();
+            boolean remoteConnection = connection != null && !connection.isMemoryConnection();
+            // 客户端侧可以异步解析Pojo，把enqueue的handler传过去
+            _S2CMessageSyncDataPack.doSync(message, handler, remoteConnection);
         }
     }
 }
