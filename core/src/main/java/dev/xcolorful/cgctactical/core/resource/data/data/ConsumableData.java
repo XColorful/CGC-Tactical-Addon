@@ -6,7 +6,7 @@ import dev.xcolorful.cgctactical.core.api.resource.data.data.ConsumableDataTag;
 import dev.xcolorful.cgctactical.core.resource.data.data.consumable._EffectData;
 import dev.xcolorful.customgun.core.resource.ResourcePojo;
 import dev.xcolorful.customgun.core.util.JsonUtils;
-import net.minecraft.resources.ResourceLocation;
+import net.minecraft.resources.Identifier;
 import org.jetbrains.annotations.Nullable;
 
 import java.io.IOException;
@@ -17,7 +17,7 @@ public final class ConsumableData extends ResourcePojo<ConsumableData> {
 
     private int useDuration = 32;
     private int cooldown = 0;
-    private @Nullable ResourceLocation cooldownCategoryLocation;
+    private @Nullable Identifier cooldownCategoryLocation;
     private int maxStackSize = 1;
     private int maxDurability = 0;
     private int durabilityDamage = 1;
@@ -113,7 +113,7 @@ public final class ConsumableData extends ResourcePojo<ConsumableData> {
     public int getCooldown() {
         return cooldown;
     }
-    public @Nullable ResourceLocation getCooldownCategoryLocation() {
+    public @Nullable Identifier getCooldownCategoryLocation() {
         return cooldownCategoryLocation;
     }
     public int getMaxStackSize() {
@@ -150,7 +150,7 @@ public final class ConsumableData extends ResourcePojo<ConsumableData> {
     public void setCooldown(int cooldown) {
         this.cooldown = cooldown;
     }
-    public void setCooldownCategoryLocation(ResourceLocation cooldownCategoryLocation) {
+    public void setCooldownCategoryLocation(Identifier cooldownCategoryLocation) {
         this.cooldownCategoryLocation = cooldownCategoryLocation;
     }
     public void setMaxStackSize(int maxStackSize) {

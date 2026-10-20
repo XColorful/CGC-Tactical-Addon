@@ -1,6 +1,6 @@
 package dev.xcolorful.cgctactical.core.resource.data.data.consumable;
 
-import net.minecraft.resources.ResourceLocation;
+import net.minecraft.resources.Identifier;
 import org.jetbrains.annotations.Nullable;
 
 @Deprecated(forRemoval = true)
@@ -10,16 +10,16 @@ public final class _RemoveEffectSelector {
     private static final String HARMFUL = "@harmful"; // TODO
     private static final String NEUTRAL = "@neutral"; // TODO
 
-    private final @Nullable ResourceLocation effectLocation;
+    private final @Nullable Identifier effectLocation;
 //    private final @Nullable MobEffectCategory category; // TODO
 
-    public _RemoveEffectSelector(@Nullable ResourceLocation effectLocation) {
+    public _RemoveEffectSelector(@Nullable Identifier effectLocation) {
         this.effectLocation = effectLocation;
     }
 
     // --------Getter--------
 
-    public @Nullable ResourceLocation getEffectLocation() {
+    public @Nullable Identifier getEffectLocation() {
         return effectLocation;
     }
 }

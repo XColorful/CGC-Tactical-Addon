@@ -6,13 +6,13 @@ import dev.xcolorful.cgctactical.core.api.resource.data.data.throwable.cloud._Ef
 import dev.xcolorful.customgun.core.api.resource.ResourceTag;
 import dev.xcolorful.customgun.core.resource.ResourcePojo;
 import dev.xcolorful.customgun.core.util.JsonUtils;
-import net.minecraft.resources.ResourceLocation;
+import net.minecraft.resources.Identifier;
 
 import java.io.IOException;
 
 public final class _EffectData extends ResourcePojo<_EffectData> {
 
-    private ResourceLocation effectLocation;
+    private Identifier effectLocation;
     private int duration = 200;
     private int amplifier = 0;
     private boolean visible = true;
@@ -71,7 +71,7 @@ public final class _EffectData extends ResourcePojo<_EffectData> {
 
     // --------Getter & Setter--------
 
-    public ResourceLocation getEffectLocation() {
+    public Identifier getEffectLocation() {
         return effectLocation;
     }
     public int getDuration() {
@@ -87,7 +87,7 @@ public final class _EffectData extends ResourcePojo<_EffectData> {
         return showIcon;
     }
 
-    public void setEffectLocation(ResourceLocation effectLocation) {
+    public void setEffectLocation(Identifier effectLocation) {
         this.effectLocation = effectLocation;
     }
     public void setDuration(int duration) {

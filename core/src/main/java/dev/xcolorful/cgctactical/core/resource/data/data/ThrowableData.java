@@ -9,7 +9,7 @@ import dev.xcolorful.cgctactical.core.resource.data.data.throwable._ExplodeData;
 import dev.xcolorful.cgctactical.core.resource.data.data.throwable._StunData;
 import dev.xcolorful.customgun.core.resource.ResourcePojo;
 import dev.xcolorful.customgun.core.util.JsonUtils;
-import net.minecraft.resources.ResourceLocation;
+import net.minecraft.resources.Identifier;
 import org.jetbrains.annotations.Nullable;
 
 import java.io.IOException;
@@ -20,7 +20,7 @@ public final class ThrowableData extends ResourcePojo<ThrowableData> {
     private boolean cookable = false;
     private float initialSpeed = 1.5f;
     private int cooldown = 40;
-    private @Nullable ResourceLocation cooldownCategoryLocation; // TODO
+    private @Nullable Identifier cooldownCategoryLocation; // TODO
     private int maxStackSize = 1;
     private _EntityData entityData;
     private long putAwayTime = 0;
@@ -119,7 +119,7 @@ public final class ThrowableData extends ResourcePojo<ThrowableData> {
     public int getCooldown() {
         return cooldown;
     }
-    public @Nullable ResourceLocation getCooldownCategoryLocation() {
+    public @Nullable Identifier getCooldownCategoryLocation() {
         return cooldownCategoryLocation;
     }
     public int getMaxStackSize() {
@@ -153,7 +153,7 @@ public final class ThrowableData extends ResourcePojo<ThrowableData> {
     public void setCooldown(int cooldown) {
         this.cooldown = cooldown;
     }
-    public void setCooldownCategoryLocation(ResourceLocation cooldownCategoryLocation) {
+    public void setCooldownCategoryLocation(Identifier cooldownCategoryLocation) {
         this.cooldownCategoryLocation = cooldownCategoryLocation;
     }
     public void setMaxStackSize(int maxStackSize) {
