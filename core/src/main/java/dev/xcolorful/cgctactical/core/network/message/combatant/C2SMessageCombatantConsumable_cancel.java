@@ -1,6 +1,6 @@
 package dev.xcolorful.cgctactical.core.network.message.combatant;
 
-import dev.xcolorful.cgctactical.CgcTactical;
+import dev.xcolorful.customgun.core.api.network.MessageDirection;
 import dev.xcolorful.customgun.core.api.network.message.IMessage;
 import net.minecraft.network.FriendlyByteBuf;
 import net.minecraft.server.level.ServerPlayer;
@@ -20,14 +20,14 @@ public record C2SMessageCombatantConsumable_cancel() implements IMessage<C2SMess
 
     @Override
     public void handle(Consumer<Runnable> handler, NetworkContext context) {
-        if (CgcTactical.getSideExecutor().getLogicalSide().isServer()) {
+        if (context.direction() == MessageDirection.CLIENT_TO_SERVER) {
             handler.accept(() -> {
                 if (!(context.sender() instanceof ServerPlayer player)) {
                     return;
                 }
 
                 ItemStack useItem = player.getUseItem();
-                // TODO
+                // TODO IConsumable
             });
         }
     }
