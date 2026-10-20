@@ -17,6 +17,16 @@ Notation:
 
 ## Common
 
+### API
+> ```java
+> package me.xjqsh.lrtactical.api;
+> ```
+
+|me.xjqsh.lrtactical.api.collision|dev.xcolorful.cgctactical.core.resource|
+|---|---|
+|`ITargetFilter`|data.data.melee|
+|`*`|data.data.melee|
+
 ### Capability
 > ```java
 > package me.xjqsh.lrtactical.capability;
@@ -25,6 +35,25 @@ Notation:
 | |dev.xcolorful.cgctactical.core.mixin|
 |---|---|
 |net.minecraftforge.common.capabilities.`AutoRegisterCapability`|entity.`PlayerMixin`|
+
+### Item
+> ```java
+> package me.xjqsh.lrtactical.item;
+> ```
+
+|me.xjqsh.lrtactical.item|dev.xcolorful.cgctactical.core.resource|
+|---|---|
+|consumable.`ConsumableData`|data.data.`ConsumableData`|
+|index.`*Index`|data.index.`*Index`|
+|melee.`MeleeWeaponData`|data.data.`MeleeData`|
+|melee.`CombatData`.`MeleeAttackInfo`|data.data.melee.combat|
+|melee.`CombatData`.`MeleeMovement`|data.data.melee.combat|
+|melee.`*`|data.data.melee|
+|throwable.`ThrowableData`|data.data.`ThrowableData`|
+|throwable.`area.EffectCloudThrowableData`.`EffectData`|data.data.throwable.cloud|
+|throwable.`flash.StunThrowableData`.`BlindData`|data.data.throwable.stun|
+|throwable.`flash.StunThrowableData`.`DeafenedData`|data.data.throwable.stun|
+|throwable.`*`|data.data.throwable|
 
 ### Network
 > ```java
@@ -50,3 +79,42 @@ Notation:
 |me.xjqsh.lrtactical.network|dev.xcolorful.cgctactical.core.resource|
 |---|---|
 |`DataType`|network.`SyncDataType`|
+
+### Resource
+> ```java
+> package me.xjqsh.lrtactical.resource;
+> ```
+
+|me.xjqsh.lrtactical.resource|dev.xcolorful.cgctactical.core.resource|
+|---|---|
+|manager.`ConsumableIndexManager`|data.`IndexManager`.`ConsumableIndexManager`|
+|manager.`MeleeIndexManager`|data.`IndexManager`.`MeleeIndexManager`|
+|manager.`ThrowableIndexManager`|data.`IndexManager`.`ThrowableIndexManager`|
+|serializer.`ParticleOptionsDeserializer`|_Deprecated_|
+|serializer.`Vector3fDeserializer`|_Deprecated_|
+|`CommonAssetsManager`|`_AllDataManager`|
+|`CommonNetworkCache`|client.resource.network.`SyncDataCache`|
+
+|me.xjqsh.lrtactical.resource|dev.xcolorful.cgctactical.core.api.resource|
+|---|---|
+|`ICommonResourceProvider`|`ResourceApi`|
+
+## Client
+
+### Resource (Client)
+> ```java
+> package me.xjqsh.lrtactical.client.resource;
+> ```
+
+|me.xjqsh.lrtactical.client.resource|dev.xcolorful.cgctactical.client.resource|
+|---|---|
+|display.`*DisplayInstance`|instance.assets.`*DisplayInstance`|
+|display.`ConsumableDisplayInstance`.`ConsumableDisplay`|assets.display.`ConsumableDisplay`|
+|display.`MeleeDisplayInstance`.`MeleeDisplay`|assets.display.`MeleeDisplay`|
+|display.`ThrowableDisplayInstance`.`ThrowableDisplay`|assets.display.`ThrowableDisplay`|
+|manager.`*DisplayManager`|assets.`DisplayManager`.`*DisplayManager`|
+|`LrClientAssetsManager`|`_AllAssetsManager`|
+
+|me.xjqsh.lrtactical.client.resource|dev.xcolorful.cgctactical.client.api.resource|
+|---|---|
+|`LrClientAssetsManager`|`ClientResourceApi`|
