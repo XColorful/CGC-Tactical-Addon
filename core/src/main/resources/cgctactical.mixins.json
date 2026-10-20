@@ -1,0 +1,12 @@
+{
+  "package": "dev.xcolorful.cgctactical.core.mixin",
+  "minVersion": "0.8",
+  "compatibilityLevel": "JAVA_17",
+  "refmap": "cgctactical.refmap.json",
+  "mixins": [
+    "entity.PlayerMixin"
+  ],
+  "injectors": {
+    "defaultRequire": 1
+  }
+}
