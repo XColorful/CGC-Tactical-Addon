@@ -8,7 +8,7 @@ import java.util.function.Consumer;
 public class S2CMessageCombatantShield_disable implements IMessage<S2CMessageCombatantShield_disable> {
 
     @Override
-    public void encode(S2CMessageCombatantShield_disable message, FriendlyByteBuf buffer) {
+    public void encode(FriendlyByteBuf buffer) {
     }
 
     public static S2CMessageCombatantShield_disable decode(FriendlyByteBuf buffer) {
@@ -16,6 +16,6 @@ public class S2CMessageCombatantShield_disable implements IMessage<S2CMessageCom
     }
 
     @Override
-    public void handle(S2CMessageCombatantShield_disable message, Consumer<Runnable> handler, NetworkContext context) {
+    public void handle(Consumer<Runnable> handler, NetworkContext context) {
     }
 }

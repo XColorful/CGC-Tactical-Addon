@@ -8,7 +8,7 @@ import java.util.function.Consumer;
 public class C2SMessageCombatantMelee_prepare implements IMessage<C2SMessageCombatantMelee_prepare> {
 
     @Override
-    public void encode(C2SMessageCombatantMelee_prepare message, FriendlyByteBuf buffer) {
+    public void encode(FriendlyByteBuf buffer) {
     }
 
     public static C2SMessageCombatantMelee_prepare decode(FriendlyByteBuf buffer) {
@@ -16,6 +16,6 @@ public class C2SMessageCombatantMelee_prepare implements IMessage<C2SMessageComb
     }
 
     @Override
-    public void handle(C2SMessageCombatantMelee_prepare message, Consumer<Runnable> handler, NetworkContext context) {
+    public void handle(Consumer<Runnable> handler, NetworkContext context) {
     }
 }

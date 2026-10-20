@@ -11,7 +11,7 @@ import java.util.function.Consumer;
 public record C2SMessageCombatantConsumable_cancel() implements IMessage<C2SMessageCombatantConsumable_cancel> {
 
     @Override
-    public void encode(C2SMessageCombatantConsumable_cancel message, FriendlyByteBuf buffer) {
+    public void encode(FriendlyByteBuf buffer) {
     }
 
     public static C2SMessageCombatantConsumable_cancel decode(FriendlyByteBuf buffer) {
@@ -19,7 +19,7 @@ public record C2SMessageCombatantConsumable_cancel() implements IMessage<C2SMess
     }
 
     @Override
-    public void handle(C2SMessageCombatantConsumable_cancel message, Consumer<Runnable> handler, NetworkContext context) {
+    public void handle(Consumer<Runnable> handler, NetworkContext context) {
         if (CgcTactical.getSideExecutor().getLogicalSide().isServer()) {
             handler.accept(() -> {
                 if (!(context.sender() instanceof ServerPlayer player)) {

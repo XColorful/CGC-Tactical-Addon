@@ -8,7 +8,7 @@ import java.util.function.Consumer;
 public class S2CMessageSyncMeleeAnimation implements IMessage<S2CMessageSyncMeleeAnimation> {
 
     @Override
-    public void encode(S2CMessageSyncMeleeAnimation message, FriendlyByteBuf buffer) {
+    public void encode(FriendlyByteBuf buffer) {
     }
 
     public static S2CMessageSyncMeleeAnimation decode(FriendlyByteBuf buffer) {
@@ -16,6 +16,6 @@ public class S2CMessageSyncMeleeAnimation implements IMessage<S2CMessageSyncMele
     }
 
     @Override
-    public void handle(S2CMessageSyncMeleeAnimation message, Consumer<Runnable> handler, NetworkContext context) {
+    public void handle(Consumer<Runnable> handler, NetworkContext context) {
     }
 }

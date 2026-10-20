@@ -8,7 +8,7 @@ import java.util.function.Consumer;
 public class S2CMessageNearbyExplosion implements IMessage<S2CMessageNearbyExplosion> {
 
     @Override
-    public void encode(S2CMessageNearbyExplosion message, FriendlyByteBuf buffer) {
+    public void encode(FriendlyByteBuf buffer) {
     }
 
     public static S2CMessageNearbyExplosion decode(FriendlyByteBuf buffer) {
@@ -16,6 +16,6 @@ public class S2CMessageNearbyExplosion implements IMessage<S2CMessageNearbyExplo
     }
 
     @Override
-    public void handle(S2CMessageNearbyExplosion message, Consumer<Runnable> handler, NetworkContext context) {
+    public void handle(Consumer<Runnable> handler, NetworkContext context) {
     }
 }

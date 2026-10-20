@@ -8,7 +8,7 @@ import java.util.function.Consumer;
 public class S2CMessageCombatantItemCooldown implements IMessage<S2CMessageCombatantItemCooldown> {
 
     @Override
-    public void encode(S2CMessageCombatantItemCooldown message, FriendlyByteBuf buffer) {
+    public void encode(FriendlyByteBuf buffer) {
     }
 
     public static S2CMessageCombatantItemCooldown decode(FriendlyByteBuf buffer) {
@@ -16,6 +16,6 @@ public class S2CMessageCombatantItemCooldown implements IMessage<S2CMessageComba
     }
 
     @Override
-    public void handle(S2CMessageCombatantItemCooldown message, Consumer<Runnable> handler, NetworkContext context) {
+    public void handle(Consumer<Runnable> handler, NetworkContext context) {
     }
 }

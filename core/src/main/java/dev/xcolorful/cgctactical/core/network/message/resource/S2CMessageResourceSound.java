@@ -8,7 +8,7 @@ import java.util.function.Consumer;
 public class S2CMessageResourceSound implements IMessage<S2CMessageResourceSound> {
 
     @Override
-    public void encode(S2CMessageResourceSound message, FriendlyByteBuf buffer) {
+    public void encode(FriendlyByteBuf buffer) {
     }
 
     public static S2CMessageResourceSound decode(FriendlyByteBuf buffer) {
@@ -16,6 +16,6 @@ public class S2CMessageResourceSound implements IMessage<S2CMessageResourceSound
     }
 
     @Override
-    public void handle(S2CMessageResourceSound message, Consumer<Runnable> handler, NetworkContext context) {
+    public void handle(Consumer<Runnable> handler, NetworkContext context) {
     }
 }

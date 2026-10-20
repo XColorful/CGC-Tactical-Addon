@@ -8,7 +8,7 @@ import java.util.function.Consumer;
 public class S2CMessageSyncDataPack implements IMessage<S2CMessageSyncDataPack> {
 
     @Override
-    public void encode(S2CMessageSyncDataPack message, FriendlyByteBuf buffer) {
+    public void encode(FriendlyByteBuf buffer) {
     }
 
     public static S2CMessageSyncDataPack decode(FriendlyByteBuf buffer) {
@@ -16,6 +16,6 @@ public class S2CMessageSyncDataPack implements IMessage<S2CMessageSyncDataPack> 
     }
 
     @Override
-    public void handle(S2CMessageSyncDataPack message, Consumer<Runnable> handler, NetworkContext context) {
+    public void handle(Consumer<Runnable> handler, NetworkContext context) {
     }
 }

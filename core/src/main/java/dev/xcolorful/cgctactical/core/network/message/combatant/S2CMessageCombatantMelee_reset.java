@@ -11,7 +11,7 @@ import java.util.function.Consumer;
 public class S2CMessageCombatantMelee_reset implements IMessage<S2CMessageCombatantMelee_reset> {
 
     @Override
-    public void encode(S2CMessageCombatantMelee_reset message, FriendlyByteBuf buffer) {
+    public void encode(FriendlyByteBuf buffer) {
     }
 
     public static S2CMessageCombatantMelee_reset decode(FriendlyByteBuf buffer) {
@@ -19,6 +19,6 @@ public class S2CMessageCombatantMelee_reset implements IMessage<S2CMessageCombat
     }
 
     @Override
-    public void handle(S2CMessageCombatantMelee_reset message, Consumer<Runnable> handler, NetworkContext context) {
+    public void handle(Consumer<Runnable> handler, NetworkContext context) {
     }
 }

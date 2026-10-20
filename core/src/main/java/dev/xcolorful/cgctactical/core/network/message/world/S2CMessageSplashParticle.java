@@ -8,7 +8,7 @@ import java.util.function.Consumer;
 public class S2CMessageSplashParticle implements IMessage<S2CMessageSplashParticle> {
 
     @Override
-    public void encode(S2CMessageSplashParticle message, FriendlyByteBuf buffer) {
+    public void encode(FriendlyByteBuf buffer) {
     }
 
     public static S2CMessageSplashParticle decode(FriendlyByteBuf buffer) {
@@ -16,6 +16,6 @@ public class S2CMessageSplashParticle implements IMessage<S2CMessageSplashPartic
     }
 
     @Override
-    public void handle(S2CMessageSplashParticle message, Consumer<Runnable> handler, NetworkContext context) {
+    public void handle(Consumer<Runnable> handler, NetworkContext context) {
     }
 }
