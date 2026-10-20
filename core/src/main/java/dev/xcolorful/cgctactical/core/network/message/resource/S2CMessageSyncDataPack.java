@@ -8,12 +8,12 @@ import dev.xcolorful.customgun.core.api.network.message.IMessage;
 import dev.xcolorful.customgun.core.util.NetworkUtils;
 import net.minecraft.network.Connection;
 import net.minecraft.network.FriendlyByteBuf;
-import net.minecraft.resources.ResourceLocation;
+import net.minecraft.resources.Identifier;
 
 import java.util.Map;
 import java.util.function.Consumer;
 
-public record S2CMessageSyncDataPack(Map<SyncDataType, Map<ResourceLocation, String>> cache)
+public record S2CMessageSyncDataPack(Map<SyncDataType, Map<Identifier, String>> cache)
         implements IMessage<S2CMessageSyncDataPack> {
 
     @Override
