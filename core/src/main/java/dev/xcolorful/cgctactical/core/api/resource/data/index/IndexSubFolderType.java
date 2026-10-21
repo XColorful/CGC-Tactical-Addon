@@ -3,9 +3,9 @@ package dev.xcolorful.cgctactical.core.api.resource.data.index;
 import dev.xcolorful.customgun.core.api.resource.ResourceTag;
 
 public enum IndexSubFolderType implements ResourceTag {
-    CONSUMABLE(IndexSubFolderTypeTag.CONSUMABLE),
     MELEE(IndexSubFolderTypeTag.MELEE),
-    THROWABLE(IndexSubFolderTypeTag.THROWABLE);
+    THROWABLE(IndexSubFolderTypeTag.THROWABLE),
+    CONSUMABLE(IndexSubFolderTypeTag.CONSUMABLE);
 
     public final String folderName;
     IndexSubFolderType(String folderName) {
