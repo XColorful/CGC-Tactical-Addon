@@ -252,3 +252,138 @@ CGC 侧确认 ResourceLocation、float[]、Map、Object 都有使用。再核对
 - 不在 Pojo 范围内：新增的 [DataFolderType.java](core/src/main/java/dev/xcolorful/cgctactical/core/api/resource/data/DataFolderType.java) 是空枚举且未被引用，实际使用的是 CGC 的同名枚举。若非有意占位，属于死代码。
 
 结论：**没有需要额外做兼容封装的 ResourcePojo 字段类型**。
+
+# 
+
+```
+现在浏览CGC Tactical Addon的git工作区，按照CGC ./docs/wiki相同的格式，对Addon现有Pojo的格式补全wiki
+- 对于目前注释掉的，则不需写进wiki
+- wiki里data/index/display具体格式展示文件里的换行跟ResourcePojo类里保持一致，参考CGC wiki对应CGC的ResourcePojo子类
+```
+
+# 
+
+我先查看 CGC 的 wiki 结构和现有 Pojo 文档格式。
+
+Addon 的 wiki 数据页目前是空占位。我先读 CGC 的对应 wiki 页面和 Addon 的 Pojo 实现，确定模板与字段顺序。
+
+现在读取标签常量，确认每个字段的实际 JSON 键名与旧键名。
+
+CGC wiki 的结构和换行分组规则已确认（`---` 与 JSON 空行对应 `toJson` 中的空行）。现在写入 9 个页面并更新导航。
+
+现在更新 Resource introduction 与 Sidebar，把新页面接入导航。
+
+页面已写入。现在做一致性校验：解析每个 JSON 示例，核对键顺序是否与对应 Pojo 的 `toJson` 写入顺序一致，并确认没有把已注释字段写进 wiki。
+
+已按 CGC `docs/wiki` 的格式补全 Addon 的 Pojo wiki，并接入导航。
+
+## 新增/补全的页面
+
+**数据（cgc_data）**
+- [Consumable data.md](docs/wiki/resource/data/cgc_data/Consumable%20data.md)
+- [Melee data.md](docs/wiki/resource/data/cgc_data/Melee%20data.md)
+- [Throwable data.md](docs/wiki/resource/data/cgc_data/Throwable%20data.md)
+
+**索引（cgc_index）**
+- [Consumable index.md](docs/wiki/resource/data/cgc_index/Consumable%20index.md)
+- [Melee index.md](docs/wiki/resource/data/cgc_index/Melee%20index.md)
+- [Throwable index.md](docs/wiki/resource/data/cgc_index/Throwable%20index.md)
+
+**显示（cgc_display）**
+- [Consumable display.md](docs/wiki/resource/assets/cgc_display/Consumable%20display.md)
+- [Melee display.md](docs/wiki/resource/assets/cgc_display/Melee%20display.md)
+- [Throwable display.md](docs/wiki/resource/assets/cgc_display/Throwable%20display.md)
+
+## 格式遵循情况
+
+- 每个页面均采用 CGC 的双语结构：`[English](#English)` → 中文标题 + `> wiki 版本` + 字段列表 + JSON 示例 → `# English` 镜像。
+- 字段列表格式为 `` - `新键`/`旧键`（类型）： ``，旧键仅标注实际存在 `OLD1` 常量的字段。
+- `---` 分区与 JSON 空行严格对应 `toJson` 中的空行：目前只有 `ThrowableData`（`put_away_time` 后）和 `MeleeIndex`/`ThrowableIndex`（`slot_sort` 后）有分区，其余类无空行故不分区。
+- 嵌套 Pojo 按 `toJson` 写入顺序展开；`_AttributeData` 以空对象 `{}` 表示。
+- 已注释字段未写入 wiki：`item_transforms`、`entity_transform`、`remove_effects`、`use_mode`、`third_person_animation` 均确认不存在于 wiki。
+
+## 新增平台资源目录说明与导航
+
+- [Resource introduction.md](docs/wiki/resource/Resource%20introduction.md) 补充了 `cgc_display/{consumable,melee,throwable}` 资源包目录树和六个数据/索引/显示链接（中英双语）。
+- [_Sidebar.md](docs/wiki/_Sidebar.md) 增加 `📊data`、`🖼️assets` 及全部 9 个页面的中英文链接。
+
+## 校验
+
+- 所有 18 个 JSON 示例（每页中英文各一）均可被 `json.loads` 解析。
+- 脚本比对确认：字段列表中的当前键集合与 JSON 键集合完全一致（唯一差异是 `sounds` 示例中的空字符串 map key，属预期占位）。
+- 顶层与嵌套键顺序均与对应 `toJson` 的写入顺序一致。
+
+未执行提交；`docs/wiki/Home.md` 的既有改动不是本次产生的，未触碰。
+
+# 
+
+```
+- 本次git工作区新增文件的wiki版本为`0.0.0`.0
+- 示例里不要写ResourcePojo里的默认值，参考CGC wiki里都写了0，其他类型的值也需要检查
+```
+
+# 
+
+收到。版本统一改为 `0.0.0`.0，示例值按 CGC 的惯例全部置零（int/long→0、float→0.0、boolean→false、String→""、ResourceLocation→`namespace:location`、float[]→全 0、List 保留一个全 0 元素）。
+
+已按要求调整：
+
+- 9 个新增页面的版本全部改为 `0.0.0`.0（中英文两处）。
+- 示例值不再使用 Pojo 默认值，统一按 CGC wiki 惯例置零：
+    - `int`/`long` → `0`
+    - `float` → `0.0`
+    - `boolean` → `false`
+    - `String` → `""`
+    - `ResourceLocation` → `"namespace:location"`
+    - `float[]` → `[0.0, 0.0, 0.0]`
+    - `List` → 保留一个全零元素
+    - `_AttributeData` → `{}`
+
+校验结果：
+- 所有 JSON 示例可解析。
+- 递归检查所有值：非零数字、`true`、非空且非 `namespace:` 的字符串数量为 **0**。
+- 字段列表与 JSON 键集合仍完全一致（仅 `sounds` 的空字符串 map key 属预期）。
+
+补充：`docs/wiki/Home.md` 仍是 `0.0.0`.1，但它是工作区中已有的改动而非本次新增页面，未改动；如需一并改为 `.0` 请告诉我。
+
+# 
+
+```
+浏览CGC的wiki仓库和CGC Tactical Addon的wiki仓库
+- 注意wiki里使用的链接是不含文件夹层级的，因此.wiki仓库的文件直接位于根目录
+- 且./docs/wiki里带空格的文件名，CGC wiki里是用横杠代替的（实际github wiki创建相应名称时会是这个结果）
+- 对CGC Tactical Addon刚才的commit，在.wiki仓库里应用同样的修改
+```
+
+# 
+
+我先核对 Addon 的提交状态、两个 wiki 仓库的现状，以及 CGC 的 `docs/wiki` 到 `.wiki` 的文件映射规律。
+
+提交 `319aa65` 包含 12 个 wiki 文件改动。CGC 的 `docs/wiki` 与 `.wiki` 内容完全一致，仅路径/文件名平铺加连字符。我按同一映射复制到 Addon 的 `.wiki` 仓库。
+
+已将提交 `319aa65` 中的 12 个 wiki 文件按 CGC 的映射规则同步到 `.wiki` 仓库。
+
+## 映射与结果
+
+| `docs/wiki` 源文件 | `.wiki` 目标文件 |
+|---|---|
+| `Home.md` | `Home.md`（更新） |
+| `_Sidebar.md` | `_Sidebar.md`（更新） |
+| `resource/Resource introduction.md` | `Resource-introduction.md`（新增） |
+| `resource/data/cgc_data/Consumable data.md` | `Consumable-data.md`（新增） |
+| `resource/data/cgc_data/Melee data.md` | `Melee-data.md`（新增） |
+| `resource/data/cgc_data/Throwable data.md` | `Throwable-data.md`（新增） |
+| `resource/data/cgc_index/Consumable index.md` | `Consumable-index.md`（新增） |
+| `resource/data/cgc_index/Melee index.md` | `Melee-index.md`（新增） |
+| `resource/data/cgc_index/Throwable index.md` | `Throwable-index.md`（新增） |
+| `resource/assets/cgc_display/Consumable display.md` | `Consumable-display.md`（新增） |
+| `resource/assets/cgc_display/Melee display.md` | `Melee-display.md`（新增） |
+| `resource/assets/cgc_display/Throwable display.md` | `Throwable-display.md`（新增） |
+
+## 验证
+
+- 12 个目标文件与 `docs/wiki` 源文件逐一 `diff` 完全一致。
+- `.wiki` 仓库保持扁平结构，无新增文件夹；空格文件名均已替换为横杠。
+- `git status` 显示 2 个修改、10 个新增，与提交 `319aa65` 的 wiki 部分一致。
+
+未在 `.wiki` 仓库执行提交，改动停留在工作区，等待你审阅。
