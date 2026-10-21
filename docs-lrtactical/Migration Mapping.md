@@ -36,6 +36,21 @@ Notation:
 |---|---|
 |net.minecraftforge.common.capabilities.`AutoRegisterCapability`|entity.`PlayerMixin`|
 
+### Config
+> ```java
+> package me.xjqsh.lrtactical.config;
+> ```
+
+|me.xjqsh.lrtactical.config|dev.xcolorful.cgctactical.client.config|
+|---|---|
+|`ClientConfig`|`RenderConfig`|
+
+|me.xjqsh.lrtactical.config|dev.xcolorful.cgctactical.core.config|
+|---|---|
+|`CommonConfig`|`GrenadeConfig`|
+|`CommonConfig`|`MeleeConfig`|
+|`ServerConfig`|`SyncConfig`|
+
 ### Item
 > ```java
 > package me.xjqsh.lrtactical.item;
@@ -80,6 +95,20 @@ Notation:
 |---|---|
 |`DataType`|network.`SyncDataType`|
 
+### Particle
+> ```java
+> package me.xjqsh.lrtactical.init;
+> ```
+
+|me.xjqsh.lrtactical.init|dev.xcolorful.cgctactical.core.init.registry|
+|---|---|
+|`ModParticleTypes`|`ModParticles`|
+|`ModParticleTypes`.`SMOKE_CLOUD`|`ModParticles`.`SMOKE_CLOUD`|
+
+|me.xjqsh.lrtactical.util|dev.xcolorful.cgctactical.core.util|
+|---|---|
+|`ParticleUtil`|_Deprecated_|
+
 ### Resource
 > ```java
 > package me.xjqsh.lrtactical.resource;
@@ -118,3 +147,25 @@ Notation:
 |me.xjqsh.lrtactical.client.resource|dev.xcolorful.cgctactical.client.api.resource|
 |---|---|
 |`LrClientAssetsManager`|`ClientResourceApi`|
+
+### Particle (Client)
+> ```java
+> package me.xjqsh.lrtactical.client.particle;
+> ```
+
+|me.xjqsh.lrtactical.client.particle|dev.xcolorful.cgctactical.client.particle|
+|---|---|
+|`SmokeCloudParticle`|`SmokeCloudParticle`|
+
+### Initialize (Client)
+> ```java
+> package me.xjqsh.lrtactical.client;
+> ```
+
+|me.xjqsh.lrtactical.client|dev.xcolorful.cgctactical.client.init|
+|---|---|
+|`ClientSetupHandler`.registerParticles|`ClientModParticles`.onRegisterParticleProviders|
+
+|me.xjqsh.lrtactical.client|dev.xcolorful.cgctactical.forgeclient.init|
+|---|---|
+|`ClientSetupHandler`.registerParticles|`ForgeClientModParticles`.onRegisterParticleFactory|
