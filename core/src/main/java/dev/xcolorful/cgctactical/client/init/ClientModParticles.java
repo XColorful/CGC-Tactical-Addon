@@ -2,7 +2,7 @@ package dev.xcolorful.cgctactical.client.init;
 
 import dev.xcolorful.cgctactical.client.particle.SmokeCloudParticle;
 import dev.xcolorful.cgctactical.core.init.registry.ModParticles;
-import net.minecraft.client.particle.ParticleEngine;
+import net.minecraft.client.particle.ParticleResources;
 import net.minecraft.core.particles.ParticleOptions;
 import net.minecraft.core.particles.ParticleType;
 
@@ -16,7 +16,7 @@ public class ClientModParticles {
 
     @FunctionalInterface
     public interface SpriteParticleRegisterer {
-        <T extends ParticleOptions> void register(ParticleType<T> type, ParticleEngine.SpriteParticleRegistration<T> registration);
+        <T extends ParticleOptions> void register(ParticleType<T> type, ParticleResources.SpriteParticleRegistration<T> registration);
     }
 
     public void onRegisterParticleProviders(SpriteParticleRegisterer registerer) {
