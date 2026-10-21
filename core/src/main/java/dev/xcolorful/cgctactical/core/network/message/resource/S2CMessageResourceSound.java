@@ -1,6 +1,6 @@
 package dev.xcolorful.cgctactical.core.network.message.resource;
 
-import dev.xcolorful.cgctactical.CgcTactical;
+import dev.xcolorful.customgun.CustomGun;
 import dev.xcolorful.cgctactical.client.network.message.resource._S2CMessageResourceSound;
 import dev.xcolorful.customgun.core.api.common.McSide;
 import dev.xcolorful.customgun.core.api.network.MessageDirection;
@@ -23,7 +23,7 @@ public class S2CMessageResourceSound implements IMessage<S2CMessageResourceSound
     public void handle(Consumer<Runnable> handler, NetworkContext context) {
         if (context.direction() == MessageDirection.SERVER_TO_CLIENT) {
             handler.accept(() -> {
-                CgcTactical.getSideExecutor().executeOn(McSide.CLIENT, () -> () ->
+                CustomGun.getSideExecutor().executeOn(McSide.CLIENT, () -> () ->
                         _S2CMessageResourceSound.handle(this)
                 );
             });
