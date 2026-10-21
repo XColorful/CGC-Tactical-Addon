@@ -2,6 +2,7 @@ package dev.xcolorful.cgctactical;
 
 import com.mojang.logging.LogUtils;
 import dev.xcolorful.cgctactical.core.event.custom.CoreEventHandlers;
+import dev.xcolorful.cgctactical.core.init.ModConfig;
 import dev.xcolorful.customgun.CustomGun;
 import dev.xcolorful.customgun.core.api.common.ISideExecutor;
 import dev.xcolorful.customgun.core.api.common.McSide;
@@ -21,6 +22,8 @@ public class CgcTactical {
 
         CgcTactical.mcSide = mcSide;
         CgcTactical.sideExecutor = sideExecutor;
+
+        ModConfig.init();
 
         CoreEventHandlers.registerAll(CustomGun.getEventRegister());
 

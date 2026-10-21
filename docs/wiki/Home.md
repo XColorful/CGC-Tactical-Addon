@@ -1,9 +1,24 @@
 [English](#English)
 
 # 自定义枪械永续战术扩展wiki
-> wiki 版本：`0.0.0`.1
+> wiki 版本：`0.0.0`.3
 
 > 推荐安装[Stylus](https://chromewebstore.google.com/detail/stylus/clngdbkpkpeebahjckkjfobafhncgmne)插件并使用配置[Stylus-Obsidian-Topaz-Nord.json](https://github.com/XColorful/XColorful.github.io/blob/main/stylus/Stylus-Obsidian-Topaz-Nord.json)
+
+## 🛠️配置文件
+
+### ⚙️双端配置
+
+- [手雷配置](https://github.com/XColorful/CGC-Tactical-Addon/wiki/Grenade-config)
+- [近战配置](https://github.com/XColorful/CGC-Tactical-Addon/wiki/Melee-config)
+
+### ⚙️客户端配置
+
+- [渲染配置](https://github.com/XColorful/CGC-Tactical-Addon/wiki/Render-config)
+
+### ⚙️服务端配置
+
+- [同步配置](https://github.com/XColorful/CGC-Tactical-Addon/wiki/Sync-config)
 
 ## 📦资源文件
 
@@ -24,9 +39,24 @@
 除非另有明确说明，代码、图片及其他材料也不属于本许可证的适用范围
 
 # English
-> wiki version: `0.0.0`.2
+> wiki version: `0.0.0`.3
 
 > Recommend installing the [Stylus](https://chromewebstore.google.com/detail/stylus/clngdbkpkpeebahjckkjfobafhncgmne) extension and using the configuration [Stylus-Obsidian-Topaz-Nord.json](https://github.com/XColorful/XColorful.github.io/blob/main/stylus/Stylus-Obsidian-Topaz-Nord.json)
+
+## 🛠️Configuration
+
+### ⚙️Common configuration
+
+- [Grenade config](https://github.com/XColorful/CGC-Tactical-Addon/wiki/Grenade-config#English)
+- [Melee config](https://github.com/XColorful/CGC-Tactical-Addon/wiki/Melee-config#English)
+
+### ⚙️Client configuration
+
+- [Render config](https://github.com/XColorful/CGC-Tactical-Addon/wiki/Render-config#English)
+
+### ⚙️Server configuration
+
+- [Sync config](https://github.com/XColorful/CGC-Tactical-Addon/wiki/Sync-config#English)
 
 ## 📦Resource
 
