@@ -93,3 +93,46 @@ JAVA_HOME=/e/Software/Minecraft/JDK/jdk-17 GRADLE_OPTS="-Dfile.encoding=UTF-8" .
 # 
 
 已移除四个 config wiki 页面中的全部数值范围标注，只保留类型。
+
+# 
+
+```
+按#3 Resource-skeleton.md里提到的相同的方式，把刚才CGC本体和CGC Tactical Addon wiki修改的部分应用到.wiki仓库
+```
+
+# 
+
+已按 `#3 Resource-skeleton.md` 的同步方式（`.wiki` 仓库文件平铺在根目录、文件名空格换横杠）应用到两个 wiki 仓库。
+
+## CGC `.wiki`
+
+来源 commit：`e3aaf9fa4 wiki: unify style in config wiki`
+
+修改 9 个文件：
+- `Ammo-config.md`、`Gun-config.md`、`Key-config.md`、`Other-config.md`
+- `Render-config.md`、`Resource-config.md`、`Sound-config.md`、`Sync-config.md`、`Zoom-config.md`
+
+改动为移除英文区 `## X Config` 标题、更新英文 wiki 版本号，以及 `Sync-config.md` 的子章节由 `###` 提升为 `##`。`git diff --stat` 与源 commit 一致：`9 files changed, 12 insertions(+), 30 deletions(-)`。
+
+## CGC Tactical Addon `.wiki`
+
+来源 commit：`c2b059f Add mod configs`
+
+修改：
+- `Home.md`、`_Sidebar.md`（新增配置文件导航与中英文版本号）
+
+新增：
+- `Grenade-config.md`
+- `Melee-config.md`
+- `Render-config.md`
+- `Sync-config.md`
+
+`git diff --stat`：`Home.md +34/-2`、`_Sidebar.md +16`，与源 commit 的 wiki 部分一致。
+
+## 校验
+
+- 所有目标文件与源 `docs/wiki` 文件用 `diff --strip-trailing-cr` 逐一分组比对，内容完全一致。
+- 保留 `.wiki` 仓库原有的 CRLF 行尾。
+- CGC 主仓库中未提交的 `Debug command.md` 改动仅是行尾差异，内容与 `.wiki` 现有文件一致，因此未产生额外修改。
+
+两个 `.wiki` 仓库的改动均未提交，停留在工作区等待审阅。
