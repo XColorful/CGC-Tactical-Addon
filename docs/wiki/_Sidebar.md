@@ -3,6 +3,14 @@
 > - [**回到中文顶部**](#)
 ---
 - [主页](https://github.com/XColorful/CGC-Tactical-Addon/wiki)
+	- 🛠️配置文件
+		- ⚙️双端配置
+			- [手雷配置](https://github.com/XColorful/CGC-Tactical-Addon/wiki/Grenade-config)
+			- [近战配置](https://github.com/XColorful/CGC-Tactical-Addon/wiki/Melee-config)
+		- ⚙️客户端配置
+			- [渲染配置](https://github.com/XColorful/CGC-Tactical-Addon/wiki/Render-config)
+		- ⚙️服务端配置
+			- [同步配置](https://github.com/XColorful/CGC-Tactical-Addon/wiki/Sync-config)
 	- 📦[资源文件说明](https://github.com/XColorful/CGC-Tactical-Addon/wiki/Resource-introduction)
 		- 📊data
 			- cgc_data
@@ -29,6 +37,14 @@
 					- [投掷物显示](https://github.com/XColorful/CGC-Tactical-Addon/wiki/Throwable-display)
 ---
 - [Home](https://github.com/XColorful/CGC-Tactical-Addon/wiki#English)
+	- 🛠️Configuration
+		- ⚙️Common configuration
+			- [Grenade config](https://github.com/XColorful/CGC-Tactical-Addon/wiki/Grenade-config#English)
+			- [Melee config](https://github.com/XColorful/CGC-Tactical-Addon/wiki/Melee-config#English)
+		- ⚙️Client configuration
+			- [Render config](https://github.com/XColorful/CGC-Tactical-Addon/wiki/Render-config#English)
+		- ⚙️Server configuration
+			- [Sync config](https://github.com/XColorful/CGC-Tactical-Addon/wiki/Sync-config#English)
 	- 📦[Resource introduction](https://github.com/XColorful/CGC-Tactical-Addon/wiki/Resource-introduction#English)
 		- 📊data
 			- cgc_data
