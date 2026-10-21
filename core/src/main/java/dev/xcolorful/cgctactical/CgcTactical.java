@@ -3,8 +3,10 @@ package dev.xcolorful.cgctactical;
 import com.mojang.logging.LogUtils;
 import dev.xcolorful.cgctactical.core.event.custom.CoreEventHandlers;
 import dev.xcolorful.cgctactical.core.init.ModConfig;
+import dev.xcolorful.cgctactical.core.network.NetworkHandler;
 import dev.xcolorful.customgun.CustomGun;
 import dev.xcolorful.customgun.core.api.common.McSide;
+import dev.xcolorful.customgun.core.api.network.INetworkAdapter;
 import org.slf4j.Logger;
 
 public class CgcTactical {
@@ -15,10 +17,13 @@ public class CgcTactical {
     protected static boolean initialized;
     protected static McSide mcSide = McSide.CLIENT;
 
-    public static void init(McSide mcSide) {
+    public static void init(McSide mcSide,
+                            INetworkAdapter networkAdapter) {
         if (initialized) return;
 
         CgcTactical.mcSide = mcSide;
+
+        NetworkHandler.initialize(networkAdapter);
 
         ModConfig.init();
 
