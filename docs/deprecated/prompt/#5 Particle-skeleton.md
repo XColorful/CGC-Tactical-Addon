@@ -135,3 +135,30 @@ addon 与 CGC 结构已对称，没有缺失：
 `registerSpriteSet` 与 addon 的 `ParticleEngine.SpriteParticleRegistration` + `assets/cgctactical/particles/smoke_cloud.json` 是匹配的；`registerSpecial` 不能用于有 json 的粒子。**结论是不用改粒子代码，也不用给 CGC 补粒子注册 API。**
 
 改动未提交，等你审阅。
+
+# 
+---
+
+```
+CGC Tactical Addon1.21.10 ClientModParticles编译不过，看怎么移植
+```
+
+# 
+
+我来看看编译错误和相关代码。
+
+依赖 jar 缺失导致全项目编译失败，我先用现有的旧 jar 临时跑一次，看看粒子代码本身的错误。
+
+1.21.10 的粒子 API 发生了重构，这才是真正的移植点。我去查一下新版类结构。
+
+现在确认了 1.21.10 的粒子系统重构点。同时依赖 jar 还是旧的 26.10.28，我先在后台重新构建 Custom Gun 的 26.10.28.2 jar。
+
+已完成 1.21.10 粒子 API 的移植改动，正在后台重新构建 Custom Gun 26.10.28.2 的依赖 jar（现有 libs 里只有旧的 26.10.28）。
+
+改动点：
+
+- [ClientModParticles.java:19](app://localhost/epitaxy/core/src/main/java/dev/xcolorful/cgctactical/client/init/ClientModParticles.java#L19)：`ParticleEngine.SpriteParticleRegistration` → `ParticleResources.SpriteParticleRegistration`
+- [SmokeCloudParticle.java:15](app://localhost/epitaxy/core/src/main/java/dev/xcolorful/cgctactical/client/particle/SmokeCloudParticle.java#L15)：`TextureSheetParticle` → `SingleQuadParticle`，构造函数补 `spriteSet.first()`，`getRenderType()` 改为 `getLayer()` 返回 `Layer.TRANSLUCENT`，provider lambda 增加 `RandomSource` 参数
+- [_S2CMessageSplashParticle.java:31](app://localhost/epitaxy/core/src/main/java/dev/xcolorful/cgctactical/client/network/message/world/_S2CMessageSplashParticle.java#L31)：`ParticleTypes.EFFECT` 在 1.21.10 已变为 `ParticleType<SpellParticleOption>`，改用 `SpellParticleOption.create(...)` 携带颜色与 power，不再对 `Particle` 调 `setColor/setPower`
+
+等 jar 构建完成后我会把新 jar 放进 `libs/` 并完整编译验证。
