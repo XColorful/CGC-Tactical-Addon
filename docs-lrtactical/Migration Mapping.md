@@ -36,6 +36,21 @@ Notation:
 |---|---|
 |net.minecraftforge.common.capabilities.`AutoRegisterCapability`|entity.`PlayerMixin`|
 
+### Config
+> ```java
+> package me.xjqsh.lrtactical.config;
+> ```
+
+|me.xjqsh.lrtactical.config|dev.xcolorful.cgctactical.client.config|
+|---|---|
+|`ClientConfig`|`RenderConfig`|
+
+|me.xjqsh.lrtactical.config|dev.xcolorful.cgctactical.core.config|
+|---|---|
+|`CommonConfig`|`GrenadeConfig`|
+|`CommonConfig`|`MeleeConfig`|
+|`ServerConfig`|`SyncConfig`|
+
 ### Item
 > ```java
 > package me.xjqsh.lrtactical.item;
