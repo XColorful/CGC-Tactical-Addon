@@ -22,7 +22,8 @@ public class CgcTacticalForge {
         Dist dist = CustomGunForge.getDist();
         McSide mcSide = dist.isClient() ? McSide.CLIENT : McSide.DEDICATED_SERVER;
 
-        CgcTactical.init(mcSide);
+        CgcTactical.init(mcSide,
+                CgcTacticalForge.networkAdapter);
 
         IEventBus modEventBus = FMLJavaModLoadingContext.get().getModEventBus();
 

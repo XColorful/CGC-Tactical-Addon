@@ -16,10 +16,14 @@ import dev.xcolorful.customgun.core.api.network.INetworkAdapter;
 import dev.xcolorful.customgun.core.api.network.MessageDirection;
 import org.jetbrains.annotations.ApiStatus;
 
+import java.util.concurrent.atomic.AtomicInteger;
+
 public final class NetworkHandler extends dev.xcolorful.customgun.core.network.NetworkHandler {
     private static NetworkHandler INSTANCE;
 
     public static final int protocol_version = 0;
+    private final AtomicInteger ID_COUNT = new AtomicInteger(0);
+    private final AtomicInteger HANDSHAKE_ID_COUNT = new AtomicInteger(0);
 
     private NetworkHandler(INetworkAdapter adapter) {
         super(adapter);
