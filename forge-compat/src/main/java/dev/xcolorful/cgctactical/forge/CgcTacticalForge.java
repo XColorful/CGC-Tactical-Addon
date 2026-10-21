@@ -1,6 +1,7 @@
 package dev.xcolorful.cgctactical.forge;
 
 import dev.xcolorful.cgctactical.CgcTactical;
+import dev.xcolorful.cgctactical.core.init.registry.ModParticles;
 import dev.xcolorful.cgctactical.core.network.NetworkHandler;
 import dev.xcolorful.cgctactical.forgeclient.CgcTacticalForgeClient;
 import dev.xcolorful.customgun.core.api.common.McSide;
@@ -26,6 +27,8 @@ public class CgcTacticalForge {
                 CgcTacticalForge.networkAdapter);
 
         IEventBus modEventBus = FMLJavaModLoadingContext.get().getModEventBus();
+
+        ModParticles.PARTICLE_TYPES.registerAll(modEventBus);
 
         if (mcSide == McSide.CLIENT) {
             _CgcTacticalForgeClient.init();
