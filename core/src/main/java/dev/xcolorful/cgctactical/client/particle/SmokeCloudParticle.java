@@ -2,23 +2,22 @@ package dev.xcolorful.cgctactical.client.particle;
 
 import dev.xcolorful.customgun.client.util.ClientRenderUtils;
 import net.minecraft.client.multiplayer.ClientLevel;
-import net.minecraft.client.particle.ParticleEngine;
-import net.minecraft.client.particle.ParticleRenderType;
+import net.minecraft.client.particle.ParticleResources;
+import net.minecraft.client.particle.SingleQuadParticle;
 import net.minecraft.client.particle.SpriteSet;
-import net.minecraft.client.particle.TextureSheetParticle;
 import net.minecraft.client.renderer.LevelRenderer;
 import net.minecraft.core.BlockPos;
 import net.minecraft.core.Direction;
 import net.minecraft.core.particles.SimpleParticleType;
 import org.jetbrains.annotations.NotNull;
 
-public class SmokeCloudParticle extends TextureSheetParticle {
+public class SmokeCloudParticle extends SingleQuadParticle {
 
     private final SpriteSet spriteSet;
 
     private SmokeCloudParticle(ClientLevel level, double x, double y, double z,
                                double xSpeed, double ySpeed, double zSpeed, SpriteSet spriteSet) {
-        super(level, x, y, z);
+        super(level, x, y, z, spriteSet.first());
         this.spriteSet = spriteSet;
         this.quadSize *= 5.5f;
         this.lifetime = 20;
@@ -37,8 +36,8 @@ public class SmokeCloudParticle extends TextureSheetParticle {
     }
 
     @Override
-    public @NotNull ParticleRenderType getRenderType() {
-        return ParticleRenderType.PARTICLE_SHEET_TRANSLUCENT;
+    public @NotNull SingleQuadParticle.Layer getLayer() {
+        return SingleQuadParticle.Layer.TRANSLUCENT;
     }
 
     @Override
@@ -64,8 +63,8 @@ public class SmokeCloudParticle extends TextureSheetParticle {
 
     // --------Client particles--------
 
-    public static final ParticleEngine.SpriteParticleRegistration<SimpleParticleType> PROVIDER = spriteSet ->
+    public static final ParticleResources.SpriteParticleRegistration<SimpleParticleType> PROVIDER = spriteSet ->
             (option, world,
              x, y, z,
-             xSpeed, ySpeed, zSpeed) -> new SmokeCloudParticle(world, x, y, z, xSpeed, ySpeed, zSpeed, spriteSet);
+             xSpeed, ySpeed, zSpeed, random) -> new SmokeCloudParticle(world, x, y, z, xSpeed, ySpeed, zSpeed, spriteSet);
 }
