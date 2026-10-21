@@ -17,7 +17,7 @@ public class CgcTacticalNeoforge {
     public static INetworkAdapter networkAdapter;
 
     public CgcTacticalNeoforge(IEventBus modEventBus) {
-        CgcTacticalNeoforge.networkAdapter = new NeoNetworkAdapter(modEventBus, CgcTacticalNeoforge.mcRegistry, CgcTactical.MOD_ID, NetworkHandler.protocol_version);
+        CgcTacticalNeoforge.networkAdapter = new NeoNetworkAdapter(modEventBus, CustomGunNeoforge.mcRegistry, CgcTactical.MOD_ID, NetworkHandler.protocol_version);
         Dist dist = CustomGunNeoforge.getDist();
         McSide mcSide = dist.isClient() ? McSide.CLIENT : McSide.DEDICATED_SERVER;
 
