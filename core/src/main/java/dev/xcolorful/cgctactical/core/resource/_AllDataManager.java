@@ -14,6 +14,7 @@ import dev.xcolorful.customgun.core.api.event.*;
 import dev.xcolorful.customgun.core.api.resource.data.DataFolderType;
 import dev.xcolorful.customgun.core.resource.ResourceFileManager;
 import dev.xcolorful.customgun.core.resource.ResourcePojoManager;
+import dev.xcolorful.customgun.core.util.ResourceUtils;
 import net.minecraft.resources.ResourceLocation;
 import net.minecraft.server.MinecraftServer;
 import net.minecraft.server.packs.repository.PackRepository;
@@ -101,12 +102,7 @@ public class _AllDataManager implements IEventHandler {
         );
         event.addListener(
                 CustomGun.getMcRegistry().createResourceLocation(CgcTactical.MOD_ID + ":all_data_manager"),
-                (barrier, resourceManager, preparationProfiler, reloadProfiler, backgroundExecutor, gameExecutor) -> {
-                    return barrier
-                            .wait(Void.TYPE)
-                            .thenRunAsync(() -> {
-                            }, gameExecutor);
-                }
+                ResourceUtils.asyncReloadListener(() -> {})
         );
     }
     private <T extends ResourceFileManager<?>> T _registerListener(IAddServerReloadListenerEvent event, T listener) {
