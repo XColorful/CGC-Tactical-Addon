@@ -1,6 +1,6 @@
 package dev.xcolorful.cgctactical.core.api.resource;
 
-import dev.xcolorful.cgctactical.CgcTactical;
+import dev.xcolorful.customgun.CustomGun;
 import dev.xcolorful.cgctactical.client.resource.network.SyncDataCache;
 import dev.xcolorful.cgctactical.core.resource._AllDataManager;
 import dev.xcolorful.cgctactical.core.resource._DataInstanceManager;
@@ -100,27 +100,27 @@ public class ResourceApi {
     // --------data instance--------
 
     public static @Nullable ConsumableIndexInstance getConsumableIndexInstance(Identifier consumableLocation) {
-        if (CgcTactical.getSideExecutor().getLogicalSide().isServer()) return _DataInstanceManager.CONSUMABLE_INDEX.get(consumableLocation);
+        if (CustomGun.getSideExecutor().getLogicalSide().isServer()) return _DataInstanceManager.CONSUMABLE_INDEX.get(consumableLocation);
         else return SyncDataCache.INSTANCE.CONSUMABLE_INDEX.get(consumableLocation);
     }
     public static Set<Map.Entry<Identifier, @NotNull ConsumableIndexInstance>> getAllConsumableIndexInstance() {
-        if (CgcTactical.getSideExecutor().getLogicalSide().isServer()) return _DataInstanceManager.CONSUMABLE_INDEX.entrySet();
+        if (CustomGun.getSideExecutor().getLogicalSide().isServer()) return _DataInstanceManager.CONSUMABLE_INDEX.entrySet();
         else return SyncDataCache.INSTANCE.CONSUMABLE_INDEX.entrySet();
     }
     public static @Nullable MeleeIndexInstance getMeleeIndexInstance(Identifier meleeLocation) {
-        if (CgcTactical.getSideExecutor().getLogicalSide().isServer()) return _DataInstanceManager.MELEE_INDEX.get(meleeLocation);
+        if (CustomGun.getSideExecutor().getLogicalSide().isServer()) return _DataInstanceManager.MELEE_INDEX.get(meleeLocation);
         else return SyncDataCache.INSTANCE.MELEE_INDEX.get(meleeLocation);
     }
     public static Set<Map.Entry<Identifier, @NotNull MeleeIndexInstance>> getAllMeleeIndexInstance() {
-        if (CgcTactical.getSideExecutor().getLogicalSide().isServer()) return _DataInstanceManager.MELEE_INDEX.entrySet();
+        if (CustomGun.getSideExecutor().getLogicalSide().isServer()) return _DataInstanceManager.MELEE_INDEX.entrySet();
         else return SyncDataCache.INSTANCE.MELEE_INDEX.entrySet();
     }
     public static @Nullable ThrowableIndexInstance getThrowableIndexInstance(Identifier throwableLocation) {
-        if (CgcTactical.getSideExecutor().getLogicalSide().isServer()) return _DataInstanceManager.THROWABLE_INDEX.get(throwableLocation);
+        if (CustomGun.getSideExecutor().getLogicalSide().isServer()) return _DataInstanceManager.THROWABLE_INDEX.get(throwableLocation);
         else return SyncDataCache.INSTANCE.THROWABLE_INDEX.get(throwableLocation);
     }
     public static Set<Map.Entry<Identifier, @NotNull ThrowableIndexInstance>> getAllThrowableIndexInstance() {
-        if (CgcTactical.getSideExecutor().getLogicalSide().isServer()) return _DataInstanceManager.THROWABLE_INDEX.entrySet();
+        if (CustomGun.getSideExecutor().getLogicalSide().isServer()) return _DataInstanceManager.THROWABLE_INDEX.entrySet();
         else return SyncDataCache.INSTANCE.THROWABLE_INDEX.entrySet();
     }
 }
