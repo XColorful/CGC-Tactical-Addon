@@ -21,7 +21,8 @@ public class CgcTacticalNeoforge {
         Dist dist = CustomGunNeoforge.getDist();
         McSide mcSide = dist.isClient() ? McSide.CLIENT : McSide.DEDICATED_SERVER;
 
-        CgcTactical.init(mcSide);
+        CgcTactical.init(mcSide,
+                CgcTacticalNeoforge.networkAdapter);
 
         if (mcSide == McSide.CLIENT) {
             _CgcTacticalNeoforgeClient.init();
