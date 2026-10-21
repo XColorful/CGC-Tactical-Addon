@@ -136,3 +136,24 @@ JAVA_HOME=/e/Software/Minecraft/JDK/jdk-17 GRADLE_OPTS="-Dfile.encoding=UTF-8" .
 - CGC 主仓库中未提交的 `Debug command.md` 改动仅是行尾差异，内容与 `.wiki` 现有文件一致，因此未产生额外修改。
 
 两个 `.wiki` 仓库的改动均未提交，停留在工作区等待审阅。
+
+# 
+
+```
+对照TaCZ到CGC的TaCZ Migration Mapping.md，完成CGC Tactical Addon Migration Mapping.md里的Config部分
+```
+
+# 
+
+Addon 的 Migration Mapping 里已经预留了空的 `### Config` 段（第 30 行），我按 CGC 的 Config 表结构填充。
+
+已在 [Migration Mapping.md:30](docs-lrtactical/Migration%20Mapping.md:30) 补全 `### Config` 段，结构与 CGC 的 Config 映射一致：
+
+- `me.xjqsh.lrtactical.config` → `dev.xcolorful.cgctactical.core.config`
+  - `CommonConfig` → `GrenadeConfig`
+  - `CommonConfig` → `MeleeConfig`
+  - `ServerConfig` → `SyncConfig`
+- `me.xjqsh.lrtactical.config` → `dev.xcolorful.cgctactical.client.config`
+  - `ClientConfig` → `RenderConfig`
+
+未提交。
