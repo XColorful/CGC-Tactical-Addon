@@ -345,3 +345,45 @@ CGC wiki 的结构和换行分组规则已确认（`---` 与 JSON 空行对应 `
 - 字段列表与 JSON 键集合仍完全一致（仅 `sounds` 的空字符串 map key 属预期）。
 
 补充：`docs/wiki/Home.md` 仍是 `0.0.0`.1，但它是工作区中已有的改动而非本次新增页面，未改动；如需一并改为 `.0` 请告诉我。
+
+# 
+
+```
+浏览CGC的wiki仓库和CGC Tactical Addon的wiki仓库
+- 注意wiki里使用的链接是不含文件夹层级的，因此.wiki仓库的文件直接位于根目录
+- 且./docs/wiki里带空格的文件名，CGC wiki里是用横杠代替的（实际github wiki创建相应名称时会是这个结果）
+- 对CGC Tactical Addon刚才的commit，在.wiki仓库里应用同样的修改
+```
+
+# 
+
+我先核对 Addon 的提交状态、两个 wiki 仓库的现状，以及 CGC 的 `docs/wiki` 到 `.wiki` 的文件映射规律。
+
+提交 `319aa65` 包含 12 个 wiki 文件改动。CGC 的 `docs/wiki` 与 `.wiki` 内容完全一致，仅路径/文件名平铺加连字符。我按同一映射复制到 Addon 的 `.wiki` 仓库。
+
+已将提交 `319aa65` 中的 12 个 wiki 文件按 CGC 的映射规则同步到 `.wiki` 仓库。
+
+## 映射与结果
+
+| `docs/wiki` 源文件 | `.wiki` 目标文件 |
+|---|---|
+| `Home.md` | `Home.md`（更新） |
+| `_Sidebar.md` | `_Sidebar.md`（更新） |
+| `resource/Resource introduction.md` | `Resource-introduction.md`（新增） |
+| `resource/data/cgc_data/Consumable data.md` | `Consumable-data.md`（新增） |
+| `resource/data/cgc_data/Melee data.md` | `Melee-data.md`（新增） |
+| `resource/data/cgc_data/Throwable data.md` | `Throwable-data.md`（新增） |
+| `resource/data/cgc_index/Consumable index.md` | `Consumable-index.md`（新增） |
+| `resource/data/cgc_index/Melee index.md` | `Melee-index.md`（新增） |
+| `resource/data/cgc_index/Throwable index.md` | `Throwable-index.md`（新增） |
+| `resource/assets/cgc_display/Consumable display.md` | `Consumable-display.md`（新增） |
+| `resource/assets/cgc_display/Melee display.md` | `Melee-display.md`（新增） |
+| `resource/assets/cgc_display/Throwable display.md` | `Throwable-display.md`（新增） |
+
+## 验证
+
+- 12 个目标文件与 `docs/wiki` 源文件逐一 `diff` 完全一致。
+- `.wiki` 仓库保持扁平结构，无新增文件夹；空格文件名均已替换为横杠。
+- `git status` 显示 2 个修改、10 个新增，与提交 `319aa65` 的 wiki 部分一致。
+
+未在 `.wiki` 仓库执行提交，改动停留在工作区，等待你审阅。
