@@ -9,6 +9,7 @@ import dev.xcolorful.customgun.core.api.event.EventType;
 import dev.xcolorful.customgun.core.api.event.IEvent;
 import dev.xcolorful.customgun.core.api.event.IEventHandler;
 import dev.xcolorful.customgun.core.resource.ResourcePojoManager;
+import dev.xcolorful.customgun.core.util.ResourceUtils;
 import net.minecraft.server.packs.resources.PreparableReloadListener;
 import org.jetbrains.annotations.ApiStatus;
 import org.jetbrains.annotations.Nullable;
@@ -56,11 +57,7 @@ public class _AllAssetsManager implements IEventHandler {
         this.reloadListeners.forEach((pojoManager) -> event.addListener(pojoManager.getRegistryName(), pojoManager));
         event.addListener(
                 CustomGun.getMcRegistry().createResourceLocation(CgcTactical.MOD_ID + ":all_assets_manager"),
-                (barrier, resourceManager, preparationProfiler, reloadProfiler, backgroundExecutor, gameExecutor) -> {
-                    return barrier
-                            .wait(Void.TYPE)
-                            .thenRunAsync(_AssetsInstanceManager::reload, gameExecutor);
-                }
+                ResourceUtils.asyncReloadListener(_AssetsInstanceManager::reload)
         );
     }
     private <T extends ResourcePojoManager<?> & PreparableReloadListener> T addToListener(List<ResourcePojoManager<?>> reloadListeners, T listener) {
