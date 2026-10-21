@@ -1,6 +1,7 @@
 package dev.xcolorful.cgctactical.client;
 
 import dev.xcolorful.cgctactical.client.event.custom.ClientEventHandlers;
+import dev.xcolorful.cgctactical.client.init.ClientModConfig;
 import dev.xcolorful.customgun.CustomGun;
 
 public class CgcTacticalClient {
@@ -9,6 +10,8 @@ public class CgcTacticalClient {
 
     public static void init() {
         if (initialized) return;
+
+        ClientModConfig.init();
 
         ClientEventHandlers.registerAll(CustomGun.getEventRegister());
 
