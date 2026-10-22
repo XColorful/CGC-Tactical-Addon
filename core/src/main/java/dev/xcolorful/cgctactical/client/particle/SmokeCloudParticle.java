@@ -41,19 +41,19 @@ public class SmokeCloudParticle extends SingleQuadParticle {
     }
 
     @Override
-    public int getLightColor(float partialTick) {
+    public int getLightCoords(float partialTick) {
         BlockPos pos = BlockPos.containing(this.x, this.y, this.z);
         if (!this.level.hasChunkAt(pos)) {
             return 0;
         }
-        int light = LevelRenderer.getLightColor(this.level, pos);
+        int light = LevelRenderer.getLightCoords(this.level, pos);
         int sky = Math.max(light >> 20 & 15, 2);
         int block = Math.max(light >> 4 & 15, 2);
         // 粒子中心陷入实心方块时该格光照为 0，会直接渲染成黑色。
         // 如果低于下限，尝试采样周围方块取最大值
         if (sky <= 2 && block <= 2) {
             for (Direction direction : Direction.values()) {
-                int neighbor = LevelRenderer.getLightColor(this.level, pos.relative(direction));
+                int neighbor = LevelRenderer.getLightCoords(this.level, pos.relative(direction));
                 sky = Math.max(sky, neighbor >> 20 & 15);
                 block = Math.max(block, neighbor >> 4 & 15);
             }
