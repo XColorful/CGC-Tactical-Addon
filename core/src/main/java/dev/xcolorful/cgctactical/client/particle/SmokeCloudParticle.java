@@ -5,10 +5,10 @@ import net.minecraft.client.multiplayer.ClientLevel;
 import net.minecraft.client.particle.ParticleResources;
 import net.minecraft.client.particle.SingleQuadParticle;
 import net.minecraft.client.particle.SpriteSet;
-import net.minecraft.client.renderer.LevelRenderer;
 import net.minecraft.core.BlockPos;
 import net.minecraft.core.Direction;
 import net.minecraft.core.particles.SimpleParticleType;
+import net.minecraft.util.LightCoordsUtil;
 import org.jetbrains.annotations.NotNull;
 
 public class SmokeCloudParticle extends SingleQuadParticle {
@@ -46,14 +46,14 @@ public class SmokeCloudParticle extends SingleQuadParticle {
         if (!this.level.hasChunkAt(pos)) {
             return 0;
         }
-        int light = LevelRenderer.getLightCoords(this.level, pos);
+        int light = LightCoordsUtil.getLightCoords(this.level, pos);
         int sky = Math.max(light >> 20 & 15, 2);
         int block = Math.max(light >> 4 & 15, 2);
         // 粒子中心陷入实心方块时该格光照为 0，会直接渲染成黑色。
         // 如果低于下限，尝试采样周围方块取最大值
         if (sky <= 2 && block <= 2) {
             for (Direction direction : Direction.values()) {
-                int neighbor = LevelRenderer.getLightCoords(this.level, pos.relative(direction));
+                int neighbor = LightCoordsUtil.getLightCoords(this.level, pos.relative(direction));
                 sky = Math.max(sky, neighbor >> 20 & 15);
                 block = Math.max(block, neighbor >> 4 & 15);
             }
