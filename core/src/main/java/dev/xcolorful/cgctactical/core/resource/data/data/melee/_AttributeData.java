@@ -42,6 +42,18 @@ public final class _AttributeData extends ResourcePojo<_AttributeData> {
         this.setValid(true);
     }
 
+    @Override
+    protected _AttributeData copyTo(final _AttributeData pojo) {
+        return pojo;
+    }
+
+    @Override
+    public _AttributeData copy() {
+        _AttributeData pojo = copyTo(new _AttributeData());
+        pojo.setValid(this.isValid());
+        return pojo;
+    }
+
     // --------Getter & Setter--------
 
     // --------Back compatibility--------

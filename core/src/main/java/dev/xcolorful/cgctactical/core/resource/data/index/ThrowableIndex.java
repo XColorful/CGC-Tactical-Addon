@@ -74,6 +74,21 @@ public final class ThrowableIndex extends _DataIndex<ThrowableIndex> {
         this.setValid(true);
     }
 
+    @Override
+    protected ThrowableIndex copyTo(final ThrowableIndex pojo) {
+        super.copyTo(pojo);
+        pojo.setThrowableCategoryLocation(this.throwableCategoryLocation);
+        pojo.setBaseItemLocation(this.baseItemLocation);
+        return pojo;
+    }
+
+    @Override
+    public ThrowableIndex copy() {
+        ThrowableIndex pojo = copyTo(new ThrowableIndex());
+        pojo.setValid(this.isValid());
+        return pojo;
+    }
+
     // --------Getter & Setter--------
 
     public Identifier getThrowableCategoryLocation() {

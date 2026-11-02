@@ -83,6 +83,27 @@ public final class _MeleeAttackInfo extends ResourcePojo<_MeleeAttackInfo> {
         this.setValid(true);
     }
 
+    @Override
+    protected _MeleeAttackInfo copyTo(final _MeleeAttackInfo pojo) {
+        pojo.setFactor(this.factor);
+        pojo.setKnockback(this.knockback);
+        pojo.setCooldown(this.cooldown);
+        pojo.setDelay(this.delay);
+        pojo.setHitbox(this.hitbox.copy());
+        pojo.setDurabilityDamage(this.durabilityDamage);
+        @Nullable _MeleeMovement movement = null; {
+            if (this.movement != null) movement = this.movement.copy();
+        } pojo.setMovement(movement);
+        return pojo;
+    }
+
+    @Override
+    public _MeleeAttackInfo copy() {
+        _MeleeAttackInfo pojo = copyTo(new _MeleeAttackInfo());
+        pojo.setValid(this.isValid());
+        return pojo;
+    }
+
     // --------Getter & Setter--------
 
     public float getFactor() {

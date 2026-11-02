@@ -62,6 +62,13 @@ public final class ThrowableDisplay extends _AssetsDisplay<ThrowableDisplay> {
         this.setValid(true);
     }
 
+    @Override
+    public ThrowableDisplay copy() {
+        ThrowableDisplay pojo = copyTo(new ThrowableDisplay());
+        pojo.setValid(this.isValid());
+        return pojo;
+    }
+
     // --------Back compatibility--------
 
     @Override
