@@ -69,6 +69,26 @@ public final class _ExplodeData extends ResourcePojo<_ExplodeData> {
         this.setValid(true);
     }
 
+    @Override
+    protected _ExplodeData copyTo(final _ExplodeData pojo) {
+        pojo.setExplodeScale(this.explodeScale);
+        pojo.setExplodeDamage(this.explodeDamage);
+        pojo.setEnableWorldDestruction(this.enableWorldDestruction);
+        pojo.setDestroyMultiplier(this.destroyMultiplier);
+        pojo.setTriggerOnExplode(this.triggerOnExplode);
+        pojo.setRemoteDetonation(this.remoteDetonation);
+        pojo.setScreenShakeTime(this.screenShakeTime);
+        pojo.setScreenShakeAmplitude(this.screenShakeAmplitude);
+        return pojo;
+    }
+
+    @Override
+    public _ExplodeData copy() {
+        _ExplodeData pojo = copyTo(new _ExplodeData());
+        pojo.setValid(this.isValid());
+        return pojo;
+    }
+
     // --------Getter & Setter--------
 
     public float getExplodeScale() {

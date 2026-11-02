@@ -74,6 +74,21 @@ public final class MeleeIndex extends _DataIndex<MeleeIndex> {
         this.setValid(true);
     }
 
+    @Override
+    protected MeleeIndex copyTo(final MeleeIndex pojo) {
+        super.copyTo(pojo);
+        pojo.setMeleeCategoryLocation(this.meleeCategoryLocation);
+        pojo.setBaseItemLocation(this.baseItemLocation);
+        return pojo;
+    }
+
+    @Override
+    public MeleeIndex copy() {
+        MeleeIndex pojo = copyTo(new MeleeIndex());
+        pojo.setValid(this.isValid());
+        return pojo;
+    }
+
     // --------Getter & Setter--------
 
     public ResourceLocation getMeleeCategoryLocation() {
