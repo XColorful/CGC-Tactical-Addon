@@ -60,6 +60,13 @@ public final class MeleeDisplay extends _AssetsDisplay<MeleeDisplay> {
         this.setValid(true);
     }
 
+    @Override
+    public MeleeDisplay copy() {
+        MeleeDisplay pojo = copyTo(new MeleeDisplay());
+        pojo.setValid(this.isValid());
+        return pojo;
+    }
+
     // --------Back compatibility--------
 
     @Override

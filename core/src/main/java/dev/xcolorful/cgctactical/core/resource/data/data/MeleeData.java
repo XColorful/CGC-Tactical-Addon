@@ -80,6 +80,24 @@ public final class MeleeData extends ResourcePojo<MeleeData> {
         this.setValid(true);
     }
 
+    @Override
+    protected MeleeData copyTo(final MeleeData pojo) {
+        pojo.setDrawTime(this.drawTime);
+        pojo.setPutAwayTime(this.putAwayTime);
+        pojo.setAttackData(this.attackData.copy());
+        pojo.setAttributeData(this.attributeData.copy());
+        pojo.setMaxDurability(this.maxDurability);
+        pojo.setEnchantmentValue(this.enchantmentValue);
+        return pojo;
+    }
+
+    @Override
+    public MeleeData copy() {
+        MeleeData pojo = copyTo(new MeleeData());
+        pojo.setValid(this.isValid());
+        return pojo;
+    }
+
     // --------Getter & Setter--------
 
     public int getDrawTime() {
