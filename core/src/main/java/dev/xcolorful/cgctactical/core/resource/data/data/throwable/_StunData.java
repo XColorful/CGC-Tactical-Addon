@@ -71,6 +71,21 @@ public final class _StunData extends ResourcePojo<_StunData> {
         this.setValid(true);
     }
 
+    @Override
+    protected _StunData copyTo(final _StunData pojo) {
+        pojo.setRadius(this.radius);
+        pojo.setBlind(this.blind.copy());
+        pojo.setDeafened(this.deafened.copy());
+        return pojo;
+    }
+
+    @Override
+    public _StunData copy() {
+        _StunData pojo = copyTo(new _StunData());
+        pojo.setValid(this.isValid());
+        return pojo;
+    }
+
     // --------Getter & Setter--------
 
     public float getRadius() {
