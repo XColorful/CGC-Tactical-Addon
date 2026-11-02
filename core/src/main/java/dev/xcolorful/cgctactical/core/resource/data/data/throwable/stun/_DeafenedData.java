@@ -51,6 +51,20 @@ public final class _DeafenedData extends ResourcePojo<_DeafenedData> {
         this.setValid(true);
     }
 
+    @Override
+    protected _DeafenedData copyTo(final _DeafenedData pojo) {
+        pojo.setMaxDuration(this.maxDuration);
+        pojo.setMinDuration(this.minDuration);
+        return pojo;
+    }
+
+    @Override
+    public _DeafenedData copy() {
+        _DeafenedData pojo = copyTo(new _DeafenedData());
+        pojo.setValid(this.isValid());
+        return pojo;
+    }
+
     // --------Getter & Setter--------
 
     public int getMaxDuration() {

@@ -105,6 +105,36 @@ public final class ThrowableData extends ResourcePojo<ThrowableData> {
         this.setValid(true);
     }
 
+    @Override
+    protected ThrowableData copyTo(final ThrowableData pojo) {
+        pojo.setPrepareTime(this.prepareTime);
+        pojo.setCookable(this.cookable);
+        pojo.setInitialSpeed(this.initialSpeed);
+        pojo.setCooldown(this.cooldown);
+        pojo.setCooldownCategoryLocation(this.cooldownCategoryLocation);
+        pojo.setMaxStackSize(this.maxStackSize);
+        pojo.setEntityData(this.entityData.copy());
+        pojo.setPutAwayTime(this.putAwayTime);
+
+        @Nullable _ExplodeData explodeData = null; {
+            if (this.explodeData != null) explodeData = this.explodeData.copy();
+        } pojo.setExplodeData(explodeData);
+        @Nullable _CloudData cloudData = null; {
+            if (this.cloudData != null) cloudData = this.cloudData.copy();
+        } pojo.setCloudData(cloudData);
+        @Nullable _StunData stunData = null; {
+            if (this.stunData != null) stunData = this.stunData.copy();
+        } pojo.setStunData(stunData);
+        return pojo;
+    }
+
+    @Override
+    public ThrowableData copy() {
+        ThrowableData pojo = copyTo(new ThrowableData());
+        pojo.setValid(this.isValid());
+        return pojo;
+    }
+
     // --------Getter & Setter--------
 
     public int getPrepareTime() {
