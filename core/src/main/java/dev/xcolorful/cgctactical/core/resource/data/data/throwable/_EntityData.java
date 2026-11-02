@@ -70,6 +70,25 @@ public final class _EntityData extends ResourcePojo<_EntityData> {
         this.setValid(true);
     }
 
+    @Override
+    protected _EntityData copyTo(final _EntityData pojo) {
+        pojo.setLifeTime(this.lifeTime);
+        pojo.setGravity(this.gravity);
+        pojo.setShouldBounce(this.shouldBounce);
+        pojo.setBrokeOnGround(this.brokeOnGround);
+        pojo.setBounceFactor(this.bounceFactor);
+        pojo.setHitDamage(this.hitDamage);
+        pojo.setTailParticlesLocation(this.tailParticlesLocation);
+        return pojo;
+    }
+
+    @Override
+    public _EntityData copy() {
+        _EntityData pojo = copyTo(new _EntityData());
+        pojo.setValid(this.isValid());
+        return pojo;
+    }
+
     // --------Getter & Setter--------
 
     public int getLifeTime() {
