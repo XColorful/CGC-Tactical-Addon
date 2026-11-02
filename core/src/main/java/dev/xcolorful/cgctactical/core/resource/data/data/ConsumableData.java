@@ -105,6 +105,34 @@ public final class ConsumableData extends ResourcePojo<ConsumableData> {
         this.setValid(true);
     }
 
+    @Override
+    protected ConsumableData copyTo(final ConsumableData pojo) {
+        pojo.setUseDuration(this.useDuration);
+        pojo.setCooldown(this.cooldown);
+        pojo.setCooldownCategoryLocation(this.cooldownCategoryLocation);
+        pojo.setMaxStackSize(this.maxStackSize);
+        pojo.setMaxDurability(this.maxDurability);
+        pojo.setDurabilityDamage(this.durabilityDamage);
+        pojo.setDrawTime(this.drawTime);
+        pojo.setPutAwayTime(this.putAwayTime);
+        pojo.setHeal(this.heal);
+        pojo.setFood(this.food);
+        pojo.setSaturation(this.saturation);
+        List<_EffectData> effects = new ArrayList<>(this.effects.size()); {
+            for (int i = 0; i < this.effects.size(); i++) {
+                effects.add(this.effects.get(i).copy());
+            }
+        } pojo.setEffects(effects);
+        return pojo;
+    }
+
+    @Override
+    public ConsumableData copy() {
+        ConsumableData pojo = copyTo(new ConsumableData());
+        pojo.setValid(this.isValid());
+        return pojo;
+    }
+
     // --------Getter & Setter--------
 
     public int getUseDuration() {

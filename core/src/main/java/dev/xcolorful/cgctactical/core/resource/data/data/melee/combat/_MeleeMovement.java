@@ -51,6 +51,20 @@ public final class _MeleeMovement extends ResourcePojo<_MeleeMovement> {
         this.setValid(true);
     }
 
+    @Override
+    protected _MeleeMovement copyTo(final _MeleeMovement pojo) {
+        pojo.setDelay(this.delay);
+        pojo.setSpeed(this.speed);
+        return pojo;
+    }
+
+    @Override
+    public _MeleeMovement copy() {
+        _MeleeMovement pojo = copyTo(new _MeleeMovement());
+        pojo.setValid(this.isValid());
+        return pojo;
+    }
+
     // --------Getter & Setter--------
 
     public int getDelay() {

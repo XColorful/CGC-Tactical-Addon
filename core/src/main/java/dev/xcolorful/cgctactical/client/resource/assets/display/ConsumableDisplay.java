@@ -60,6 +60,13 @@ public final class ConsumableDisplay extends _AssetsDisplay<ConsumableDisplay> {
         this.setValid(true);
     }
 
+    @Override
+    public ConsumableDisplay copy() {
+        ConsumableDisplay pojo = copyTo(new ConsumableDisplay());
+        pojo.setValid(this.isValid());
+        return pojo;
+    }
+
     // --------Back compatibility--------
 
     @Override

@@ -40,6 +40,26 @@ public abstract class _AssetsDisplay<T extends _AssetsDisplay<T>> extends Resour
         this.setValid(true);
     }
 
+    @Override
+    protected T copyTo(final T pojo) {
+        pojo.setModelLocation(this.modelLocation);
+        pojo.setTextureLocation(this.textureLocation);
+        pojo.setSlotTextureLocation(this.slotTextureLocation);
+
+        pojo.setAnimationLocation(this.animationLocation);
+        pojo.setScriptLocation(this.scriptLocation);
+
+        float[] displayOffset; {
+            displayOffset = this.displayOffset != null ? this.displayOffset.clone() : null;
+        } pojo.setDisplayOffset(displayOffset);
+        Map<String, ResourceLocation> sounds = new HashMap<>(); {
+            for (var entry : this.sounds.entrySet()) {
+                sounds.put(entry.getKey(), entry.getValue());
+            }
+        } pojo.setSounds(sounds);
+        return pojo;
+    }
+
     // --------Getter & Setter--------
 
     public final @Nullable Identifier getModelLocation() {
