@@ -8,7 +8,7 @@ import dev.xcolorful.customgun.core.util.JsonUtils;
 
 import java.io.IOException;
 
-public class ConsumableIndex extends _DataIndex<ConsumableIndex> {
+public final class ConsumableIndex extends _DataIndex<ConsumableIndex> {
 
     private static final ConsumableIndex PARSER = new ConsumableIndex();
 
@@ -58,6 +58,19 @@ public class ConsumableIndex extends _DataIndex<ConsumableIndex> {
         if (!this.isValid()) return;
 
         this.setValid(true);
+    }
+
+    @Override
+    protected ConsumableIndex copyTo(final ConsumableIndex pojo) {
+        super.copyTo(pojo);
+        return pojo;
+    }
+
+    @Override
+    public ConsumableIndex copy() {
+        ConsumableIndex pojo = copyTo(new ConsumableIndex());
+        pojo.setValid(this.isValid());
+        return pojo;
     }
 
     // --------Getter & Setter--------
