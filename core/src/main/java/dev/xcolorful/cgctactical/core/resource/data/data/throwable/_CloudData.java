@@ -97,6 +97,32 @@ public final class _CloudData extends ResourcePojo<_CloudData> {
         this.setValid(true);
     }
 
+    @Override
+    protected _CloudData copyTo(final _CloudData pojo) {
+        pojo.setAreaCloud(this.areaCloud);
+        pojo.setRadius(this.radius);
+        pojo.setRadiusPerTick(this.radiusPerTick);
+        pojo.setWaitTime(this.waitTime);
+        pojo.setDuration(this.duration);
+        pojo.setParticlesLocation(this.particlesLocation);
+        pojo.setIgnite(this.ignite);
+        pojo.setIgniteTime(this.igniteTime);
+        pojo.setExtinguishBySmoke(this.extinguishBySmoke);
+        List<_EffectData> effects = new ArrayList<>(this.effects.size()); {
+            for (int i = 0; i < this.effects.size(); i++) {
+                effects.add(this.effects.get(i).copy());
+            }
+        } pojo.setEffects(effects);
+        return pojo;
+    }
+
+    @Override
+    public _CloudData copy() {
+        _CloudData pojo = copyTo(new _CloudData());
+        pojo.setValid(this.isValid());
+        return pojo;
+    }
+
     // --------Getter & Setter--------
 
     public boolean isAreaCloud() {
