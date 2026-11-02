@@ -96,6 +96,28 @@ public final class _CombatData extends ResourcePojo<_CombatData> {
         this.setValid(true);
     }
 
+    @Override
+    protected _CombatData copyTo(final _CombatData pojo) {
+        List<_MeleeAttackInfo> leftAttacks = new ArrayList<>(this.leftAttacks.size()); {
+            for (int i = 0; i < this.leftAttacks.size(); i++) {
+                leftAttacks.add(this.leftAttacks.get(i).copy());
+            }
+        } pojo.setLeftAttacks(leftAttacks);
+        List<_MeleeAttackInfo> rightAttacks = new ArrayList<>(this.rightAttacks.size()); {
+            for (int i = 0; i < this.rightAttacks.size(); i++) {
+                rightAttacks.add(this.rightAttacks.get(i).copy());
+            }
+        } pojo.setRightAttacks(rightAttacks);
+        return pojo;
+    }
+
+    @Override
+    public _CombatData copy() {
+        _CombatData pojo = copyTo(new _CombatData());
+        pojo.setValid(this.isValid());
+        return pojo;
+    }
+
     // --------Getter & Setter--------
 
     public List<_MeleeAttackInfo> getLeftAttacks() {

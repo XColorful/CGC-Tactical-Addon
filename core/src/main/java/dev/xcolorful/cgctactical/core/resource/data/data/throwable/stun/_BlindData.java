@@ -57,6 +57,22 @@ public final class _BlindData extends ResourcePojo<_BlindData> {
         this.setValid(true);
     }
 
+    @Override
+    protected _BlindData copyTo(final _BlindData pojo) {
+        pojo.setMaxDuration(this.maxDuration);
+        pojo.setMinDuration(this.minDuration);
+        pojo.setMaxAngle(this.maxAngle);
+        pojo.setViewAngleFactor(this.viewAngleFactor);
+        return pojo;
+    }
+
+    @Override
+    public _BlindData copy() {
+        _BlindData pojo = copyTo(new _BlindData());
+        pojo.setValid(this.isValid());
+        return pojo;
+    }
+
     // --------Getter & Setter--------
 
     public int getMaxDuration() {

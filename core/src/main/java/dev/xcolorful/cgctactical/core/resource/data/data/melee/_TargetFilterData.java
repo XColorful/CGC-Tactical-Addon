@@ -76,6 +76,26 @@ public final class _TargetFilterData extends ResourcePojo<_TargetFilterData> {
         this.setValid(true);
     }
 
+    @Override
+    protected _TargetFilterData copyTo(final _TargetFilterData pojo) {
+        pojo.setType(this.type);
+        pojo.setMaxRange(this.maxRange);
+        pojo.setMaxAngle(this.maxAngle);
+        pojo.setExcludeSelf(this.excludeSelf);
+        pojo.setPenetration(this.penetration);
+        pojo.setHalfWidth(this.halfWidth);
+        pojo.setHalfHeight(this.halfHeight);
+        pojo.setRoll(this.roll);
+        return pojo;
+    }
+
+    @Override
+    public _TargetFilterData copy() {
+        _TargetFilterData pojo = copyTo(new _TargetFilterData());
+        pojo.setValid(this.isValid());
+        return pojo;
+    }
+
     // --------Getter & Setter--------
 
     public String getType() {
