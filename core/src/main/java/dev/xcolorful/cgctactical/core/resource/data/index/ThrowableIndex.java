@@ -2,6 +2,7 @@ package dev.xcolorful.cgctactical.core.resource.data.index;
 
 import com.google.gson.stream.JsonReader;
 import com.google.gson.stream.JsonWriter;
+import dev.xcolorful.cgctactical.CgcTactical;
 import dev.xcolorful.cgctactical.client.resource.network.SyncDataCache;
 import dev.xcolorful.cgctactical.core.api.resource.ResourceApi;
 import dev.xcolorful.cgctactical.core.api.resource.data.index.ThrowableIndexTag;
@@ -153,6 +154,13 @@ public final class ThrowableIndex extends _DataIndex<ThrowableIndex> {
             @Nullable ThrowableData throwableData = throwableIndex.getThrowableData();
             if (throwableData == null) continue;
             // 有旧字段就直接转换
+
+            throwableData.applyBackCompatibility();
+            throwableData.validate();
+            if (!throwableData.isValid()) {
+                CgcTactical.LOGGER.debug("ThrowableIndex: legacy ThrowableData {} not valid", entry.getKey());
+                continue;
+            }
 
             var dataLocation = entry.getKey();
             consumer.accept(dataLocation, throwableData);

@@ -2,6 +2,7 @@ package dev.xcolorful.cgctactical.core.resource.data.index;
 
 import com.google.gson.stream.JsonReader;
 import com.google.gson.stream.JsonWriter;
+import dev.xcolorful.cgctactical.CgcTactical;
 import dev.xcolorful.cgctactical.client.resource.network.SyncDataCache;
 import dev.xcolorful.cgctactical.core.api.resource.ResourceApi;
 import dev.xcolorful.cgctactical.core.api.resource.data.index.MeleeIndexTag;
@@ -153,6 +154,13 @@ public final class MeleeIndex extends _DataIndex<MeleeIndex> {
             @Nullable MeleeData meleeData = meleeIndex.getMeleeData();
             if (meleeData == null) continue;
             // 有旧字段就直接转换
+
+            meleeData.applyBackCompatibility();
+            meleeData.validate();
+            if (!meleeData.isValid()) {
+                CgcTactical.LOGGER.debug("MeleeIndex: legacy MeleeData {} not valid", entry.getKey());
+                continue;
+            }
 
             var dataLocation = entry.getKey();
             consumer.accept(dataLocation, meleeData);

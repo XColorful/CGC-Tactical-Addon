@@ -2,6 +2,7 @@ package dev.xcolorful.cgctactical.core.resource.data.index;
 
 import com.google.gson.stream.JsonReader;
 import com.google.gson.stream.JsonWriter;
+import dev.xcolorful.cgctactical.CgcTactical;
 import dev.xcolorful.cgctactical.client.resource.network.SyncDataCache;
 import dev.xcolorful.cgctactical.core.api.resource.ResourceApi;
 import dev.xcolorful.cgctactical.core.api.resource.data.index.ConsumableIndexTag;
@@ -123,6 +124,13 @@ public final class ConsumableIndex extends _DataIndex<ConsumableIndex> {
             @Nullable ConsumableData consumableData = consumableIndex.getConsumableData();
             if (consumableData == null) continue;
             // 有旧字段就直接转换
+
+            consumableData.applyBackCompatibility();
+            consumableData.validate();
+            if (!consumableData.isValid()) {
+                CgcTactical.LOGGER.debug("ConsumableIndex: legacy ConsumableData {} not valid", entry.getKey());
+                continue;
+            }
 
             var dataLocation = entry.getKey();
             consumer.accept(dataLocation, consumableData);
