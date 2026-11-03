@@ -112,3 +112,107 @@ The on-disk change shows the desired inline style. I'll remove all `_get…` sta
 `./gradlew compileJava --offline` 通过。
 
 尚未做：创造模式标签页（原版有 `THROWABLE_TAB` / `CONSUMABLE_TAB` / `MELEE_TAB`）、物品模型/纹理与语言键；这些需要单独的注册与资源文件。
+
+# 
+
+```
+继续tab注册，跟CGC相同格式
+```
+
+# 
+
+已按 CGC 的写法完成标签页注册：
+
+- [ModCreativeTabs.java](core/src/main/java/dev/xcolorful/cgctactical/core/init/registry/ModCreativeTabs.java)：`IRegistrar<CreativeModeTab> TABS = ...createCreativeTabs(MOD_ID)`，按 `MELEE_TAB → THROWABLE_TAB → CONSUMABLE_TAB` 注册，使用 `.title(...)`、`.icon(...)`、`.displayItems(...)`、`.withSearchBar()`、`.withTabsBefore(前一个.getRegistryName())`，与 CGC 的 `ModCreativeTabs` 结构一致。
+- 三个内容构建类（放在 `core/api/minecraft/tab/`，对应 CGC 的 `GunTab`/`AmmoTab`）：
+    - [MeleeTab.java](core/src/main/java/dev/xcolorful/cgctactical/core/api/minecraft/tab/MeleeTab.java)
+    - [ThrowableTab.java](core/src/main/java/dev/xcolorful/cgctactical/core/api/minecraft/tab/ThrowableTab.java)
+    - [ConsumableTab.java](core/src/main/java/dev/xcolorful/cgctactical/core/api/minecraft/tab/ConsumableTab.java)
+
+  每个都含 `indexSort()`（按 `getSlotSort()`）、`buildXxxItems()`（遍历 `ResourceApi.getAllXxxIndexInstance()` 并用对应 accessor 写入 location）、`buildXxxTabItem()` 图标。
+- 标题语言键沿用你已有的 `customgun.tacticalcategory.melee/throwable/consumable`，未新增键。
+- [CgcTacticalForge.java:33](forge-compat/src/main/java/dev/xcolorful/cgctactical/forge/CgcTacticalForge.java:33)：补上 `ModCreativeTabs.TABS.registerAll(modEventBus)`。
+
+`./gradlew compileJava --offline` 通过。
+
+两点说明：图标用该类别排序后的第一个条目，数据为空时回落到无 location 的基础物品（CGC 用的是专用 icon location + mixin，本仓库暂无该 mixin）；`TabGroup` 暂未建，因为目前没有配方/结果系统消费它。
+
+# 
+
+```
+按照我这个ConsumableTab改，跟CGC完全一致
+```
+
+# 
+
+`ConsumableBuilder` 已存在，索引的 `getHideInGame()` 也继承自 CGC 的 `_DataIndex`。我现在补 `MeleeBuilder`/`ThrowableBuilder`、按同样格式改写两个 Tab，并让三个 Index 像 CGC 一样解析/写出 `hide_in_game`。
+
+已完全对齐你改的 `ConsumableTab` 与 CGC 的 `GunTab`/`AmmoTab` 结构：
+
+**Tab 类**
+- [MeleeTab.java](core/src/main/java/dev/xcolorful/cgctactical/core/api/minecraft/tab/MeleeTab.java) / [ThrowableTab.java](core/src/main/java/dev/xcolorful/cgctactical/core/api/minecraft/tab/ThrowableTab.java)：与 `ConsumableTab` 同构
+  - `indexSort()` 按 `slot_sort`
+  - `buildXxxItems()` 先过滤 `index.getHideInGame()`
+  - `buildXxxItem(ResourceLocation)` 通过 `XxxBuilder.create(...).setProperty(XxxProperty.XXX_LOCATION, ResourceLocation.class, location).build()`
+  - `XXX_ICON_LOCATION` 静态常量 + `if (true) return ItemStack.EMPTY;` 的 mixin 注入占位
+
+**Builder**
+- [MeleeBuilder.java](core/src/main/java/dev/xcolorful/cgctactical/core/api/item/builder/MeleeBuilder.java) / [ThrowableBuilder.java](core/src/main/java/dev/xcolorful/cgctactical/core/api/item/builder/ThrowableBuilder.java)：与你的 `ConsumableBuilder` 完全同构，继承 CGC 的 `ItemBuilder`。
+
+**索引**
+- [ConsumableIndex.java](core/src/main/java/dev/xcolorful/cgctactical/core/resource/data/index/ConsumableIndex.java)、[MeleeIndex.java](core/src/main/java/dev/xcolorful/cgctactical/core/resource/data/index/MeleeIndex.java)、[ThrowableIndex.java](core/src/main/java/dev/xcolorful/cgctactical/core/resource/data/index/ThrowableIndex.java)：补上 `hide_in_game` / `hidden` 的读取与写出，和 CGC 各 Index 一致（之前 `getHideInGame()` 恒为 false）。
+
+`./gradlew compileJava --offline` 通过（仅有原有的 Loom/Forge 弃用警告）。未提交。
+
+# 
+
+```
+_DataIndex是专门更新过的，CGC Tactical里三个index里跟CGC内置子类实现不一样的需要补上来对齐
+```
+
+# 
+
+`_DataIndex`/`ResourcePojo` 提供的是 `readCustomKey`/`writeCustomValue` 钩子，CGC 内置子类都会接上；三个 Addon index 还缺这部分，另外 `ConsumableIndex` 仍在借用 `GunIndexTag`。我按内置子类的写法对齐。
+
+已按 CGC 内置 `_DataIndex` 子类（`GunIndex` / `AmmoIndex` / `AttachmentIndex`）的写法对齐三个 Index：
+
+**[ConsumableIndex.java](core/src/main/java/dev/xcolorful/cgctactical/core/resource/data/index/ConsumableIndex.java)**
+- 基础字段全部改用本类自己的 `ConsumableIndexTag`（原来借用 `GunIndexTag`）
+- `default -> this.readCustomKey(reader, key)`
+- 补 `readCustomKey` 覆盖
+- `toJson` 末尾调用 `writeCustomValue(writer)`，并补上该覆盖
+
+**[MeleeIndex.java](core/src/main/java/dev/xcolorful/cgctactical/core/resource/data/index/MeleeIndex.java) / [ThrowableIndex.java](core/src/main/java/dev/xcolorful/cgctactical/core/resource/data/index/ThrowableIndex.java)**
+- 同样是 `readCustomKey` 默认分支 + 两个钩子覆盖 + `writeCustomValue` 写出
+- 保留各自已有的 `hide_in_game` 读写与 `base_item` 回填
+
+原先已一致的部分（`validatePojo` 的 `super` + `|` 分组校验、`copyTo` 调 `super.copyTo`、`copy()`、`applyBackCompatibility` 调 `super`）未改动。
+
+`./gradlew compileJava --offline` 通过。一点保留：静态 `toJson(writer, pojo)` 的 `else writer.nullValue()` 在 CGC 内置子类之间本身就不统一（`AmmoIndex`/`AttachmentIndex` 有，`GunIndex` 没有），我保持了与 `GunIndex` 一致。未提交。
+
+# 
+
+```
+TacticalCategory、TabGroup都还没补全
+```
+
+# 
+
+`TacticalCategory`/`TabGroup` 是空骨架。我按 CGC 的 `GunCategory`/`TabGroup` 模式补全，并让 `ModCreativeTabs` 改用 `TacticalCategory`（与 CGC 用 `*Category` 的写法一致）。
+
+两个类已按 CGC 的对应实现补全：
+
+**[TacticalCategory.java](core/src/main/java/dev/xcolorful/cgctactical/core/api/item/tactical/TacticalCategory.java)** + **[TacticalCategoryTag.java](core/src/main/java/dev/xcolorful/cgctactical/core/api/item/tactical/TacticalCategoryTag.java)**（对照 `GunCategory`/`GunCategoryTag`）
+- `MELEE` / `THROWABLE` / `CONSUMABLE`
+- 实现 `ResourceTag.CategoryTag`，含 `categoryName`、`categoryLang`（复用已有 `customgun.tacticalcategory.*` 语言键）
+- `getCategoryLang()`、`fromString`（支持原名与大写别名）、`toString`
+
+**[TabGroup.java](core/src/main/java/dev/xcolorful/cgctactical/core/api/minecraft/tab/TabGroup.java)**（对照 CGC 的 `TabGroup`）
+- 实现 `ResourceTag.RegistryTag`，绑定 `MELEE_TAB` / `THROWABLE_TAB` / `CONSUMABLE_TAB`
+- `typeName` / `registryName` / `registryLocation` / `registryObject` 字段
+- `fromString(String)`、`fromLocation(ResourceLocation)` 与两个静态查找表
+
+**[ModCreativeTabs.java](core/src/main/java/dev/xcolorful/cgctactical/core/init/registry/ModCreativeTabs.java)**
+- 注册名与标题改为 `TacticalCategory.X.getCategoryName()` / `getCategoryLang()`，与 CGC 用 `*Category` 的写法一致（原来直接拼 `ItemType` 与语言键）。
+
+`./gradlew compileJava --offline` 通过。说明：`TabGroup` 目前还没有消费方（等配方/结果系统接入）；`TacticalCategory` 也尚未被 Index 使用（Index 的 category 字段是 `ResourceLocation`，与 CGC 内置子类的处理一致）。未提交。

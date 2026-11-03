@@ -24,6 +24,8 @@
 > _./core/init_
 
 - Registry：模组注册表
+	- ModCreativeTabs：创造模式栏
+	- ModItems：模组物品
 	- ModParticles：模组粒子
 - CommonSetup：双端设置
 - ModConfig：模组配置初始化
@@ -107,6 +109,8 @@ Module division based on the `dev.xcolorful.cgctactical.core` top-level package
 > _./core/init_
 
 - Registry: Mod registry
+	- ModCreativeTabs: Creative mode tabs
+	- ModItems: Mod items
 	- ModParticles: Mod particles
 - CommonSetup: Common set up
 - ModConfig: Mod config initialization
