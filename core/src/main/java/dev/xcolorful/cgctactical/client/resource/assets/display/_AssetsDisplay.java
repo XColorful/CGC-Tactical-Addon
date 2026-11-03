@@ -52,7 +52,7 @@ public abstract class _AssetsDisplay<T extends _AssetsDisplay<T>> extends Resour
         float[] displayOffset; {
             displayOffset = this.displayOffset != null ? this.displayOffset.clone() : null;
         } pojo.setDisplayOffset(displayOffset);
-        Map<String, ResourceLocation> sounds = new HashMap<>(); {
+        Map<String, Identifier> sounds = new HashMap<>(); {
             for (var entry : this.sounds.entrySet()) {
                 sounds.put(entry.getKey(), entry.getValue());
             }
