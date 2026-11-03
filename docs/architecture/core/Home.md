@@ -28,6 +28,16 @@
 - CommonSetup：双端设置
 - ModConfig：模组配置初始化
 
+### 物品
+> _./core/item_
+
+- Consumable：消耗品
+	- [ConsumableItem](./item/consumable/consumable-item.md)：消耗品物品
+- Melee：近战
+	- [MeleeItem](./item/melee/melee-item.md)：近战物品
+- Throwable：投掷物
+	- [ThrowableItem](./item/throwable/throwable-item.md)：投掷物物品
+
 ### 近战
 > _./core/melee_
 
@@ -100,6 +110,16 @@ Module division based on the `dev.xcolorful.cgctactical.core` top-level package
 	- ModParticles: Mod particles
 - CommonSetup: Common set up
 - ModConfig: Mod config initialization
+
+### Item
+> _./core/item_
+
+- Consumable:
+	- [ConsumableItem](./item/consumable/consumable-item.md): Consumable item
+- Melee:
+	- [MeleeItem](./item/melee/melee-item.md): Melee item
+- Throwable:
+	- [ThrowableItem](./item/throwable/throwable-item.md): Throwable item
 
 ### Melee
 > _./core/melee_

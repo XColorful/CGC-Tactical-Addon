@@ -95,6 +95,14 @@ Notation:
 |throwable.`flash.StunThrowableData`.`DeafenedData`|data.data.throwable.stun|
 |throwable.`*`|data.data.throwable|
 
+|me.xjqsh.lrtactical.item|dev.xcolorful.cgctactical.core.item|
+|---|---|
+|`ConsumableItem`|consumable.`ConsumableItem`|
+|`DetonatorItem`||
+|`FlashShieldItem`||
+|`MeleeItem`|melee.`MeleeItem`|
+|`ThrowableItem`|throwable.`ThrowableItem`|
+
 ### Network
 > ```java
 > package me.xjqsh.lrtactical.network;

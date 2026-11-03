@@ -91,3 +91,24 @@ The on-disk change shows the desired inline style. I'll remove all `_get…` sta
 | Throwable `getPutAwayTime` / `getDrawTime` | `ThrowableItem` 未覆盖，仅 renderer 直接读数据 | 不覆盖（保持你删除后的状态） |
 
 `./gradlew compileJava --offline` 通过，仅剩原有弃用警告。`TacticalDataAccessor` 仍保留 null/0 的中性默认值，作为未被具体类别覆盖时的兜底。未提交。
+
+# 
+
+```
+继续物品注册
+```
+
+# 
+
+`MeleeItem` 与 `ModItems.MELEE` 已存在，Consumable/Throwable 仍是空类。我按同样的模式补齐这两个类并注册。
+
+物品注册已补齐：
+
+- [ConsumableItem.java](core/src/main/java/dev/xcolorful/cgctactical/core/item/consumable/ConsumableItem.java)：`extends Item implements IConsumable, ConsumableDataAccessor`，构造方式与 `MeleeItem` 一致（`ModItems.CUSTOM_ITEM_PROPERTY` + `ItemType.CONSUMABLE`）
+- [ThrowableItem.java](core/src/main/java/dev/xcolorful/cgctactical/core/item/throwable/ThrowableItem.java)：`extends Item implements IThrowable, ThrowableDataAccessor`
+- [ModItems.java:24](core/src/main/java/dev/xcolorful/cgctactical/core/init/registry/ModItems.java:24)：新增 `THROWABLE`、`CONSUMABLE`，与 `MELEE` 一样用 `ITEMS.register(ItemType.* .getTagName(), ...)`，注册名分别为 `cgctactical:throwable` / `cgctactical:consumable`（与 LesRaisins 原版一致）
+- [CgcTacticalForge.java:32](forge-compat/src/main/java/dev/xcolorful/cgctactical/forge/CgcTacticalForge.java:32)：补上 `ModItems.ITEMS.registerAll(modEventBus)`。此前这里只注册了粒子，`MELEE` 虽然声明了但从未真正挂到事件总线上。
+
+`./gradlew compileJava --offline` 通过。
+
+尚未做：创造模式标签页（原版有 `THROWABLE_TAB` / `CONSUMABLE_TAB` / `MELEE_TAB`）、物品模型/纹理与语言键；这些需要单独的注册与资源文件。
