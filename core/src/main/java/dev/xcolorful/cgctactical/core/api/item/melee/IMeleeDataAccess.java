@@ -14,7 +14,8 @@ import org.jetbrains.annotations.NotNull;
 import org.jetbrains.annotations.Nullable;
 
 public interface IMeleeDataAccess extends ITacticalDataAccess,
-        IMeleeStateAccess {
+        IMeleeStateAccess,
+        _IMeleePropertyAccess {
 
     @Nullable String getManagerGroupTag(ItemStack meleeItem);
     void setManagerGroupTag(ItemStack meleeItem, String managerGroupTag);

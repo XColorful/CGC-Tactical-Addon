@@ -1,11 +1,13 @@
 package dev.xcolorful.cgctactical.core.api.item;
 
 import dev.xcolorful.cgctactical.core.api.item.melee.IMeleeDataAccess;
+import dev.xcolorful.cgctactical.core.api.melee.IMeleeRuntime;
 import net.minecraft.resources.Identifier;
 import net.minecraft.world.item.ItemStack;
 import org.jetbrains.annotations.NotNull;
 
-public interface IMelee extends IMeleeDataAccess,
+public interface IMelee extends IMeleeRuntime,
+        IMeleeDataAccess,
         ITacticalItem {
 
     // --------ITacticalItem--------

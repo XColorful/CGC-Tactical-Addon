@@ -94,7 +94,8 @@ public final class ConsumableData extends ResourcePojo<ConsumableData> {
         }
         if (this.maxStackSize < 1) this.maxStackSize = 1;
 
-        for (_EffectData effect : this.effects) {
+        for (int i = 0; i < this.effects.size(); i++) {
+            _EffectData effect = this.effects.get(i);
             effect.validate();
             if (!effect.isValid()) {
                 this.setValid(false);
