@@ -1,7 +1,7 @@
 package dev.xcolorful.cgctactical.core.api.item;
 
 import dev.xcolorful.cgctactical.core.api.item.consumable.IConsumableDataAccess;
-import net.minecraft.resources.ResourceLocation;
+import net.minecraft.resources.Identifier;
 import net.minecraft.world.item.ItemStack;
 import org.jetbrains.annotations.NotNull;
 
@@ -18,20 +18,20 @@ public interface IConsumable extends IConsumableDataAccess,
     // --------IPojoItem--------
 
     @Override
-    default @NotNull ResourceLocation getPojoLocation(ItemStack consumableItem) {
+    default @NotNull Identifier getPojoLocation(ItemStack consumableItem) {
         return this.getConsumableLocation(consumableItem);
     }
     @Override
-    default void setPojoLocation(ItemStack gunItem, ResourceLocation consumableLocation) {
+    default void setPojoLocation(ItemStack gunItem, Identifier consumableLocation) {
         this.setConsumableLocation(gunItem, consumableLocation);
     }
 
     @Override
-    default @NotNull ResourceLocation getPojoDisplayLocation(ItemStack consumableItem) {
+    default @NotNull Identifier getPojoDisplayLocation(ItemStack consumableItem) {
         return this.getConsumableDisplayLocation(consumableItem);
     }
     @Override
-    default void setPojoDisplayLocation(ItemStack gunItem, ResourceLocation consumableDisplayLocation) {
+    default void setPojoDisplayLocation(ItemStack gunItem, Identifier consumableDisplayLocation) {
         this.setConsumableDisplayLocation(gunItem, consumableDisplayLocation);
     }
 }

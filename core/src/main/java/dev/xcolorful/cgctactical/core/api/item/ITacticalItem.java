@@ -2,7 +2,7 @@ package dev.xcolorful.cgctactical.core.api.item;
 
 import dev.xcolorful.cgctactical.core.api.item.tactical.ITacticalDataAccess;
 import dev.xcolorful.customgun.core.api.item.IAnimationItem;
-import net.minecraft.resources.ResourceLocation;
+import net.minecraft.resources.Identifier;
 import net.minecraft.world.item.ItemStack;
 
 public interface ITacticalItem extends ITacticalDataAccess,
@@ -27,16 +27,16 @@ public interface ITacticalItem extends ITacticalDataAccess,
 
     // --------Deprecated--------
 
-    @Deprecated default ResourceLocation getId(ItemStack pojoItem) {
+    @Deprecated default Identifier getId(ItemStack pojoItem) {
         return getPojoLocation(pojoItem);
     }
-    @Deprecated default void setId(ItemStack pojoItem, ResourceLocation pojoLocation) {
+    @Deprecated default void setId(ItemStack pojoItem, Identifier pojoLocation) {
         setPojoLocation(pojoItem, pojoLocation);
     }
-    @Deprecated default ResourceLocation getDisplayId(ItemStack pojoItem) {
+    @Deprecated default Identifier getDisplayId(ItemStack pojoItem) {
         return getPojoDisplayLocation(pojoItem);
     }
-    @Deprecated default void setDisplayId(ItemStack pojoItem, ResourceLocation displayLocation) {
+    @Deprecated default void setDisplayId(ItemStack pojoItem, Identifier displayLocation) {
         setPojoDisplayLocation(pojoItem, displayLocation);
     }
 
