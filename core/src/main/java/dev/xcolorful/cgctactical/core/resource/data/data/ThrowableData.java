@@ -209,7 +209,7 @@ public final class ThrowableData extends ResourcePojo<ThrowableData> {
 
     @Override
     public ThrowableData applyBackCompatibility() {
-        this.entityData = this.entityData == null ? new _EntityData() : this.entityData;
+        this.entityData = this.entityData == null ? new _EntityData().applyBackCompatibility() : this.entityData;
         if (this.explodeData != null) this.explodeData.applyBackCompatibility();
         if (this.cloudData != null) this.cloudData.applyBackCompatibility();
         if (this.stunData != null) this.stunData.applyBackCompatibility();
