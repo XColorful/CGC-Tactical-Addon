@@ -142,13 +142,13 @@ public final class MeleeIndex extends _DataIndex<MeleeIndex> {
     }
     @ApiStatus.Internal
     public static void _reloadLegacyData() {
-        BiConsumer<ResourceLocation, MeleeData> consumer; {
+        BiConsumer<Identifier, MeleeData> consumer; {
             var dataManager = _AllDataManager.getCurrent();
             if (dataManager != null && dataManager.meleeIndexManager != null) consumer = (location, pojo) -> dataManager.meleeDataManager.getAllPojo().putIfAbsent(location, pojo);
             else consumer = (location, pojo) -> SyncDataCache.INSTANCE.meleeData.putIfAbsent(location, pojo);
         }
 
-        for (Map.Entry<ResourceLocation, MeleeIndex> entry : ResourceApi.getAllMeleeIndex()) {
+        for (Map.Entry<Identifier, MeleeIndex> entry : ResourceApi.getAllMeleeIndex()) {
             MeleeIndex meleeIndex = entry.getValue();
             @Nullable MeleeData meleeData = meleeIndex.getMeleeData();
             if (meleeData == null) continue;
