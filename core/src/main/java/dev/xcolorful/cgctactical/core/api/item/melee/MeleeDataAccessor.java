@@ -8,7 +8,7 @@ import dev.xcolorful.cgctactical.core.resource.data.data.melee.combat._MeleeMove
 import dev.xcolorful.cgctactical.core.resource.instance.data.MeleeIndexInstance;
 import dev.xcolorful.customgun.core.api.resource.ResourceTag;
 import dev.xcolorful.customgun.core.util.NBTUtils;
-import net.minecraft.resources.ResourceLocation;
+import net.minecraft.resources.Identifier;
 import net.minecraft.world.item.ItemStack;
 import org.jetbrains.annotations.ApiStatus;import org.jetbrains.annotations.NotNull;
 import org.jetbrains.annotations.Nullable;
@@ -29,16 +29,16 @@ public interface MeleeDataAccessor extends TacticalDataAccessor, IMeleeDataAcces
     }
 
     @Override
-    default @NotNull ResourceLocation getMeleeLocation(ItemStack meleeItem) {
+    default @NotNull Identifier getMeleeLocation(ItemStack meleeItem) {
         var meleeLocation = NBTUtils.getResourceLocation(meleeItem, MeleeProperty.MELEE_LOCATION.getTagName());
         return meleeLocation != null ? meleeLocation : ResourceTag.NULL_LOCATION;
     }
     @Override
-    default void setMeleeLocation(ItemStack meleeItem, ResourceLocation meleeLocation) {
+    default void setMeleeLocation(ItemStack meleeItem, Identifier meleeLocation) {
         NBTUtils.setResourceLocation(meleeItem, MeleeProperty.MELEE_LOCATION.getTagName(), meleeLocation);
     }
     @Override
-    default @NotNull ResourceLocation getMeleeDisplayLocation(ItemStack meleeItem) {
+    default @NotNull Identifier getMeleeDisplayLocation(ItemStack meleeItem) {
         var meleeDisplayLocation = NBTUtils.getResourceLocation(meleeItem, MeleeProperty.MELEE_DISPLAY_LOCATION.getTagName());
         if (meleeDisplayLocation != null) return meleeDisplayLocation;
 
@@ -49,7 +49,7 @@ public interface MeleeDataAccessor extends TacticalDataAccessor, IMeleeDataAcces
         return meleeIndexInstance.getPojo().getDisplayIndexLocation();
     }
     @Override
-    default void setMeleeDisplayLocation(ItemStack meleeItem, ResourceLocation meleeDisplayLocation) {
+    default void setMeleeDisplayLocation(ItemStack meleeItem, Identifier meleeDisplayLocation) {
         NBTUtils.setResourceLocation(meleeItem, MeleeProperty.MELEE_DISPLAY_LOCATION.getTagName(), meleeDisplayLocation);
     }
 

@@ -9,7 +9,7 @@ import dev.xcolorful.cgctactical.core.resource._AllDataManager;
 import dev.xcolorful.cgctactical.core.resource.data.data.ConsumableData;
 import dev.xcolorful.customgun.core.resource.data.index._DataIndex;
 import dev.xcolorful.customgun.core.util.JsonUtils;
-import net.minecraft.resources.ResourceLocation;
+import net.minecraft.resources.Identifier;
 import org.jetbrains.annotations.ApiStatus;
 import org.jetbrains.annotations.Nullable;
 
@@ -112,13 +112,13 @@ public final class ConsumableIndex extends _DataIndex<ConsumableIndex> {
     }
     @ApiStatus.Internal
     public static void _reloadLegacyData() {
-        BiConsumer<ResourceLocation, ConsumableData> consumer; {
+        BiConsumer<Identifier, ConsumableData> consumer; {
             var dataManager = _AllDataManager.getCurrent();
             if (dataManager != null && dataManager.consumableIndexManager != null) consumer = (location, pojo) -> dataManager.consumableDataManager.getAllPojo().putIfAbsent(location, pojo);
             else consumer = (location, pojo) -> SyncDataCache.INSTANCE.consumableData.putIfAbsent(location, pojo);
         }
 
-        for (Map.Entry<ResourceLocation, ConsumableIndex> entry : ResourceApi.getAllConsumableIndex()) {
+        for (Map.Entry<Identifier, ConsumableIndex> entry : ResourceApi.getAllConsumableIndex()) {
             ConsumableIndex consumableIndex = entry.getValue();
             @Nullable ConsumableData consumableData = consumableIndex.getConsumableData();
             if (consumableData == null) continue;

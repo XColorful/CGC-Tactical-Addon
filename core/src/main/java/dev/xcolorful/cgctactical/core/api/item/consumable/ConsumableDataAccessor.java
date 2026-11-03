@@ -5,7 +5,7 @@ import dev.xcolorful.cgctactical.core.api.resource.ResourceApi;
 import dev.xcolorful.cgctactical.core.resource.instance.data.ConsumableIndexInstance;
 import dev.xcolorful.customgun.core.api.resource.ResourceTag;
 import dev.xcolorful.customgun.core.util.NBTUtils;
-import net.minecraft.resources.ResourceLocation;
+import net.minecraft.resources.Identifier;
 import net.minecraft.world.item.ItemStack;
 import org.jetbrains.annotations.NotNull;
 import org.jetbrains.annotations.Nullable;
@@ -15,16 +15,16 @@ public interface ConsumableDataAccessor extends TacticalDataAccessor, IConsumabl
     // --------IConsumableDataAccess--------
 
     @Override
-    default @NotNull ResourceLocation getConsumableLocation(ItemStack consumableItem) {
+    default @NotNull Identifier getConsumableLocation(ItemStack consumableItem) {
         var consumableLocation = NBTUtils.getResourceLocation(consumableItem, ConsumableProperty.CONSUMABLE_LOCATION.getTagName());
         return consumableLocation != null ? consumableLocation : ResourceTag.NULL_LOCATION;
     }
     @Override
-    default void setConsumableLocation(ItemStack consumableItem, ResourceLocation consumableLocation) {
+    default void setConsumableLocation(ItemStack consumableItem, Identifier consumableLocation) {
         NBTUtils.setResourceLocation(consumableItem, ConsumableProperty.CONSUMABLE_LOCATION.getTagName(), consumableLocation);
     }
     @Override
-    default @NotNull ResourceLocation getConsumableDisplayLocation(ItemStack consumableItem) {
+    default @NotNull Identifier getConsumableDisplayLocation(ItemStack consumableItem) {
         var consumableDisplayLocation = NBTUtils.getResourceLocation(consumableItem, ConsumableProperty.CONSUMABLE_DISPLAY_LOCATION.getTagName());
         if (consumableDisplayLocation != null) return consumableDisplayLocation;
 
@@ -35,14 +35,14 @@ public interface ConsumableDataAccessor extends TacticalDataAccessor, IConsumabl
         return consumableIndexInstance.getPojo().getDisplayIndexLocation();
     }
     @Override
-    default void setConsumableDisplayLocation(ItemStack consumableItem, ResourceLocation consumableDisplayLocation) {
+    default void setConsumableDisplayLocation(ItemStack consumableItem, Identifier consumableDisplayLocation) {
         NBTUtils.setResourceLocation(consumableItem, ConsumableProperty.CONSUMABLE_DISPLAY_LOCATION.getTagName(), consumableDisplayLocation);
     }
 
     // --------ITacticalDataAccess--------
 
     @Override
-    default @Nullable ResourceLocation getCooldownLocation(ItemStack consumableItem) {
+    default @Nullable Identifier getCooldownLocation(ItemStack consumableItem) {
         var consumableLocation = this.getConsumableLocation(consumableItem);
         @Nullable ConsumableIndexInstance consumableIndexInstance = ResourceApi.getConsumableIndexInstance(consumableLocation);
         if (consumableIndexInstance == null) return null;
