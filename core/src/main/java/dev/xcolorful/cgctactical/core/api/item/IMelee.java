@@ -1,7 +1,8 @@
 package dev.xcolorful.cgctactical.core.api.item;
 
 import dev.xcolorful.cgctactical.core.api.item.melee.IMeleeDataAccess;
-import dev.xcolorful.cgctactical.core.api.melee.IMeleeRuntime;import net.minecraft.resources.ResourceLocation;
+import dev.xcolorful.cgctactical.core.api.melee.IMeleeRuntime;
+import net.minecraft.resources.ResourceLocation;
 import net.minecraft.world.item.ItemStack;
 import org.jetbrains.annotations.NotNull;
 
