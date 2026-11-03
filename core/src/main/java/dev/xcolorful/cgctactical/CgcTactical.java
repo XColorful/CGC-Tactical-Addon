@@ -1,8 +1,10 @@
 package dev.xcolorful.cgctactical;
 
 import com.mojang.logging.LogUtils;
+import dev.xcolorful.cgctactical.core.api.melee.IMeleeManager;
 import dev.xcolorful.cgctactical.core.event.custom.CoreEventHandlers;
 import dev.xcolorful.cgctactical.core.init.ModConfig;
+import dev.xcolorful.cgctactical.core.melee.MeleeManager;
 import dev.xcolorful.cgctactical.core.network.NetworkHandler;
 import dev.xcolorful.customgun.CustomGun;
 import dev.xcolorful.customgun.core.api.common.McSide;
@@ -27,6 +29,8 @@ public class CgcTactical {
 
         ModConfig.init();
 
+        meleeManager = MeleeManager.INSTANCE;
+
         CoreEventHandlers.registerAll(CustomGun.getEventRegister());
 
         initialized = true;
@@ -34,5 +38,10 @@ public class CgcTactical {
 
     public static McSide getMcSide() {
         return mcSide;
+    }
+
+    private static IMeleeManager meleeManager;
+    public static IMeleeManager getMeleeManager() {
+        return CgcTactical.meleeManager;
     }
 }
