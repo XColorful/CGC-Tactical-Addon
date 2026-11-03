@@ -31,15 +31,20 @@ public final class MeleeIndex extends _DataIndex<MeleeIndex> {
                     case MeleeIndexTag.DATA_LOCATION, MeleeIndexTag.DATA_LOCATION_OLD1 -> pojo.setDataLocation(JsonUtils.readResourceLocation(reader));
                     case MeleeIndexTag.DISPLAY_INDEX_LOCATION, MeleeIndexTag.DISPLAY_INDEX_LOCATION_OLD1 -> pojo.setDisplayIndexLocation(JsonUtils.readResourceLocation(reader));
                     case MeleeIndexTag.SLOT_SORT, MeleeIndexTag.SLOT_SORT_OLD1 -> pojo.setSlotSort(JsonUtils.readInt(reader));
+                    case MeleeIndexTag.HIDE_IN_GAME, MeleeIndexTag.HIDE_IN_GAME_OLD1 -> pojo.setHideInGame(JsonUtils.readBoolean(reader));
 
                     case MeleeIndexTag.MELEE_CATEGORY, MeleeIndexTag.MELEE_CATEGORY_OLD1 -> pojo.meleeCategoryLocation = JsonUtils.readResourceLocation(reader);
                     case MeleeIndexTag.BASE_ITEM -> pojo.baseItemLocation = JsonUtils.readResourceLocation(reader);
-                    default -> reader.skipValue();
+                    default -> this.readCustomKey(reader, key);
                 }
             }
         }
         reader.endObject();
         return pojo;
+    }
+    @Override
+    protected boolean readCustomKey(JsonReader reader, String key) throws IOException {
+        return super.readCustomKey(reader, key);
     }
 
     public static void toJson(JsonWriter writer, MeleeIndex pojo) throws IOException {
@@ -53,11 +58,17 @@ public final class MeleeIndex extends _DataIndex<MeleeIndex> {
             JsonUtils.writeResourceLocation(writer, MeleeIndexTag.DATA_LOCATION, this.getDataLocation());
             JsonUtils.writeResourceLocation(writer, MeleeIndexTag.DISPLAY_INDEX_LOCATION, this.getDisplayIndexLocation());
             JsonUtils.writeInt(writer, MeleeIndexTag.SLOT_SORT, this.getSlotSort());
+            JsonUtils.writeBoolean(writer, MeleeIndexTag.HIDE_IN_GAME, this.getHideInGame());
 
             JsonUtils.writeResourceLocation(writer, MeleeIndexTag.MELEE_CATEGORY, this.meleeCategoryLocation);
             JsonUtils.writeResourceLocation(writer, MeleeIndexTag.BASE_ITEM, this.baseItemLocation);
+            writeCustomValue(writer);
         }
         writer.endObject();
+    }
+    @Override
+    protected void writeCustomValue(JsonWriter writer) {
+        super.writeCustomValue(writer);
     }
 
     @Override

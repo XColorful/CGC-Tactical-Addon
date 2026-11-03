@@ -31,15 +31,20 @@ public final class ThrowableIndex extends _DataIndex<ThrowableIndex> {
                     case ThrowableIndexTag.DATA_LOCATION, ThrowableIndexTag.DATA_LOCATION_OLD1 -> pojo.setDataLocation(JsonUtils.readResourceLocation(reader));
                     case ThrowableIndexTag.DISPLAY_INDEX_LOCATION, ThrowableIndexTag.DISPLAY_INDEX_LOCATION_OLD1 -> pojo.setDisplayIndexLocation(JsonUtils.readResourceLocation(reader));
                     case ThrowableIndexTag.SLOT_SORT, ThrowableIndexTag.SLOT_SORT_OLD1 -> pojo.setSlotSort(JsonUtils.readInt(reader));
+                    case ThrowableIndexTag.HIDE_IN_GAME, ThrowableIndexTag.HIDE_IN_GAME_OLD1 -> pojo.setHideInGame(JsonUtils.readBoolean(reader));
 
                     case ThrowableIndexTag.THROWABLE_CATEGORY, ThrowableIndexTag.THROWABLE_CATEGORY_OLD1 -> pojo.throwableCategoryLocation = JsonUtils.readResourceLocation(reader);
                     case ThrowableIndexTag.BASE_ITEM -> pojo.baseItemLocation = JsonUtils.readResourceLocation(reader);
-                    default -> reader.skipValue();
+                    default -> this.readCustomKey(reader, key);
                 }
             }
         }
         reader.endObject();
         return pojo;
+    }
+    @Override
+    protected boolean readCustomKey(JsonReader reader, String key) throws IOException {
+        return super.readCustomKey(reader, key);
     }
 
     public static void toJson(JsonWriter writer, ThrowableIndex pojo) throws IOException {
@@ -53,11 +58,17 @@ public final class ThrowableIndex extends _DataIndex<ThrowableIndex> {
             JsonUtils.writeResourceLocation(writer, ThrowableIndexTag.DATA_LOCATION, this.getDataLocation());
             JsonUtils.writeResourceLocation(writer, ThrowableIndexTag.DISPLAY_INDEX_LOCATION, this.getDisplayIndexLocation());
             JsonUtils.writeInt(writer, ThrowableIndexTag.SLOT_SORT, this.getSlotSort());
+            JsonUtils.writeBoolean(writer, ThrowableIndexTag.HIDE_IN_GAME, this.getHideInGame());
 
             JsonUtils.writeResourceLocation(writer, ThrowableIndexTag.THROWABLE_CATEGORY, this.throwableCategoryLocation);
             JsonUtils.writeResourceLocation(writer, ThrowableIndexTag.BASE_ITEM, this.baseItemLocation);
+            writeCustomValue(writer);
         }
         writer.endObject();
+    }
+    @Override
+    protected void writeCustomValue(JsonWriter writer) {
+        super.writeCustomValue(writer);
     }
 
     @Override
