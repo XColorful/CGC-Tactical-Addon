@@ -1,7 +1,7 @@
 package dev.xcolorful.cgctactical.core.api.item;
 
 import dev.xcolorful.cgctactical.core.api.item.melee.IMeleeDataAccess;
-import net.minecraft.resources.ResourceLocation;
+import net.minecraft.resources.Identifier;
 import net.minecraft.world.item.ItemStack;
 import org.jetbrains.annotations.NotNull;
 
@@ -22,20 +22,20 @@ public interface IMelee extends IMeleeDataAccess,
     // --------IPojoItem--------
 
     @Override
-    default @NotNull ResourceLocation getPojoLocation(ItemStack meleeItem) {
+    default @NotNull Identifier getPojoLocation(ItemStack meleeItem) {
         return this.getMeleeLocation(meleeItem);
     }
     @Override
-    default void setPojoLocation(ItemStack gunItem, ResourceLocation meleeLocation) {
+    default void setPojoLocation(ItemStack gunItem, Identifier meleeLocation) {
         this.setMeleeLocation(gunItem, meleeLocation);
     }
 
     @Override
-    default @NotNull ResourceLocation getPojoDisplayLocation(ItemStack meleeItem) {
+    default @NotNull Identifier getPojoDisplayLocation(ItemStack meleeItem) {
         return this.getMeleeDisplayLocation(meleeItem);
     }
     @Override
-    default void setPojoDisplayLocation(ItemStack gunItem, ResourceLocation meleeDisplayLocation) {
+    default void setPojoDisplayLocation(ItemStack gunItem, Identifier meleeDisplayLocation) {
         this.setMeleeDisplayLocation(gunItem, meleeDisplayLocation);
     }
 }
