@@ -2,9 +2,6 @@ package dev.xcolorful.cgctactical.core.resource;
 
 import dev.xcolorful.cgctactical.CgcTactical;
 import dev.xcolorful.cgctactical.core.api.resource.ResourceApi;
-import dev.xcolorful.cgctactical.core.resource.data.index.ConsumableIndex;
-import dev.xcolorful.cgctactical.core.resource.data.index.MeleeIndex;
-import dev.xcolorful.cgctactical.core.resource.data.index.ThrowableIndex;
 import dev.xcolorful.cgctactical.core.resource.instance.data.ConsumableIndexInstance;
 import dev.xcolorful.cgctactical.core.resource.instance.data.MeleeIndexInstance;
 import dev.xcolorful.cgctactical.core.resource.instance.data.ThrowableIndexInstance;
@@ -47,10 +44,6 @@ public class _DataInstanceManager {
      */
     public static void reload() {
         clear();
-
-        MeleeIndex._reloadLegacyData();
-        ThrowableIndex._reloadLegacyData();
-        ConsumableIndex._reloadLegacyData();
 
         buildPojoInstance(ResourceApi.getAllConsumableIndex(), CONSUMABLE_INDEX, ConsumableIndexInstance::fromPojo, ConsumableIndexInstance.class);
         buildPojoInstance(ResourceApi.getAllMeleeIndex(), MELEE_INDEX, MeleeIndexInstance::fromPojo, MeleeIndexInstance.class);

@@ -79,10 +79,6 @@ public final class SyncDataCache {
         this.meleeIndex = (Map<Identifier, MeleeIndex>) result.getOrDefault(SyncDataType.MELEE_INDEX, new HashMap<>());
         this.throwableIndex = (Map<Identifier, ThrowableIndex>) result.getOrDefault(SyncDataType.THROWABLE_INDEX, new HashMap<>());
 
-        MeleeIndex._reloadLegacyData();
-        ThrowableIndex._reloadLegacyData();
-        ConsumableIndex._reloadLegacyData();
-
         // data instance
         buildPojoInstance(ResourceApi.getAllConsumableIndex(), this.CONSUMABLE_INDEX, ConsumableIndexInstance::fromPojo, ConsumableIndexInstance.class);
         buildPojoInstance(ResourceApi.getAllMeleeIndex(), this.MELEE_INDEX, MeleeIndexInstance::fromPojo, MeleeIndexInstance.class);
