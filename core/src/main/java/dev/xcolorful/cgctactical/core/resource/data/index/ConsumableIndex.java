@@ -3,7 +3,6 @@ package dev.xcolorful.cgctactical.core.resource.data.index;
 import com.google.gson.stream.JsonReader;
 import com.google.gson.stream.JsonWriter;
 import dev.xcolorful.cgctactical.CgcTactical;
-import dev.xcolorful.cgctactical.client.resource.network.SyncDataCache;
 import dev.xcolorful.cgctactical.core.api.resource.ResourceApi;
 import dev.xcolorful.cgctactical.core.api.resource.data.index.ConsumableIndexTag;
 import dev.xcolorful.cgctactical.core.resource._AllDataManager;
@@ -15,6 +14,7 @@ import org.jetbrains.annotations.ApiStatus;
 import org.jetbrains.annotations.Nullable;
 
 import java.io.IOException;
+import java.io.StringWriter;
 import java.util.Map;
 import java.util.function.BiConsumer;
 
@@ -112,12 +112,26 @@ public final class ConsumableIndex extends _DataIndex<ConsumableIndex> {
         this.consumableData = consumableData;
     }
     @ApiStatus.Internal
-    public static void _reloadLegacyData() {
-        BiConsumer<ResourceLocation, ConsumableData> consumer; {
-            var dataManager = _AllDataManager.getCurrent();
-            if (dataManager != null && dataManager.consumableIndexManager != null) consumer = (location, pojo) -> dataManager.consumableDataManager.getAllPojo().putIfAbsent(location, pojo);
-            else consumer = (location, pojo) -> SyncDataCache.INSTANCE.consumableData.putIfAbsent(location, pojo);
-        }
+    @Deprecated public static void _reloadLegacyData() {
+        var dataManager = _AllDataManager.getCurrent();
+        if (dataManager == null || dataManager.consumableIndexManager == null) return;
+
+        BiConsumer<ResourceLocation, ConsumableData> consumer = (location, pojo) -> {
+            dataManager.consumableDataManager.getAllPojo().putIfAbsent(location, pojo);
+            // 写网络缓存
+            var networkCache = dataManager.consumableDataManager.getNetworkCache();
+            if (!networkCache.containsKey(location)) {
+                try (StringWriter stringWriter = new StringWriter();
+                     JsonWriter writer = new JsonWriter(stringWriter)) {
+
+                    writer.setLenient(false);
+                    pojo.toJson(writer);
+                    networkCache.put(location, stringWriter.toString());
+                } catch (Exception e) { // IO 异常或其他未知错误
+                    CgcTactical.LOGGER.debug("ConsumableIndex: Failed to write legacy pojo file at: {}", location, e);
+                }
+            }
+        };
 
         for (Map.Entry<ResourceLocation, ConsumableIndex> entry : ResourceApi.getAllConsumableIndex()) {
             ConsumableIndex consumableIndex = entry.getValue();
