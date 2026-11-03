@@ -28,6 +28,18 @@
 - CommonSetup：双端设置
 - ModConfig：模组配置初始化
 
+### 近战
+> _./core/melee_
+
+[近战框架](./melee/melee-framework.md)
+- [MeleeManager](./melee/melee-manager.md)：近战管理器（全能易用门面）
+
+🤔深度定制近战：[注册近战管理器组](./melee/register-melee-manager-group.md)
+- Attack：近战攻击
+	- [MeleeAttackManager](./melee/attack/melee-attack-manager.md)：近战攻击管理器
+- Physics：近战物理
+	- [MeleePhysicsManager](./melee/physics/melee-physics-manager.md)：近战物理管理器
+
 ### Mixin
 > _./core/mixin_
 
@@ -88,6 +100,18 @@ Module division based on the `dev.xcolorful.cgctactical.core` top-level package
 	- ModParticles: Mod particles
 - CommonSetup: Common set up
 - ModConfig: Mod config initialization
+
+### Melee
+> _./core/melee_
+
+[Melee Framework](./melee/melee-framework.md#English):
+- [MeleeManager](./melee/melee-manager.md#English): Melee manager (almighty easy-to-use facade)
+
+🤔Deeply customized melee: [Register MeleeManagerGroup](./melee/register-melee-manager-group.md)
+- Attack:
+	- [MeleeAttackManager](./melee/attack/melee-attack-manager.md#English): Melee attack manager
+- Physics:
+	- [MeleePhysicsManager](./melee/physics/melee-physics-manager.md#English): Melee physics manager
 
 ### Mixin
 > _./core/mixin_
