@@ -8,14 +8,60 @@
 
 基于`dev.xcolorful.cgctactical.core`顶层包的模块划分
 
+### API
+> _./core/api_
+
+- [API索引](./api/api-index.md)：通过接口分类和职责介绍进行筛选，并传送至 _./docs/api_ 下内容以查看详细参数
+
+### 配置
+> _./core/config_
+
+- GrenadeConfig：手雷配置
+- MeleeConfig：近战配置
+- SyncConfig：同步配置
+
+### 初始化
+> _./core/init_
+
+- Registry：模组注册表
+	- ModParticles：模组粒子
+- CommonSetup：双端设置
+- ModConfig：模组配置初始化
+
+### 近战
+> _./core/melee_
+
+[近战框架](./melee/melee-framework.md)
+- [MeleeManager](./melee/melee-manager.md)：近战管理器（全能易用门面）
+
+🤔深度定制近战：[注册近战管理器组](./melee/register-melee-manager-group.md)
+- Attack：近战攻击
+	- [MeleeAttackManager](./melee/attack/melee-attack-manager.md)：近战攻击管理器
+- Physics：近战物理
+	- [MeleePhysicsManager](./melee/physics/melee-physics-manager.md)：近战物理管理器
+
+### Mixin
+> _./core/mixin_
+
+- Entity：实体
+
 ### 网络
 > _./core/network_
 
 - Message：网络消息
-	- event：事件消息
 	- 客户端->服务端消息
 	- 服务端->客户端消息
 - NetworkHandler：网络处理器（注册网络消息、发送消息）
+
+### 资源
+> _./core/resource_
+
+[资源文件说明](/docs/wiki/resource/Resource%20introduction.md#数据包)：
+- Data：数据包POJO
+- Instance：POJO对象
+	- Data：数据包POJO对象
+- Network：数据同步
+	- SyncDataType：同步的数据包POJO类型
 
 ### 工具
 > _./core/util_
@@ -35,14 +81,60 @@
 
 Module division based on the `dev.xcolorful.cgctactical.core` top-level package
 
+### API
+> _./core/api_
+
+- [API Index](./api/api-index.md#English): Filter by interface classification and responsibility introduction, and link to content under _./docs/api_ to view detailed parameters
+
+### Config
+> _./core/config_
+
+- GrenadeConfig: Grenade config
+- MeleeConfig: Melee config
+- SyncConfig: Sync config
+
+### Initialization
+> _./core/init_
+
+- Registry: Mod registry
+	- ModParticles: Mod particles
+- CommonSetup: Common set up
+- ModConfig: Mod config initialization
+
+### Melee
+> _./core/melee_
+
+[Melee Framework](./melee/melee-framework.md#English):
+- [MeleeManager](./melee/melee-manager.md#English): Melee manager (almighty easy-to-use facade)
+
+🤔Deeply customized melee: [Register MeleeManagerGroup](./melee/register-melee-manager-group.md)
+- Attack:
+	- [MeleeAttackManager](./melee/attack/melee-attack-manager.md#English): Melee attack manager
+- Physics:
+	- [MeleePhysicsManager](./melee/physics/melee-physics-manager.md#English): Melee physics manager
+
+### Mixin
+> _./core/mixin_
+
+- Entity: Entity
+
 ### Network
 > _./core/network_
 
 - Message: Network messages
-	- event: Event message
 	- Client -> Server message
 	- Server -> Client message
 - NetworkHandler: Network handler (register network messages, send messages)
+
+### Resource
+> _./core/resource_
+
+[Resource-introduction](/docs/wiki/resource/Resource%20introduction.md#Datapack):
+- Data: Datapack POJO
+- Instance: POJO object
+	- Data: Datapack POJO object
+- Network: Data sync
+	- SyncDataType: The type of synced datapack POJO
 
 ### Utility
 > _./core/util_
