@@ -7,6 +7,7 @@ import dev.xcolorful.cgctactical.core.api.resource.data.data.melee._CombatDataTa
 import dev.xcolorful.cgctactical.core.resource.data.data.melee.combat._MeleeAttackInfo;
 import dev.xcolorful.customgun.core.resource.ResourcePojo;
 import dev.xcolorful.customgun.core.util.JsonUtils;
+import org.jetbrains.annotations.Nullable;
 
 import java.io.IOException;
 import java.util.ArrayList;
@@ -14,8 +15,8 @@ import java.util.List;
 
 public final class _CombatData extends ResourcePojo<_CombatData> {
 
-    private List<_MeleeAttackInfo> leftAttacks;
-    private List<_MeleeAttackInfo> rightAttacks;
+    private @Nullable List<_MeleeAttackInfo> leftAttacks;
+    private @Nullable List<_MeleeAttackInfo> rightAttacks;
 
     private static final _CombatData PARSER = new _CombatData();
     public static _CombatData fromJson(JsonReader reader) throws IOException {
@@ -72,24 +73,24 @@ public final class _CombatData extends ResourcePojo<_CombatData> {
     protected void validatePojo() {
         if (ENABLE_BACK_COMPATIBILITY) this.applyBackCompatibility();
 
-        boolean n1 = (this.leftAttacks == null | this.rightAttacks == null);
-        if (n1) {
-            this.setValid(false);
-            return;
-        }
-
-        for (_MeleeAttackInfo attackInfo : this.leftAttacks) {
-            attackInfo.validate();
-            if (!attackInfo.isValid()) {
-                this.setValid(false);
-                return;
+        if (this.leftAttacks != null) {
+            for (int i = 0; i < this.leftAttacks.size(); i++) {
+                _MeleeAttackInfo attackInfo = this.leftAttacks.get(i);
+                attackInfo.validate();
+                if (!attackInfo.isValid()) {
+                    this.setValid(false);
+                    return;
+                }
             }
         }
-        for (_MeleeAttackInfo attackInfo : this.rightAttacks) {
-            attackInfo.validate();
-            if (!attackInfo.isValid()) {
-                this.setValid(false);
-                return;
+        if (this.rightAttacks != null) {
+            for (int i = 0; i < this.rightAttacks.size(); i++) {
+                _MeleeAttackInfo attackInfo = this.rightAttacks.get(i);
+                attackInfo.validate();
+                if (!attackInfo.isValid()) {
+                    this.setValid(false);
+                    return;
+                }
             }
         }
 
@@ -98,14 +99,20 @@ public final class _CombatData extends ResourcePojo<_CombatData> {
 
     @Override
     protected _CombatData copyTo(final _CombatData pojo) {
-        List<_MeleeAttackInfo> leftAttacks = new ArrayList<>(this.leftAttacks.size()); {
-            for (int i = 0; i < this.leftAttacks.size(); i++) {
-                leftAttacks.add(this.leftAttacks.get(i).copy());
+        @Nullable List<_MeleeAttackInfo> leftAttacks = null; {
+            if (this.leftAttacks != null) {
+                leftAttacks = new ArrayList<>(this.leftAttacks.size());
+                for (int i = 0; i < this.leftAttacks.size(); i++) {
+                    leftAttacks.add(this.leftAttacks.get(i).copy());
+                }
             }
         } pojo.setLeftAttacks(leftAttacks);
-        List<_MeleeAttackInfo> rightAttacks = new ArrayList<>(this.rightAttacks.size()); {
-            for (int i = 0; i < this.rightAttacks.size(); i++) {
-                rightAttacks.add(this.rightAttacks.get(i).copy());
+        @Nullable List<_MeleeAttackInfo> rightAttacks = null; {
+            if (this.rightAttacks != null) {
+                rightAttacks = new ArrayList<>(this.rightAttacks.size());
+                for (int i = 0; i < this.rightAttacks.size(); i++) {
+                    rightAttacks.add(this.rightAttacks.get(i).copy());
+                }
             }
         } pojo.setRightAttacks(rightAttacks);
         return pojo;
@@ -120,10 +127,10 @@ public final class _CombatData extends ResourcePojo<_CombatData> {
 
     // --------Getter & Setter--------
 
-    public List<_MeleeAttackInfo> getLeftAttacks() {
+    public @Nullable List<_MeleeAttackInfo> getLeftAttacks() {
         return leftAttacks;
     }
-    public List<_MeleeAttackInfo> getRightAttacks() {
+    public @Nullable List<_MeleeAttackInfo> getRightAttacks() {
         return rightAttacks;
     }
 
