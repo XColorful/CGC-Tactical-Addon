@@ -33,16 +33,6 @@ public class ResourceApi {
 
     // --------data--------
 
-    public static @Nullable ConsumableData getConsumableData(ResourceLocation dataLocation) {
-        var dataManager = _AllDataManager.getCurrent();
-        if (dataManager != null && dataManager.consumableDataManager != null) return dataManager.consumableDataManager.getPojo(dataLocation);
-        else return SyncDataCache.INSTANCE.consumableData.get(dataLocation);
-    }
-    public static Set<Map.Entry<ResourceLocation, ConsumableData>> getAllConsumableData() {
-        var dataManager = _AllDataManager.getCurrent();
-        if (dataManager != null && dataManager.consumableDataManager != null) return dataManager.consumableDataManager.getAllPojo().entrySet();
-        else return SyncDataCache.INSTANCE.consumableData.entrySet();
-    }
     public static @Nullable MeleeData getMeleeData(ResourceLocation dataLocation) {
         var dataManager = _AllDataManager.getCurrent();
         if (dataManager != null && dataManager.meleeDataManager != null) return dataManager.meleeDataManager.getPojo(dataLocation);
@@ -63,19 +53,19 @@ public class ResourceApi {
         if (dataManager != null && dataManager.throwableDataManager != null) return dataManager.throwableDataManager.getAllPojo().entrySet();
         else return SyncDataCache.INSTANCE.throwableData.entrySet();
     }
+    public static @Nullable ConsumableData getConsumableData(ResourceLocation dataLocation) {
+        var dataManager = _AllDataManager.getCurrent();
+        if (dataManager != null && dataManager.consumableDataManager != null) return dataManager.consumableDataManager.getPojo(dataLocation);
+        else return SyncDataCache.INSTANCE.consumableData.get(dataLocation);
+    }
+    public static Set<Map.Entry<ResourceLocation, ConsumableData>> getAllConsumableData() {
+        var dataManager = _AllDataManager.getCurrent();
+        if (dataManager != null && dataManager.consumableDataManager != null) return dataManager.consumableDataManager.getAllPojo().entrySet();
+        else return SyncDataCache.INSTANCE.consumableData.entrySet();
+    }
 
     // --------index--------
 
-    public static @Nullable ConsumableIndex getConsumableIndex(ResourceLocation consumableLocation) {
-        var dataManager = _AllDataManager.getCurrent();
-        if (dataManager != null && dataManager.consumableIndexManager != null) return dataManager.consumableIndexManager.getPojo(consumableLocation);
-        else return SyncDataCache.INSTANCE.consumableIndex.get(consumableLocation);
-    }
-    public static Set<Map.Entry<ResourceLocation, ConsumableIndex>> getAllConsumableIndex() {
-        var dataManager = _AllDataManager.getCurrent();
-        if (dataManager != null && dataManager.consumableIndexManager != null) return dataManager.consumableIndexManager.getAllPojo().entrySet();
-        else return SyncDataCache.INSTANCE.consumableIndex.entrySet();
-    }
     public static @Nullable MeleeIndex getMeleeIndex(ResourceLocation meleeLocation) {
         var dataManager = _AllDataManager.getCurrent();
         if (dataManager != null && dataManager.meleeIndexManager != null) return dataManager.meleeIndexManager.getPojo(meleeLocation);
@@ -96,17 +86,19 @@ public class ResourceApi {
         if (dataManager != null && dataManager.throwableIndexManager != null) return dataManager.throwableIndexManager.getAllPojo().entrySet();
         else return SyncDataCache.INSTANCE.throwableIndex.entrySet();
     }
+    public static @Nullable ConsumableIndex getConsumableIndex(ResourceLocation consumableLocation) {
+        var dataManager = _AllDataManager.getCurrent();
+        if (dataManager != null && dataManager.consumableIndexManager != null) return dataManager.consumableIndexManager.getPojo(consumableLocation);
+        else return SyncDataCache.INSTANCE.consumableIndex.get(consumableLocation);
+    }
+    public static Set<Map.Entry<ResourceLocation, ConsumableIndex>> getAllConsumableIndex() {
+        var dataManager = _AllDataManager.getCurrent();
+        if (dataManager != null && dataManager.consumableIndexManager != null) return dataManager.consumableIndexManager.getAllPojo().entrySet();
+        else return SyncDataCache.INSTANCE.consumableIndex.entrySet();
+    }
 
     // --------data instance--------
 
-    public static @Nullable ConsumableIndexInstance getConsumableIndexInstance(ResourceLocation consumableLocation) {
-        if (CustomGun.getSideExecutor().getLogicalSide().isServer()) return _DataInstanceManager.CONSUMABLE_INDEX.get(consumableLocation);
-        else return SyncDataCache.INSTANCE.CONSUMABLE_INDEX.get(consumableLocation);
-    }
-    public static Set<Map.Entry<ResourceLocation, @NotNull ConsumableIndexInstance>> getAllConsumableIndexInstance() {
-        if (CustomGun.getSideExecutor().getLogicalSide().isServer()) return _DataInstanceManager.CONSUMABLE_INDEX.entrySet();
-        else return SyncDataCache.INSTANCE.CONSUMABLE_INDEX.entrySet();
-    }
     public static @Nullable MeleeIndexInstance getMeleeIndexInstance(ResourceLocation meleeLocation) {
         if (CustomGun.getSideExecutor().getLogicalSide().isServer()) return _DataInstanceManager.MELEE_INDEX.get(meleeLocation);
         else return SyncDataCache.INSTANCE.MELEE_INDEX.get(meleeLocation);
@@ -122,5 +114,13 @@ public class ResourceApi {
     public static Set<Map.Entry<ResourceLocation, @NotNull ThrowableIndexInstance>> getAllThrowableIndexInstance() {
         if (CustomGun.getSideExecutor().getLogicalSide().isServer()) return _DataInstanceManager.THROWABLE_INDEX.entrySet();
         else return SyncDataCache.INSTANCE.THROWABLE_INDEX.entrySet();
+    }
+    public static @Nullable ConsumableIndexInstance getConsumableIndexInstance(ResourceLocation consumableLocation) {
+        if (CustomGun.getSideExecutor().getLogicalSide().isServer()) return _DataInstanceManager.CONSUMABLE_INDEX.get(consumableLocation);
+        else return SyncDataCache.INSTANCE.CONSUMABLE_INDEX.get(consumableLocation);
+    }
+    public static Set<Map.Entry<ResourceLocation, @NotNull ConsumableIndexInstance>> getAllConsumableIndexInstance() {
+        if (CustomGun.getSideExecutor().getLogicalSide().isServer()) return _DataInstanceManager.CONSUMABLE_INDEX.entrySet();
+        else return SyncDataCache.INSTANCE.CONSUMABLE_INDEX.entrySet();
     }
 }
