@@ -9,7 +9,7 @@ import dev.xcolorful.cgctactical.core.resource.data.index.MeleeIndex;
 import dev.xcolorful.cgctactical.core.resource.instance.data.MeleeIndexInstance;
 import dev.xcolorful.customgun.CustomGun;
 import dev.xcolorful.customgun.core.api.minecraft.IMcRegistry;
-import net.minecraft.resources.ResourceLocation;
+import net.minecraft.resources.Identifier;
 import net.minecraft.world.item.ItemStack;
 import org.jetbrains.annotations.NotNull;
 import org.jetbrains.annotations.Nullable;
@@ -21,7 +21,7 @@ import java.util.Map;
 
 public class MeleeTab {
 
-    public static Comparator<Map.Entry<ResourceLocation, MeleeIndexInstance>> indexSort() {
+    public static Comparator<Map.Entry<Identifier, MeleeIndexInstance>> indexSort() {
         return Comparator.comparingInt(entry -> entry.getValue().getPojo().getSlotSort());
     }
 
@@ -43,16 +43,16 @@ public class MeleeTab {
         return meleeItems;
     }
 
-    public static ItemStack buildMeleeItem(ResourceLocation meleeLocation) {
+    public static ItemStack buildMeleeItem(Identifier meleeLocation) {
         return MeleeBuilder.create(ModItems.MELEE.get())
                 // 近战ResourceLocation
                 .setProperty(MeleeProperty.MELEE_LOCATION,
-                        ResourceLocation.class,
+                        Identifier.class,
                         meleeLocation)
                 .build();
     }
 
-    public static @NotNull ResourceLocation MELEE_ICON_LOCATION;
+    public static @NotNull Identifier MELEE_ICON_LOCATION;
     static {
         IMcRegistry mcRegistry = CustomGun.getMcRegistry();
         MELEE_ICON_LOCATION = mcRegistry.createResourceLocation(String.format("%s:%s", CgcTactical.MOD_ID, "melee_icon"));

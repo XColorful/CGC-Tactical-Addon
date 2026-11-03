@@ -9,7 +9,7 @@ import dev.xcolorful.cgctactical.core.resource.data.index.ThrowableIndex;
 import dev.xcolorful.cgctactical.core.resource.instance.data.ThrowableIndexInstance;
 import dev.xcolorful.customgun.CustomGun;
 import dev.xcolorful.customgun.core.api.minecraft.IMcRegistry;
-import net.minecraft.resources.ResourceLocation;
+import net.minecraft.resources.Identifier;
 import net.minecraft.world.item.ItemStack;
 import org.jetbrains.annotations.NotNull;
 import org.jetbrains.annotations.Nullable;
@@ -21,7 +21,7 @@ import java.util.Map;
 
 public class ThrowableTab {
 
-    public static Comparator<Map.Entry<ResourceLocation, ThrowableIndexInstance>> indexSort() {
+    public static Comparator<Map.Entry<Identifier, ThrowableIndexInstance>> indexSort() {
         return Comparator.comparingInt(entry -> entry.getValue().getPojo().getSlotSort());
     }
 
@@ -43,16 +43,16 @@ public class ThrowableTab {
         return throwableItems;
     }
 
-    public static ItemStack buildThrowableItem(ResourceLocation throwableLocation) {
+    public static ItemStack buildThrowableItem(Identifier throwableLocation) {
         return ThrowableBuilder.create(ModItems.THROWABLE.get())
                 // 投掷物ResourceLocation
                 .setProperty(ThrowableProperty.THROWABLE_LOCATION,
-                        ResourceLocation.class,
+                        Identifier.class,
                         throwableLocation)
                 .build();
     }
 
-    public static @NotNull ResourceLocation THROWABLE_ICON_LOCATION;
+    public static @NotNull Identifier THROWABLE_ICON_LOCATION;
     static {
         IMcRegistry mcRegistry = CustomGun.getMcRegistry();
         THROWABLE_ICON_LOCATION = mcRegistry.createResourceLocation(String.format("%s:%s", CgcTactical.MOD_ID, "throwable_icon"));

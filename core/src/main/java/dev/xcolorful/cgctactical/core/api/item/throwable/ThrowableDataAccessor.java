@@ -5,7 +5,7 @@ import dev.xcolorful.cgctactical.core.api.resource.ResourceApi;
 import dev.xcolorful.cgctactical.core.resource.instance.data.ThrowableIndexInstance;
 import dev.xcolorful.customgun.core.api.resource.ResourceTag;
 import dev.xcolorful.customgun.core.util.NBTUtils;
-import net.minecraft.resources.ResourceLocation;
+import net.minecraft.resources.Identifier;
 import net.minecraft.world.item.ItemStack;
 import org.jetbrains.annotations.NotNull;
 import org.jetbrains.annotations.Nullable;
@@ -15,16 +15,16 @@ public interface ThrowableDataAccessor extends TacticalDataAccessor, IThrowableD
     // --------IThrowableDataAccess--------
 
     @Override
-    default @NotNull ResourceLocation getThrowableLocation(ItemStack throwableItem) {
+    default @NotNull Identifier getThrowableLocation(ItemStack throwableItem) {
         var throwableLocation = NBTUtils.getResourceLocation(throwableItem, ThrowableProperty.THROWABLE_LOCATION.getTagName());
         return throwableLocation != null ? throwableLocation : ResourceTag.NULL_LOCATION;
     }
     @Override
-    default void setThrowableLocation(ItemStack throwableItem, ResourceLocation throwableLocation) {
+    default void setThrowableLocation(ItemStack throwableItem, Identifier throwableLocation) {
         NBTUtils.setResourceLocation(throwableItem, ThrowableProperty.THROWABLE_LOCATION.getTagName(), throwableLocation);
     }
     @Override
-    default @NotNull ResourceLocation getThrowableDisplayLocation(ItemStack throwableItem) {
+    default @NotNull Identifier getThrowableDisplayLocation(ItemStack throwableItem) {
         var throwableDisplayLocation = NBTUtils.getResourceLocation(throwableItem, ThrowableProperty.THROWABLE_DISPLAY_LOCATION.getTagName());
         if (throwableDisplayLocation != null) return throwableDisplayLocation;
 
@@ -35,14 +35,14 @@ public interface ThrowableDataAccessor extends TacticalDataAccessor, IThrowableD
         return throwableIndexInstance.getPojo().getDisplayIndexLocation();
     }
     @Override
-    default void setThrowableDisplayLocation(ItemStack throwableItem, ResourceLocation throwableDisplayLocation) {
+    default void setThrowableDisplayLocation(ItemStack throwableItem, Identifier throwableDisplayLocation) {
         NBTUtils.setResourceLocation(throwableItem, ThrowableProperty.THROWABLE_DISPLAY_LOCATION.getTagName(), throwableDisplayLocation);
     }
 
     // --------ITacticalDataAccess--------
 
     @Override
-    default @Nullable ResourceLocation getCooldownLocation(ItemStack throwableItem) {
+    default @Nullable Identifier getCooldownLocation(ItemStack throwableItem) {
         var throwableLocation = this.getThrowableLocation(throwableItem);
         @Nullable ThrowableIndexInstance throwableIndexInstance = ResourceApi.getThrowableIndexInstance(throwableLocation);
         if (throwableIndexInstance == null) return null;
