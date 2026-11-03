@@ -6,13 +6,13 @@ import dev.xcolorful.cgctactical.core.api.item.IMelee;
 import dev.xcolorful.cgctactical.core.api.item.melee.IMeleeGetter;
 import dev.xcolorful.cgctactical.core.api.item.melee.MeleeAction;
 import dev.xcolorful.customgun.core.api.resource.ResourceTag;
+import net.minecraft.world.entity.Entity;
 import net.minecraft.world.entity.LivingEntity;
 import net.minecraft.world.entity.player.Player;
 import net.minecraft.world.item.ItemStack;
 import org.jetbrains.annotations.NotNull;
 import org.jetbrains.annotations.Nullable;
 
-import javax.swing.text.html.parser.Entity;
 import java.util.EnumSet;
 import java.util.List;
 

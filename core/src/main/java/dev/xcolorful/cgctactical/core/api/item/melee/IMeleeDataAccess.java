@@ -16,6 +16,9 @@ import org.jetbrains.annotations.Nullable;
 public interface IMeleeDataAccess extends ITacticalDataAccess,
         IMeleeStateAccess {
 
+    @Nullable String getManagerGroupTag(ItemStack meleeItem);
+    void setManagerGroupTag(ItemStack meleeItem, String managerGroupTag);
+
     /**
      * 获取近战资源位置，如不存在则返回 {@link ResourceTag#NULL_LOCATION}
      */
