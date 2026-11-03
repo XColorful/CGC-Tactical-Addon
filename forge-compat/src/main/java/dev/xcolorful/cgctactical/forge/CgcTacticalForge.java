@@ -1,6 +1,8 @@
 package dev.xcolorful.cgctactical.forge;
 
 import dev.xcolorful.cgctactical.CgcTactical;
+import dev.xcolorful.cgctactical.core.init.registry.ModCreativeTabs;
+import dev.xcolorful.cgctactical.core.init.registry.ModItems;
 import dev.xcolorful.cgctactical.core.init.registry.ModParticles;
 import dev.xcolorful.cgctactical.core.network.NetworkHandler;
 import dev.xcolorful.cgctactical.forgeclient.CgcTacticalForgeClient;
@@ -28,6 +30,8 @@ public class CgcTacticalForge {
 
         IEventBus modEventBus = FMLJavaModLoadingContext.get().getModEventBus();
 
+        ModItems.ITEMS.registerAll(modEventBus);
+        ModCreativeTabs.TABS.registerAll(modEventBus);
         ModParticles.PARTICLE_TYPES.registerAll(modEventBus);
 
         if (mcSide == McSide.CLIENT) {
