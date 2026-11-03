@@ -2,7 +2,7 @@ package dev.xcolorful.cgctactical.core.resource.data.index;
 
 import com.google.gson.stream.JsonReader;
 import com.google.gson.stream.JsonWriter;
-import dev.xcolorful.cgctactical.client.resource.network.SyncDataCache;
+import dev.xcolorful.cgctactical.CgcTactical;
 import dev.xcolorful.cgctactical.core.api.resource.ResourceApi;
 import dev.xcolorful.cgctactical.core.api.resource.data.index.MeleeIndexTag;
 import dev.xcolorful.cgctactical.core.resource._AllDataManager;
@@ -15,6 +15,7 @@ import org.jetbrains.annotations.ApiStatus;
 import org.jetbrains.annotations.Nullable;
 
 import java.io.IOException;
+import java.io.StringWriter;
 import java.util.Map;
 import java.util.function.BiConsumer;
 
@@ -141,18 +142,39 @@ public final class MeleeIndex extends _DataIndex<MeleeIndex> {
         this.meleeData = meleeData;
     }
     @ApiStatus.Internal
-    public static void _reloadLegacyData() {
-        BiConsumer<Identifier, MeleeData> consumer; {
-            var dataManager = _AllDataManager.getCurrent();
-            if (dataManager != null && dataManager.meleeIndexManager != null) consumer = (location, pojo) -> dataManager.meleeDataManager.getAllPojo().putIfAbsent(location, pojo);
-            else consumer = (location, pojo) -> SyncDataCache.INSTANCE.meleeData.putIfAbsent(location, pojo);
-        }
+    @Deprecated public static void _reloadLegacyData() {
+        var dataManager = _AllDataManager.getCurrent();
+        if (dataManager == null || dataManager.meleeIndexManager == null) return;
+
+        BiConsumer<Identifier, MeleeData> consumer = (location, pojo) -> {
+            dataManager.meleeDataManager.getAllPojo().putIfAbsent(location, pojo);
+            // 写网络缓存
+            var networkCache = dataManager.meleeDataManager.getNetworkCache();
+            if (!networkCache.containsKey(location)) {
+                try (StringWriter stringWriter = new StringWriter();
+                     JsonWriter writer = new JsonWriter(stringWriter)) {
+
+                    writer.setLenient(false);
+                    pojo.toJson(writer);
+                    networkCache.put(location, stringWriter.toString());
+                } catch (Exception e) { // IO 异常或其他未知错误
+                    CgcTactical.LOGGER.debug("MeleeIndex: Failed to write legacy pojo file at: {}", location, e);
+                }
+            }
+        };
 
         for (Map.Entry<Identifier, MeleeIndex> entry : ResourceApi.getAllMeleeIndex()) {
             MeleeIndex meleeIndex = entry.getValue();
             @Nullable MeleeData meleeData = meleeIndex.getMeleeData();
             if (meleeData == null) continue;
             // 有旧字段就直接转换
+
+            meleeData.applyBackCompatibility();
+            meleeData.validate();
+            if (!meleeData.isValid()) {
+                CgcTactical.LOGGER.debug("MeleeIndex: legacy MeleeData {} not valid", entry.getKey());
+                continue;
+            }
 
             var dataLocation = entry.getKey();
             consumer.accept(dataLocation, meleeData);
