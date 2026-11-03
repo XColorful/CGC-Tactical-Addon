@@ -7,7 +7,7 @@ import dev.xcolorful.cgctactical.core.resource.data.data.melee.combat._MeleeMove
 import dev.xcolorful.cgctactical.core.resource.data.index.MeleeIndex;
 import dev.xcolorful.cgctactical.core.resource.instance.data.MeleeIndexInstance;
 import dev.xcolorful.customgun.core.api.resource.ResourceTag;
-import net.minecraft.resources.ResourceLocation;
+import net.minecraft.resources.Identifier;
 import net.minecraft.world.entity.player.Player;
 import net.minecraft.world.item.ItemStack;
 import org.jetbrains.annotations.NotNull;
@@ -22,13 +22,13 @@ public interface IMeleeDataAccess extends ITacticalDataAccess,
     /**
      * 获取近战资源位置，如不存在则返回 {@link ResourceTag#NULL_LOCATION}
      */
-    @NotNull ResourceLocation getMeleeLocation(ItemStack meleeItem);
-    void setMeleeLocation(ItemStack meleeItem, ResourceLocation meleeLocation);
+    @NotNull Identifier getMeleeLocation(ItemStack meleeItem);
+    void setMeleeLocation(ItemStack meleeItem, Identifier meleeLocation);
     /**
      * 获取NBT指定的MeleeDisplay，其次查找{@link MeleeIndexInstance}，如无则返回 {@link ResourceTag#NULL_LOCATION}
      */
-    @NotNull ResourceLocation getMeleeDisplayLocation(ItemStack meleeItem);
-    void setMeleeDisplayLocation(ItemStack meleeItem, ResourceLocation meleeDisplayLocation);
+    @NotNull Identifier getMeleeDisplayLocation(ItemStack meleeItem);
+    void setMeleeDisplayLocation(ItemStack meleeItem, Identifier meleeDisplayLocation);
 
     int getMeleeCooldown(ItemStack meleeItem, MeleeAction meleeAction, int combo);
     int getMeleeDelay(ItemStack meleeItem, MeleeAction meleeAction, int combo);
