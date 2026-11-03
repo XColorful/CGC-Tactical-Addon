@@ -32,7 +32,7 @@ public interface ITacticalDataAccess {
     @Deprecated default int getMaxUsingTick(ItemStack tacticalItem) {
         return getUseDurationLimit(tacticalItem);
     }
-    @Deprecated default int getAttackCoolDown(ItemStack tacticalItem, MeleeAction meleeAction, int index) {
+    @Deprecated default int getAttackCoolDown(ItemStack tacticalItem, MeleeAction meleeAction, int combo) {
         return getUseCooldown(tacticalItem);
     }
 }

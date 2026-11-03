@@ -44,6 +44,10 @@ Notation:
 > package me.xjqsh.lrtactical.api.melee;
 > ```
 
+|me.xjqsh.lrtactical.api.melee|dev.xcolorful.cgctactical.core.api.melee|
+|---|---|
+|`AttackResult`|attack.`IMeleeAttackRuntime`.`MeleeAttackResult`|
+
 |me.xjqsh.lrtactical.api.melee|dev.xcolorful.cgctactical.core.api.item|
 |---|---|
 |`MeleeAction`|melee.`MeleeAction`|
