@@ -57,11 +57,13 @@ public interface MeleeDataAccessor extends TacticalDataAccessor, IMeleeDataAcces
     static @Nullable _MeleeAttackInfo getMeleeAttackInfo(_CombatData combatData, MeleeAction meleeAction, int combo) {
         if (combo < 0) return null;
 
-        List<_MeleeAttackInfo> meleeAttackInfos = switch (meleeAction) {
+        @Nullable List<_MeleeAttackInfo> meleeAttackInfos = switch (meleeAction) {
             case LEFT_ATTACK -> combatData.getLeftAttacks();
             case RIGHT_ATTACK -> combatData.getRightAttacks();
             // 增加类型使此处强制不通过
         };
+        if (meleeAttackInfos == null) return null;
+
         return meleeAttackInfos.get(combo % meleeAttackInfos.size());
     }
     @Override
