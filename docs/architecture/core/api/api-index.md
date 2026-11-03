@@ -7,6 +7,13 @@
 
 - [ILivingCombatant](/docs/api/core/entity/ILivingCombatant.md)：战斗生物
 
+## 物品
+> _./core/api/item_
+
+- [IMelee](/docs/api/core/item/IMelee.md)：近战接口
+- [IThrowable](/docs/api/core/item/IThrowable.md)：投掷物接口
+- [IConsumable](/docs/api/core/item/IConsumable.md)：消耗品接口
+
 ## 资源
 > _./core/api/resource_
 
@@ -18,6 +25,13 @@
 > _./core/api/entity_
 
 - [ILivingCombatant](/docs/api/core/entity/ILivingCombatant.md): Living combatant
+
+## Item
+> _./core/api/item_
+
+- [IMelee](/docs/api/core/item/IMelee.md): Melee interface
+- [IThrowable](/docs/api/core/item/IThrowable.md): Throwable interface
+- [IConsumable](/docs/api/core/item/IConsumable.md): Consumable interface
 
 ## Resource
 > _./core/api/resource_

@@ -27,6 +27,18 @@ Notation:
 |`ITargetFilter`|data.data.melee|
 |`*`|data.data.melee|
 
+#### Item API
+> ```java
+> package me.xjqsh.lrtactical.api.item;
+> ```
+
+|me.xjqsh.lrtactical.api.item|dev.xcolorful.cgctactical.core.api.item|
+|---|---|
+|`IConsumable`|`IConsumable`|
+|`ICustomItem`|`ITactical`|
+|`IMeleeWeapon`|`IMelee`|
+|`IThrowable`|`IThrowable`|
+
 ### Capability
 > ```java
 > package me.xjqsh.lrtactical.capability;
