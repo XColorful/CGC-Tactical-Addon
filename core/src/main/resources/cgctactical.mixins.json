@@ -4,6 +4,7 @@
   "compatibilityLevel": "JAVA_17",
   "refmap": "cgctactical.refmap.json",
   "mixins": [
+    "entity.LivingEntityMixin",
     "entity.PlayerMixin"
   ],
   "injectors": {
