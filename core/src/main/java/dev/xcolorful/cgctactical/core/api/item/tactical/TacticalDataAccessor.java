@@ -1,13 +1,13 @@
 package dev.xcolorful.cgctactical.core.api.item.tactical;
 
-import net.minecraft.resources.ResourceLocation;
+import net.minecraft.resources.Identifier;
 import net.minecraft.world.item.ItemStack;
 import org.jetbrains.annotations.Nullable;
 
 public interface TacticalDataAccessor extends ITacticalDataAccess {
 
     @Override
-    default @Nullable ResourceLocation getCooldownLocation(ItemStack tacticalItem) {
+    default @Nullable Identifier getCooldownLocation(ItemStack tacticalItem) {
         return null;
     }
 

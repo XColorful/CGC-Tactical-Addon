@@ -3,7 +3,7 @@ package dev.xcolorful.cgctactical.core.api.minecraft.item;
 import dev.xcolorful.cgctactical.CgcTactical;
 import dev.xcolorful.customgun.CustomGun;
 import dev.xcolorful.customgun.core.api.resource.ResourceTag;
-import net.minecraft.resources.ResourceLocation;
+import net.minecraft.resources.Identifier;
 import org.jetbrains.annotations.Nullable;
 
 import java.util.HashMap;
@@ -19,7 +19,7 @@ public enum ItemType implements ResourceTag.RegistryTag {
     public final String typeName;
     public final @Nullable String typeNameOld;
     public final String registryName;
-    public final ResourceLocation registryLocation;
+    public final Identifier registryLocation;
     ItemType(String name, @Nullable String nameOld) {
         this.typeName = name;
         this.typeNameOld = nameOld;
@@ -32,7 +32,7 @@ public enum ItemType implements ResourceTag.RegistryTag {
     @Override public String getRegistryName() {
         return this.registryName;
     }
-    @Override public ResourceLocation getRegistryLocation() {
+    @Override public Identifier getRegistryLocation() {
         return this.registryLocation;
     }
 

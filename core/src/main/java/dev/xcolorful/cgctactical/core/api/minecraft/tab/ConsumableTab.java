@@ -9,7 +9,7 @@ import dev.xcolorful.cgctactical.core.resource.data.index.ConsumableIndex;
 import dev.xcolorful.cgctactical.core.resource.instance.data.ConsumableIndexInstance;
 import dev.xcolorful.customgun.CustomGun;
 import dev.xcolorful.customgun.core.api.minecraft.IMcRegistry;
-import net.minecraft.resources.ResourceLocation;
+import net.minecraft.resources.Identifier;
 import net.minecraft.world.item.ItemStack;
 import org.jetbrains.annotations.NotNull;
 import org.jetbrains.annotations.Nullable;
@@ -21,7 +21,7 @@ import java.util.Map;
 
 public class ConsumableTab {
 
-    public static Comparator<Map.Entry<ResourceLocation, ConsumableIndexInstance>> indexSort() {
+    public static Comparator<Map.Entry<Identifier, ConsumableIndexInstance>> indexSort() {
         return Comparator.comparingInt(entry -> entry.getValue().getPojo().getSlotSort());
     }
 
@@ -43,16 +43,16 @@ public class ConsumableTab {
         return consumableItems;
     }
 
-    public static ItemStack buildConsumableItem(ResourceLocation consumableLocation) {
+    public static ItemStack buildConsumableItem(Identifier consumableLocation) {
         return ConsumableBuilder.create(ModItems.CONSUMABLE.get())
                 // 消耗品ResourceLocation
                 .setProperty(ConsumableProperty.CONSUMABLE_LOCATION,
-                        ResourceLocation.class,
+                        Identifier.class,
                         consumableLocation)
                 .build();
     }
 
-    public static @NotNull ResourceLocation CONSUMABLE_ICON_LOCATION;
+    public static @NotNull Identifier CONSUMABLE_ICON_LOCATION;
     static {
         IMcRegistry mcRegistry = CustomGun.getMcRegistry();
         CONSUMABLE_ICON_LOCATION = mcRegistry.createResourceLocation(String.format("%s:%s", CgcTactical.MOD_ID, "consumable_icon"));

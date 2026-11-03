@@ -142,13 +142,13 @@ public final class ThrowableIndex extends _DataIndex<ThrowableIndex> {
     }
     @ApiStatus.Internal
     public static void _reloadLegacyData() {
-        BiConsumer<ResourceLocation, ThrowableData> consumer; {
+        BiConsumer<Identifier, ThrowableData> consumer; {
             var dataManager = _AllDataManager.getCurrent();
             if (dataManager != null && dataManager.throwableIndexManager != null) consumer = (location, pojo) -> dataManager.throwableDataManager.getAllPojo().putIfAbsent(location, pojo);
             else consumer = (location, pojo) -> SyncDataCache.INSTANCE.throwableData.putIfAbsent(location, pojo);
         }
 
-        for (Map.Entry<ResourceLocation, ThrowableIndex> entry : ResourceApi.getAllThrowableIndex()) {
+        for (Map.Entry<Identifier, ThrowableIndex> entry : ResourceApi.getAllThrowableIndex()) {
             ThrowableIndex throwableIndex = entry.getValue();
             @Nullable ThrowableData throwableData = throwableIndex.getThrowableData();
             if (throwableData == null) continue;
