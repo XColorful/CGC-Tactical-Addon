@@ -5,7 +5,7 @@ import net.minecraft.resources.ResourceLocation;
 import net.minecraft.world.item.ItemStack;
 import org.jetbrains.annotations.Nullable;
 
-public interface ITacticalDataAccess {
+public interface ITacticalDataAccess extends _ITacticalPropertyAccess {
 
     /**
      * 获取物品冷却
