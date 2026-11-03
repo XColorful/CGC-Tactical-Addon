@@ -76,6 +76,21 @@ Notation:
 |`CommonConfig`|`MeleeConfig`|
 |`ServerConfig`|`SyncConfig`|
 
+### Initialize
+> ```java
+> package me.xjqsh.lrtactical.init;
+> ```
+
+|me.xjqsh.lrtactical.init|dev.xcolorful.cgctactical.core.init|
+|---|---|
+|`ModItems`.TABS|registry.`ModCreativeTabs`.TABS|
+|`ModItems`|registry.`ModItems`|
+|`ModParticleTypes`|registry.`ModParticles`|
+
+|me.xjqsh.lrtactical.init|dev.xcolorful.cgctactical.core.api.minecraft|
+|---|---|
+|`ModItems`.\*|tab.`*Tab`.\*|
+
 ### Item
 > ```java
 > package me.xjqsh.lrtactical.item;
@@ -94,6 +109,14 @@ Notation:
 |throwable.`flash.StunThrowableData`.`BlindData`|data.data.throwable.stun|
 |throwable.`flash.StunThrowableData`.`DeafenedData`|data.data.throwable.stun|
 |throwable.`*`|data.data.throwable|
+
+|me.xjqsh.lrtactical.item|dev.xcolorful.cgctactical.core.item|
+|---|---|
+|`ConsumableItem`|consumable.`ConsumableItem`|
+|`DetonatorItem`||
+|`FlashShieldItem`||
+|`MeleeItem`|melee.`MeleeItem`|
+|`ThrowableItem`|throwable.`ThrowableItem`|
 
 ### Network
 > ```java
