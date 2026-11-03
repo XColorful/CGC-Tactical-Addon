@@ -32,14 +32,6 @@ public class ClientResourceApi {
 
     // --------display--------
 
-    public static @Nullable ConsumableDisplay getConsumableDisplay(Identifier displayLocation) {
-        var assetsManager = _AllAssetsManager.INSTANCE.consumableDisplayManager;
-        return assetsManager != null ? assetsManager.getPojo(displayLocation) : null;
-    }
-    public static Set<Map.Entry<Identifier, ConsumableDisplay>> getAllConsumableDisplay() {
-        var assetsManager = _AllAssetsManager.INSTANCE.consumableDisplayManager;
-        return assetsManager != null ? assetsManager.getAllPojo().entrySet() : new HashSet<>();
-    }
     public static @Nullable MeleeDisplay getMeleeDisplay(Identifier displayLocation) {
         var assetsManager = _AllAssetsManager.INSTANCE.meleeDisplayManager;
         return assetsManager != null ? assetsManager.getPojo(displayLocation) : null;
@@ -56,15 +48,17 @@ public class ClientResourceApi {
         var assetsManager = _AllAssetsManager.INSTANCE.throwableDisplayManager;
         return assetsManager != null ? assetsManager.getAllPojo().entrySet() : new HashSet<>();
     }
+    public static @Nullable ConsumableDisplay getConsumableDisplay(Identifier displayLocation) {
+        var assetsManager = _AllAssetsManager.INSTANCE.consumableDisplayManager;
+        return assetsManager != null ? assetsManager.getPojo(displayLocation) : null;
+    }
+    public static Set<Map.Entry<Identifier, ConsumableDisplay>> getAllConsumableDisplay() {
+        var assetsManager = _AllAssetsManager.INSTANCE.consumableDisplayManager;
+        return assetsManager != null ? assetsManager.getAllPojo().entrySet() : new HashSet<>();
+    }
 
     // --------data instance--------
 
-    public static @Nullable ClientConsumableIndexInstance getClientConsumableIndexInstance(Identifier consumableLocation) {
-        return _AssetsInstanceManager.CONSUMABLE_INDEX.get(consumableLocation);
-    }
-    public static Set<Map.Entry<Identifier, @NotNull ClientConsumableIndexInstance>> getAllClientConsumableIndexInstance() {
-        return _AssetsInstanceManager.CONSUMABLE_INDEX.entrySet();
-    }
     public static @Nullable ClientMeleeIndexInstance getClientMeleeIndexInstance(Identifier meleeLocation) {
         return _AssetsInstanceManager.MELEE_INDEX.get(meleeLocation);
     }
@@ -77,15 +71,15 @@ public class ClientResourceApi {
     public static Set<Map.Entry<Identifier, @NotNull ClientThrowableIndexInstance>> getAllClientThrowableIndexInstance() {
         return _AssetsInstanceManager.THROWABLE_INDEX.entrySet();
     }
+    public static @Nullable ClientConsumableIndexInstance getClientConsumableIndexInstance(Identifier consumableLocation) {
+        return _AssetsInstanceManager.CONSUMABLE_INDEX.get(consumableLocation);
+    }
+    public static Set<Map.Entry<Identifier, @NotNull ClientConsumableIndexInstance>> getAllClientConsumableIndexInstance() {
+        return _AssetsInstanceManager.CONSUMABLE_INDEX.entrySet();
+    }
 
     // --------assets instance--------
 
-    public static @Nullable ConsumableDisplayInstance getConsumableDisplayInstance(Identifier displayLocation) {
-        return _AssetsInstanceManager.CONSUMABLE_DISPLAY.get(displayLocation);
-    }
-    public static Set<Map.Entry<Identifier, @NotNull ConsumableDisplayInstance>> getAllConsumableDisplayInstance() {
-        return _AssetsInstanceManager.CONSUMABLE_DISPLAY.entrySet();
-    }
     public static @Nullable MeleeDisplayInstance getMeleeDisplayInstance(Identifier displayLocation) {
         return _AssetsInstanceManager.MELEE_DISPLAY.get(displayLocation);
     }
@@ -97,5 +91,11 @@ public class ClientResourceApi {
     }
     public static Set<Map.Entry<Identifier, @NotNull ThrowableDisplayInstance>> getAllThrowableDisplayInstance() {
         return _AssetsInstanceManager.THROWABLE_DISPLAY.entrySet();
+    }
+    public static @Nullable ConsumableDisplayInstance getConsumableDisplayInstance(Identifier displayLocation) {
+        return _AssetsInstanceManager.CONSUMABLE_DISPLAY.get(displayLocation);
+    }
+    public static Set<Map.Entry<Identifier, @NotNull ConsumableDisplayInstance>> getAllConsumableDisplayInstance() {
+        return _AssetsInstanceManager.CONSUMABLE_DISPLAY.entrySet();
     }
 }
