@@ -8,6 +8,8 @@ import org.jetbrains.annotations.NotNull;
 public interface IMelee extends IMeleeDataAccess,
         ITacticalItem {
 
+    // --------ITacticalItem--------
+
     @Override
     default boolean replaceVanillaAttack() {
         return true;

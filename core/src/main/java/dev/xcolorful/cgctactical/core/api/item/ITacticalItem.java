@@ -18,6 +18,13 @@ public interface ITacticalItem extends ITacticalDataAccess,
         return false;
     }
 
+    /**
+     * @return 是否取消物品损坏时行为
+     */
+    default boolean silentBreak() {
+        return true;
+    }
+
     // --------Deprecated--------
 
     @Deprecated default ResourceLocation getId(ItemStack pojoItem) {
