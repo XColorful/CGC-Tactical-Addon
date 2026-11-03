@@ -35,9 +35,18 @@ Notation:
 |me.xjqsh.lrtactical.api.item|dev.xcolorful.cgctactical.core.api.item|
 |---|---|
 |`IConsumable`|`IConsumable`|
-|`ICustomItem`|`ITactical`|
+|`ICustomItem`|`ITacticalItem`|
 |`IMeleeWeapon`|`IMelee`|
 |`IThrowable`|`IThrowable`|
+
+#### Melee API
+> ```java
+> package me.xjqsh.lrtactical.api.melee;
+> ```
+
+|me.xjqsh.lrtactical.api.melee|dev.xcolorful.cgctactical.core.api.item|
+|---|---|
+|`MeleeAction`|melee.`MeleeAction`|
 
 ### Capability
 > ```java
