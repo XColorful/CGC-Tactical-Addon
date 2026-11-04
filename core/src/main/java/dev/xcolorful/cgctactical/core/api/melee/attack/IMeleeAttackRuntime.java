@@ -4,7 +4,7 @@ import dev.xcolorful.cgctactical.core.api.entity.ILivingCombatant;
 import dev.xcolorful.cgctactical.core.api.entity.combatant.ILivingCombatantGetter;
 import dev.xcolorful.cgctactical.core.api.item.IMelee;
 import dev.xcolorful.cgctactical.core.api.item.melee.IMeleeGetter;
-import dev.xcolorful.cgctactical.core.api.item.melee.MeleeAction;
+import dev.xcolorful.cgctactical.core.api.item.tactical.TacticalAction;
 import dev.xcolorful.customgun.core.api.resource.ResourceTag;
 import net.minecraft.world.entity.Entity;
 import net.minecraft.world.entity.LivingEntity;
@@ -24,7 +24,7 @@ public interface IMeleeAttackRuntime {
     @NotNull CombatantAttackResult combatantAttack(Object combatantProperty, // TODO CombatantProperty
                                                    @NotNull IMelee iMelee, @NotNull ItemStack meleeItem,
                                                    ILivingCombatant iLivingCombatant, LivingEntity livingCombatant,
-                                                   MeleeAction meleeAction, int combo,
+                                                   TacticalAction tacticalAction, int combo,
                                                    List<Entity> meleeVictims);
     enum CombatantAttackResult {
         SUCCESS(0),
@@ -107,11 +107,11 @@ public interface IMeleeAttackRuntime {
 
     @Deprecated default void attack(Player livingCombatant,
                                     ItemStack meleeItem,
-                                    MeleeAction meleeAction, List<Entity> meleeVictims, int combo) {
+                                    TacticalAction tacticalAction, List<Entity> meleeVictims, int combo) {
         ILivingCombatant iLivingCombatant = ILivingCombatantGetter.cgctactical$fromLivingEntity(livingCombatant);
         @Nullable IMelee iMelee = IMeleeGetter.fromItemStack(meleeItem);
         if (iMelee == null) return;
-        this.combatantAttack(null, iMelee, meleeItem, iLivingCombatant, livingCombatant, meleeAction, combo, meleeVictims);
+        this.combatantAttack(null, iMelee, meleeItem, iLivingCombatant, livingCombatant, tacticalAction, combo, meleeVictims);
     }
     @Deprecated default EnumSet<MeleeAttackResult> performAttack(Player livingCombatant,
                                                                  Entity meleeVictim,

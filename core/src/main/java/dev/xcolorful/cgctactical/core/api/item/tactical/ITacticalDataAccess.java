@@ -1,6 +1,5 @@
 package dev.xcolorful.cgctactical.core.api.item.tactical;
 
-import dev.xcolorful.cgctactical.core.api.item.melee.MeleeAction;
 import net.minecraft.resources.ResourceLocation;
 import net.minecraft.world.item.ItemStack;
 import org.jetbrains.annotations.Nullable;
@@ -32,7 +31,7 @@ public interface ITacticalDataAccess extends _ITacticalPropertyAccess {
     @Deprecated default int getMaxUsingTick(ItemStack tacticalItem) {
         return getUseDurationLimit(tacticalItem);
     }
-    @Deprecated default int getAttackCoolDown(ItemStack tacticalItem, MeleeAction meleeAction, int combo) {
+    @Deprecated default int getAttackCoolDown(ItemStack tacticalItem, TacticalAction tacticalAction, int combo) {
         return getUseCooldown(tacticalItem);
     }
 }

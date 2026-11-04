@@ -10,17 +10,6 @@ public interface IMelee extends IMeleeRuntime,
         IMeleeDataAccess,
         ITacticalItem {
 
-    // --------ITacticalItem--------
-
-    @Override
-    default boolean replaceVanillaAttack() {
-        return true;
-    }
-    @Override
-    default boolean replaceVanillaUseItem() {
-        return true;
-    }
-
     // --------IPojoItem--------
 
     @Override
