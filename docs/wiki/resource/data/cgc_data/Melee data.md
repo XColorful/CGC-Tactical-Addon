@@ -1,12 +1,12 @@
 [English](#English)
 
 # 近战数据
-> wiki 版本：`0.0.0`.0
+> wiki 版本：`0.0.0`.1
 
 - `draw_time`（int）：
 - `put_away_time`（int）：
 - `attack`（\_CombatData）：
-	- `attack_left`（List<\_MeleeAttackInfo>）：
+	- `primary_action`/`attack_left`（List<\_MeleeAttackInfo>）：
 		- `factor`（float）：
 		- `knockback`（float）：
 		- `cooldown`（int）：
@@ -24,7 +24,7 @@
 		- `movement`（\_MeleeMovement）：
 			- `delay`（int）：
 			- `speed`（float）：
-	- `attack_right`（List<\_MeleeAttackInfo>）：
+	- `secondary_action`/`attack_right`（List<\_MeleeAttackInfo>）：
 		- `factor`（float）：
 		- `knockback`（float）：
 		- `cooldown`（int）：
@@ -51,7 +51,7 @@
 	"draw_time": 0,
 	"put_away_time": 0,
 	"attack": {
-		"attack_left": [
+		"primary_action": [
 			{
 				"factor": 0.0,
 				"knockback": 0.0,
@@ -74,7 +74,7 @@
 				}
 			}
 		],
-		"attack_right": [
+		"secondary_action": [
 			{
 				"factor": 0.0,
 				"knockback": 0.0,
@@ -106,12 +106,12 @@
 ```
 
 # English
-> wiki version: `0.0.0`.0
+> wiki version: `0.0.0`.1
 
 - `draw_time`(int):
 - `put_away_time`(int):
 - `attack`(\_CombatData):
-	- `attack_left`(List<\_MeleeAttackInfo>):
+	- `primary_action`/`attack_left`(List<\_MeleeAttackInfo>):
 		- `factor`(float):
 		- `knockback`(float):
 		- `cooldown`(int):
@@ -129,7 +129,7 @@
 		- `movement`(\_MeleeMovement):
 			- `delay`(int):
 			- `speed`(float):
-	- `attack_right`(List<\_MeleeAttackInfo>):
+	- `secondary_action`/`attack_right`(List<\_MeleeAttackInfo>):
 		- `factor`(float):
 		- `knockback`(float):
 		- `cooldown`(int):
@@ -156,7 +156,7 @@
 	"draw_time": 0,
 	"put_away_time": 0,
 	"attack": {
-		"attack_left": [
+		"primary_action": [
 			{
 				"factor": 0.0,
 				"knockback": 0.0,
@@ -179,7 +179,7 @@
 				}
 			}
 		],
-		"attack_right": [
+		"secondary_action": [
 			{
 				"factor": 0.0,
 				"knockback": 0.0,

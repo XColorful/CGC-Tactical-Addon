@@ -50,9 +50,15 @@
 ### 初始化
 > _./client/init_
 
+- ClientKeyMappingRegistry：客户端按键注册
 - ClientModConfig：客户端配置初始化
 - ClientModParticles：客户端粒子注册
 - ClientTooltipRegistry：客户端提示框注册
+
+### 输入
+> _./client/input_
+
+- combatant：战斗按键
 
 ### 粒子
 > _./client/particle_
@@ -118,9 +124,15 @@ Module division based on the `dev.xcolorful.cgctactical.client` top-level packag
 ### Initialization
 > _./client/init_
 
+- ClientKeyMappingRegistry: Client input key registration
 - ClientModConfig: Client config initialization
 - ClientModParticles: Client particle registration
 - ClientTooltipRegistry: Client tooltip registration
+
+### Input
+> _./client/input_
+
+- combatant: Combatant keys
 
 ### Particle
 > _./client/particle_
