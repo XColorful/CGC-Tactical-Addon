@@ -4,7 +4,7 @@ import dev.xcolorful.cgctactical.CgcTactical;
 import dev.xcolorful.cgctactical.client.item.melee._MeleeItem;
 import dev.xcolorful.cgctactical.core.api.entity.ILivingCombatant;
 import dev.xcolorful.cgctactical.core.api.item.IMelee;
-import dev.xcolorful.cgctactical.core.api.item.melee.MeleeAction;
+import dev.xcolorful.cgctactical.core.api.item.tactical.TacticalAction;
 import dev.xcolorful.cgctactical.core.api.item.melee.MeleeDataAccessor;
 import dev.xcolorful.cgctactical.core.api.minecraft.item.ItemType;
 import dev.xcolorful.cgctactical.core.gui.tooltip.melee.MeleeTooltip;
@@ -50,10 +50,10 @@ public class MeleeItem extends Item implements IMelee, MeleeDataAccessor {
     // --------IMeleeRuntime--------
 
     // ----IMeleeAttackRuntime----
-    @Override public @NotNull CombatantAttackResult combatantAttack(Object combatantProperty, @NotNull IMelee iMelee, @NotNull ItemStack meleeItem, ILivingCombatant iLivingCombatant, LivingEntity livingCombatant, MeleeAction meleeAction, int combo, List<Entity> meleeVictims) {
+    @Override public @NotNull CombatantAttackResult combatantAttack(Object combatantProperty, @NotNull IMelee iMelee, @NotNull ItemStack meleeItem, ILivingCombatant iLivingCombatant, LivingEntity livingCombatant, TacticalAction tacticalAction, int combo, List<Entity> meleeVictims) {
         return CgcTactical.getMeleeManager().getManagerGroup(this.getManagerGroupTag(meleeItem))
                 .meleeAttackManager()
-                .combatantAttack(combatantProperty, iMelee, meleeItem, iLivingCombatant, livingCombatant, meleeAction, combo, meleeVictims);
+                .combatantAttack(combatantProperty, iMelee, meleeItem, iLivingCombatant, livingCombatant, tacticalAction, combo, meleeVictims);
     }
     @Override public int meleeAttack(Object combatantProperty, @NotNull IMelee iMelee, @NotNull ItemStack meleeItem, ILivingCombatant iLivingCombatant, LivingEntity livingCombatant, float damage, float knockback, Entity meleeVictim) {
         return CgcTactical.getMeleeManager().getManagerGroup(this.getManagerGroupTag(meleeItem))

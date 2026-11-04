@@ -14,17 +14,17 @@ public enum TacticalCategory implements ResourceTag.CategoryTag {
      * 近战
      */
     MELEE(TacticalCategoryTag.MELEE,
-            Component.translatable("customgun.tacticalcategory.melee")),
+            Component.translatable("cgctactical.tacticalcategory.melee")),
     /**
      * 投掷物
      */
     THROWABLE(TacticalCategoryTag.THROWABLE,
-            Component.translatable("customgun.tacticalcategory.throwable")),
+            Component.translatable("cgctactical.tacticalcategory.throwable")),
     /**
      * 消耗品
      */
     CONSUMABLE(TacticalCategoryTag.CONSUMABLE,
-            Component.translatable("customgun.tacticalcategory.consumable"));
+            Component.translatable("cgctactical.tacticalcategory.consumable"));
 
     public final String categoryName;
     public final MutableComponent categoryLang;
