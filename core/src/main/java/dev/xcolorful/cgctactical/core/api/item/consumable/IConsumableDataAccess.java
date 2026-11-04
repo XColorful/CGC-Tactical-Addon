@@ -9,7 +9,8 @@ import net.minecraft.world.item.ItemStack;
 import org.jetbrains.annotations.NotNull;
 import org.jetbrains.annotations.Nullable;
 
-public interface IConsumableDataAccess extends _IConsumablePropertyAccess {
+public interface IConsumableDataAccess extends IConsumableStateAccess,
+        _IConsumablePropertyAccess {
 
     /**
      * 获取近战资源位置，如不存在则返回 {@link ResourceTag#NULL_LOCATION}

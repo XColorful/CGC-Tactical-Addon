@@ -39,6 +39,21 @@ public interface ConsumableDataAccessor extends TacticalDataAccessor, IConsumabl
         NBTUtils.setResourceLocation(consumableItem, ConsumableProperty.CONSUMABLE_DISPLAY_LOCATION.getTagName(), consumableDisplayLocation);
     }
 
+    // --------IConsumableStateAccess--------
+
+    @Override
+    default boolean hasTooltipMask(ItemStack consumableItem) {
+        return NBTUtils.hasKey(consumableItem, ConsumableProperty.TOOLTIP_MASK.getTagName());
+    }
+    @Override
+    default int getTooltipMask(ItemStack consumableItem) {
+        return NBTUtils.getInt(consumableItem, ConsumableProperty.TOOLTIP_MASK.getTagName());
+    }
+    @Override
+    default void setTooltipMask(ItemStack consumableItem, int tooltipMask) {
+        NBTUtils.setInt(consumableItem, ConsumableProperty.TOOLTIP_MASK.getTagName(), tooltipMask);
+    }
+
     // --------ITacticalDataAccess--------
 
     @Override

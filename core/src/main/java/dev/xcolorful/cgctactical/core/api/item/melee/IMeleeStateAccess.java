@@ -7,6 +7,12 @@ import net.minecraft.world.item.ItemStack;
 
 public interface IMeleeStateAccess {
 
+    // --------Tooltip--------
+
+    boolean hasTooltipMask(ItemStack meleeItem);
+    int getTooltipMask(ItemStack meleeItem);
+    void setTooltipMask(ItemStack meleeItem, int tooltipMask);
+
     // --------Deprecated--------
 
     /**
