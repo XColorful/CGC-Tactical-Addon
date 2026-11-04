@@ -27,6 +27,15 @@ Notation:
 |`ITargetFilter`|data.data.melee|
 |`*`|data.data.melee|
 
+#### Index API
+> ```java
+> package me.xjqsh.lrtactical.api.index;
+> ```
+
+|me.xjqsh.lrtactical.api.index|dev.xcolorful.cgctactical.core.resource|
+|---|---|
+|`ICustomItemIndex`|data.data.`*`|
+
 #### Item API
 > ```java
 > package me.xjqsh.lrtactical.api.item;
@@ -189,6 +198,16 @@ Notation:
 
 ## Client
 
+### GUI (Client)
+> ```java
+> package me.xjqsh.lrtactical.client.gui;
+> ```
+
+|me.xjqsh.lrtactical.client.gui||
+|---|---|
+|overlay.`InteractKeyTextOverlay`|_Deprecated_|
+|`ClothConfigScreen`||
+
 ### Input (Client)
 > ```java
 > package me.xjqsh.lrtactical.client.input;
@@ -199,7 +218,7 @@ Notation:
 |`AttackKeys`.NORMAL_ATTACK|combatant.`PrimaryActionKey`|
 |`AttackKeys`.SPECIAL_ATTACK|combatant.`SecondaryActionKey`|
 |`ConsumableInputHandler`||
-|`LrInteractKey`||
+|`LrInteractKey`|_Deprecated_|
 
 ### Resource (Client)
 > ```java
