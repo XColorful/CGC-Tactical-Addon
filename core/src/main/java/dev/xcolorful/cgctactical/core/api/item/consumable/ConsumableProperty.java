@@ -15,7 +15,12 @@ public enum ConsumableProperty implements ResourceTag {
             IConsumableDataAccess::setConsumableLocation),
     CONSUMABLE_DISPLAY_LOCATION(ConsumablePropertyTag.CONSUMABLE_DISPLAY_LOCATION,
             IConsumableDataAccess::getConsumableDisplayLocation,
-            IConsumableDataAccess::setConsumableDisplayLocation);
+            IConsumableDataAccess::setConsumableDisplayLocation),
+
+    // IConsumableStateAccess
+    TOOLTIP_MASK(ConsumablePropertyTag.TOOLTIP_MASK,
+            IConsumableDataAccess::getTooltipMask,
+            IConsumableDataAccess::setTooltipMask);
 
     public final String propertyName;
     private final BiFunction<IConsumableDataAccess, ItemStack, ?> getter;
