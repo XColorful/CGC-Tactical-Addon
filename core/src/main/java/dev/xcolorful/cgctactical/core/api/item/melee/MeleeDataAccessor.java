@@ -1,8 +1,10 @@
 package dev.xcolorful.cgctactical.core.api.item.melee;
 
+import dev.xcolorful.cgctactical.core.api.item.tactical.TacticalAction;
 import dev.xcolorful.cgctactical.core.api.item.tactical.TacticalDataAccessor;
 import dev.xcolorful.cgctactical.core.api.resource.ResourceApi;
-import dev.xcolorful.cgctactical.core.resource.data.data.MeleeData;import dev.xcolorful.cgctactical.core.resource.data.data.melee._CombatData;
+import dev.xcolorful.cgctactical.core.resource.data.data.MeleeData;
+import dev.xcolorful.cgctactical.core.resource.data.data.melee._CombatData;
 import dev.xcolorful.cgctactical.core.resource.data.data.melee.combat._MeleeAttackInfo;
 import dev.xcolorful.cgctactical.core.resource.data.data.melee.combat._MeleeMovement;
 import dev.xcolorful.cgctactical.core.resource.instance.data.MeleeIndexInstance;
@@ -54,12 +56,12 @@ public interface MeleeDataAccessor extends TacticalDataAccessor, IMeleeDataAcces
     }
 
     @ApiStatus.Internal
-    static @Nullable _MeleeAttackInfo getMeleeAttackInfo(_CombatData combatData, MeleeAction meleeAction, int combo) {
+    static @Nullable _MeleeAttackInfo getMeleeAttackInfo(_CombatData combatData, TacticalAction tacticalAction, int combo) {
         if (combo < 0) return null;
 
-        @Nullable List<_MeleeAttackInfo> meleeAttackInfos = switch (meleeAction) {
-            case LEFT_ATTACK -> combatData.getLeftAttacks();
-            case RIGHT_ATTACK -> combatData.getRightAttacks();
+        @Nullable List<_MeleeAttackInfo> meleeAttackInfos = switch (tacticalAction) {
+            case PRIMARY_ACTION -> combatData.getLeftAttacks();
+            case SECONDARY_ACTION -> combatData.getRightAttacks();
             // 增加类型使此处强制不通过
         };
         if (meleeAttackInfos == null) return null;
@@ -67,36 +69,36 @@ public interface MeleeDataAccessor extends TacticalDataAccessor, IMeleeDataAcces
         return meleeAttackInfos.get(combo % meleeAttackInfos.size());
     }
     @Override
-    default int getMeleeCooldown(ItemStack meleeItem, MeleeAction meleeAction, int combo) {
+    default int getMeleeCooldown(ItemStack meleeItem, TacticalAction tacticalAction, int combo) {
         var meleeLocation = this.getMeleeLocation(meleeItem);
         @Nullable MeleeIndexInstance meleeIndexInstance = ResourceApi.getMeleeIndexInstance(meleeLocation);
         if (meleeIndexInstance == null) return 0;
 
         MeleeData meleeData = meleeIndexInstance.getMeleeData();
         _CombatData combatData = meleeData.getAttackData();
-        @Nullable _MeleeAttackInfo meleeAttackInfo = getMeleeAttackInfo(combatData, meleeAction, combo);
+        @Nullable _MeleeAttackInfo meleeAttackInfo = getMeleeAttackInfo(combatData, tacticalAction, combo);
         return meleeAttackInfo != null ? meleeAttackInfo.getCooldown() : 0;
     }
     @Override
-    default int getMeleeDelay(ItemStack meleeItem, MeleeAction meleeAction, int combo) {
+    default int getMeleeDelay(ItemStack meleeItem, TacticalAction tacticalAction, int combo) {
         var meleeLocation = this.getMeleeLocation(meleeItem);
         @Nullable MeleeIndexInstance meleeIndexInstance = ResourceApi.getMeleeIndexInstance(meleeLocation);
         if (meleeIndexInstance == null) return 0;
 
         MeleeData meleeData = meleeIndexInstance.getMeleeData();
         _CombatData combatData = meleeData.getAttackData();
-        @Nullable _MeleeAttackInfo meleeAttackInfo = getMeleeAttackInfo(combatData, meleeAction, combo);
+        @Nullable _MeleeAttackInfo meleeAttackInfo = getMeleeAttackInfo(combatData, tacticalAction, combo);
         return meleeAttackInfo != null ? meleeAttackInfo.getDelay() : 0;
     }
     @Override
-    default @Nullable _MeleeMovement getMeleeMovement(ItemStack meleeItem, MeleeAction meleeAction) {
+    default @Nullable _MeleeMovement getMeleeMovement(ItemStack meleeItem, TacticalAction tacticalAction) {
         var meleeLocation = this.getMeleeLocation(meleeItem);
         @Nullable MeleeIndexInstance meleeIndexInstance = ResourceApi.getMeleeIndexInstance(meleeLocation);
         if (meleeIndexInstance == null) return null;
 
         MeleeData meleeData = meleeIndexInstance.getMeleeData();
         _CombatData combatData = meleeData.getAttackData();
-        @Nullable _MeleeAttackInfo meleeAttackInfo = getMeleeAttackInfo(combatData, meleeAction, 0);
+        @Nullable _MeleeAttackInfo meleeAttackInfo = getMeleeAttackInfo(combatData, tacticalAction, 0);
         return meleeAttackInfo != null ? meleeAttackInfo.getMovement() : null;
     }
 

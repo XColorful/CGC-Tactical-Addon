@@ -3,7 +3,7 @@ package dev.xcolorful.cgctactical.core.melee.attack;
 import dev.xcolorful.cgctactical.CgcTactical;
 import dev.xcolorful.cgctactical.core.api.entity.ILivingCombatant;
 import dev.xcolorful.cgctactical.core.api.item.IMelee;
-import dev.xcolorful.cgctactical.core.api.item.melee.MeleeAction;
+import dev.xcolorful.cgctactical.core.api.item.tactical.TacticalAction;
 import dev.xcolorful.cgctactical.core.api.melee.attack.IMeleeAttackManager;
 import dev.xcolorful.cgctactical.core.api.melee.attack.IMeleeAttackRuntime;
 import net.minecraft.world.entity.Entity;
@@ -27,10 +27,10 @@ public class MeleeAttackManager implements IMeleeAttackManager {
 
     @Override
     public @NotNull IMeleeAttackRuntime.CombatantAttackResult combatantAttack(Object combatantProperty,
-                                                                             @NotNull IMelee iMelee, @NotNull ItemStack meleeItem,
-                                                                             ILivingCombatant iLivingCombatant, LivingEntity livingCombatant,
-                                                                             MeleeAction meleeAction, int combo,
-                                                                             List<Entity> meleeVictims) {
+                                                                              @NotNull IMelee iMelee, @NotNull ItemStack meleeItem,
+                                                                              ILivingCombatant iLivingCombatant, LivingEntity livingCombatant,
+                                                                              TacticalAction tacticalAction, int combo,
+                                                                              List<Entity> meleeVictims) {
         // TODO 近战攻击逻辑移植
         return CombatantAttackResult.ERROR;
     }
