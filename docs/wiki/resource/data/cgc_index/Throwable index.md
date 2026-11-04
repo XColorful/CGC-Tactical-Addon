@@ -1,11 +1,12 @@
 [English](#English)
 
 # 投掷物索引
-> wiki 版本：`0.0.0`.0
+> wiki 版本：`0.0.0`.1
 
 - `name_lang`/`name`（String）：
 - `tooltip_lang`/`tooltip`（String）：
-- `data_location`/`data`（ResourceLocation）：
+- `data_location`（ResourceLocation）：
+- ~~`data`~~（ThrowableData）
 - `display_index_location`/`display`（ResourceLocation）：
 - `slot_sort`/`sort`（int）：
 ---
@@ -26,11 +27,12 @@
 ```
 
 # English
-> wiki version: `0.0.0`.0
+> wiki version: `0.0.0`.1
 
 - `name_lang`/`name`(String):
 - `tooltip_lang`/`tooltip`(String):
-- `data_location`/`data`(ResourceLocation):
+- `data_location`(ResourceLocation):
+- ~~`data`~~(ThrowableData)
 - `display_index_location`/`display`(ResourceLocation):
 - `slot_sort`/`sort`(int):
 ---

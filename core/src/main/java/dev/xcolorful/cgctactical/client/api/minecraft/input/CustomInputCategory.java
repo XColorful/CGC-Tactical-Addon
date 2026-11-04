@@ -1,5 +1,6 @@
 package dev.xcolorful.cgctactical.client.api.minecraft.input;
 
+import dev.xcolorful.cgctactical.CgcTactical;
 import dev.xcolorful.cgctactical.core.api.minecraft.input.CustomInputCategoryTag;
 import dev.xcolorful.customgun.CustomGun;
 import dev.xcolorful.customgun.client.api.minecraft.input.ICustomInputCategory;
@@ -25,7 +26,7 @@ public enum CustomInputCategory implements ICustomInputCategory {
     CustomInputCategory(String prefix, String category) {
         this.tagName = category;
         this.categoryName = category;
-        this.registryLocation = CustomGun.getMcRegistry().createResourceLocation(String.format("%s:%s", CustomGun.MOD_ID, prefix + category));
+        this.registryLocation = CustomGun.getMcRegistry().createResourceLocation(String.format("%s:%s", CgcTactical.MOD_ID, prefix + category));
         this.registryName = registryLocation.toString();
         this.categoryLang = Component.translatable(this.registryLocation.getPath());
     }
