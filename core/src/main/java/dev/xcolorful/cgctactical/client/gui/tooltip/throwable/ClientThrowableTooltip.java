@@ -12,7 +12,7 @@ import dev.xcolorful.customgun.client.api.gui.tooltip.BaseTooltipView;
 import dev.xcolorful.customgun.client.resource.assets.info.GunpackInfo;
 import net.minecraft.client.Minecraft;
 import net.minecraft.client.gui.Font;
-import net.minecraft.client.gui.GuiGraphics;
+import net.minecraft.client.gui.GuiGraphicsExtractor;
 import net.minecraft.client.gui.screens.inventory.tooltip.ClientTooltipComponent;
 import net.minecraft.util.FormattedCharSequence;
 import net.minecraft.world.item.ItemStack;
@@ -123,7 +123,7 @@ public class ClientThrowableTooltip implements ClientTooltipComponent {
     }
 
     @Override
-    public void renderText(@NotNull GuiGraphics guiGraphics,
+    public void extractText(@NotNull GuiGraphicsExtractor guiGraphics,
                            @NotNull Font font,
                            int startX, int startY) {
         { // 设置缓存
@@ -138,10 +138,10 @@ public class ClientThrowableTooltip implements ClientTooltipComponent {
     }
 
     @Override
-    public void renderImage(@NotNull Font font,
+    public void extractImage(@NotNull Font font,
                             int startX, int startY,
                             int width, int height,
-                            @NotNull GuiGraphics guiGraphics) {
+                            @NotNull GuiGraphicsExtractor guiGraphics) {
         { // 设置缓存
             this.context.imageFont = font;
             this.context.imageGraphic = guiGraphics;
