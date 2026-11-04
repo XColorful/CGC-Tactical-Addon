@@ -4,7 +4,7 @@ import dev.xcolorful.cgctactical.core.api.minecraft.input.CustomInputKeyTag;
 import dev.xcolorful.customgun.CustomGun;
 import dev.xcolorful.customgun.client.api.minecraft.input.ICustomInputKey;
 import net.minecraft.network.chat.Component;
-import net.minecraft.resources.ResourceLocation;
+import net.minecraft.resources.Identifier;
 import org.jetbrains.annotations.ApiStatus;
 import org.jetbrains.annotations.Nullable;
 
@@ -19,7 +19,7 @@ public enum CustomInputKey implements ICustomInputKey {
     public final String tagName;
     public final String categoryName;
     public final String registryName;
-    public final ResourceLocation registryLocation;
+    public final Identifier registryLocation;
     public final Component categoryLang;
     CustomInputKey(String name) {
         this(CustomInputKeyTag.PREFIX, name);
@@ -40,7 +40,7 @@ public enum CustomInputKey implements ICustomInputKey {
     @Override public String getRegistryName() {
         return this.registryName;
     }
-    @Override public ResourceLocation getRegistryLocation() {
+    @Override public Identifier getRegistryLocation() {
         return this.registryLocation;
     }
 
