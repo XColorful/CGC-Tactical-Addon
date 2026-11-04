@@ -1,6 +1,6 @@
 package dev.xcolorful.cgctactical.core.api.melee.physics;
 
-import dev.xcolorful.cgctactical.core.api.item.melee.MeleeAction;
+import dev.xcolorful.cgctactical.core.api.item.tactical.TacticalAction;
 import net.minecraft.world.entity.Entity;
 import net.minecraft.world.entity.player.Player;
 import net.minecraft.world.item.ItemStack;
@@ -18,7 +18,7 @@ public interface IMeleePhysicsRuntime {
      */
     @Deprecated default List<Entity> collectTargets(Player livingCombatant,
                                                     ItemStack meleeItem,
-                                                    MeleeAction meleeAction,
+                                                    TacticalAction tacticalAction,
                                                     Vec3 origin, Vec3 direction) {
         return null;
     }

@@ -2,6 +2,7 @@ package dev.xcolorful.cgctactical.core.api.item.melee;
 
 import dev.xcolorful.cgctactical.core.api.item.IMelee;
 import dev.xcolorful.cgctactical.core.api.item.tactical.ITacticalDataAccess;
+import dev.xcolorful.cgctactical.core.api.item.tactical.TacticalAction;
 import dev.xcolorful.cgctactical.core.api.resource.ResourceApi;
 import dev.xcolorful.cgctactical.core.resource.data.data.melee.combat._MeleeMovement;
 import dev.xcolorful.cgctactical.core.resource.data.index.MeleeIndex;
@@ -31,9 +32,9 @@ public interface IMeleeDataAccess extends ITacticalDataAccess,
     @NotNull ResourceLocation getMeleeDisplayLocation(ItemStack meleeItem);
     void setMeleeDisplayLocation(ItemStack meleeItem, ResourceLocation meleeDisplayLocation);
 
-    int getMeleeCooldown(ItemStack meleeItem, MeleeAction meleeAction, int combo);
-    int getMeleeDelay(ItemStack meleeItem, MeleeAction meleeAction, int combo);
-    @Nullable _MeleeMovement getMeleeMovement(ItemStack meleeItem, MeleeAction meleeAction);
+    int getMeleeCooldown(ItemStack meleeItem, TacticalAction tacticalAction, int combo);
+    int getMeleeDelay(ItemStack meleeItem, TacticalAction tacticalAction, int combo);
+    @Nullable _MeleeMovement getMeleeMovement(ItemStack meleeItem, TacticalAction tacticalAction);
 
     // --------Deprecated--------
 
@@ -50,13 +51,13 @@ public interface IMeleeDataAccess extends ITacticalDataAccess,
 
     @SuppressWarnings("deprecation")
     @Override
-    @Deprecated default int getAttackCoolDown(ItemStack meleeItem, MeleeAction meleeAction, int combo) {
-        return getMeleeCooldown(meleeItem, meleeAction, combo);
+    @Deprecated default int getAttackCoolDown(ItemStack meleeItem, TacticalAction tacticalAction, int combo) {
+        return getMeleeCooldown(meleeItem, tacticalAction, combo);
     }
-    @Deprecated default int getAttackDelay(Player livingCombatant, ItemStack meleeItem, MeleeAction meleeAction, int combo) {
-        return getMeleeDelay(meleeItem, meleeAction, combo);
+    @Deprecated default int getAttackDelay(Player livingCombatant, ItemStack meleeItem, TacticalAction tacticalAction, int combo) {
+        return getMeleeDelay(meleeItem, tacticalAction, combo);
     }
-    @Deprecated default @Nullable _MeleeMovement getAttachMovement(Player livingCombatant, ItemStack meleeItem, MeleeAction meleeAction) {
-        return getMeleeMovement(meleeItem, meleeAction);
+    @Deprecated default @Nullable _MeleeMovement getAttachMovement(Player livingCombatant, ItemStack meleeItem, TacticalAction tacticalAction) {
+        return getMeleeMovement(meleeItem, tacticalAction);
     }
 }

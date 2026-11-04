@@ -8,16 +8,6 @@ import net.minecraft.world.item.ItemStack;
 public interface ITacticalItem extends ITacticalDataAccess,
         IAnimationItem {
 
-    default boolean replaceVanillaAttack() {
-        return false;
-    }
-    default boolean replaceVanillaUseItem() {
-        return false;
-    }
-    default boolean replaceVanillaPickBlock() {
-        return false;
-    }
-
     /**
      * @return 是否取消物品损坏时行为
      */
