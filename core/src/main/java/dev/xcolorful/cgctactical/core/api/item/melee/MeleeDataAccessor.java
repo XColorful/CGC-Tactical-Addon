@@ -100,6 +100,21 @@ public interface MeleeDataAccessor extends TacticalDataAccessor, IMeleeDataAcces
         return meleeAttackInfo != null ? meleeAttackInfo.getMovement() : null;
     }
 
+    // --------IMeleeStateAccess--------
+
+    @Override
+    default boolean hasTooltipMask(ItemStack meleeItem) {
+        return NBTUtils.hasKey(meleeItem, MeleeProperty.TOOLTIP_MASK.getTagName());
+    }
+    @Override
+    default int getTooltipMask(ItemStack meleeItem) {
+        return NBTUtils.getInt(meleeItem, MeleeProperty.TOOLTIP_MASK.getTagName());
+    }
+    @Override
+    default void setTooltipMask(ItemStack meleeItem, int tooltipMask) {
+        NBTUtils.setInt(meleeItem, MeleeProperty.TOOLTIP_MASK.getTagName(), tooltipMask);
+    }
+
     // --------ITacticalDataAccess--------
 
     @Override
