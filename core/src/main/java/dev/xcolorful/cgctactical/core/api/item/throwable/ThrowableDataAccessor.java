@@ -39,6 +39,21 @@ public interface ThrowableDataAccessor extends TacticalDataAccessor, IThrowableD
         NBTUtils.setResourceLocation(throwableItem, ThrowableProperty.THROWABLE_DISPLAY_LOCATION.getTagName(), throwableDisplayLocation);
     }
 
+    // --------IThrowableStateAccess--------
+
+    @Override
+    default boolean hasTooltipMask(ItemStack throwableItem) {
+        return NBTUtils.hasKey(throwableItem, ThrowableProperty.TOOLTIP_MASK.getTagName());
+    }
+    @Override
+    default int getTooltipMask(ItemStack throwableItem) {
+        return NBTUtils.getInt(throwableItem, ThrowableProperty.TOOLTIP_MASK.getTagName());
+    }
+    @Override
+    default void setTooltipMask(ItemStack throwableItem, int tooltipMask) {
+        NBTUtils.setInt(throwableItem, ThrowableProperty.TOOLTIP_MASK.getTagName(), tooltipMask);
+    }
+
     // --------ITacticalDataAccess--------
 
     @Override
