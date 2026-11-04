@@ -4,7 +4,7 @@ import dev.xcolorful.cgctactical.core.api.item.IMelee;
 import dev.xcolorful.cgctactical.core.api.item.melee.IMeleeGetter;
 import dev.xcolorful.cgctactical.core.api.resource.ResourceApi;
 import dev.xcolorful.cgctactical.core.resource.instance.data.MeleeIndexInstance;
-import net.minecraft.resources.ResourceLocation;
+import net.minecraft.resources.Identifier;
 import net.minecraft.world.inventory.tooltip.TooltipComponent;
 import net.minecraft.world.item.ItemStack;
 
@@ -12,7 +12,7 @@ import javax.annotation.Nullable;
 
 public record MeleeTooltip(IMelee iMelee, ItemStack meleeItem,
                            // --------Cache--------
-                           ResourceLocation meleeLocation)
+                           Identifier meleeLocation)
         implements TooltipComponent {
 
     public static @Nullable MeleeTooltip fromItem(@Nullable ItemStack meleeItem) {
