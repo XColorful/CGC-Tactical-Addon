@@ -207,3 +207,56 @@ gunpackInfo要补上，用meleeLocation代替gunLocation等
 - 三个 `*DetailInfoPart` 的 `packInfo` 构建改为 CGC 的写法：有数据时 `Component.translatable(gunpackInfo.getNameLang()).withStyle(ITALIC)`，没有时回退 `ComponentUtils.unknownTranslatableKey()`；`showPackInfo` 仍为创造模式 + 高级提示。
 
 `:core:compileJava` 与 `:forge-compat:compileJava` 均通过。未在游戏内验证显示效果，变更未提交。
+
+# 
+
+```
+MeleeItem等都补上getName
+```
+
+# 
+
+先看 CGC 的 `_GunItem.getName` 实现，确认 Addon 是否有对应辅助类。
+
+在三个物品类中补 `getName`，按 CGC 语义从索引的 `nameLang` 取名，取不到时回退原始名称。
+
+已为三个物品补上 `getName`：
+
+- [MeleeItem.java](core/src/main/java/dev/xcolorful/cgctactical/core/item/melee/MeleeItem.java)
+- [ThrowableItem.java](core/src/main/java/dev/xcolorful/cgctactical/core/item/throwable/ThrowableItem.java)
+- [ConsumableItem.java](core/src/main/java/dev/xcolorful/cgctactical/core/item/consumable/ConsumableItem.java)
+
+实现与 CGC 的 `GunItem.getName` 语义一致：先由本物品的 location 取对应 index 实例，存在则返回 `Component.translatable(index.getNameLang())`，取不到 index 时回退 `super.getName(itemStack)`。代码放在 `// --------Client--------` 分节，位置对应 CGC 的写法。
+
+`:core:compileJava` 与 `:forge-compat:compileJava` 均通过，未提交。
+
+# 
+
+```
+用_MeleeItem的形式，格式与CGC完全一致
+```
+
+# 
+
+按 CGC 的 `_GunItem` 形式重构：新增三个 `_XItem` 客户端辅助类，物品改为委托调用。
+
+已按 `_GunItem` 的形式重构完成：
+
+**新增辅助类**（对应 CGC 的 `client.item.gun._GunItem`）
+- [_MeleeItem.java](core/src/main/java/dev/xcolorful/cgctactical/client/item/melee/_MeleeItem.java)
+- [_ThrowableItem.java](core/src/main/java/dev/xcolorful/cgctactical/client/item/throwable/_ThrowableItem.java)
+- [_ConsumableItem.java](core/src/main/java/dev/xcolorful/cgctactical/client/item/consumable/_ConsumableItem.java)
+
+每个都是 `public class _XItem`，提供 `public static @Nullable Component getName(IX iX, @NotNull ItemStack xItem)`：取 location → `ResourceApi.getXIndexInstance` → `Component.translatable(index.getNameLang())`，索引不存在返回 `null`，与 CGC 完全一致。
+
+**物品类**
+- `MeleeItem` / `ThrowableItem` / `ConsumableItem` 的 `getName` 改为：
+
+```java
+var name = _XItem.getName(this, xItem);
+return name != null ? name : super.getName(xItem);
+```
+
+分节顺序（`// --------Item--------` → `// --------Client--------`）、import 顺序也与 CGC 的 `GunItem` 保持一致。
+
+`:core:compileJava` 与 `:forge-compat:compileJava` 均通过，未提交。
