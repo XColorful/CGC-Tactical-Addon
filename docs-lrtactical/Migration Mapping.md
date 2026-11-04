@@ -50,7 +50,7 @@ Notation:
 
 |me.xjqsh.lrtactical.api.melee|dev.xcolorful.cgctactical.core.api.item|
 |---|---|
-|`MeleeAction`|melee.`MeleeAction`|
+|`MeleeAction`|tactical.`TacticalAction`|
 
 ### Capability
 > ```java
@@ -189,6 +189,18 @@ Notation:
 
 ## Client
 
+### Input (Client)
+> ```java
+> package me.xjqsh.lrtactical.client.input;
+> ```
+
+|me.xjqsh.lrtactical.client.input|dev.xcolorful.cgctactical.client.input|
+|---|---|
+|`AttackKeys`.NORMAL_ATTACK|combatant.`PrimaryActionKey`|
+|`AttackKeys`.SPECIAL_ATTACK|combatant.`SecondaryActionKey`|
+|`ConsumableInputHandler`||
+|`LrInteractKey`||
+
 ### Resource (Client)
 > ```java
 > package me.xjqsh.lrtactical.client.resource;
@@ -242,4 +254,5 @@ Notation:
 |me.xjqsh.lrtactical.client|dev.xcolorful.cgctactical.client.init|
 |---|---|
 |`ClientSetupHandler`.registerParticles|`ClientModParticles`.onRegisterParticleProviders|
-|`ClientSetupHandler`.onRegisterTooltipComponentFactories|`ClientTooltipRegistry`.registerTooltips|
+|`ClientSetupHandler`.onRegisterTooltipComponentFactories|`ClientTooltipRegistry`.registerTooltips|Providers|
+|`ClientSetupHandler`.onClientSetup(RegisterKeyMappingsEvent)|`ClientKeyMappingRegistry`.registerKeyMappings|

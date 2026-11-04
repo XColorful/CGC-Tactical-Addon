@@ -1,4 +1,8 @@
 {
+	"key.category.cgctactical.combatant": "自定义枪械永续战术扩展: 战斗",
+	"key.cgctactical.primary_action": "主要行为 (攻击)",
+	"key.cgctactical.secondary_action": "第二行为 (使用物品/攻击)",
+
 	"cgctactical.tacticalcategory.melee": "近战",
 	"cgctactical.tacticalcategory.throwable": "投掷物",
 	"cgctactical.tacticalcategory.consumable": "消耗品"
