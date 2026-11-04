@@ -2,7 +2,8 @@ package dev.xcolorful.cgctactical.core.api.item.melee;
 
 import dev.xcolorful.cgctactical.core.api.item.tactical.TacticalDataAccessor;
 import dev.xcolorful.cgctactical.core.api.resource.ResourceApi;
-import dev.xcolorful.cgctactical.core.resource.data.data.MeleeData;import dev.xcolorful.cgctactical.core.resource.data.data.melee._CombatData;
+import dev.xcolorful.cgctactical.core.resource.data.data.MeleeData;
+import dev.xcolorful.cgctactical.core.resource.data.data.melee._CombatData;
 import dev.xcolorful.cgctactical.core.resource.data.data.melee.combat._MeleeAttackInfo;
 import dev.xcolorful.cgctactical.core.resource.data.data.melee.combat._MeleeMovement;
 import dev.xcolorful.cgctactical.core.resource.instance.data.MeleeIndexInstance;
