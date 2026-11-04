@@ -22,7 +22,7 @@ public class ClientKeyMappingRegistry {
         register.accept(SecondaryActionKey.get().getKeyMapping().get());
     }
     @ApiStatus.AvailableSince("1.21.10")
-    public void registerInputCategories(Consumer<String> register) { // Consumer<KeyMapping.Category> register
+    public void registerInputCategories(Consumer<KeyMapping.Category> register) {
         register.accept(ClientInputCategory.COMBATANT);
     }
 }
