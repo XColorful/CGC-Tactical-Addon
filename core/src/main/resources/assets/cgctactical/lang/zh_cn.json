@@ -1,5 +1,5 @@
 {
-	"customgun.tacticalcategory.melee": "近战",
-	"customgun.tacticalcategory.throwable": "投掷物",
-	"customgun.tacticalcategory.consumable": "消耗品"
+	"cgctactical.tacticalcategory.melee": "近战",
+	"cgctactical.tacticalcategory.throwable": "投掷物",
+	"cgctactical.tacticalcategory.consumable": "消耗品"
 }
