@@ -18,7 +18,12 @@ public enum MeleeProperty implements ResourceTag {
             IMeleeDataAccess::setMeleeLocation),
     MELEE_DISPLAY_LOCATION(MeleePropertyTag.MELEE_DISPLAY_LOCATION,
             IMeleeDataAccess::getMeleeDisplayLocation,
-            IMeleeDataAccess::setMeleeDisplayLocation);
+            IMeleeDataAccess::setMeleeDisplayLocation),
+
+    // IMeleeStateAccess
+    TOOLTIP_MASK(MeleePropertyTag.TOOLTIP_MASK,
+            IMeleeDataAccess::getTooltipMask,
+            IMeleeDataAccess::setTooltipMask);
 
     public final String propertyName;
     private final BiFunction<IMeleeDataAccess, ItemStack, ?> getter;

@@ -7,5 +7,8 @@ public class MeleePropertyTag {
     public static final String MELEE_LOCATION = "melee_rl";
     public static final String MELEE_DISPLAY_LOCATION = "melee_display_rl";
 
+    // --------IMeleeStateAccess--------
+    public static final String TOOLTIP_MASK = "tooltip_mask";
+
     private MeleePropertyTag() {}
 }
