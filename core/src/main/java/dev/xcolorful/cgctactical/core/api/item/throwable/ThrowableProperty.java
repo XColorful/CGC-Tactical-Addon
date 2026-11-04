@@ -15,7 +15,12 @@ public enum ThrowableProperty implements ResourceTag {
             IThrowableDataAccess::setThrowableLocation),
     THROWABLE_DISPLAY_LOCATION(ThrowablePropertyTag.THROWABLE_DISPLAY_LOCATION,
             IThrowableDataAccess::getThrowableDisplayLocation,
-            IThrowableDataAccess::setThrowableDisplayLocation);
+            IThrowableDataAccess::setThrowableDisplayLocation),
+
+    // IThrowableStateAccess
+    TOOLTIP_MASK(ThrowablePropertyTag.TOOLTIP_MASK,
+            IThrowableDataAccess::getTooltipMask,
+            IThrowableDataAccess::setTooltipMask);
 
     public final String propertyName;
     private final BiFunction<IThrowableDataAccess, ItemStack, ?> getter;
