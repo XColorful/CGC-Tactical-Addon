@@ -22,10 +22,51 @@ Notation:
 > package me.xjqsh.lrtactical.api;
 > ```
 
+|me.xjqsh.lrtactical.api|dev.xcolorful.cgctactical.core.api.resource|
+|---|---|
+|`LrTacticalAPI`|`ResourceApi`|
+
+|me.xjqsh.lrtactical.api|dev.xcolorful.cgctactical.client.api.resource|
+|---|---|
+|`LrTacticalAPI`|`ClientResourceApi`|
+
+#### Animation API
+> ```java
+> package me.xjqsh.lrtactical.api.animation;
+> ```
+
+|me.xjqsh.lrtactical.api.animation||
+|---|---|
+|`*AnimationStateContext`||
+
+#### Collision API
+> ```java
+> package me.xjqsh.lrtactical.api.collision;
+> ```
+
 |me.xjqsh.lrtactical.api.collision|dev.xcolorful.cgctactical.core.resource|
 |---|---|
 |`ITargetFilter`|data.data.melee|
 |`*`|data.data.melee|
+
+#### Event API
+> ```java
+> package me.xjqsh.lrtactical.api.event;
+> ```
+
+|me.xjqsh.lrtactical.api.event|dev.xcolorful.cgctactical.core.api.event|
+|---|---|
+|`ConsumableUseEvent`||
+|`MeleePreAttackEvent`|combatant.`MeleeAttackEvent`|
+
+#### Index API
+> ```java
+> package me.xjqsh.lrtactical.api.index;
+> ```
+
+|me.xjqsh.lrtactical.api.index|dev.xcolorful.cgctactical.core.resource|
+|---|---|
+|`ICustomItemIndex`|data.data.`*`|
 
 #### Item API
 > ```java
@@ -57,9 +98,28 @@ Notation:
 > package me.xjqsh.lrtactical.capability;
 > ```
 
+|me.xjqsh.lrtactical.capability||
+|---|---|
+|`CombatProperties`||
+|`CombatPropertiesProvider`||
+|`CustomItemCoolDowns`||
+|`CustomItemCoolDownsProvider`||
+|`TickHandler`||
+
 | |dev.xcolorful.cgctactical.core.mixin|
 |---|---|
-|net.minecraftforge.common.capabilities.`AutoRegisterCapability`|entity.`PlayerMixin`|
+|net.minecraftforge.common.capabilities.`AutoRegisterCapability`|entity.`LivingEntityMixin`|
+
+### Compat
+> ```java
+> package me.xjqsh.lrtactical.compat;
+> ```
+
+|me.xjqsh.lrtactical.compat|dev.xcolorful.cgctactical.client.compat|
+|---|---|
+|cloth||
+|jei||
+|player_animator||
 
 ### Config
 > ```java
@@ -76,16 +136,73 @@ Notation:
 |`CommonConfig`|`MeleeConfig`|
 |`ServerConfig`|`SyncConfig`|
 
+### Effect
+> ```java
+> package me.xjqsh.lrtactical.effect;
+> ```
+
+|me.xjqsh.lrtactical.effect||
+|---|---|
+|`BurnedEffect`|_Deprecated_|
+|`HarmfulEffect`||
+
+### Enchantment
+> ```java
+> package me.xjqsh.lrtactical.enchantment;
+> ```
+
+|me.xjqsh.lrtactical.enchantment||
+|---|---|
+|`BackstabEnchantment`|_Deprecated_|
+
+### Entity
+> ```java
+> package me.xjqsh.lrtactical.entity;
+> ```
+
+|me.xjqsh.lrtactical.entity|dev.xcolorful.cgctactical.core.entity|
+|---|---|
+|sp.`SpEffectCloudEntity`||
+|`EffectCloudGrenadeEntity`||
+|`GrenadeEntity`||
+|`SmokeGrenadeEntity`||
+|`StickyGrenadeEntity`||
+|`StunGrenadeEntity`||
+|`ThrowableItemEntity`||
+
+### Handler
+> ```java
+> package me.xjqsh.lrtactical.handler;
+> ```
+
+|me.xjqsh.lrtactical.handler||
+|---|---|
+|`CriticalHitEventHandler`|_Deprecated_|
+|`EntityHurtEventHandler`|_Deprecated_|
+|`ShieldBlockEventHandler`||
+
 ### Initialize
 > ```java
 > package me.xjqsh.lrtactical.init;
 > ```
 
+|me.xjqsh.lrtactical.init|dev.xcolorful.cgctactical.core.mixin|
+|---|---|
+|`CommonSetupHandler`|entity.`LivingEntityMixin`|
+
 |me.xjqsh.lrtactical.init|dev.xcolorful.cgctactical.core.init|
 |---|---|
+|`CompatRegistry`|_Deprecated_|
+|`ModCustomTypes`||
+|`ModEffects`||
+|`ModEnchantment`||
+|`ModEntities`||
 |`ModItems`.TABS|registry.`ModCreativeTabs`.TABS|
 |`ModItems`|registry.`ModItems`|
 |`ModParticleTypes`|registry.`ModParticles`|
+|`ModParticleTypes`.`SMOKE_CLOUD`|registry.`ModParticles`.`SMOKE_CLOUD`|
+|`ModRegistries`||
+|`ModSounds`||
 
 |me.xjqsh.lrtactical.init|dev.xcolorful.cgctactical.core.api.minecraft|
 |---|---|
@@ -129,6 +246,22 @@ Notation:
 |`MeleeItem`|melee.`MeleeItem`|
 |`ThrowableItem`|throwable.`ThrowableItem`|
 
+### Mixin
+> ```java
+> package me.xjqsh.lrtactical.mixin;
+> ```
+
+|me.xjqsh.lrtactical.mixin|dev.xcolorful.cgctactical.core.mixin|
+|---|---|
+|client.`GameRendererMixin`||
+|client.`GunSmithTableScreenMixin`|_Deprecated_|
+|client.`MinecraftMixin`||
+|client.`PlayerAnimatorAssetManagerMixin`|_Deprecated_|
+|client.`PlayerModelMixin`|_Deprecated_|
+|common.`AnvilMenuMixin`||
+|common.`LivingEntityMixin`||
+|common.`PlayerMixin`||
+
 ### Network
 > ```java
 > package me.xjqsh.lrtactical.network;
@@ -154,20 +287,6 @@ Notation:
 |---|---|
 |`DataType`|network.`SyncDataType`|
 
-### Particle
-> ```java
-> package me.xjqsh.lrtactical.init;
-> ```
-
-|me.xjqsh.lrtactical.init|dev.xcolorful.cgctactical.core.init.registry|
-|---|---|
-|`ModParticleTypes`|`ModParticles`|
-|`ModParticleTypes`.`SMOKE_CLOUD`|`ModParticles`.`SMOKE_CLOUD`|
-
-|me.xjqsh.lrtactical.util|dev.xcolorful.cgctactical.core.util|
-|---|---|
-|`ParticleUtil`|_Deprecated_|
-
 ### Resource
 > ```java
 > package me.xjqsh.lrtactical.resource;
@@ -187,7 +306,60 @@ Notation:
 |---|---|
 |`ICommonResourceProvider`|`ResourceApi`|
 
+### Util
+
+|me.xjqsh.lrtactical.util|dev.xcolorful.cgctactical.core.util|
+|---|---|
+|`CustomExplosion`||
+|`DefaultAttrUUIDUtil`||
+|`IPAAssetManager`||
+|`ParticleUtil`|_Deprecated_|
+|`PotionTooltipUtil`|_Deprecated_|
+|`SightTraceUtil`|_Deprecated_|
+|`TooltipLine`|_Deprecated_|
+|`TooltipUtil`|_Deprecated_|
+|`VectorUtil`||
+
 ## Client
+
+|me.xjqsh.lrtactical.client||
+|---|---|
+|`ClientEventsHandler`.computeCameraAngles||
+|`ClientEventsHandler`.onRenderHand||
+|`ClientEventsHandler`.tickAnimation||
+|`ClientEventsHandler`.tickMove||
+|`ClientEventsHandler`.afterLevel||
+|`ClientEventsHandler`.onClickInput|_Deprecated_|
+|`ClientEventsHandler`.renderAttackHitBox|_Deprecated_|
+|`ClientEventsHandler`.renderOBB||
+
+|me.xjqsh.lrtactical.client|dev.xcolorful.cgctactical.client.init|
+|---|---|
+|`ClientSetupHandler`.registerParticles|`ClientModParticles`.onRegisterParticleProviders|
+|`ClientSetupHandler`.onRegisterTooltipComponentFactories|`ClientTooltipRegistry`.registerTooltips|Providers|
+|`ClientSetupHandler`.onClientSetup(RegisterKeyMappingsEvent)|`ClientKeyMappingRegistry`.registerKeyMappings|
+
+### Audio (Client)
+> ```java
+> package me.xjqsh.lrtactical.client.audio;
+> ```
+
+|me.xjqsh.lrtactical.client.audio||
+|---|---|
+|`ICustomSoundSupplier`||
+|`SmokeReleaseSound`|_Deprecated_|
+|`SoundHandler`||
+|`StunRingingSound`||
+
+### GUI (Client)
+> ```java
+> package me.xjqsh.lrtactical.client.gui;
+> ```
+
+|me.xjqsh.lrtactical.client.gui||
+|---|---|
+|overlay.`InteractKeyTextOverlay`|_Deprecated_|
+|`ClothConfigScreen`||
 
 ### Input (Client)
 > ```java
@@ -199,7 +371,41 @@ Notation:
 |`AttackKeys`.NORMAL_ATTACK|combatant.`PrimaryActionKey`|
 |`AttackKeys`.SPECIAL_ATTACK|combatant.`SecondaryActionKey`|
 |`ConsumableInputHandler`||
-|`LrInteractKey`||
+|`LrInteractKey`|_Deprecated_|
+
+### Overlay (Client)
+> ```java
+> package me.xjqsh.lrtactical.client.overlay;
+> ```
+
+|me.xjqsh.lrtactical.client.overlay|dev.xcolorful.cgctactical.client.overlay|
+|---|---|
+|`UsingProgressOverlay`|_Deprecated_|
+
+### Particle (Client)
+> ```java
+> package me.xjqsh.lrtactical.client.particle;
+> ```
+
+|me.xjqsh.lrtactical.client.particle|dev.xcolorful.cgctactical.client.particle|
+|---|---|
+|`SmokeCloudParticle`|`SmokeCloudParticle`|
+
+### Renderer (Client)
+> ```java
+> package me.xjqsh.lrtactical.client.renderer;
+> ```
+
+|me.xjqsh.lrtactical.client.renderer||
+|---|---|
+|entity.`ThrowableEntityRenderer`||
+|item.`ConsumableItemRenderer`||
+|item.`FlashShieldItemRenderer`||
+|item.`MeleeItemRenderer`||
+|item.`ThrowableItemRendererWrapper`||
+|model.`CustomBedrockModel`||
+|`CoolDownDecorations`|_Deprecated_|
+|`JumpSwayUtil`||
 
 ### Resource (Client)
 > ```java
@@ -219,15 +425,6 @@ Notation:
 |---|---|
 |`LrClientAssetsManager`|`ClientResourceApi`|
 
-### Particle (Client)
-> ```java
-> package me.xjqsh.lrtactical.client.particle;
-> ```
-
-|me.xjqsh.lrtactical.client.particle|dev.xcolorful.cgctactical.client.particle|
-|---|---|
-|`SmokeCloudParticle`|`SmokeCloudParticle`|
-
 ### Tooltip (Client)
 > ```java
 > package me.xjqsh.lrtactical.client.tooltip;
@@ -245,14 +442,3 @@ Notation:
 |`AbstractClientItemTooltip`.build|tooltip.`BaseTooltipContext`.buildView|
 |`Client*Tooltip`.renderText|tooltip.`TooltipPart`.renderText|
 |`Client*Tooltip`.renderImage|tooltip.`TooltipPart`.renderImage|
-
-### Initialize (Client)
-> ```java
-> package me.xjqsh.lrtactical.client;
-> ```
-
-|me.xjqsh.lrtactical.client|dev.xcolorful.cgctactical.client.init|
-|---|---|
-|`ClientSetupHandler`.registerParticles|`ClientModParticles`.onRegisterParticleProviders|
-|`ClientSetupHandler`.onRegisterTooltipComponentFactories|`ClientTooltipRegistry`.registerTooltips|Providers|
-|`ClientSetupHandler`.onClientSetup(RegisterKeyMappingsEvent)|`ClientKeyMappingRegistry`.registerKeyMappings|
