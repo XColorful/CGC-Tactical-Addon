@@ -18,11 +18,41 @@
 
 - RenderConfig：渲染配置
 
+### GUI
+> _./client/gui_
+
+- Tooltip：提示框
+	- Consumable：消耗品
+		- ClientConsumableTooltip：客户端消耗品提示框
+		> - ConsumableBaseInfoPart：基础信息组件
+		> - ConsumableDescriptionPart：描述组件
+		> - ConsumableDetailInfoPart：详情信息组件
+		> - ConsumableEnchantmentInfoPart：附魔信息组件
+		> - ConsumableGuideTipPart：引导提示组件
+		> - ConsumableStateInfoPart：状态信息组件
+	- Melee：近战
+		- ClientMeleeTooltip：客户端近战提示框
+		> - MeleeBaseInfoPart：基础信息组件
+		> - MeleeDescriptionPart：描述组件
+		> - MeleeDetailInfoPart：详情信息组件
+		> - MeleeEnchantmentInfoPart：附魔信息组件
+		> - MeleeGuideTipPart：引导提示组件
+		> - MeleeStateInfoPart：状态信息组件
+	- Throwable：投掷物
+		- ClientThrowableTooltip：客户端投掷物提示框
+		> - ThrowableBaseInfoPart：基础信息组件
+		> - ThrowableDescriptionPart：描述组件
+		> - ThrowableDetailInfoPart：详情信息组件
+		> - ThrowableEnchantmentInfoPart：附魔信息组件
+		> - ThrowableGuideTipPart：引导提示组件
+		> - ThrowableStateInfoPart：状态信息组件
+
 ### 初始化
 > _./client/init_
 
 - ClientModConfig：客户端配置初始化
 - ClientModParticles：客户端粒子注册
+- ClientTooltipRegistry：客户端提示框注册
 
 ### 粒子
 > _./client/particle_
@@ -56,11 +86,41 @@ Module division based on the `dev.xcolorful.cgctactical.client` top-level packag
 
 - RenderConfig: Render config
 
+### GUI
+> _./client/gui_
+
+- Tooltip:
+	- Consumable:
+		- ClientConsumableTooltip: Client consumable tooltip
+		> - ConsumableBaseInfoPart: Base info part
+		> - ConsumableDescriptionPart: Description part
+		> - ConsumableDetailInfoPart: Detail info part
+		> - ConsumableEnchantmentInfoPart: Enchantment info part
+		> - ConsumableGuideTipPart: Guide tip part
+		> - ConsumableStateInfoPart: State info part
+	- Melee:
+		- ClientMeleeTooltip: Client melee tooltip
+		> - MeleeBaseInfoPart: Base info part
+		> - MeleeDescriptionPart: Description part
+		> - MeleeDetailInfoPart: Detail info part
+		> - MeleeEnchantmentInfoPart: Enchantment info part
+		> - MeleeGuideTipPart: Guide tip part
+		> - MeleeStateInfoPart: State info part
+	- Throwable:
+		- ClientThrowableTooltip: Client throwable tooltip
+		> - ThrowableBaseInfoPart: Base info part
+		> - ThrowableDescriptionPart: Description part
+		> - ThrowableDetailInfoPart: Detail info part
+		> - ThrowableEnchantmentInfoPart: Enchantment info part
+		> - ThrowableGuideTipPart: Guide tip part
+		> - ThrowableStateInfoPart: State info part
+
 ### Initialization
 > _./client/init_
 
 - ClientModConfig: Client config initialization
 - ClientModParticles: Client particle registration
+- ClientTooltipRegistry: Client tooltip registration
 
 ### Particle
 > _./client/particle_
