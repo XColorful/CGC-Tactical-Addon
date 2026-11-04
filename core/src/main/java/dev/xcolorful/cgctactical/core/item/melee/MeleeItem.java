@@ -6,14 +6,17 @@ import dev.xcolorful.cgctactical.core.api.item.IMelee;
 import dev.xcolorful.cgctactical.core.api.item.melee.MeleeAction;
 import dev.xcolorful.cgctactical.core.api.item.melee.MeleeDataAccessor;
 import dev.xcolorful.cgctactical.core.api.minecraft.item.ItemType;
+import dev.xcolorful.cgctactical.core.gui.tooltip.melee.MeleeTooltip;
 import dev.xcolorful.cgctactical.core.init.registry.ModItems;
 import net.minecraft.world.entity.Entity;
 import net.minecraft.world.entity.LivingEntity;
+import net.minecraft.world.inventory.tooltip.TooltipComponent;
 import net.minecraft.world.item.Item;
 import net.minecraft.world.item.ItemStack;
 import org.jetbrains.annotations.NotNull;
 
 import java.util.List;
+import java.util.Optional;
 
 public class MeleeItem extends Item implements IMelee, MeleeDataAccessor {
 
@@ -25,6 +28,14 @@ public class MeleeItem extends Item implements IMelee, MeleeDataAccessor {
     }
 
     // --------Item--------
+
+    /**
+     * 获取供客户端使用的 Tooltip 信息
+     */
+    @Override
+    public @NotNull Optional<TooltipComponent> getTooltipImage(@NotNull ItemStack meleeItem) {
+        return Optional.ofNullable(MeleeTooltip.fromItem(meleeItem));
+    }
 
     // --------IMeleeRuntime--------
 
