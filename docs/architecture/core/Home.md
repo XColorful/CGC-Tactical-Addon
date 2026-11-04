@@ -20,6 +20,14 @@
 - MeleeConfig：近战配置
 - SyncConfig：同步配置
 
+### GUI
+> _./core/gui_
+
+- Tooltip：提示框
+	- ConsumableTooltip：消耗品提示框
+	- MeleeTooltip：近战提示框
+	- ThrowableTooltip：投掷物提示框
+
 ### 初始化
 > _./core/init_
 
@@ -104,6 +112,14 @@ Module division based on the `dev.xcolorful.cgctactical.core` top-level package
 - GrenadeConfig: Grenade config
 - MeleeConfig: Melee config
 - SyncConfig: Sync config
+
+### GUI
+> _./core/gui_
+
+- Tooltip:
+	- ConsumableTooltip: Consumable tooltip
+	- MeleeTooltip: Melee tooltip
+	- ThrowableTooltip: Throwable tooltip
 
 ### Initialization
 > _./core/init_
