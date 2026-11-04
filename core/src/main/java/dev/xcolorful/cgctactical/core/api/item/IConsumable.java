@@ -8,6 +8,17 @@ import org.jetbrains.annotations.NotNull;
 public interface IConsumable extends IConsumableDataAccess,
         ITacticalItem {
 
+    // --------IAnimationItem--------
+
+    @Override
+    default boolean replaceVanillaAttack() {
+        return false;
+    }
+    @Override
+    default boolean replaceVanillaUseItem() {
+        return false;
+    }
+
     // --------ITacticalItem--------
 
     @Override
