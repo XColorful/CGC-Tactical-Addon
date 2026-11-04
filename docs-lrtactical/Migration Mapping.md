@@ -91,6 +91,17 @@ Notation:
 |---|---|
 |`ModItems`.\*|tab.`*Tab`.\*|
 
+### Inventory
+> ```java
+> package me.xjqsh.lrtactical.inventory;
+> ```
+
+|me.xjqsh.lrtactical.inventory|dev.xcolorful.cgctactical.core.gui|
+|---|---|
+|tooltip.`ConsumableTooltip`|tooltip.consumable.`ConsumableTooltip`|
+|tooltip.`MeleeTooltip`|tooltip.melee.`MeleeTooltip`|
+|tooltip.`ThrowableTooltip`|tooltip.throwable.`ThrowableTooltip`|
+
 ### Item
 > ```java
 > package me.xjqsh.lrtactical.item;
@@ -205,6 +216,24 @@ Notation:
 |---|---|
 |`SmokeCloudParticle`|`SmokeCloudParticle`|
 
+### Tooltip (Client)
+> ```java
+> package me.xjqsh.lrtactical.client.tooltip;
+> ```
+
+|me.xjqsh.lrtactical.client.tooltip|dev.xcolorful.cgctactical.client.gui.tooltip|
+|---|---|
+|`Client*Tooltip`|*.`Client*Tooltip`|
+|`AbstractClientItemTooltip`|*.`Client*Tooltip`.Context|
+
+|me.xjqsh.lrtactical.client.tooltip|dev.xcolorful.customgun.client.api.gui|
+|---|---|
+|`Client*Tooltip`.getHeight|tooltip.`BaseTooltipContext`.calculateHeight|
+|`Client*Tooltip`.getWidth|tooltip.`BaseTooltipContext`.getMaxWidth|
+|`AbstractClientItemTooltip`.build|tooltip.`BaseTooltipContext`.buildView|
+|`Client*Tooltip`.renderText|tooltip.`TooltipPart`.renderText|
+|`Client*Tooltip`.renderImage|tooltip.`TooltipPart`.renderImage|
+
 ### Initialize (Client)
 > ```java
 > package me.xjqsh.lrtactical.client;
@@ -213,7 +242,4 @@ Notation:
 |me.xjqsh.lrtactical.client|dev.xcolorful.cgctactical.client.init|
 |---|---|
 |`ClientSetupHandler`.registerParticles|`ClientModParticles`.onRegisterParticleProviders|
-
-|me.xjqsh.lrtactical.client|dev.xcolorful.cgctactical.forgeclient.init|
-|---|---|
-|`ClientSetupHandler`.registerParticles|`ForgeClientModParticles`.onRegisterParticleFactory|
+|`ClientSetupHandler`.onRegisterTooltipComponentFactories|`ClientTooltipRegistry`.registerTooltips|
