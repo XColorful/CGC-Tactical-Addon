@@ -9,11 +9,13 @@ import dev.xcolorful.cgctactical.core.gui.tooltip.consumable.ConsumableTooltip;
 import dev.xcolorful.cgctactical.core.resource.instance.data.ConsumableIndexInstance;
 import dev.xcolorful.customgun.client.api.gui.tooltip.BaseTooltipContext;
 import dev.xcolorful.customgun.client.api.gui.tooltip.BaseTooltipView;
+import dev.xcolorful.customgun.client.resource.assets.info.GunpackInfo;
 import net.minecraft.client.Minecraft;
 import net.minecraft.client.gui.Font;
 import net.minecraft.client.gui.GuiGraphics;
 import net.minecraft.client.gui.screens.inventory.tooltip.ClientTooltipComponent;
 import net.minecraft.client.renderer.MultiBufferSource;
+import net.minecraft.util.FormattedCharSequence;
 import net.minecraft.world.item.ItemStack;
 import org.jetbrains.annotations.ApiStatus;
 import org.jetbrains.annotations.NotNull;
@@ -21,6 +23,7 @@ import org.jetbrains.annotations.Nullable;
 import org.joml.Matrix4f;
 
 import java.util.EnumSet;
+import java.util.List;
 
 public class ClientConsumableTooltip implements ClientTooltipComponent {
 
@@ -70,6 +73,7 @@ public class ClientConsumableTooltip implements ClientTooltipComponent {
 
     @ApiStatus.Internal
     public static final class View extends BaseTooltipView {
+        public @Nullable List<FormattedCharSequence> desc;
         public View() {
         }
     }
@@ -79,6 +83,10 @@ public class ClientConsumableTooltip implements ClientTooltipComponent {
         public final @NotNull EnumSet<ConsumableTooltipMask> visibleParts;
         public @Nullable ConsumableIndexInstance consumableIndexInstance;
         public @Nullable ConsumableDisplayInstance consumableDisplayInstance;
+        public @Nullable GunpackInfo gunpackInfo;
+        public boolean showCategory = false;
+        public boolean showPackInfo = false;
+        public boolean showPojoLocation = false;
         public Context(@NotNull View view, @NotNull ConsumableTooltip consumableTooltip) {
             super(view);
             this.consumableTooltip = consumableTooltip;
@@ -87,6 +95,7 @@ public class ClientConsumableTooltip implements ClientTooltipComponent {
             this.visibleParts = ConsumableTooltipMask.fromBitmap(iConsumable.getTooltipMask(consumableItem));
             this.consumableIndexInstance = ResourceApi.getConsumableIndexInstance(consumableTooltip.consumableLocation());
             this.consumableDisplayInstance = ClientResourceApi.getConsumableDisplayInstance(iConsumable.getConsumableDisplayLocation(consumableItem));
+            this.gunpackInfo = dev.xcolorful.customgun.client.api.resource.ClientResourceApi.getGunpackInfo(consumableTooltip.consumableLocation().getNamespace());
             this.buildView();
         }
         @Override

@@ -9,11 +9,13 @@ import dev.xcolorful.cgctactical.core.gui.tooltip.throwable.ThrowableTooltip;
 import dev.xcolorful.cgctactical.core.resource.instance.data.ThrowableIndexInstance;
 import dev.xcolorful.customgun.client.api.gui.tooltip.BaseTooltipContext;
 import dev.xcolorful.customgun.client.api.gui.tooltip.BaseTooltipView;
+import dev.xcolorful.customgun.client.resource.assets.info.GunpackInfo;
 import net.minecraft.client.Minecraft;
 import net.minecraft.client.gui.Font;
 import net.minecraft.client.gui.GuiGraphics;
 import net.minecraft.client.gui.screens.inventory.tooltip.ClientTooltipComponent;
 import net.minecraft.client.renderer.MultiBufferSource;
+import net.minecraft.util.FormattedCharSequence;
 import net.minecraft.world.item.ItemStack;
 import org.jetbrains.annotations.ApiStatus;
 import org.jetbrains.annotations.NotNull;
@@ -21,6 +23,7 @@ import org.jetbrains.annotations.Nullable;
 import org.joml.Matrix4f;
 
 import java.util.EnumSet;
+import java.util.List;
 
 public class ClientThrowableTooltip implements ClientTooltipComponent {
 
@@ -70,6 +73,7 @@ public class ClientThrowableTooltip implements ClientTooltipComponent {
 
     @ApiStatus.Internal
     public static final class View extends BaseTooltipView {
+        public @Nullable List<FormattedCharSequence> desc;
         public View() {
         }
     }
@@ -79,6 +83,10 @@ public class ClientThrowableTooltip implements ClientTooltipComponent {
         public final @NotNull EnumSet<ThrowableTooltipMask> visibleParts;
         public @Nullable ThrowableIndexInstance throwableIndexInstance;
         public @Nullable ThrowableDisplayInstance throwableDisplayInstance;
+        public @Nullable GunpackInfo gunpackInfo;
+        public boolean showCategory = false;
+        public boolean showPackInfo = false;
+        public boolean showPojoLocation = false;
         public Context(@NotNull View view, @NotNull ThrowableTooltip throwableTooltip) {
             super(view);
             this.throwableTooltip = throwableTooltip;
@@ -87,6 +95,7 @@ public class ClientThrowableTooltip implements ClientTooltipComponent {
             this.visibleParts = ThrowableTooltipMask.fromBitmap(iThrowable.getTooltipMask(throwableItem));
             this.throwableIndexInstance = ResourceApi.getThrowableIndexInstance(throwableTooltip.throwableLocation());
             this.throwableDisplayInstance = ClientResourceApi.getThrowableDisplayInstance(iThrowable.getThrowableDisplayLocation(throwableItem));
+            this.gunpackInfo = dev.xcolorful.customgun.client.api.resource.ClientResourceApi.getGunpackInfo(throwableTooltip.throwableLocation().getNamespace());
             this.buildView();
         }
         @Override

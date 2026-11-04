@@ -145,3 +145,65 @@ LRTactical 的三种 tooltip 是「描述 + 数值行」结构。再看本项目
 - `TooltipEvent` 在 LRTactical 中不存在，未添加。
 
 本次仅改动文档，未改代码，未提交。
+
+# 
+
+```
+把三种tooltip都补上description和detail info的渲染，跟CGC相同
+其中description复用GunDescriptionPart#getGunDescriptionLineWidth，其他常量如_defaultDescriptionColor则复制一份相同的
+```
+
+# 
+
+开始前先确认 Addon 侧可用的资源：分类、枪包信息、RenderConfig 与索引字段。
+
+开始实现：先扩展三个 Context/View，再写 Description 与 DetailInfo 的渲染。
+
+编译通过。检查最终改动范围。
+
+已完成三种 tooltip 的 Description 与 DetailInfo 渲染，结构与 CGC 的 `GunDescriptionPart` / `GunDetailInfoPart` 对齐。
+
+**Description（六…实际三处实现）**
+- [MeleeDescriptionPart.java](core/src/main/java/dev/xcolorful/cgctactical/client/gui/tooltip/melee/MeleeDescriptionPart.java)、[ThrowableDescriptionPart.java](core/src/main/java/dev/xcolorful/cgctactical/client/gui/tooltip/throwable/ThrowableDescriptionPart.java)、[ConsumableDescriptionPart.java](core/src/main/java/dev/xcolorful/cgctactical/client/gui/tooltip/consumable/ConsumableDescriptionPart.java)
+- `build`：取索引的 `tooltipLang`，用 `GunDescriptionPart.getGunDescriptionLineWidth()` 作行宽 `font.split`，写入 `view.desc` 并 `widenMaxWidth`。
+- 颜色常量 `_defaultDescriptionColor` 复制自 CGC（`ChatFormatting.GRAY`）。
+- `measureHeight` 按描述行数 × `textLineHeight`，`renderText` 逐行绘制。
+
+**DetailInfo**
+- [MeleeDetailInfoPart.java](core/src/main/java/dev/xcolorful/cgctactical/client/gui/tooltip/melee/MeleeDetailInfoPart.java)、[ThrowableDetailInfoPart.java](core/src/main/java/dev/xcolorful/cgctactical/client/gui/tooltip/throwable/ThrowableDetailInfoPart.java)、[ConsumableDetailInfoPart.java](core/src/main/java/dev/xcolorful/cgctactical/client/gui/tooltip/consumable/ConsumableDetailInfoPart.java)
+- 分类：使用项目已有的 `TacticalCategory.MELEE/THROWABLE/CONSUMABLE`（对应创造栏，已有中英翻译）。
+- 资源包信息：CGC 没有 pack info 时的回退写法 `ComponentUtils.unknownTranslatableKey()`；Addon 目前没有枪包信息数据源，因此恒为该回退值。
+- 资源位置：取各自 Tooltip 记录里的 location。
+- 显示条件与 CGC 相同：分类仅创造模式；包信息创造 + 高级提示；资源位置再叠加 CGC 的 `RenderConfig.APPEND_RESOURCE_LOCATION_IN_TOOLTIP`（直接复用 CGC 的客户端配置，和复用其行宽方法保持一致）。
+- 颜色常量 `_defaultCategoryColor`/`_defaultPackColor`/`_defaultLocationColor` 与 CGC 相同（BLUE）。
+
+**配套改动**
+- 三个 `Client*Tooltip` 的 `View` 增加 `desc`，`Context` 增加 `showCategory/showPackInfo/showPojoLocation`。
+
+`:core:compileJava` 与 `:forge-compat:compileJava` 均通过；未在游戏内实际观察渲染效果，也未提交。需要的话可以下一步补齐 STATE_INFO 的渲染（CGC 的 `GunStateInfoPart` 形态）或为包信息接入真实数据源。
+
+# 
+
+```
+gunpackInfo要补上，用meleeLocation代替gunLocation等
+```
+
+# 
+
+先看 CGC 的 GunpackInfo 数据来源与 API，确认能否直接复用并传入 tactical 的 location。
+
+补上 gunpackInfo：Context 取 CGC 的 pack info，DetailInfo 按 CGC 逻辑显示。
+
+已补上 gunpackInfo，做法与 CGC 一致，只是把 `gunLocation` 换成各类型自己的 location：
+
+**Context 接入**
+- [ClientMeleeTooltip.java](core/src/main/java/dev/xcolorful/cgctactical/client/gui/tooltip/melee/ClientMeleeTooltip.java)：`gunpackInfo = CustomGun ClientResourceApi.getGunpackInfo(meleeLocation.getNamespace())`
+- [ClientThrowableTooltip.java](core/src/main/java/dev/xcolorful/cgctactical/client/gui/tooltip/throwable/ClientThrowableTooltip.java)：用 `throwableLocation.getNamespace()`
+- [ClientConsumableTooltip.java](core/src/main/java/dev/xcolorful/cgctactical/client/gui/tooltip/consumable/ClientConsumableTooltip.java)：用 `consumableLocation.getNamespace()`
+
+三者的 Context 均新增 `public @Nullable GunpackInfo gunpackInfo`，复用 CGC 的 gunpack info 管理器（按命名空间查找，文件位置为 `assets/<namespace>/<customgun_short>_info/gunpack_info.json`）。
+
+**DetailInfo 使用**
+- 三个 `*DetailInfoPart` 的 `packInfo` 构建改为 CGC 的写法：有数据时 `Component.translatable(gunpackInfo.getNameLang()).withStyle(ITALIC)`，没有时回退 `ComponentUtils.unknownTranslatableKey()`；`showPackInfo` 仍为创造模式 + 高级提示。
+
+`:core:compileJava` 与 `:forge-compat:compileJava` 均通过。未在游戏内验证显示效果，变更未提交。
