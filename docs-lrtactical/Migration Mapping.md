@@ -98,13 +98,19 @@ Notation:
 > package me.xjqsh.lrtactical.capability;
 > ```
 
-|me.xjqsh.lrtactical.capability||
+|me.xjqsh.lrtactical.capability|dev.xcolorful.cgctactical.core.api.entity|
 |---|---|
-|`CombatProperties`||
-|`CombatPropertiesProvider`||
-|`CustomItemCoolDowns`||
-|`CustomItemCoolDownsProvider`||
-|`TickHandler`||
+|`CombatProperties`|`CombatantProperty`|
+|`CombatPropertiesProvider`|_Deprecated_|
+|`CustomItemCoolDownsProvider`|_Deprecated_|
+
+|me.xjqsh.lrtactical.capability|dev.xcolorful.cgctactical.core.entity|
+|---|---|
+|`CustomItemCoolDowns`|combatant.`LivingCombatantCooldown`|
+
+|me.xjqsh.lrtactical.capability|dev.xcolorful.cgctactical.core.mixin|
+|---|---|
+|`TickHandler`.onPlayerTick|entity.`LivingEntityMixin`.cgctactical$onLivingTick|
 
 | |dev.xcolorful.cgctactical.core.mixin|
 |---|---|
