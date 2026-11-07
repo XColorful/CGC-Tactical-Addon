@@ -35,9 +35,16 @@ Notation:
 > package me.xjqsh.lrtactical.api.animation;
 > ```
 
-|me.xjqsh.lrtactical.api.animation||
+|me.xjqsh.lrtactical.api.animation|dev.xcolorful.cgctactical.client.api.script|
 |---|---|
-|`*AnimationStateContext`||
+|`BaseAnimationStateContext`|context.`IClientMeleeScriptBackCompat`|
+
+|me.xjqsh.lrtactical.api.animation|dev.xcolorful.cgctactical.client.animation|
+|---|---|
+|`ConsumableAnimationStateContext`|statemachine.`ConsumableAnimStateContext`|
+|`FlashShieldAnimationStateContext`||
+|`MeleeAnimationStateContext`|statemachine.`MeleeAnimStateContext`|
+|`ThrowableAnimationStateContext`|statemachine.`ThrowableAnimStateContext`|
 
 #### Collision API
 > ```java
