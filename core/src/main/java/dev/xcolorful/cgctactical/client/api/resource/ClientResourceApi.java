@@ -11,8 +11,12 @@ import dev.xcolorful.cgctactical.client.resource.instance.assets.ThrowableDispla
 import dev.xcolorful.cgctactical.client.resource.instance.data.ClientConsumableIndexInstance;
 import dev.xcolorful.cgctactical.client.resource.instance.data.ClientMeleeIndexInstance;
 import dev.xcolorful.cgctactical.client.resource.instance.data.ClientThrowableIndexInstance;
+import dev.xcolorful.cgctactical.core.api.item.IConsumable;
 import dev.xcolorful.cgctactical.core.api.item.IMelee;
+import dev.xcolorful.cgctactical.core.api.item.IThrowable;
+import dev.xcolorful.cgctactical.core.api.item.consumable.IConsumableGetter;
 import dev.xcolorful.cgctactical.core.api.item.melee.IMeleeGetter;
+import dev.xcolorful.cgctactical.core.api.item.throwable.IThrowableGetter;
 import dev.xcolorful.customgun.core.resource.ResourcePojo;
 import dev.xcolorful.customgun.core.resource.instance.PojoInstance;
 import net.minecraft.resources.ResourceLocation;
@@ -96,11 +100,25 @@ public class ClientResourceApi {
     public static Set<Map.Entry<ResourceLocation, @NotNull MeleeDisplayInstance>> getAllMeleeDisplayInstance() {
         return _AssetsInstanceManager.MELEE_DISPLAY.entrySet();
     }
+    public static @Nullable ThrowableDisplayInstance getThrowableDisplayInstance(ItemStack throwableItem) {
+        @Nullable IThrowable iThrowable = IThrowableGetter.fromItemStack(throwableItem);
+        if (iThrowable == null) return null;
+
+        var displayLocation = iThrowable.getThrowableDisplayLocation(throwableItem);
+        return getThrowableDisplayInstance(displayLocation);
+    }
     public static @Nullable ThrowableDisplayInstance getThrowableDisplayInstance(ResourceLocation displayLocation) {
         return _AssetsInstanceManager.THROWABLE_DISPLAY.get(displayLocation);
     }
     public static Set<Map.Entry<ResourceLocation, @NotNull ThrowableDisplayInstance>> getAllThrowableDisplayInstance() {
         return _AssetsInstanceManager.THROWABLE_DISPLAY.entrySet();
+    }
+    public static @Nullable ConsumableDisplayInstance getConsumableDisplayInstance(ItemStack consumableItem) {
+        @Nullable IConsumable iConsumable = IConsumableGetter.fromItemStack(consumableItem);
+        if (iConsumable == null) return null;
+
+        var displayLocation = iConsumable.getConsumableDisplayLocation(consumableItem);
+        return getConsumableDisplayInstance(displayLocation);
     }
     public static @Nullable ConsumableDisplayInstance getConsumableDisplayInstance(ResourceLocation displayLocation) {
         return _AssetsInstanceManager.CONSUMABLE_DISPLAY.get(displayLocation);

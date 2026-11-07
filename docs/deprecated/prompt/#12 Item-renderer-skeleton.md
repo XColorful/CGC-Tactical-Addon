@@ -42,3 +42,40 @@
 1. `GUI` 时仅当 `slot_texture_location` 不是 `NULL_LOCATION` 才走槽位贴图，否则回退 3D 模型，以保持 lrtactical 原行为；CGC 的枪械渲染器是无条件走槽位贴图的。
 2. 新增的平台 API：`Mth.lerp`、`LocalPlayer.yOld` / `onGround()`、`ItemDisplayContext.firstPerson()`；前者在 CGC 的 `GunRendererAddon` 已有先例。
 3. Throwable / Consumable 的渲染器与显示实例未改动。改动未提交。
+
+# 
+
+```
+继续throwable和consumable，以已提交的写法为确定的风格
+```
+
+# 
+
+我先确认已提交的近战实现风格与当前工作区状态。
+
+我已知悉已提交风格（`TacticalRendererAddon`、显示实例缓存模型/状态机、`ClientResourceApi` 便捷重载）。现在核对投掷物/消耗品的上下文与数据语义。
+
+编译通过。复核改动与格式。
+
+已按已提交的近战写法完成投掷物与消耗品。
+
+**显示实例**
+
+- [ConsumableDisplayInstance.java](core/src/main/java/dev/xcolorful/cgctactical/client/resource/instance/assets/ConsumableDisplayInstance.java) / [ThrowableDisplayInstance.java](core/src/main/java/dev/xcolorful/cgctactical/client/resource/instance/assets/ThrowableDisplayInstance.java)：与 `MeleeDisplayInstance` 相同，在 `resetCache` 中构建 `TacticalModelObject` 与对应上下文的 `LuaAnimStateMachine`，并暴露 `getModelObject()` / `getStateMachine()`。
+- [ClientResourceApi.java](core/src/main/java/dev/xcolorful/cgctactical/client/api/resource/ClientResourceApi.java)：补齐 `getConsumableDisplayInstance(ItemStack)`、`getThrowableDisplayInstance(ItemStack)`。
+
+**渲染器**
+
+- [ConsumableItemRenderer.java](core/src/main/java/dev/xcolorful/cgctactical/client/renderer/item/ConsumableItemRenderer.java)：`updateContext` 同步 `currentItem/using/usingTick/partialTicks`，切出时长保持 ticks × 50，其余结构（`doExtraTransforms`、摄像机动画清理、`renderByItem`、`_renderSlotTexture`）与近战一致。
+- [ThrowableItemRenderer.java](core/src/main/java/dev/xcolorful/cgctactical/client/renderer/item/ThrowableItemRenderer.java)：同上；投掷物的 `put_away_time` 在原数据中是 long 毫秒，保持原行为直接返回、不乘 50。
+- [ConsumableItemMixin.java](forge-compat/src/main/java/dev/xcolorful/cgctactical/forgeclient/mixin/item/ConsumableItemMixin.java) / [ThrowableItemMixin.java](forge-compat/src/main/java/dev/xcolorful/cgctactical/forgeclient/mixin/item/ThrowableItemMixin.java)：照 `MeleeItemMixin` 接入 `IAnimateGeoItem` / `IItemBEWLR`，让渲染器真正生效。
+
+**数据补全**
+
+- [ThrowableDataAccessor.java](core/src/main/java/dev/xcolorful/cgctactical/core/api/item/throwable/ThrowableDataAccessor.java)：原先未覆盖 `getPutAwayTime`（落到默认 0），按近战/消耗品的同款写法补上。
+
+**判断与验证**
+
+- 跳跃摆动复用已提交的 `MeleeRendererAddon.applyJumpingSway`：原版三类渲染器都用同一个 `JumpSwayUtil`，而提交里它的实现已归到该类。若你希望改成各分类独立的 `*RendererAddon`，告诉我即可。
+- 消耗品/投掷品不设置 `effectVisible`，与原版一致（仅近战开启 `1p_effect`）。
+- `:forge-compat:compileJava` 通过，仅既有弃用警告；未进入游戏实测，未提交。

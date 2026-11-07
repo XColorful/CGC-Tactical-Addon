@@ -9,9 +9,9 @@ import net.minecraft.util.Mth;
 import org.jetbrains.annotations.Nullable;
 
 /**
- * 负责第一人称的近战模型额外效果的渲染
+ * 负责第一人称的战术模型额外效果的渲染
  */
-public class MeleeRendererAddon {
+public class TacticalRendererAddon {
 
     private static float jumpingSwayProgress = 0;
     private static boolean lastOnGround = false;

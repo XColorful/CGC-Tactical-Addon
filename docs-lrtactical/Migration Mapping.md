@@ -421,7 +421,7 @@ Notation:
 |item.`MeleeItemRenderer`|item.`MeleeItemRenderer`|
 |item.`ThrowableItemRendererWrapper`|item.`ThrowableItemRenderer`|
 |`CoolDownDecorations`|_Deprecated_|
-|`JumpSwayUtil`|item.melee.`MeleeRendererAddon`|
+|`JumpSwayUtil`|item.melee.`TacticalRendererAddon`|
 
 |me.xjqsh.lrtactical.client.renderer|dev.xcolorful.cgctactical.client.model|
 |---|---|

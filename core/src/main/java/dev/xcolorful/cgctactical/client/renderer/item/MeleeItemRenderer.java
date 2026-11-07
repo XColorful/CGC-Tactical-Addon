@@ -6,7 +6,7 @@ import com.mojang.math.Axis;
 import dev.xcolorful.cgctactical.client.animation.statemachine.MeleeAnimStateContext;
 import dev.xcolorful.cgctactical.client.api.resource.ClientResourceApi;
 import dev.xcolorful.cgctactical.client.model.TacticalModelObject;
-import dev.xcolorful.cgctactical.client.renderer.item.melee.MeleeRendererAddon;
+import dev.xcolorful.cgctactical.client.renderer.item.melee.TacticalRendererAddon;
 import dev.xcolorful.cgctactical.client.resource.instance.assets.MeleeDisplayInstance;
 import dev.xcolorful.cgctactical.core.api.item.IMelee;
 import dev.xcolorful.cgctactical.core.api.item.melee.IMeleeGetter;
@@ -41,7 +41,7 @@ public class MeleeItemRenderer extends AnimateGeoItemRenderer<TacticalModelObjec
     @Override
     public void doExtraTransforms(PoseStack poseStack, TacticalModelObject modelObject, ItemStack meleeItem) {
         super.doExtraTransforms(poseStack, modelObject, meleeItem);
-        MeleeRendererAddon.applyJumpingSway(modelObject, Minecraft.getInstance().getFrameTime());
+        TacticalRendererAddon.applyJumpingSway(modelObject, Minecraft.getInstance().getFrameTime());
     }
 
     // --------IAnimateGeoItemRenderer--------
