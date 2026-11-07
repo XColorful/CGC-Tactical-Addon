@@ -18,12 +18,12 @@ public class CombatantProperty {
 
     private final List<DelayTask> delayedActions = new ArrayList<>();
 
-    private ItemStack lastItem = ItemStack.EMPTY;
+    private @Deprecated ItemStack lastItem = ItemStack.EMPTY;
     private final LivingEntity entity;
     private int coolDownTick = 0;
     private int lastMaxTick = 0; // TODO 啥玩意?
-    private int lastSelected = 0;
-    private int drawingTick = 0;
+    private @Deprecated int lastSelected = 0;
+    public int drawingTick = 0;
     private boolean preparingAttack = false;
     private int preparingAttackCnt = 0;
 
@@ -43,6 +43,7 @@ public class CombatantProperty {
         this.coolDownTick = coolDownTick;
     }
 
+    @Deprecated
     public boolean isDrawing() {
         return drawingTick > 0;
     }
@@ -55,11 +56,17 @@ public class CombatantProperty {
     public void tick() {
     }
 
+    /**
+     * Go to {@link ILivingCombatant#cgctactical$meleeCharge}
+     */
     @Deprecated(forRemoval = true)
     public boolean preAttack(TacticalAction action, Vec3 origin, Vec3 direction) {
         return false;
     }
 
+    /**
+     * Go to {@link ILivingCombatant#cgctactical$meleeAttack}
+     */
     @Deprecated(forRemoval = true)
     public void postAttack(TacticalAction action, int actionCount, List<Entity> entities) {
     }

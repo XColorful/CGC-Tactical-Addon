@@ -8,4 +8,8 @@ public final class LivingCombatantCooldown extends LivingCombatantAspect {
     public LivingCombatantCooldown(LivingEntity livingCombatant, CombatantProperty combatantProperty) {
         super(livingCombatant, combatantProperty);
     }
+
+    public void tickItemCooldown() {
+        // TODO
+    }
 }
