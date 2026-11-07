@@ -342,7 +342,7 @@ Notation:
 |me.xjqsh.lrtactical.client||
 |---|---|
 |`ClientEventsHandler`.computeCameraAngles||
-|`ClientEventsHandler`.onRenderHand||
+|`ClientEventsHandler`.onRenderHand|_Deprecated_|
 |`ClientEventsHandler`.tickAnimation||
 |`ClientEventsHandler`.tickMove||
 |`ClientEventsHandler`.afterLevel||
