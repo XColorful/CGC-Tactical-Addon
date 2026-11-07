@@ -11,9 +11,12 @@ import dev.xcolorful.cgctactical.client.resource.instance.assets.ThrowableDispla
 import dev.xcolorful.cgctactical.client.resource.instance.data.ClientConsumableIndexInstance;
 import dev.xcolorful.cgctactical.client.resource.instance.data.ClientMeleeIndexInstance;
 import dev.xcolorful.cgctactical.client.resource.instance.data.ClientThrowableIndexInstance;
+import dev.xcolorful.cgctactical.core.api.item.IMelee;
+import dev.xcolorful.cgctactical.core.api.item.melee.IMeleeGetter;
 import dev.xcolorful.customgun.core.resource.ResourcePojo;
 import dev.xcolorful.customgun.core.resource.instance.PojoInstance;
 import net.minecraft.resources.ResourceLocation;
+import net.minecraft.world.item.ItemStack;
 import org.jetbrains.annotations.NotNull;
 import org.jetbrains.annotations.Nullable;
 
@@ -80,6 +83,13 @@ public class ClientResourceApi {
 
     // --------assets instance--------
 
+    public static @Nullable MeleeDisplayInstance getMeleeDisplayInstance(ItemStack meleeItem) {
+        @Nullable IMelee iMelee = IMeleeGetter.fromItemStack(meleeItem);
+        if (iMelee == null) return null;
+
+        var displayLocation = iMelee.getMeleeDisplayLocation(meleeItem);
+        return getMeleeDisplayInstance(displayLocation);
+    }
     public static @Nullable MeleeDisplayInstance getMeleeDisplayInstance(ResourceLocation displayLocation) {
         return _AssetsInstanceManager.MELEE_DISPLAY.get(displayLocation);
     }

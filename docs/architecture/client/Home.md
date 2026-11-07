@@ -63,8 +63,18 @@
 
 - combatant：战斗按键
 
+### 模型
+> _./client/model_
+
+- TacticalModelObject：战术模型对象
+
 ### 粒子
 > _./client/particle_
+
+### 渲染器
+> _./client/renderer_
+
+- Item：物品
 
 ### 资源
 > _./client/resource_
@@ -140,8 +150,18 @@ Module division based on the `dev.xcolorful.cgctactical.client` top-level packag
 
 - combatant: Combatant keys
 
+### Model
+> _./client/model_
+
+- TacticalModelObject: Tactical model object
+
 ### Particle
 > _./client/particle_
+
+### Renderer
+> _./client/renderer_
+
+- Item
 
 ### Resource
 > _./client/resource_

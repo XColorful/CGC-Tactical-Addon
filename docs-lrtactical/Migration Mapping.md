@@ -413,16 +413,19 @@ Notation:
 > package me.xjqsh.lrtactical.client.renderer;
 > ```
 
-|me.xjqsh.lrtactical.client.renderer||
+|me.xjqsh.lrtactical.client.renderer|dev.xcolorful.cgctactical.client.renderer|
 |---|---|
 |entity.`ThrowableEntityRenderer`||
-|item.`ConsumableItemRenderer`||
+|item.`ConsumableItemRenderer`|item.`ConsumableItemRenderer`|
 |item.`FlashShieldItemRenderer`||
-|item.`MeleeItemRenderer`||
-|item.`ThrowableItemRendererWrapper`||
-|model.`CustomBedrockModel`||
+|item.`MeleeItemRenderer`|item.`MeleeItemRenderer`|
+|item.`ThrowableItemRendererWrapper`|item.`ThrowableItemRenderer`|
 |`CoolDownDecorations`|_Deprecated_|
-|`JumpSwayUtil`||
+|`JumpSwayUtil`|item.melee.`MeleeRendererAddon`|
+
+|me.xjqsh.lrtactical.client.renderer|dev.xcolorful.cgctactical.client.model|
+|---|---|
+|model.`CustomBedrockModel`|`TacticalModelObject`|
 
 ### Resource (Client)
 > ```java
