@@ -1,10 +1,15 @@
 package dev.xcolorful.cgctactical.core.api.melee.attack;
 
+import dev.xcolorful.cgctactical.core.api.entity.CombatantProperty;
 import dev.xcolorful.cgctactical.core.api.entity.ILivingCombatant;
 import dev.xcolorful.cgctactical.core.api.entity.combatant.ILivingCombatantGetter;
+import dev.xcolorful.cgctactical.core.api.entity.combatant.ITacticalOperator;
 import dev.xcolorful.cgctactical.core.api.item.IMelee;
 import dev.xcolorful.cgctactical.core.api.item.melee.IMeleeGetter;
 import dev.xcolorful.cgctactical.core.api.item.tactical.TacticalAction;
+import dev.xcolorful.customgun.core.api.entity.ILivingShooter;
+import dev.xcolorful.customgun.core.api.gun.attack.IGunAttackRuntime;
+import dev.xcolorful.customgun.core.api.item.gun.FireModeType;
 import dev.xcolorful.customgun.core.api.resource.ResourceTag;
 import net.minecraft.world.entity.Entity;
 import net.minecraft.world.entity.LivingEntity;
@@ -16,12 +21,19 @@ import org.jetbrains.annotations.Nullable;
 import java.util.EnumSet;
 import java.util.List;
 
+/**
+ * <ul>
+ *     <li>{@link #combatantAttack}/{@link #meleeAttack} 命名是为了区分 {@code 实体行为}/{@code 物品运作} 两个阶段，以及各自功能职责</li>
+ *     <li>{@code 物品} ({@link IMelee}) 的功能需要区分{@code 实体}使用一次物品/{@code 物品}自身的一次运作</li>
+ * </ul>
+ * @see ILivingCombatant
+ */
 public interface IMeleeAttackRuntime {
 
     /**
      * 战斗生物攻击时触发
      */
-    @NotNull CombatantAttackResult combatantAttack(Object combatantProperty, // TODO CombatantProperty
+    @NotNull CombatantAttackResult combatantAttack(CombatantProperty combatantProperty,
                                                    @NotNull IMelee iMelee, @NotNull ItemStack meleeItem,
                                                    ILivingCombatant iLivingCombatant, LivingEntity livingCombatant,
                                                    TacticalAction tacticalAction, int combo,
@@ -49,7 +61,7 @@ public interface IMeleeAttackRuntime {
      * 近战攻击时触发，针对单个目标
      * @return result掩码，{@code 0}表示无结果 (事件取消等)，非 {@code 0} 时再使用 {@link MeleeAttackResult#fromBitmap(int)} 读取
      */
-    int meleeAttack(Object combatantProperty, // TODO CombatantProperty
+    int meleeAttack(CombatantProperty combatantProperty,
                     @NotNull IMelee iMelee, @NotNull ItemStack meleeItem,
                     ILivingCombatant iLivingCombatant, LivingEntity livingCombatant,
                     float damage, float knockback,
