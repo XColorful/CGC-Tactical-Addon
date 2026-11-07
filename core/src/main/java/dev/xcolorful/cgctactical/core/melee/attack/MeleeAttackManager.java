@@ -1,6 +1,7 @@
 package dev.xcolorful.cgctactical.core.melee.attack;
 
 import dev.xcolorful.cgctactical.CgcTactical;
+import dev.xcolorful.cgctactical.core.api.entity.CombatantProperty;
 import dev.xcolorful.cgctactical.core.api.entity.ILivingCombatant;
 import dev.xcolorful.cgctactical.core.api.item.IMelee;
 import dev.xcolorful.cgctactical.core.api.item.tactical.TacticalAction;
@@ -26,7 +27,7 @@ public class MeleeAttackManager implements IMeleeAttackManager {
     // --------IMeleeAttackRuntime--------
 
     @Override
-    public @NotNull IMeleeAttackRuntime.CombatantAttackResult combatantAttack(Object combatantProperty,
+    public @NotNull IMeleeAttackRuntime.CombatantAttackResult combatantAttack(CombatantProperty combatantProperty,
                                                                               @NotNull IMelee iMelee, @NotNull ItemStack meleeItem,
                                                                               ILivingCombatant iLivingCombatant, LivingEntity livingCombatant,
                                                                               TacticalAction tacticalAction, int combo,
@@ -36,7 +37,7 @@ public class MeleeAttackManager implements IMeleeAttackManager {
     }
 
     @Override
-    public int meleeAttack(Object combatantProperty,
+    public int meleeAttack(CombatantProperty combatantProperty,
                            @NotNull IMelee iMelee, @NotNull ItemStack meleeItem,
                            ILivingCombatant iLivingCombatant, LivingEntity livingCombatant,
                            float damage, float knockback,
