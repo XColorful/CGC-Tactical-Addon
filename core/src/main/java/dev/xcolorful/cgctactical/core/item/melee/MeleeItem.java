@@ -2,6 +2,7 @@ package dev.xcolorful.cgctactical.core.item.melee;
 
 import dev.xcolorful.cgctactical.CgcTactical;
 import dev.xcolorful.cgctactical.client.item.melee._MeleeItem;
+import dev.xcolorful.cgctactical.core.api.entity.CombatantProperty;
 import dev.xcolorful.cgctactical.core.api.entity.ILivingCombatant;
 import dev.xcolorful.cgctactical.core.api.item.IMelee;
 import dev.xcolorful.cgctactical.core.api.item.tactical.TacticalAction;
@@ -50,12 +51,12 @@ public class MeleeItem extends Item implements IMelee, MeleeDataAccessor {
     // --------IMeleeRuntime--------
 
     // ----IMeleeAttackRuntime----
-    @Override public @NotNull CombatantAttackResult combatantAttack(Object combatantProperty, @NotNull IMelee iMelee, @NotNull ItemStack meleeItem, ILivingCombatant iLivingCombatant, LivingEntity livingCombatant, TacticalAction tacticalAction, int combo, List<Entity> meleeVictims) {
+    @Override public @NotNull CombatantAttackResult combatantAttack(CombatantProperty combatantProperty, @NotNull IMelee iMelee, @NotNull ItemStack meleeItem, ILivingCombatant iLivingCombatant, LivingEntity livingCombatant, TacticalAction tacticalAction, int combo, List<Entity> meleeVictims) {
         return CgcTactical.getMeleeManager().getManagerGroup(this.getManagerGroupTag(meleeItem))
                 .meleeAttackManager()
                 .combatantAttack(combatantProperty, iMelee, meleeItem, iLivingCombatant, livingCombatant, tacticalAction, combo, meleeVictims);
     }
-    @Override public int meleeAttack(Object combatantProperty, @NotNull IMelee iMelee, @NotNull ItemStack meleeItem, ILivingCombatant iLivingCombatant, LivingEntity livingCombatant, float damage, float knockback, Entity meleeVictim) {
+    @Override public int meleeAttack(CombatantProperty combatantProperty, @NotNull IMelee iMelee, @NotNull ItemStack meleeItem, ILivingCombatant iLivingCombatant, LivingEntity livingCombatant, float damage, float knockback, Entity meleeVictim) {
         return CgcTactical.getMeleeManager().getManagerGroup(this.getManagerGroupTag(meleeItem))
                 .meleeAttackManager()
                 .meleeAttack(combatantProperty, iMelee, meleeItem, iLivingCombatant, livingCombatant, damage, knockback, meleeVictim);
