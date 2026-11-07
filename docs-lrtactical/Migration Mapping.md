@@ -98,13 +98,23 @@ Notation:
 > package me.xjqsh.lrtactical.capability;
 > ```
 
-|me.xjqsh.lrtactical.capability||
+|me.xjqsh.lrtactical.capability|dev.xcolorful.cgctactical.core.api.entity|
 |---|---|
-|`CombatProperties`||
-|`CombatPropertiesProvider`||
-|`CustomItemCoolDowns`||
-|`CustomItemCoolDownsProvider`||
-|`TickHandler`||
+|`CombatProperties`|`CombatantProperty`|
+|`CombatProperties`.preAttack|combatant.melee.`IMeleeOperator`.cgctactical$meleeCharge|
+|`CombatProperties`.postAttack|combatant.melee.`IMeleeOperator`.cgctactical$meleeAttack|
+|`CombatPropertiesProvider`|_Deprecated_|
+|`CustomItemCoolDownsProvider`|_Deprecated_|
+
+|me.xjqsh.lrtactical.capability|dev.xcolorful.cgctactical.core.entity|
+|---|---|
+|`CombatProperties`.tick|combatant.`LivingCombatantSpring`.tickSprint|
+|`CombatProperties`.tick|combatant.`LivingCombatantDraw`.tickDraw|
+|`CustomItemCoolDowns`|combatant.`LivingCombatantCooldown`|
+
+|me.xjqsh.lrtactical.capability|dev.xcolorful.cgctactical.core.mixin|
+|---|---|
+|`TickHandler`.onPlayerTick|entity.`LivingEntityMixin`.cgctactical$onLivingTick|
 
 | |dev.xcolorful.cgctactical.core.mixin|
 |---|---|

@@ -20,6 +20,15 @@
 - MeleeConfig：近战配置
 - SyncConfig：同步配置
 
+### 实体
+> _./core/entity_
+
+- Living Combatant (aspect)：战斗生物（切面）
+	- LivingCombatantCooldown：物品冷却
+	- LivingCombatantDraw：切换物品
+	- LivingCombatantMelee：近战
+	- LivingCombatantSprint：冲刺
+
 ### GUI
 > _./core/gui_
 
@@ -112,6 +121,15 @@ Module division based on the `dev.xcolorful.cgctactical.core` top-level package
 - GrenadeConfig: Grenade config
 - MeleeConfig: Melee config
 - SyncConfig: Sync config
+
+### Entity
+> _./core/entity_
+
+- Living Combatant (aspect):
+	- LivingCombatantCooldown: Item cooldown
+	- LivingCombatantDraw: Draw item
+	- LivingCombatantMelee: Melee
+	- LivingCombatantSprint: Sprint
 
 ### GUI
 > _./core/gui_
