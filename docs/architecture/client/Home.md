@@ -13,6 +13,9 @@
 
 - [客户端API索引](./api/api-index.md)：通过接口分类和职责介绍进行筛选，并传送至 _./docs/api_ 下内容以查看详细参数
 
+### 动画
+> _./client/animation_
+
 ### 配置
 > _./client/config_
 
@@ -86,6 +89,9 @@ Module division based on the `dev.xcolorful.cgctactical.client` top-level packag
 > _./client/api_
 
 - [Client API Index](./api/api-index.md#English): Filter by interface classification and responsibility introduction, and link to content under _./docs/api_ to view detailed parameters
+
+### Animation
+> _./client/animation_
 
 ### Config
 > _./client/config_
