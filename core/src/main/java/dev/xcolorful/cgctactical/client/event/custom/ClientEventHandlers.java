@@ -1,5 +1,6 @@
 package dev.xcolorful.cgctactical.client.event.custom;
 
+import dev.xcolorful.cgctactical.client.entity.combatant.player._LocalAnimHandler;
 import dev.xcolorful.cgctactical.client.resource._AllAssetsManager;
 import dev.xcolorful.cgctactical.core.event.custom.CoreEventHandlers;
 import dev.xcolorful.customgun.core.api.event.EventPriority;
@@ -10,5 +11,6 @@ public class ClientEventHandlers {
 
     public static void registerAll(ICustomEventRegister customEventRegister) {
         CoreEventHandlers.register(customEventRegister, _AllAssetsManager.INSTANCE, EventType.ADD_CLIENT_RELOAD_LISTENER_EVENT, EventPriority.LOW, false);
+        CoreEventHandlers.register(customEventRegister, _LocalAnimHandler.get(), EventType.CLIENT_TICK_EVENT, EventPriority.NORMAL, false);
     }
 }
