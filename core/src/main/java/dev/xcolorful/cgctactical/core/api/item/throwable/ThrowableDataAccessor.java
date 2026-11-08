@@ -72,4 +72,12 @@ public interface ThrowableDataAccessor extends TacticalDataAccessor, IThrowableD
 
         return throwableIndexInstance.getThrowableData().getPrepareTime();
     }
+    @Override
+    default int getPutAwayTime(ItemStack throwableItem) {
+        var throwableLocation = this.getThrowableLocation(throwableItem);
+        @Nullable ThrowableIndexInstance throwableIndexInstance = ResourceApi.getThrowableIndexInstance(throwableLocation);
+        if (throwableIndexInstance == null) return 0;
+
+        return (int) throwableIndexInstance.getThrowableData().getPutAwayTime();
+    }
 }
