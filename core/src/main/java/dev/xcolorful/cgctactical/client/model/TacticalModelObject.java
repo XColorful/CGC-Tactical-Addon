@@ -110,6 +110,11 @@ public class TacticalModelObject extends AnimatedModelObject {
     public void setEffectVisible(boolean effectVisible) {
         this.effectVisible = effectVisible;
     }
+    /**
+     * 是否正在渲染实体
+     * <br>
+     * 26.2 起模型在 flush 阶段才读取该状态，须在 submit 阶段设好且不能随即还原
+     */
     public void setEntityRendering(boolean entityRendering) {
         this.entityRendering = entityRendering;
     }
