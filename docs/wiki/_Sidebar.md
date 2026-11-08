@@ -35,6 +35,8 @@
 					- [近战显示](https://github.com/XColorful/CGC-Tactical-Addon/wiki/Melee-display)
 				- throwable
 					- [投掷物显示](https://github.com/XColorful/CGC-Tactical-Addon/wiki/Throwable-display)
+	- ℹ️关于模组
+		- [模组版本](https://github.com/XColorful/CGC-Tactical-Addon/wiki/Mod-version)
 ---
 - [Home](https://github.com/XColorful/CGC-Tactical-Addon/wiki#English)
 	- 🛠️Configuration
@@ -69,3 +71,5 @@
 					- [Melee display](https://github.com/XColorful/CGC-Tactical-Addon/wiki/Melee-display#English)
 				- throwable
 					- [Throwable display](https://github.com/XColorful/CGC-Tactical-Addon/wiki/Throwable-display#English)
+	- ℹ️About
+		- [Mod version](https://github.com/XColorful/CGC-Tactical-Addon/wiki/Mod-version#English)
