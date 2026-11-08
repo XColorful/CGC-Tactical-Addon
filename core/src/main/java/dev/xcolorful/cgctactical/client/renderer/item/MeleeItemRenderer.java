@@ -105,7 +105,7 @@ public class MeleeItemRenderer extends AnimateGeoItemRenderer<TacticalModelObjec
         stateMachine.setExitingTime(putAwayTime + 50);
     }
 
-    // --------AnimateGeoItemRendererOperator--------
+    // --------IAnimateGeoItemRendererOperator--------
 
     @Override
     public void applyItemInHandCameraAnimation(BeforeRenderHandEvent event, ItemStack meleeItem, LocalPlayer player) {
