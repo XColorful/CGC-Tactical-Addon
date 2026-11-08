@@ -173,3 +173,59 @@ Consumable 与 Throwable 已按 Melee 的方式补齐。
 - 已执行 `:forge-compat:reobfJar` 并覆盖部署到 `E:\Software\Minecraft\1.20.1test\mods\cgctactical-0.0.0-forge-1.20.1.jar`。
 - 部署后的 jar 已用 `javap` 确认：Consumable/Throwable 渲染器都含 `tryExit`，Throwable 状态机含 `getUseDurationLimit` 调用。
 - CGC 侧上一轮的改动仍是 `core1.20.1` 上的已提交状态；Addon 这些改动未提交。
+
+# 
+---
+
+```
+现在要把CGC Tactical Addon 26.2分支对齐CGC 26.2，写法都跟CGC保持一致
+git有些修改，继续完成并通过编译
+```
+
+# 
+
+我先检查两个仓库的当前状态。
+
+CGC 最近有 "unify style" 提交。我先看 Tactical Addon 的未提交改动和 CGC 的 unify style 具体做了什么。
+
+改动是把 `setFirstPersonArmCollector_` 改名为 `setFirstPersonArmCollector`。我确认 CGC 侧现在的实际 API，并看 unify style 的具体内容。
+
+CGC 同时保留了 `setFirstPersonArmCollector(SubmitNodeCollector)` 和跨版本占位重载 `setFirstPersonArmCollector_(Object)`。我需要确认 Tactical Addon 里 `bufferSource` 的实际类型，才能判断改名后是否能编译。
+
+`bufferSource` 在 Tactical Addon 里是 `MultiBufferSource` 类型。我需要看 CGC 对应渲染器里传入的到底是什么类型。
+
+CGC 26.2 的 `renderByItem` 已经改成 `SubmitNodeCollector`，但 Tactical Addon 里 `_renderSlotTexture` 仍接收 `MultiBufferSource`。我先完整看 Tactical Addon 这三个文件的签名与导入。
+
+Tactical Addon 的 `renderByItem` 仍是 `MultiBufferSource`，而 CGC 26.2 已改为 `SubmitNodeCollector` —— 这不是正确的 override。我先直接编译看实际错误范围。
+
+编译是针对本地 jar `customgun-26.11.35-neoforge-26.2.jar`。我先检查该 jar 的 API 签名，再决定怎么改。
+
+确认了：jar 里 `setFirstPersonArmCollector` 只接受 `SubmitNodeCollector`，且 `renderByItem` 也是 `SubmitNodeCollector`。Tactical Addon 仍是旧签名。先跑一次编译拿到完整错误清单。
+
+等待编译时，我先读 CGC 侧同类渲染器作为目标写法模板。
+
+CGC 的模板已确认。看编译结果。
+
+现在按 CGC 的写法改三个文件。
+
+core 编译通过。现在跑完整构建确认 compat 模块也没问题。
+
+等待构建时，我检查其他写法对齐点，比如 CGC 的 `unify style` 把注释分区头改成了接口名。
+
+完整构建通过。接下来统一剩余的分区注释头（CGC 用的是 `IAnimateGeoItemRendererOperator`）。
+
+构建通过。看最终改动。
+
+已完成对齐并通过编译。
+
+**改动内容**（三个物品渲染器：[ConsumableItemRenderer.java](core/src/main/java/dev/xcolorful/cgctactical/client/renderer/item/ConsumableItemRenderer.java)、[MeleeItemRenderer.java](core/src/main/java/dev/xcolorful/cgctactical/client/renderer/item/MeleeItemRenderer.java)、[ThrowableItemRenderer.java](core/src/main/java/dev/xcolorful/cgctactical/client/renderer/item/ThrowableItemRenderer.java)）：
+
+- 26.2 已移除 `MultiBufferSource`，`renderByItem` 的参数改为 `SubmitNodeCollector`（与 CGC `GunItemRenderer` 一致）。
+- `_renderSlotTexture` 的参数改为 `SubmitNodeCollector collector`，贴图渲染从 `getBuffer(...)` 改为 `submitCustomGeometry(...)` + 拷贝 PoseStack，完全照 CGC 的写法。
+- 你原来未提交的改名保留：`setFirstPersonArmCollector_` → `setFirstPersonArmCollector`，因为现在传入的确实就是 `SubmitNodeCollector`。
+- 顺带把分区注释头 `AnimateGeoItemRendererOperator` 统一成 CGC 用的 `IAnimateGeoItemRendererOperator`。
+- 清掉不再使用的 `VertexConsumer`、`MultiBufferSource` 导入。
+
+**验证**：`./gradlew build` 两个模块（core、neoforge-compat）全部 BUILD SUCCESSFUL。
+
+按项目约定没有提交，改动留在工作区等你审阅。
