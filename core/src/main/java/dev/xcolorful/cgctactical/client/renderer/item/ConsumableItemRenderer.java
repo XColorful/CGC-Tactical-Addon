@@ -106,7 +106,7 @@ public class ConsumableItemRenderer extends AnimateGeoItemRenderer<TacticalModel
         stateMachine.setExitingTime(putAwayTime + 50);
     }
 
-    // --------AnimateGeoItemRendererOperator--------
+    // --------IAnimateGeoItemRendererOperator--------
 
     @Override
     public void applyItemInHandCameraAnimation(BeforeRenderHandEvent event, ItemStack consumableItem, LocalPlayer player) {
