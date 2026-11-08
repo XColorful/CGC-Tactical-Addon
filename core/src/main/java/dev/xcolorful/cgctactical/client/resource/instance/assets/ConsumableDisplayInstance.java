@@ -15,7 +15,7 @@ import org.jetbrains.annotations.Nullable;
 public final class ConsumableDisplayInstance extends _AssetsDisplayInstance<ConsumableDisplay> {
 
     private @Nullable TacticalModelObject modelObject;
-    private @Nullable LuaAnimStateMachine<ConsumableAnimStateContext> stateMachine;
+    private @Nullable LuaAnimStateMachine<ConsumableAnimStateContext> animStateMachine;
 
     private ConsumableDisplayInstance(@NotNull ConsumableDisplay pojo) {
         super(pojo);
@@ -39,7 +39,7 @@ public final class ConsumableDisplayInstance extends _AssetsDisplayInstance<Cons
             @Nullable AssetsScript script = this.getScript();
             if (animation != null && script != null && script.isValid()) {
                 AnimController animController = AnimationHelper.createControllerFromBedrock(animation, this.modelObject);
-                this.stateMachine = new LuaAnimStateMachine.Builder<ConsumableAnimStateContext>()
+                this.animStateMachine = new LuaAnimStateMachine.Builder<ConsumableAnimStateContext>()
                         .setController(animController)
                         .setLuaScripts(script.getResultTable())
                         .build();
@@ -54,7 +54,13 @@ public final class ConsumableDisplayInstance extends _AssetsDisplayInstance<Cons
     public @Nullable TacticalModelObject getModelObject() {
         return this.modelObject;
     }
+    public @Nullable LuaAnimStateMachine<ConsumableAnimStateContext> getAnimStateMachine() {
+        return this.animStateMachine;
+    }
+
+    // --------Deprecated--------
+
     public @Nullable LuaAnimStateMachine<ConsumableAnimStateContext> getStateMachine() {
-        return this.stateMachine;
+        return this.getAnimStateMachine();
     }
 }

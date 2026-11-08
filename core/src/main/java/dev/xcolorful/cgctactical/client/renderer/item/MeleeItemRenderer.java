@@ -69,7 +69,7 @@ public class MeleeItemRenderer extends AnimateGeoItemRenderer<TacticalModelObjec
         @Nullable MeleeDisplayInstance meleeDisplayInstance = ClientResourceApi.getMeleeDisplayInstance(meleeItem);
         if (meleeDisplayInstance == null) return null;
 
-        return meleeDisplayInstance.getStateMachine();
+        return meleeDisplayInstance.getAnimStateMachine();
     }
     @Override public @Nullable ResourceLocation getTextureLocation(ItemStack meleeItem) {
         @Nullable MeleeDisplayInstance meleeDisplayInstance = ClientResourceApi.getMeleeDisplayInstance(meleeItem);

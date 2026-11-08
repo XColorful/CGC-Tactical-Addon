@@ -73,7 +73,7 @@ public class ThrowableItemRenderer extends AnimateGeoItemRenderer<TacticalModelO
         @Nullable ThrowableDisplayInstance throwableDisplayInstance = ClientResourceApi.getThrowableDisplayInstance(throwableItem);
         if (throwableDisplayInstance == null) return null;
 
-        return throwableDisplayInstance.getStateMachine();
+        return throwableDisplayInstance.getAnimStateMachine();
     }
     @Override public @Nullable ResourceLocation getTextureLocation(ItemStack throwableItem) {
         @Nullable ThrowableDisplayInstance throwableDisplayInstance = ClientResourceApi.getThrowableDisplayInstance(throwableItem);

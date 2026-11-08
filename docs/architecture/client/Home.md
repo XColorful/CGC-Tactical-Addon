@@ -21,6 +21,9 @@
 
 - RenderConfig：渲染配置
 
+### 实体
+> _./client/entity_
+
 ### GUI
 > _./client/gui_
 
@@ -107,6 +110,9 @@ Module division based on the `dev.xcolorful.cgctactical.client` top-level packag
 > _./client/config_
 
 - RenderConfig: Render config
+
+### Entity
+> _./client/entity_
 
 ### GUI
 > _./client/gui_

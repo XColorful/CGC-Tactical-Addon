@@ -15,7 +15,7 @@ import org.jetbrains.annotations.Nullable;
 public final class MeleeDisplayInstance extends _AssetsDisplayInstance<MeleeDisplay> {
 
     private @Nullable TacticalModelObject modelObject;
-    private @Nullable LuaAnimStateMachine<MeleeAnimStateContext> stateMachine;
+    private @Nullable LuaAnimStateMachine<MeleeAnimStateContext> animStateMachine;
 
     private MeleeDisplayInstance(@NotNull MeleeDisplay pojo) {
         super(pojo);
@@ -39,7 +39,7 @@ public final class MeleeDisplayInstance extends _AssetsDisplayInstance<MeleeDisp
             @Nullable AssetsScript script = this.getScript();
             if (animation != null && script != null && script.isValid()) {
                 AnimController animController = AnimationHelper.createControllerFromBedrock(animation, this.modelObject);
-                this.stateMachine = new LuaAnimStateMachine.Builder<MeleeAnimStateContext>()
+                this.animStateMachine = new LuaAnimStateMachine.Builder<MeleeAnimStateContext>()
                         .setController(animController)
                         .setLuaScripts(script.getResultTable())
                         .build();
@@ -54,7 +54,13 @@ public final class MeleeDisplayInstance extends _AssetsDisplayInstance<MeleeDisp
     public @Nullable TacticalModelObject getModelObject() {
         return this.modelObject;
     }
+    public @Nullable LuaAnimStateMachine<MeleeAnimStateContext> getAnimStateMachine() {
+        return this.animStateMachine;
+    }
+
+    // --------Deprecated--------
+
     public @Nullable LuaAnimStateMachine<MeleeAnimStateContext> getStateMachine() {
-        return this.stateMachine;
+        return this.getAnimStateMachine();
     }
 }

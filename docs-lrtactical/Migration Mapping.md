@@ -343,12 +343,15 @@ Notation:
 |---|---|
 |`ClientEventsHandler`.computeCameraAngles||
 |`ClientEventsHandler`.onRenderHand|_Deprecated_|
-|`ClientEventsHandler`.tickAnimation||
-|`ClientEventsHandler`.tickMove||
+|`ClientEventsHandler`.tickMove|_Deprecated_|
 |`ClientEventsHandler`.afterLevel||
 |`ClientEventsHandler`.onClickInput|_Deprecated_|
 |`ClientEventsHandler`.renderAttackHitBox|_Deprecated_|
 |`ClientEventsHandler`.renderOBB||
+
+|me.xjqsh.lrtactical.client|dev.xcolorful.cgctactical.client.entity|
+|---|---|
+|`ClientEventsHandler`.tickAnimation|combatant.player.`_LocalAnimHandler`.onClientTick|
 
 |me.xjqsh.lrtactical.client|dev.xcolorful.cgctactical.client.init|
 |---|---|
