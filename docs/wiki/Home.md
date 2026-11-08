@@ -26,6 +26,10 @@
 - 📊[数据包](https://github.com/XColorful/CGC-Tactical-Addon/wiki/Resource-introduction#数据包)
 - 🖼️[资源包](https://github.com/XColorful/CGC-Tactical-Addon/wiki/Resource-introduction#资源包)
 
+## ℹ️关于模组
+
+- [模组版本](https://github.com/XColorful/CGC-Tactical-Addon/wiki/Mod-version)
+
 ## ⚖️许可证
 
 - Wiki 文档：[CC-BY-SA-4.0](https://creativecommons.org/licenses/by-sa/4.0/)
@@ -63,6 +67,10 @@
 [Resource introduction](https://github.com/XColorful/CGC-Tactical-Addon/wiki/Resource-introduction#English)
 - 📊[Datapack](https://github.com/XColorful/CGC-Tactical-Addon/wiki/Resource-introduction#Datapack)
 - 🖼️[Resourcepack](https://github.com/XColorful/CGC-Tactical-Addon/wiki/Resource-introduction#Resourcepack)
+
+## ℹ️About
+
+- [Mod version](https://github.com/XColorful/CGC-Tactical-Addon/wiki/Mod-version#English)
 
 ## ⚖️License
 
