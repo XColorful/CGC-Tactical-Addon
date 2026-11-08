@@ -154,7 +154,7 @@ public final class ConsumableIndex extends _DataIndex<ConsumableIndex> {
         }
     }
     @ApiStatus.Internal
-    @Deprecated public void _reloadLegacyDisplay(ResourceLocation pojoLocation) {
+    @Deprecated public void _reloadLegacyDisplay(Identifier pojoLocation) {
         var displayLocation = this.getDisplayIndexLocation();
         if (displayLocation == null || displayLocation.equals(ResourceTag.NULL_LOCATION)) {
             this.setDisplayIndexLocation(pojoLocation);
