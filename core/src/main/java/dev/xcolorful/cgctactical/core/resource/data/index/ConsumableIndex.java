@@ -7,6 +7,7 @@ import dev.xcolorful.cgctactical.core.api.resource.ResourceApi;
 import dev.xcolorful.cgctactical.core.api.resource.data.index.ConsumableIndexTag;
 import dev.xcolorful.cgctactical.core.resource._AllDataManager;
 import dev.xcolorful.cgctactical.core.resource.data.data.ConsumableData;
+import dev.xcolorful.customgun.core.api.resource.ResourceTag;
 import dev.xcolorful.customgun.core.resource.data.index._DataIndex;
 import dev.xcolorful.customgun.core.util.JsonUtils;
 import net.minecraft.resources.Identifier;
@@ -150,6 +151,13 @@ public final class ConsumableIndex extends _DataIndex<ConsumableIndex> {
             consumer.accept(dataLocation, consumableData);
             consumableIndex.setDataLocation(dataLocation);
             consumableIndex.setConsumableData(null);
+        }
+    }
+    @ApiStatus.Internal
+    @Deprecated public void _reloadLegacyDisplay(ResourceLocation pojoLocation) {
+        var displayLocation = this.getDisplayIndexLocation();
+        if (displayLocation == null || displayLocation.equals(ResourceTag.NULL_LOCATION)) {
+            this.setDisplayIndexLocation(pojoLocation);
         }
     }
 }
