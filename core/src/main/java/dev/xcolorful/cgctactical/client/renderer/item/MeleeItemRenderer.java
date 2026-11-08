@@ -20,7 +20,6 @@ import dev.xcolorful.customgun.client.renderer.item.AnimateGeoItemRenderer;
 import dev.xcolorful.customgun.client.util.ClientRenderHelper;
 import dev.xcolorful.customgun.client.util.ClientRenderUtils;
 import dev.xcolorful.customgun.core.api.resource.ResourceTag;
-import net.minecraft.client.Minecraft;
 import net.minecraft.client.player.LocalPlayer;
 import net.minecraft.client.renderer.MultiBufferSource;
 import net.minecraft.client.renderer.RenderType;
@@ -43,7 +42,7 @@ public class MeleeItemRenderer extends AnimateGeoItemRenderer<TacticalModelObjec
     @Override
     public void doExtraTransforms(PoseStack poseStack, TacticalModelObject modelObject, ItemStack meleeItem) {
         super.doExtraTransforms(poseStack, modelObject, meleeItem);
-        TacticalRendererAddon.applyJumpingSway(modelObject, Minecraft.getInstance().getFrameTime());
+        TacticalRendererAddon.applyJumpingSway(modelObject, ClientRenderUtils.getRenderFrameTime());
     }
 
     // --------IAnimateGeoItemRenderer--------
