@@ -19,7 +19,6 @@ import dev.xcolorful.customgun.client.renderer.item.AnimateGeoItemRenderer;
 import dev.xcolorful.customgun.client.util.ClientRenderHelper;
 import dev.xcolorful.customgun.client.util.ClientRenderUtils;
 import dev.xcolorful.customgun.core.api.resource.ResourceTag;
-import net.minecraft.client.Minecraft;
 import net.minecraft.client.player.LocalPlayer;
 import net.minecraft.client.renderer.MultiBufferSource;
 import net.minecraft.client.renderer.RenderType;
@@ -45,7 +44,7 @@ public class ThrowableItemRenderer extends AnimateGeoItemRenderer<TacticalModelO
     @Override
     public void doExtraTransforms(PoseStack poseStack, TacticalModelObject modelObject, ItemStack throwableItem) {
         super.doExtraTransforms(poseStack, modelObject, throwableItem);
-        TacticalRendererAddon.applyJumpingSway(modelObject, Minecraft.getInstance().getFrameTime());
+        TacticalRendererAddon.applyJumpingSway(modelObject, ClientRenderUtils.getRenderFrameTime());
     }
 
     // --------IAnimateGeoItemRenderer--------
