@@ -182,4 +182,11 @@ public final class MeleeIndex extends _DataIndex<MeleeIndex> {
             meleeIndex.setMeleeData(null);
         }
     }
+    @ApiStatus.Internal
+    @Deprecated public void _reloadLegacyDisplay(ResourceLocation pojoLocation) {
+        var displayLocation = this.getDisplayIndexLocation();
+        if (displayLocation == null || displayLocation.equals(ResourceTag.NULL_LOCATION)) {
+            this.setDisplayIndexLocation(pojoLocation);
+        }
+    }
 }
