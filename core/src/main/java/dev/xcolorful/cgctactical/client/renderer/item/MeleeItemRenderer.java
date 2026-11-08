@@ -1,7 +1,6 @@
 package dev.xcolorful.cgctactical.client.renderer.item;
 
 import com.mojang.blaze3d.vertex.PoseStack;
-import com.mojang.blaze3d.vertex.VertexConsumer;
 import com.mojang.math.Axis;
 import dev.xcolorful.cgctactical.client.animation.statemachine.MeleeAnimStateContext;
 import dev.xcolorful.cgctactical.client.api.resource.ClientResourceApi;
@@ -21,7 +20,7 @@ import dev.xcolorful.customgun.client.util.ClientRenderHelper;
 import dev.xcolorful.customgun.client.util.ClientRenderUtils;
 import dev.xcolorful.customgun.core.api.resource.ResourceTag;
 import net.minecraft.client.player.LocalPlayer;
-import net.minecraft.client.renderer.MultiBufferSource;
+import net.minecraft.client.renderer.SubmitNodeCollector;
 import net.minecraft.client.renderer.rendertype.RenderType;
 import net.minecraft.resources.Identifier;
 import net.minecraft.world.entity.player.Player;
@@ -139,7 +138,7 @@ public class MeleeItemRenderer extends AnimateGeoItemRenderer<TacticalModelObjec
     public void renderByItem(@NotNull ItemStack meleeItem,
                              ItemDisplayContext transformType,
                              @NotNull PoseStack poseStack,
-                             @NotNull MultiBufferSource bufferSource,
+                             @NotNull SubmitNodeCollector bufferSource,
                              int light, int overlay) {
         // 第一人称就不渲染了，交给别的地方
         if (transformType.firstPerson()) return;
@@ -179,11 +178,11 @@ public class MeleeItemRenderer extends AnimateGeoItemRenderer<TacticalModelObjec
                 ClientRenderHelper.rotate(poseStack, Axis.ZP.rotationDegrees(180f));
 
                 RenderType renderType = ClientRenderUtils.RenderType_.entityCutout(modelTextureLocation);
-                ClientRenderHelper.FirstPersonArmHelper.setFirstPersonArmCollector_(bufferSource);
+                ClientRenderHelper.FirstPersonArmHelper.setFirstPersonArmCollector(bufferSource);
                 try {
                     modelObject.render(poseStack, transformType, renderType, light, overlay);
                 } finally {
-                    ClientRenderHelper.FirstPersonArmHelper.setFirstPersonArmCollector_(null);
+                    ClientRenderHelper.FirstPersonArmHelper.setFirstPersonArmCollector(null);
                 }
             }
         }
@@ -192,7 +191,7 @@ public class MeleeItemRenderer extends AnimateGeoItemRenderer<TacticalModelObjec
 
     private static void _renderSlotTexture(PoseStack poseStack,
                                            ItemDisplayContext transformType,
-                                           MultiBufferSource bufferSource,
+                                           SubmitNodeCollector collector,
                                            int packedLight, int packedOverlay,
                                            Identifier texture) {
         poseStack.translate(0.5, 1.5, 0.5);
@@ -206,9 +205,11 @@ public class MeleeItemRenderer extends AnimateGeoItemRenderer<TacticalModelObjec
             ClientRenderHelper.rotate(poseStack, Axis.YP.rotationDegrees(180));
         }
 
-        {
-            VertexConsumer buffer = bufferSource.getBuffer(ClientRenderUtils.RenderType_.entityTranslucent(texture));
-            SLOT_MELEE_MODEL.renderToBuffer(poseStack, buffer, packedLight, packedOverlay, 1.0f, 1.0f, 1.0f, 1.0f);
+        collector.submitCustomGeometry(poseStack, ClientRenderUtils.RenderType_.entityTranslucent(texture), (pose, buffer) -> {
+            PoseStack _poseStack = new PoseStack();
+            _poseStack.last().set(pose);
+            SLOT_MELEE_MODEL.renderToBuffer(_poseStack, buffer, packedLight, packedOverlay, 1.0f, 1.0f, 1.0f, 1.0f);
         }
+        );
     }
 }
