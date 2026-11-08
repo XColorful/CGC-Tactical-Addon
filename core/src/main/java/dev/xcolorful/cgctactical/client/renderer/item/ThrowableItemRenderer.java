@@ -22,7 +22,7 @@ import dev.xcolorful.customgun.core.api.resource.ResourceTag;
 import net.minecraft.client.player.LocalPlayer;
 import net.minecraft.client.renderer.MultiBufferSource;
 import net.minecraft.client.renderer.RenderType;
-import net.minecraft.resources.ResourceLocation;
+import net.minecraft.resources.Identifier;
 import net.minecraft.world.entity.player.Player;
 import net.minecraft.world.item.ItemDisplayContext;
 import net.minecraft.world.item.ItemStack;
@@ -76,7 +76,7 @@ public class ThrowableItemRenderer extends AnimateGeoItemRenderer<TacticalModelO
 
         return throwableDisplayInstance.getAnimStateMachine();
     }
-    @Override public @Nullable ResourceLocation getTextureLocation(ItemStack throwableItem) {
+    @Override public @Nullable Identifier getTextureLocation(ItemStack throwableItem) {
         @Nullable ThrowableDisplayInstance throwableDisplayInstance = ClientResourceApi.getThrowableDisplayInstance(throwableItem);
         if (throwableDisplayInstance == null) return null;
 
@@ -183,7 +183,7 @@ public class ThrowableItemRenderer extends AnimateGeoItemRenderer<TacticalModelO
                                            ItemDisplayContext transformType,
                                            MultiBufferSource bufferSource,
                                            int packedLight, int packedOverlay,
-                                           ResourceLocation texture) {
+                                           Identifier texture) {
         poseStack.translate(0.5, 1.5, 0.5);
         ClientRenderHelper.rotate(poseStack, Axis.ZN.rotationDegrees(180));
 
