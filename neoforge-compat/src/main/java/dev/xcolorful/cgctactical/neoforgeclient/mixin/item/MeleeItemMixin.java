@@ -4,7 +4,7 @@ import dev.xcolorful.cgctactical.client.renderer.item.MeleeItemRenderer;
 import dev.xcolorful.cgctactical.core.item.melee.MeleeItem;
 import dev.xcolorful.customgun.client.api.item.IAnimateGeoItem;
 import dev.xcolorful.customgun.client.api.item.IItemBEWLR;
-import net.minecraft.client.renderer.BlockEntityWithoutLevelRenderer;
+import dev.xcolorful.customgun.client.compat.minecraft.BlockEntityWithoutLevelRenderer;
 import net.minecraft.world.item.Item;
 import net.neoforged.api.distmarker.Dist;
 import net.neoforged.api.distmarker.OnlyIn;
@@ -25,11 +25,11 @@ public abstract class MeleeItemMixin extends Item implements IAnimateGeoItem, II
     // --------IClientItemExtensions-------
 
     @OnlyIn(Dist.CLIENT)
-    @Override
+//    @Override
     public void initializeClient(Consumer<IClientItemExtensions> consumer) {
         consumer.accept(new IClientItemExtensions() {
             @Deprecated(since = "1.21.4")
-            @Override
+//            @Override
             public BlockEntityWithoutLevelRenderer getCustomRenderer() {
                 return MeleeItemMixin.this.cgc$getBEWLR();
             }
