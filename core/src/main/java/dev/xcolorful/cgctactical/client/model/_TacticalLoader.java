@@ -42,4 +42,9 @@ public class _TacticalLoader {
             }
         }
     }
+
+    protected static void constructOtherPath(TacticalModelObject _this) {
+        _this.leftHandPosPath = _this.getPath(_this.modelMap_get(LEFTHAND_POS_NODE));
+        _this.rightHandPosPath = _this.getPath(_this.modelMap_get(RIGHTHAND_POS_NODE));
+    }
 }

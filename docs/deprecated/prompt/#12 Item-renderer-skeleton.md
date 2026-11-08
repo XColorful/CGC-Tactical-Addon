@@ -229,3 +229,120 @@ core 编译通过。现在跑完整构建确认 compat 模块也没问题。
 **验证**：`./gradlew build` 两个模块（core、neoforge-compat）全部 BUILD SUCCESSFUL。
 
 按项目约定没有提交，改动留在工作区等你审阅。
+
+# 
+
+```
+现在CGC Tactical Addon 26.2：
+- 第一人称没渲染手
+- 第三人称和物品槽GUI渲染正常
+- CGC原本的渲染正常
+
+需要排查是否还有其他要跟CGC26.2写法同步的地方
+- 部分功能已经在CGC里能够复用，不一定需要像lrtactical一样重写一遍
+- 如果遇到IGun无害放宽为IAnimationItem这类重构，则可以修改CGC
+```
+
+# 
+
+我先看三个渲染器的当前状态，以及 CGC 第一人称手部渲染的入口链路。
+
+最近有一个 "Port item renderer to 26.2 #12" 提交，先看它改了什么。
+
+对比 addon 26.2 与 26.3 分支的渲染器差异，看 26.3 是否已有第一人称的修法。
+
+我用 IDEA MCP 直接看 26.2 原版的 `ItemInHandRenderer` 与 `ItemStackRenderState`，确认第一人称到底走哪条路径。
+
+我已经定位到根因。先确认 CGC 侧 26.2 的写法差异，再看两边的构建产物路径。
+
+根因确认：26.2 延迟渲染下，`HandRender` 的委托在 flush 阶段才执行，此时 `FirstPersonArmHelper` 的收集器已被清空，所以手臂提交不出去。CGC 的枪械已经在 submit 阶段显式出手臂（`_GunModelRender._renderHand`），而 Addon 仍走旧的委托路径。
+
+我先把 CGC 里的这段手臂渲染提炼成可复用的公共方法。
+
+现在改 Addon 的模型类，让它在 submit 阶段复用 CGC 的手臂渲染。
+
+CGC 侧改完了。重建 CGC 的 jarJar 产物并同步到 Addon 的 libs。
+
+等待构建时，继续排查 Addon 里其他还没跟 26.2 对齐的渲染写法。
+
+CGC 构建成功。同步 jar 到 Addon 并重新编译。
+
+两边都构建成功。汇总最终改动。
+
+已定位并修复第一人称不渲染手的问题。
+
+**根因**
+
+26.2 起模型几何走 `SubmitNodeCollector` 延迟渲染。`ModelObject.render` 里 `delegateRenderers`（手臂就挂在这）是在 `submitCustomGeometry` 的 **flush 回调** 里执行的，而此时 `FirstPersonArmHelper` 的 ThreadLocal 收集器早已在 `renderFirstPerson` 的 `finally` 中清空 —— `renderFirstPersonArm` 直接 `return`，手臂提交不出去。
+
+CGC 的枪械已经在 26.2 里绕开了这条路：`_GunModelRender._renderHand` 在 **submit 阶段**沿手部定位组路径显式渲染手臂。Addon 仍在走旧的 `_TacticalLoader` → `HandRender` 委托路径，所以模型能画、手臂不能画。第三人称/GUI 不经过这条路径，因此正常。
+
+**改动**
+
+CGC（2 个文件）：
+- [HandRender.java](D:/Github/Custom-Gun-Continued-26.2neoforge/core/src/main/java/dev/xcolorful/customgun/client/renderer/model/HandRender.java)：新增公共 `renderFirstPersonArm(poseStack, handPosPath, hand, light)`，把「沿定位组路径 → 转 180° → 提交手臂」这段提成可复用 API。
+- [_GunModelRender.java](D:/Github/Custom-Gun-Continued-26.2neoforge/core/src/main/java/dev/xcolorful/customgun/client/model/_GunModelRender.java)：`_renderHandInternal` 改为调用它，行为不变、少一份重复。
+
+Addon（1 个文件）：
+- [TacticalModelObject.java](D:/Github/CGC-Tactical-Addon-26.2neoforge/core/src/main/java/dev/xcolorful/cgctactical/client/model/TacticalModelObject.java)：`resetCache` 缓存左右手定位组路径；覆写 `render(...)`，在第一人称且 `getRenderHand()` 时于 submit 阶段调用上面那个 CGC 公共方法。三个物品（近战/消耗品/投掷物）共用，不需要各自改渲染器。
+
+**验证**：CGC `:neoforge-compat:jarJar` 通过，jar 已覆盖到 `libs/customgun-26.11.35-neoforge-26.2.jar`；Addon `./gradlew build` 通过。**未进游戏实测，两边均未提交。**
+
+**排查出的另一处同类隐患**（尚未改）：`_TacticalLoader` 里 `1p_effect` / `entity_hide` 的可见性是在 flush 阶段的 functionalRenderer 里读字段，而 `MeleeItemRenderer.renderFirstPerson` 用 `setEffectVisible(true) … finally false` 把字段包在渲染调用前后 —— flush 时读到的一定是 `false`，所以第一人称特效节点在 26.2 下不显示。当前刀包模型没有 `1p_effect` 节点，暂不影响观感；`entity_hide` 要等投掷物实体渲染器落地才会碰到。
+
+# 
+
+```
+目前26.2的修改已经能渲染手，且刚才CGC的修改已经1.20.1-26.3跨版本统一，
+- CGC Tactical Addon的左右手字段也要像CGC一样在core1.20.1就存在+标记available since 26.2
+- Addon的渲染方式跟CGC风格保持一致，如有必要可以用版本区间、if (true) return等方式隔离26.2前后的渲染路径
+- 并且，把你刚才提到的隐患也在core1.20.1应用修改
+- 修改完core1.20.1之后，等我手动merge到高版本，再处理冲突
+```
+
+# 
+
+我先确认两个主检出（core1.20.1）的当前状态与相关代码。
+
+CGC 主检出在 `1.20.1` 分支，且已有提交 “Provide 26.2 hand render for addon mods”。我先看清各 worktree 与已有改动。
+
+主检出情况已清楚：CGC 的 `core1.20.1` 改动你已经提交并合到 `1.20.1`；Addon 的 `core1.20.1` 上你只加了字段。我继续完成 Addon 部分。
+
+现在完成 Addon `core1.20.1` 的改动。
+
+需要先用最新的 CGC `core1.20.1` 重建 1.20.1 的 jar。
+
+core1.20.1 上的改动已完成，两边都编译通过。
+
+**CGC（`D:\Github\Custom-Gun-Continued`，`1.20.1`）**
+
+你之前的提交 `d699abe2e Provide 26.2 hand render for addon mods` 已包含所需内容：`HandRender.renderFirstPersonArm(...)`（带 `if (true) return;` 让 1.20.x 走空实现并保留引用）+ `_GunModelRender` 复用。我没有再改源码，只重建了 `:forge-compat:reobfJarJar`，产物已覆盖到 Addon 的 `libs/customgun-26.11.35-forge-1.20.1.jar`。
+
+**Addon（`D:\Github\CGC-Tactical-Addon`，`core1.20.1`）**
+
+[TacticalModelObject.java](core/src/main/java/dev/xcolorful/cgctactical/client/model/TacticalModelObject.java)：
+- 保留你加的 `leftHandPosPath` / `rightHandPosPath` 字段（`@ApiStatus.AvailableSince("26.2")`，包内可见），并在 `resetCache` 里像 `_GunLoader.constructOtherPath` 一样缓存路径。
+- 补了 `getLeftHandPosPath()` / `getRightHandPosPath()`，同样是 `available since 26.2`，与 CGC `GunModelObject` 一致。
+- 新增 `render(...)` 覆写，按 CGC 的隔离写法：
+
+```java
+// [1.20.1, 26.2)
+if (true) return; // 让IDE保留下面的引用关系
+// [26.2, )
+if (!transformType.firstPerson() || !this.getRenderHand()) return;
+HandRender.renderFirstPersonArm(poseStack, this.leftHandPosPath, HumanoidArm.LEFT, light);
+...
+```
+
+[MeleeItemRenderer.java](core/src/main/java/dev/xcolorful/cgctactical/client/renderer/item/MeleeItemRenderer.java)（隐患修复）：
+- `renderFirstPerson` 不再用 `try / finally` 立刻还原 `effectVisible`，改为在 submit 阶段置 `true` 后保留。
+- `renderByItem` 在非第一人称分支置 `false`。
+
+这样 flush 阶段的 functionalRenderer 读到的就是本次 submit 的值，`1p_effect` 可见性在 26.2 下能生效。
+另外给 `setEntityRendering` 补了说明：26.2 起该状态须在 submit 阶段设好、不能随即还原 —— 等投掷物实体渲染器落地时按此处理。
+
+**验证**：CGC `:forge-compat:reobfJarJar` BUILD SUCCESSFUL（48s）；Addon `./gradlew build` BUILD SUCCESSFUL（28s）。**未提交**。
+
+两点提醒：
+1. `docs/deprecated/prompt/#12 Item-renderer-skeleton.md` 在我操作期间被外部追加了本轮对话记录，我没有动它。
+2. 26.2 worktree 里还留着同样改动的未提交版本（CGC 的 `HandRender`/`_GunModelRender`、Addon 的 `TacticalModelObject`）。等你 merge core1.20.1 上去后，冲突按「保留 core1.20.1 的字段+getter 结构，去掉 `if (true) return;` 启用 26.2 段」即可，我来处理。
