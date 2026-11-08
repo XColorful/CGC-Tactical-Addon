@@ -6,6 +6,8 @@
 
 😎[wiki](https://github.com/XColorful/CGC-Tactical-Addon/wiki) | 📄[docs](https://github.com/XColorful/CGC-Tactical-Addon/tree/HEAD/docs)
 
+`本模组目前处于开发阶段，功能尚不完整，暂无法正常投入使用`
+
 本模组是[自定义枪械永续](https://github.com/XColorful/Custom-Gun-Continued)的战术装备扩展模组。
 
 ---
@@ -50,6 +52,8 @@ Agent Skill：
 # CGC Tactical Addon
 
 😎[wiki](https://github.com/XColorful/CGC-Tactical-Addon/wiki) | 📄[docs](https://github.com/XColorful/CGC-Tactical-Addon/tree/HEAD/docs)
+
+`This mod is currently under development with incomplete features, and is not ready for normal use`
 
 This mod is a tactical equipment addon for [Custom Gun Continued](https://github.com/XColorful/Custom-Gun-Continued), licensed under [GPL-3.0-only](https://www.gnu.org/licenses/gpl-3.0.txt).
 
