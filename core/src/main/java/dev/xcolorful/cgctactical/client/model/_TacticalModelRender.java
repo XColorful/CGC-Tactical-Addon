@@ -37,7 +37,6 @@ public class _TacticalModelRender {
                                     RenderType renderType,
                                     int light, int overlay) {
         // [26.2, )
-        if (true) return; // 让IDE保留下面的引用关系
         if (transformType.firstPerson() && _this.getRenderHand()) {
             _renderHandInternal(_this, matrixStack, light, HumanoidArm.LEFT);
             _renderHandInternal(_this, matrixStack, light, HumanoidArm.RIGHT);
