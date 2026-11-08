@@ -343,12 +343,15 @@ Notation:
 |---|---|
 |`ClientEventsHandler`.computeCameraAngles||
 |`ClientEventsHandler`.onRenderHand|_Deprecated_|
-|`ClientEventsHandler`.tickAnimation||
-|`ClientEventsHandler`.tickMove||
+|`ClientEventsHandler`.tickMove|_Deprecated_|
 |`ClientEventsHandler`.afterLevel||
 |`ClientEventsHandler`.onClickInput|_Deprecated_|
 |`ClientEventsHandler`.renderAttackHitBox|_Deprecated_|
 |`ClientEventsHandler`.renderOBB||
+
+|me.xjqsh.lrtactical.client|dev.xcolorful.cgctactical.client.entity|
+|---|---|
+|`ClientEventsHandler`.tickAnimation|combatant.player.`_LocalAnimHandler`.onClientTick|
 
 |me.xjqsh.lrtactical.client|dev.xcolorful.cgctactical.client.init|
 |---|---|
@@ -413,16 +416,19 @@ Notation:
 > package me.xjqsh.lrtactical.client.renderer;
 > ```
 
-|me.xjqsh.lrtactical.client.renderer||
+|me.xjqsh.lrtactical.client.renderer|dev.xcolorful.cgctactical.client.renderer|
 |---|---|
 |entity.`ThrowableEntityRenderer`||
-|item.`ConsumableItemRenderer`||
+|item.`ConsumableItemRenderer`|item.`ConsumableItemRenderer`|
 |item.`FlashShieldItemRenderer`||
-|item.`MeleeItemRenderer`||
-|item.`ThrowableItemRendererWrapper`||
-|model.`CustomBedrockModel`||
+|item.`MeleeItemRenderer`|item.`MeleeItemRenderer`|
+|item.`ThrowableItemRendererWrapper`|item.`ThrowableItemRenderer`|
 |`CoolDownDecorations`|_Deprecated_|
-|`JumpSwayUtil`||
+|`JumpSwayUtil`|item.melee.`TacticalRendererAddon`|
+
+|me.xjqsh.lrtactical.client.renderer|dev.xcolorful.cgctactical.client.model|
+|---|---|
+|model.`CustomBedrockModel`|`TacticalModelObject`|
 
 ### Resource (Client)
 > ```java
