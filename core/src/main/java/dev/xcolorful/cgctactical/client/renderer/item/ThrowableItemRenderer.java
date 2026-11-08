@@ -109,7 +109,7 @@ public class ThrowableItemRenderer extends AnimateGeoItemRenderer<TacticalModelO
         stateMachine.setExitingTime(putAwayTime + 50);
     }
 
-    // --------AnimateGeoItemRendererOperator--------
+    // --------IAnimateGeoItemRendererOperator--------
 
     @Override
     public void applyItemInHandCameraAnimation(BeforeRenderHandEvent event, ItemStack throwableItem, LocalPlayer player) {
