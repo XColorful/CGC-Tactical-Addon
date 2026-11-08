@@ -1,6 +1,7 @@
 package dev.xcolorful.cgctactical.client.animation.statemachine;
 
 import dev.xcolorful.cgctactical.core.api.item.IThrowable;
+import dev.xcolorful.cgctactical.core.api.item.throwable.IThrowableGetter;
 import dev.xcolorful.customgun.client.animation.statemachine.ItemAnimStateContext;
 import net.minecraft.world.item.ItemStack;
 import org.jetbrains.annotations.Nullable;
@@ -20,6 +21,8 @@ public class ThrowableAnimStateContext extends ItemAnimStateContext {
 
     public void setCurrentItem(ItemStack throwableItem) {
         this.currentThrowableItem = throwableItem;
+        this.iThrowable = IThrowableGetter.fromItemStack(throwableItem);
+        this.prepareTime = this.iThrowable != null ? this.iThrowable.getUseDurationLimit(throwableItem) : 0;
     }
     public ItemStack getCurrentItem() {
         return this.currentThrowableItem;
