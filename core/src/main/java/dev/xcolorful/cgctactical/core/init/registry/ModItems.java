@@ -8,6 +8,7 @@ import dev.xcolorful.cgctactical.core.item.throwable.ThrowableItem;
 import dev.xcolorful.customgun.CustomGun;
 import dev.xcolorful.customgun.core.api.init.registry.IRegistrar;
 import dev.xcolorful.customgun.core.api.init.registry.IRegistryObject;
+import net.minecraft.core.registries.Registries;
 import net.minecraft.resources.ResourceLocation;
 import net.minecraft.world.item.Item;
 
@@ -17,7 +18,7 @@ public class ModItems {
     public static final IRegistrar<Item> ITEMS = CustomGun.getRegistrarFactory().createItems(CgcTactical.MOD_ID);
 
     public static final Function<ResourceLocation, Item.Properties> CUSTOM_ITEM_PROPERTY = (registryLocation) -> new Item.Properties()
-//            .setId(CustomGun.getMcRegistry().createResourceKey(Registries.ITEM, registryLocation)) // [1.21.4, )
+            .setId(CustomGun.getMcRegistry().createResourceKey(Registries.ITEM, registryLocation)) // [1.21.4, )
             .stacksTo(1); // 堆叠数会重载getter来修改
 
 
