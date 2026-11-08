@@ -11,7 +11,9 @@ import dev.xcolorful.cgctactical.client.resource.instance.assets.ThrowableDispla
 import dev.xcolorful.cgctactical.core.api.item.IThrowable;
 import dev.xcolorful.cgctactical.core.api.item.throwable.IThrowableGetter;
 import dev.xcolorful.customgun.client.animation.statemachine.LuaAnimStateMachine;
+import dev.xcolorful.customgun.client.api.animation.statemachine.GunAnimationState;
 import dev.xcolorful.customgun.client.api.event.render.BeforeRenderHandEvent;
+import dev.xcolorful.customgun.client.api.renderer.KeepingItemRenderer;
 import dev.xcolorful.customgun.client.model.bedrock.SlotModel;
 import dev.xcolorful.customgun.client.renderer.item.AnimateGeoItemRenderer;
 import dev.xcolorful.customgun.client.util.ClientRenderHelper;
@@ -86,6 +88,26 @@ public class ThrowableItemRenderer extends AnimateGeoItemRenderer<TacticalModelO
         if (iThrowable == null) return 0;
 
         return iThrowable.getPutAwayTime(throwableItem);
+    }
+
+    // --------IAnimateGeoItemRendererState--------
+
+    @Override
+    public void tryExit(ItemStack throwableItem, long putAwayTime) {
+        @Nullable LuaAnimStateMachine<ThrowableAnimStateContext> stateMachine = this.getStateMachine(throwableItem);
+        if (stateMachine == null) return;
+
+        stateMachine.processContextIfExist(context -> {
+            context.setPutAwayTime(putAwayTime / 1000F);
+            context.setCurrentItem(throwableItem);
+        });
+
+        if (!stateMachine.isInitialized()) return;
+
+        stateMachine.trigger(GunAnimationState.INPUT_PUT_AWAY.getConstantName());
+        KeepingItemRenderer.cgc$getRenderer().cgc$keep(throwableItem, putAwayTime);
+        stateMachine.exit();
+        stateMachine.setExitingTime(putAwayTime + 50);
     }
 
     // --------AnimateGeoItemRendererOperator--------

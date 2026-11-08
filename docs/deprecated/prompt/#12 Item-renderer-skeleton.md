@@ -45,6 +45,11 @@
 
 # 
 
+[fork1](#fork1)
+[fork2](#fork2)
+
+# fork1
+
 ```
 继续throwable和consumable，以已提交的写法为确定的风格
 ```
@@ -79,3 +84,92 @@
 - 跳跃摆动复用已提交的 `MeleeRendererAddon.applyJumpingSway`：原版三类渲染器都用同一个 `JumpSwayUtil`，而提交里它的实现已归到该类。若你希望改成各分类独立的 `*RendererAddon`，告诉我即可。
 - 消耗品/投掷品不设置 `effectVisible`，与原版一致（仅近战开启 `1p_effect`）。
 - `:forge-compat:compileJava` 通过，仅既有弃用警告；未进入游戏实测，未提交。
+
+# fork2
+
+```
+现在slot材质，第三人称，第一人称都有渲染模型
+当从枪械(IGun)或近战(IMelee)切换到近战(IMelee)时有播放掏刀动画，但是从近战切到原版物品再切回近战时没有掏刀动画
+从近战切到别的物品也没有播放put away动画
+刀包在游戏目录下./tacz/
+需要排查问题
+- 部分功能已经在CGC里能够复用，不一定需要像lrtactical一样重写一遍
+- 如果遇到IGun无害放宽为IAnimationItem这类重构，则可以修改CGC
+```
+
+# 
+
+我先查看磁盘上的最新实现，以及 CGC 中 `tryInit`/`tryExit` 的调用链。
+
+我定位到两处原因：CGC 的 `LocalShooterDraw` 用 `IGun` 判断切出/切入，近战不属于 `IGun`；另外近战渲染器没有触发 `put_away`。先确认 CGC 仓库状态。
+
+CGC 仓库干净（`core1.20.1`）。现在做两处修改：CGC 的切换判定放宽到 `IAnimationItem`，近战渲染器补上 `tryExit` 的 put-away 触发。
+
+修复代码已通过编译。现在重新构建 CGC 与 Addon 的 jar，便于你在游戏目录里直接验证。
+
+已定位并完成修复，jar 也已重建部署。先记录本次修复清单。
+
+已定位到两个原因并修复。
+
+**根因**
+
+1. CGC 的 [LocalShooterDraw.java](D:/Github/Custom-Gun-Continued/core/src/main/java/dev/xcolorful/customgun/client/entity/shooter/LocalShooterDraw.java) 在 `draw()` 里用 `IGun` 判断切出物品，近战不属于 `IGun`，所以：
+    - 近战切走时 `_doPutAway` 从不调用 → 没有 put-away；
+    - `tryExit` 不执行 → 状态机一直保持 initialized → 切回近战时 `needReInit` 为 false → 没有 draw。
+      这就是“切回没有掏刀动画”和“切走没有收刀动画”是同一个根因。
+2. CGC 基础类 `AnimateGeoItemRenderer.tryExit` 只设置时长并退出，不会像 `GunItemRenderer.tryExit` 那样先触发 `put_away` 动画输入；近战渲染器没有覆写它。
+
+**改动**
+
+- `LocalShooterDraw`：把切出/切入判定从 `IGun` 放宽为 `IAnimationItem`（`IGun extends IAnimationItem`，对枪械行为无变化）；`tickDraw` 的 NBT 变化判定也同步改为 `IAnimationItem.switchItemNeedReset`，避免近战耐久变化被误判成切枪而反复播放动画。
+- [MeleeItemRenderer.java](core/src/main/java/dev/xcolorful/cgctactical/client/renderer/item/MeleeItemRenderer.java)：新增 `tryExit` 覆写，按 `GunItemRenderer` 的方式设置 `putAwayTime`、触发 `INPUT_PUT_AWAY`、`KeepingItemRenderer.cgc$keep`、再 `exit`。
+- Throwable/Consumable 未涉及。
+
+**验证**
+
+- CGC 与 Addon 的 `:core:compileJava`、`:forge-compat:compileJava` 均通过（仅既有弃用警告）。
+- 已重建并覆盖部署：
+    - `customgun-26.11.35-forge-1.20.1.jar`（CGC `reobfJarJar`）
+    - `cgctactical-0.0.0-forge-1.20.1.jar`（Addon `reobfJar`）
+    - 目标：`E:\Software\Microsoft...` → 实际为 `E:\Software\Minecraft\1.20.1test\mods\`
+- 已用 `javap` 确认部署后的 jar 中 `MeleeItemRenderer.tryExit` 与 `LocalShooterDraw` 的 `IAnimationItemGetter` 均已生效。
+- 刀包的旧内联 `data` 会由 `MeleeIndex._reloadLegacyData` 迁移，`put_away_time`（刀 6 tick、karambit 5 tick）应能正常生效。
+
+请在游戏里按这两个路径复测：近战 → 原版/其他物品（应收刀），原版 → 近战（应掏刀）。两边仓库都还是未提交状态。
+
+# 
+
+```
+consumable和throwable也补一下
+```
+
+# 
+
+继续完成 Consumable 与 Throwable。先读取它们的现状与 lrtactical 参考实现。
+
+三个物品接口都已继承 `IAnimationItem`，CGC 的切出判定已覆盖它们；现在给 Consumable / Throwable 补上与 Melee 一致的 `tryExit`。
+
+发现 Throwable 还缺一处：`prepareTime` 从未从数据写入（脚本靠它控制投掷前摇）。确认接口后补上。
+
+补完后再编译并更新测试目录的 jar。
+
+Consumable 与 Throwable 已按 Melee 的方式补齐。
+
+**本次改动**
+
+- [ConsumableItemRenderer.java](core/src/main/java/dev/xcolorful/cgctactical/client/renderer/item/ConsumableItemRenderer.java) / [ThrowableItemRenderer.java](core/src/main/java/dev/xcolorful/cgctactical/client/renderer/item/ThrowableItemRenderer.java)：新增 `tryExit`，流程与 Melee 一致——写入 `putAwayTime`、触发 `INPUT_PUT_AWAY`、`KeepingItemRenderer.cgc$keep`、退出状态机并设置 `exitingTime`。CGC 的切换判定已放宽到 `IAnimationItem`，两者都满足，所以切出会收刀、切回会重新 `tryInit` 播放 draw。
+- [ThrowableAnimStateContext.java](core/src/main/java/dev/xcolorful/cgctactical/client/animation/statemachine/ThrowableAnimStateContext.java)：`setCurrentItem` 现在通过 `IThrowableGetter` 取物品并写入 `prepareTime`（`getUseDurationLimit`）。此前该字段恒为 0，而手雷脚本会用 `context:getPrepareTime()` 判断前摇是否结束。
+- 顺手把 Consumable 内部对 display 的调用从废弃别名 `getStateMachine()` 换成 `getAnimStateMachine()`，与 Throwable/Melee 一致。
+
+**未改动的部分（按原版行为）**
+
+- Consumable/Throwable 没有覆写 `renderFirstPerson` 去开关 `1p_effect`；lrtactical 原本也只有 Melee 这么做，且当前刀包模型没有 `1p_effect` 节点。
+- 投掷物的实体渲染器（`ThrowableEntityRenderer`）尚未实现，`TacticalModelObject.setEntityRendering` 已为其预留。
+- 三个类别的 `INPUT_INSPECT` 还没有输入源（CGC 的 inspect 仍绑定 `IGun`）。
+
+**验证**
+
+- `:forge-compat:compileJava` 通过（仅既有弃用警告）。
+- 已执行 `:forge-compat:reobfJar` 并覆盖部署到 `E:\Software\Minecraft\1.20.1test\mods\cgctactical-0.0.0-forge-1.20.1.jar`。
+- 部署后的 jar 已用 `javap` 确认：Consumable/Throwable 渲染器都含 `tryExit`，Throwable 状态机含 `getUseDurationLimit` 调用。
+- CGC 侧上一轮的改动仍是 `core1.20.1` 上的已提交状态；Addon 这些改动未提交。

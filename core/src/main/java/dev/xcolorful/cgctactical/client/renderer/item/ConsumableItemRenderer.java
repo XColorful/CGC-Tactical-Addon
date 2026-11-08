@@ -11,7 +11,9 @@ import dev.xcolorful.cgctactical.client.resource.instance.assets.ConsumableDispl
 import dev.xcolorful.cgctactical.core.api.item.IConsumable;
 import dev.xcolorful.cgctactical.core.api.item.consumable.IConsumableGetter;
 import dev.xcolorful.customgun.client.animation.statemachine.LuaAnimStateMachine;
+import dev.xcolorful.customgun.client.api.animation.statemachine.GunAnimationState;
 import dev.xcolorful.customgun.client.api.event.render.BeforeRenderHandEvent;
+import dev.xcolorful.customgun.client.api.renderer.KeepingItemRenderer;
 import dev.xcolorful.customgun.client.model.bedrock.SlotModel;
 import dev.xcolorful.customgun.client.renderer.item.AnimateGeoItemRenderer;
 import dev.xcolorful.customgun.client.util.ClientRenderHelper;
@@ -70,7 +72,7 @@ public class ConsumableItemRenderer extends AnimateGeoItemRenderer<TacticalModel
         @Nullable ConsumableDisplayInstance consumableDisplayInstance = ClientResourceApi.getConsumableDisplayInstance(consumableItem);
         if (consumableDisplayInstance == null) return null;
 
-        return consumableDisplayInstance.getStateMachine();
+        return consumableDisplayInstance.getAnimStateMachine();
     }
     @Override public @Nullable ResourceLocation getTextureLocation(ItemStack consumableItem) {
         @Nullable ConsumableDisplayInstance consumableDisplayInstance = ClientResourceApi.getConsumableDisplayInstance(consumableItem);
@@ -83,6 +85,26 @@ public class ConsumableItemRenderer extends AnimateGeoItemRenderer<TacticalModel
         if (iConsumable == null) return 0;
 
         return (long) iConsumable.getPutAwayTime(consumableItem) * 50L;
+    }
+
+    // --------IAnimateGeoItemRendererState--------
+
+    @Override
+    public void tryExit(ItemStack consumableItem, long putAwayTime) {
+        @Nullable LuaAnimStateMachine<ConsumableAnimStateContext> stateMachine = this.getStateMachine(consumableItem);
+        if (stateMachine == null) return;
+
+        stateMachine.processContextIfExist(context -> {
+            context.setPutAwayTime(putAwayTime / 1000F);
+            context.setCurrentItem(consumableItem);
+        });
+
+        if (!stateMachine.isInitialized()) return;
+
+        stateMachine.trigger(GunAnimationState.INPUT_PUT_AWAY.getConstantName());
+        KeepingItemRenderer.cgc$getRenderer().cgc$keep(consumableItem, putAwayTime);
+        stateMachine.exit();
+        stateMachine.setExitingTime(putAwayTime + 50);
     }
 
     // --------AnimateGeoItemRendererOperator--------

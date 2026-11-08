@@ -11,8 +11,10 @@ import dev.xcolorful.cgctactical.client.resource.instance.assets.MeleeDisplayIns
 import dev.xcolorful.cgctactical.core.api.item.IMelee;
 import dev.xcolorful.cgctactical.core.api.item.melee.IMeleeGetter;
 import dev.xcolorful.customgun.client.animation.statemachine.LuaAnimStateMachine;
+import dev.xcolorful.customgun.client.api.animation.statemachine.GunAnimationState;
 import dev.xcolorful.customgun.client.api.event.IRenderHandEvent;
 import dev.xcolorful.customgun.client.api.event.render.BeforeRenderHandEvent;
+import dev.xcolorful.customgun.client.api.renderer.KeepingItemRenderer;
 import dev.xcolorful.customgun.client.model.bedrock.SlotModel;
 import dev.xcolorful.customgun.client.renderer.item.AnimateGeoItemRenderer;
 import dev.xcolorful.customgun.client.util.ClientRenderHelper;
@@ -82,6 +84,26 @@ public class MeleeItemRenderer extends AnimateGeoItemRenderer<TacticalModelObjec
         if (iMelee == null) return 0;
 
         return (long) iMelee.getPutAwayTime(meleeItem) * 50L;
+    }
+
+    // --------IAnimateGeoItemRendererState--------
+
+    @Override
+    public void tryExit(ItemStack meleeItem, long putAwayTime) {
+        @Nullable LuaAnimStateMachine<MeleeAnimStateContext> stateMachine = this.getStateMachine(meleeItem);
+        if (stateMachine == null) return;
+
+        stateMachine.processContextIfExist(context -> {
+            context.setPutAwayTime(putAwayTime / 1000F);
+            context.setCurrentMeleeItem(meleeItem);
+        });
+
+        if (!stateMachine.isInitialized()) return;
+
+        stateMachine.trigger(GunAnimationState.INPUT_PUT_AWAY.getConstantName());
+        KeepingItemRenderer.cgc$getRenderer().cgc$keep(meleeItem, putAwayTime);
+        stateMachine.exit();
+        stateMachine.setExitingTime(putAwayTime + 50);
     }
 
     // --------AnimateGeoItemRendererOperator--------
