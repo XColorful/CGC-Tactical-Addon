@@ -124,12 +124,10 @@ public class MeleeItemRenderer extends AnimateGeoItemRenderer<TacticalModelObjec
                                   int light, float partialTick,
                                   LocalPlayer player, ItemStack meleeItem) {
         @Nullable TacticalModelObject modelObject = this.getModel(meleeItem);
+        // 26.2 延迟渲染下模型要到 flush 阶段才读取该状态，须在 submit 阶段设好且不能随即还原
         if (modelObject != null) modelObject.setEffectVisible(true);
-        try {
-            super.renderFirstPerson(poseStack, event, ctx, light, partialTick, player, meleeItem);
-        } finally {
-            if (modelObject != null) modelObject.setEffectVisible(false);
-        }
+
+        super.renderFirstPerson(poseStack, event, ctx, light, partialTick, player, meleeItem);
     }
 
     // --------IBlockEntityWithoutLevelRenderer--------
@@ -156,6 +154,9 @@ public class MeleeItemRenderer extends AnimateGeoItemRenderer<TacticalModelObjec
         @Nullable TacticalModelObject modelObject = meleeDisplayInstance.getModelObject();
         @Nullable var modelTextureLocation = meleeDisplayInstance.getTextureLocation();
         @Nullable var slotTextureLocation = meleeDisplayInstance.getSlotTextureLocation();
+
+        // 非第一人称不显示第一人称特效
+        if (modelObject != null) modelObject.setEffectVisible(false);
 
         poseStack.pushPose(); {
             if (transformType == ItemDisplayContext.GUI
