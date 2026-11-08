@@ -42,6 +42,12 @@ public abstract class IndexManager<T extends ResourcePojo<T>> extends ResourcePo
              * 旧格式内嵌数据需在写网络缓存前迁移，否则 index 缓存里的 data_location 仍是 back-compat 填的占位值
              */
             MeleeIndex._reloadLegacyData();
+            /**
+             * 旧格式省略 display 字段 (与索引位置同名同路径) 需要在缓存前迁移，否则 display_location 仍是 back-compat 填的占位值
+             */
+            for (var entry : newPojoMap.entrySet()) {
+                entry.getValue()._reloadLegacyDisplay(entry.getKey());
+            }
         }
         @Override public SyncDataType getSyncDataType() {
             return SyncDataType.MELEE_INDEX;
@@ -61,6 +67,12 @@ public abstract class IndexManager<T extends ResourcePojo<T>> extends ResourcePo
              * 旧格式内嵌数据需在写网络缓存前迁移，否则 index 缓存里的 data_location 仍是 back-compat 填的占位值
              */
             ThrowableIndex._reloadLegacyData();
+            /**
+             * 旧格式省略 display 字段 (与索引位置同名同路径) 需要在缓存前迁移，否则 display_location 仍是 back-compat 填的占位值
+             */
+            for (var entry : newPojoMap.entrySet()) {
+                entry.getValue()._reloadLegacyDisplay(entry.getKey());
+            }
         }
         @Override public SyncDataType getSyncDataType() {
             return SyncDataType.THROWABLE_INDEX;
@@ -80,6 +92,12 @@ public abstract class IndexManager<T extends ResourcePojo<T>> extends ResourcePo
              * 旧格式内嵌数据需在写网络缓存前迁移，否则 index 缓存里的 data_location 仍是 back-compat 填的占位值
              */
             ConsumableIndex._reloadLegacyData();
+            /**
+             * 旧格式省略 display 字段 (与索引位置同名同路径) 需要在缓存前迁移，否则 display_location 仍是 back-compat 填的占位值
+             */
+            for (var entry : newPojoMap.entrySet()) {
+                entry.getValue()._reloadLegacyDisplay(entry.getKey());
+            }
         }
         @Override public SyncDataType getSyncDataType() {
             return SyncDataType.CONSUMABLE_INDEX;
