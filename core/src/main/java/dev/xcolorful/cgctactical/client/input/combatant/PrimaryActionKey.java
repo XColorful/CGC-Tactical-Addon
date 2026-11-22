@@ -12,18 +12,23 @@ import dev.xcolorful.cgctactical.core.api.item.ITacticalItem;
 import dev.xcolorful.cgctactical.core.api.item.tactical.ITacticalItemGetter;
 import dev.xcolorful.cgctactical.core.api.item.tactical.TacticalAction;
 import dev.xcolorful.customgun.CustomGun;
+import dev.xcolorful.customgun.client.CustomGunClient;
 import dev.xcolorful.customgun.client.api.event.IClientTickEvent;
 import dev.xcolorful.customgun.client.api.event.IInputKeyEvent;
 import dev.xcolorful.customgun.client.api.event.IMouseButtonEvent;
 import dev.xcolorful.customgun.client.api.event.IPrepareClientTickEvent;
 import dev.xcolorful.customgun.client.api.input.*;
+import dev.xcolorful.customgun.client.api.item.IAnimateGeoItem;
+import dev.xcolorful.customgun.client.api.renderer.item.IAnimateGeoItemRenderer;
 import dev.xcolorful.customgun.client.input.InputKey;
 import dev.xcolorful.customgun.client.input.shooter.ShootKey;
 import dev.xcolorful.customgun.client.util.ClientInputUtils;
 import dev.xcolorful.customgun.core.api.common.McLogicalSide;
 import dev.xcolorful.customgun.core.api.event.*;
 import net.minecraft.client.Minecraft;
+import net.minecraft.client.multiplayer.MultiPlayerGameMode;
 import net.minecraft.client.player.LocalPlayer;
+import net.minecraft.world.InteractionHand;
 import net.minecraft.world.item.ItemStack;
 import org.jetbrains.annotations.Nullable;
 
@@ -151,10 +156,27 @@ public final class PrimaryActionKey extends InputKey implements IEventHandler {
         ILocalCombatant iLocalCombatant = ILocalCombatantGetter.cgctactical$fromLocalPlayer(player);
         ILivingCombatant iLivingCombatant = ILivingCombatantGetter.cgctactical$fromLivingEntity(player);
         if (iLivingCombatant.cgctactical$meleeCharge(McLogicalSide.CLIENT, TacticalAction.PRIMARY_ACTION)) {
-            // 目前就IMelee有primary action
+            @Nullable MultiPlayerGameMode gameMode = Minecraft.getInstance().gameMode;
+            if (gameMode != null) {
+                /*
+                需要确保服务端收到当前slot已经切换，不然会误以为还在用旧的物品
+                 */
+                CustomGunClient.getAccessTransformer().ensureHasSentCarriedItem(gameMode);
+            }
+
+            this._triggerAnimation(tacticalItem, player);
+
             return true;
         } else {
             return false;
         }
+    }
+    private void _triggerAnimation(ItemStack tacticalItem, LocalPlayer player) {
+        @Nullable IAnimateGeoItemRenderer<?, ?> render = IAnimateGeoItem.cgc$getCustomRenderer(tacticalItem);
+        if (render == null) return;
+
+        render.triggerAnimation(tacticalItem, TacticalAction.PRIMARY_ACTION.getCategoryName());
+        render.triggerAnimation(tacticalItem, TacticalAction.PRIMARY_ACTION.typeNameOld);
+        player.swing(InteractionHand.MAIN_HAND);
     }
 }
