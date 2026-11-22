@@ -4,7 +4,7 @@ import com.google.gson.stream.JsonReader;
 import com.google.gson.stream.JsonToken;
 import com.google.gson.stream.JsonWriter;
 import dev.xcolorful.cgctactical.core.api.resource.data.data.melee._CombatDataTag;
-import dev.xcolorful.cgctactical.core.resource.data.data.melee.combat._MeleeAttackInfo;
+import dev.xcolorful.cgctactical.core.resource.data.data.melee.attack._MeleeAttackInfo;
 import dev.xcolorful.customgun.core.resource.ResourcePojo;
 import dev.xcolorful.customgun.core.util.JsonUtils;
 import org.jetbrains.annotations.Nullable;

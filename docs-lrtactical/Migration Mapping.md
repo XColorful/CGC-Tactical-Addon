@@ -53,7 +53,7 @@ Notation:
 
 |me.xjqsh.lrtactical.api.collision|dev.xcolorful.cgctactical.core.resource|
 |---|---|
-|`ITargetFilter`|data.data.melee.`_TargetFilterData`|
+|`ITargetFilter`|data.data.melee.attack.info.`_TargetFilterData`|
 
 |me.xjqsh.lrtactical.api.collision|dev.xcolorful.cgctactical.core.api.melee|
 |---|---|

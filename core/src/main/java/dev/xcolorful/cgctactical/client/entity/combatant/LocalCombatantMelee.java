@@ -13,7 +13,7 @@ import dev.xcolorful.cgctactical.core.config.SyncConfig;
 import dev.xcolorful.cgctactical.core.entity.combatant.LivingCombatantMelee;
 import dev.xcolorful.cgctactical.core.network.message.combatant.C2SMessageCombatantMelee_attack;
 import dev.xcolorful.cgctactical.core.network.message.combatant.C2SMessageCombatantMelee_prepare;
-import dev.xcolorful.cgctactical.core.resource.data.data.melee.combat._MeleeMovement;
+import dev.xcolorful.cgctactical.core.resource.data.data.melee.attack.info._MeleeMovement;
 import dev.xcolorful.cgctactical.core.util.SendUtils;
 import net.minecraft.client.player.LocalPlayer;
 import net.minecraft.sounds.SoundEvent;

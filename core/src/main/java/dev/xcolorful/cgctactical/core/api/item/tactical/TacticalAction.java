@@ -1,7 +1,7 @@
 package dev.xcolorful.cgctactical.core.api.item.tactical;
 
 import dev.xcolorful.cgctactical.core.resource.data.data.melee._AttackData;
-import dev.xcolorful.cgctactical.core.resource.data.data.melee.combat._MeleeAttackInfo;
+import dev.xcolorful.cgctactical.core.resource.data.data.melee.attack._MeleeAttackInfo;
 import dev.xcolorful.customgun.core.api.resource.ResourceTag;
 import org.jetbrains.annotations.Nullable;
 

@@ -1,4 +1,4 @@
-package dev.xcolorful.cgctactical.core.resource.data.data.melee.combat;
+package dev.xcolorful.cgctactical.core.resource.data.data.melee.attack.info;
 
 import com.google.gson.stream.JsonReader;
 import com.google.gson.stream.JsonWriter;

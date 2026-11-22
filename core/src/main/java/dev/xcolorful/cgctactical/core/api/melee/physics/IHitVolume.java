@@ -1,6 +1,6 @@
 package dev.xcolorful.cgctactical.core.api.melee.physics;
 
-import dev.xcolorful.cgctactical.core.resource.data.data.melee._TargetFilterData;
+import dev.xcolorful.cgctactical.core.resource.data.data.melee.attack.info._TargetFilterData;
 import net.minecraft.world.entity.Entity;
 import net.minecraft.world.entity.LivingEntity;
 import net.minecraft.world.level.Level;
