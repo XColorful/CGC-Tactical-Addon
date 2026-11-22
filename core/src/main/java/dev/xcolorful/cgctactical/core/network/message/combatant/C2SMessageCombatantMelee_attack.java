@@ -1,13 +1,22 @@
 package dev.xcolorful.cgctactical.core.network.message.combatant;
 
 import dev.xcolorful.cgctactical.CgcTactical;
+import dev.xcolorful.cgctactical.core.api.entity.ILivingCombatant;
+import dev.xcolorful.cgctactical.core.api.entity.combatant.ILivingCombatantGetter;
 import dev.xcolorful.cgctactical.core.api.item.tactical.TacticalAction;
 import dev.xcolorful.cgctactical.core.config.SyncConfig;
 import dev.xcolorful.customgun.core.api.network.MessageDirection;
 import dev.xcolorful.customgun.core.api.network.message.IMessage;
+import dev.xcolorful.customgun.core.util.WorldUtils;
 import net.minecraft.network.FriendlyByteBuf;
+import net.minecraft.server.level.ServerLevel;
 import net.minecraft.server.level.ServerPlayer;
+import net.minecraft.world.entity.Entity;
+import net.minecraft.world.level.Level;
+import org.jetbrains.annotations.Nullable;
 
+import java.util.ArrayList;
+import java.util.List;
 import java.util.function.Consumer;
 
 public record C2SMessageCombatantMelee_attack(TacticalAction tacticalAction,
@@ -45,7 +54,17 @@ public record C2SMessageCombatantMelee_attack(TacticalAction tacticalAction,
                     return;
                 }
 
-                // TODO ILivingCombatant
+                List<Entity> meleeVictims = new ArrayList<>();
+                ServerLevel serverLevel = (ServerLevel) player.level();
+                for (int victimId : message.victims) {
+                    @Nullable Entity entity = WorldUtils.getEntityById(serverLevel, victimId);
+                    if (entity != null) {
+                        meleeVictims.add(entity);
+                    }
+                }
+
+                ILivingCombatant iLivingCombatant = ILivingCombatantGetter.cgctactical$fromLivingEntity(player);
+                iLivingCombatant.cgctactical$meleeAttack(message.tacticalAction, message.combo, meleeVictims);
             });
         }
     }

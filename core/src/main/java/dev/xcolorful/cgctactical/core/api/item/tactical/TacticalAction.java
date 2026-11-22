@@ -57,4 +57,11 @@ public enum TacticalAction implements ResourceTag.CategoryTag {
         if (combo < 0 || combo > meleeAttackInfo.size()) return null;
         else return meleeAttackInfo.get(combo);
     }
+
+    // --------Deprecated--------
+
+    @Deprecated(forRemoval = true)
+    public String getId() {
+        return getCategoryName();
+    }
 }

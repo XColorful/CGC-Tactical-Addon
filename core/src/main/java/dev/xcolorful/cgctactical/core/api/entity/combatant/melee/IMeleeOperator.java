@@ -3,6 +3,9 @@ package dev.xcolorful.cgctactical.core.api.entity.combatant.melee;
 import dev.xcolorful.cgctactical.core.api.item.tactical.TacticalAction;
 import dev.xcolorful.customgun.CustomGun;
 import dev.xcolorful.customgun.core.api.common.McLogicalSide;
+import net.minecraft.world.entity.Entity;
+
+import java.util.List;
 
 public interface IMeleeOperator {
 
@@ -20,7 +23,7 @@ public interface IMeleeOperator {
      *     <li>若没有先 {@link #cgctactical$meleeCharge} 进入蓄力状态，则本次操作可能会失败</li>
      * </ul>
      */
-    void cgctactical$meleeAttack();
+    void cgctactical$meleeAttack(TacticalAction tacticalAction, int combo, List<Entity> meleeVictims);
 
     // --------Deprecated--------
 

@@ -1,16 +1,27 @@
 package dev.xcolorful.cgctactical.core.entity.combatant;
 
+import dev.xcolorful.cgctactical.CgcTactical;
 import dev.xcolorful.cgctactical.client.entity.combatant.LocalCombatantMelee;
 import dev.xcolorful.cgctactical.core.api.entity.CombatantProperty;
+import dev.xcolorful.cgctactical.core.api.entity.ILivingCombatant;
+import dev.xcolorful.cgctactical.core.api.entity.combatant.ILivingCombatantGetter;
 import dev.xcolorful.cgctactical.core.api.item.IMelee;
 import dev.xcolorful.cgctactical.core.api.item.melee.IMeleeGetter;
 import dev.xcolorful.cgctactical.core.api.item.tactical.TacticalAction;
+import dev.xcolorful.cgctactical.core.api.melee.attack.IMeleeAttackRuntime;
+import dev.xcolorful.cgctactical.core.melee.attack.MeleeAttackManager;
+import dev.xcolorful.cgctactical.core.network.message.combatant.S2CMessageCombatantMelee_reset;
 import dev.xcolorful.cgctactical.core.network.message.sync.S2CMessageSyncMeleeAnimation;
 import dev.xcolorful.cgctactical.core.util.SendUtils;
 import dev.xcolorful.customgun.core.api.common.McLogicalSide;
+import net.minecraft.server.level.ServerPlayer;
+import net.minecraft.world.entity.Entity;
 import net.minecraft.world.entity.LivingEntity;
 import net.minecraft.world.item.ItemStack;
+import org.jetbrains.annotations.NotNull;
 import org.jetbrains.annotations.Nullable;
+
+import java.util.List;
 
 public final class LivingCombatantMelee extends LivingCombatantAspect {
 
@@ -68,7 +79,38 @@ public final class LivingCombatantMelee extends LivingCombatantAspect {
         );
     }
 
-    public void meleeAttack() {
-        // TODO
+    public void meleeAttack(TacticalAction tacticalAction, int combo, List<Entity> meleeVictims) {
+        // 1. 手持近战检查
+        ItemStack meleeItem = this.livingCombatant.getMainHandItem();
+        @Nullable IMelee iMelee = IMeleeGetter.fromItemStack(meleeItem);
+        if (iMelee == null) return; // 主手没近战物品
+
+        if ( // 2.1 检查状态锁
+                // 不在近战蓄力状态
+                !this.combatantProperty.preparingAttack
+        ) return;
+
+        if ( // 2.2 检查状态
+                // 连击数对不上
+                this.combatantProperty.preparingAttackCombo != combo
+        ) {
+            // 强制重置
+            this.combatantProperty.resetMeleeSync();
+            if (this.livingCombatant instanceof ServerPlayer serverPlayer) {
+                CgcTactical.LOGGER.info("{} attack combo {} mismatched (expect {}), resetting", serverPlayer.getName().getString(), combo, this.combatantProperty.preparingAttackCombo);
+                SendUtils.sendMessageToPlayer(serverPlayer, new S2CMessageCombatantMelee_reset());
+            }
+        }
+
+        { // 3. IMeleeRuntime操作结果 -> Combatant状态
+            ILivingCombatant iLivingCombatant = ILivingCombatantGetter.cgctactical$fromLivingEntity(this.livingCombatant);
+            /**
+             * {@link IMeleeAttackRuntime#combatantAttack}的默认实现为{@link MeleeAttackManager#combatantAttack}
+             */
+            @NotNull IMeleeAttackRuntime.CombatantAttackResult result = iMelee.combatantAttack(this.combatantProperty, iMelee, meleeItem, iLivingCombatant, this.livingCombatant, tacticalAction, combo, meleeVictims);
+            if (result.isSuccess()) {
+                this.combatantProperty.preparingAttack = false;
+            }
+        }
     }
 }

@@ -372,12 +372,15 @@ Notation:
 > package me.xjqsh.lrtactical.client.audio;
 > ```
 
-|me.xjqsh.lrtactical.client.audio||
+|me.xjqsh.lrtactical.client.audio|dev.xcolorful.cgctactical.client.network|
 |---|---|
-|`ICustomSoundSupplier`||
 |`SmokeReleaseSound`|_Deprecated_|
 |`SoundHandler`||
 |`StunRingingSound`||
+
+|me.xjqsh.lrtactical.client.audio|dev.xcolorful.cgctactical.client.network|
+|---|---|
+|`ICustomSoundSupplier`|message.resource.`_S2CMessageResourceSound`.getSounds|
 
 ### GUI (Client)
 > ```java

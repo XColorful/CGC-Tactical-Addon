@@ -32,8 +32,11 @@ public class MeleeAttackManager implements IMeleeAttackManager {
                                                                               ILivingCombatant iLivingCombatant, LivingEntity livingCombatant,
                                                                               TacticalAction tacticalAction, int combo,
                                                                               List<Entity> meleeVictims) {
-        // TODO 近战攻击逻辑移植
-        return CombatantAttackResult.ERROR;
+        return _DefaultMeleeAttack.combatantAttack(combatantProperty,
+                iMelee, meleeItem,
+                iLivingCombatant, livingCombatant,
+                tacticalAction, combo,
+                meleeVictims);
     }
 
     @Override

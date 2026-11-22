@@ -14,6 +14,8 @@ import org.spongepowered.asm.mixin.injection.At;
 import org.spongepowered.asm.mixin.injection.Inject;
 import org.spongepowered.asm.mixin.injection.callback.CallbackInfo;
 
+import java.util.List;
+
 @Mixin(LivingEntity.class)
 public abstract class LivingEntityMixin extends Entity implements ILivingCombatant {
     private final LivingEntity cgctactical$livingCombatant = (LivingEntity) (Object) this;
@@ -68,7 +70,7 @@ public abstract class LivingEntityMixin extends Entity implements ILivingCombata
         return this.cgctactical$melee.meleeCharge(logicalSide, tacticalAction);
     }
     @Override
-    public void cgctactical$meleeAttack() {
-        this.cgctactical$melee.meleeAttack();
+    public void cgctactical$meleeAttack(TacticalAction tacticalAction, int combo, List<Entity> meleeVictims) {
+        this.cgctactical$melee.meleeAttack(tacticalAction, combo, meleeVictims);
     }
 }
