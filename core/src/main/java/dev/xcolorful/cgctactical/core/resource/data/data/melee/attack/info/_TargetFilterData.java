@@ -4,7 +4,7 @@ import com.google.gson.stream.JsonReader;
 import com.google.gson.stream.JsonWriter;
 import dev.xcolorful.cgctactical.core.api.melee.physics.HitVolumeType;
 import dev.xcolorful.cgctactical.core.api.melee.physics.IHitVolume;
-import dev.xcolorful.cgctactical.core.api.resource.data.data.melee._TargetFilterDataTag;
+import dev.xcolorful.cgctactical.core.api.resource.data.data.melee.attack.info._TargetFilterDataTag;
 import dev.xcolorful.customgun.core.resource.ResourcePojo;
 import dev.xcolorful.customgun.core.util.JsonUtils;
 import net.minecraft.world.entity.Entity;

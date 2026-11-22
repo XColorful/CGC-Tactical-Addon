@@ -2,7 +2,7 @@ package dev.xcolorful.cgctactical.core.resource.data.data.melee.attack;
 
 import com.google.gson.stream.JsonReader;
 import com.google.gson.stream.JsonWriter;
-import dev.xcolorful.cgctactical.core.api.resource.data.data.melee.combat._MeleeAttackInfoTag;
+import dev.xcolorful.cgctactical.core.api.resource.data.data.melee.attack._MeleeAttackInfoTag;
 import dev.xcolorful.cgctactical.core.resource.data.data.melee.attack.info._TargetFilterData;
 import dev.xcolorful.cgctactical.core.resource.data.data.melee.attack.info._MeleeMovement;
 import dev.xcolorful.customgun.core.resource.ResourcePojo;

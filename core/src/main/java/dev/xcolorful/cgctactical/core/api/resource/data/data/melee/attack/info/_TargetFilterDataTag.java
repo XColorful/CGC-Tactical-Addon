@@ -1,4 +1,4 @@
-package dev.xcolorful.cgctactical.core.api.resource.data.data.melee;
+package dev.xcolorful.cgctactical.core.api.resource.data.data.melee.attack.info;
 
 public class _TargetFilterDataTag {
 
