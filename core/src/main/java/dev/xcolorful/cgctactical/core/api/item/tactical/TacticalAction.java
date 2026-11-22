@@ -1,9 +1,12 @@
 package dev.xcolorful.cgctactical.core.api.item.tactical;
 
+import dev.xcolorful.cgctactical.core.resource.data.data.melee._AttackData;
+import dev.xcolorful.cgctactical.core.resource.data.data.melee.combat._MeleeAttackInfo;
 import dev.xcolorful.customgun.core.api.resource.ResourceTag;
 import org.jetbrains.annotations.Nullable;
 
 import java.util.HashMap;
+import java.util.List;
 import java.util.Map;
 
 public enum TacticalAction implements ResourceTag.CategoryTag {
@@ -40,5 +43,18 @@ public enum TacticalAction implements ResourceTag.CategoryTag {
     @Override
     public String toString() {
         return this.typeName;
+    }
+
+    public static @Nullable _MeleeAttackInfo getMeleeAttackInfo(TacticalAction tacticalAction,
+                                                                _AttackData attackData,
+                                                                int combo) {
+        @Nullable List<_MeleeAttackInfo> meleeAttackInfo = switch (tacticalAction) {
+            case PRIMARY_ACTION -> attackData.getLeftAttacks();
+            case SECONDARY_ACTION -> attackData.getRightAttacks();
+        };
+        if (meleeAttackInfo == null) return null;
+
+        if (combo < 0 || combo > meleeAttackInfo.size()) return null;
+        else return meleeAttackInfo.get(combo);
     }
 }

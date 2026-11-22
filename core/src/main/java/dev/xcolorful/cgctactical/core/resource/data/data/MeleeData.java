@@ -4,7 +4,7 @@ import com.google.gson.stream.JsonReader;
 import com.google.gson.stream.JsonWriter;
 import dev.xcolorful.cgctactical.core.api.resource.data.data.MeleeDataTag;
 import dev.xcolorful.cgctactical.core.resource.data.data.melee._AttributeData;
-import dev.xcolorful.cgctactical.core.resource.data.data.melee._CombatData;
+import dev.xcolorful.cgctactical.core.resource.data.data.melee._AttackData;
 import dev.xcolorful.customgun.core.resource.ResourcePojo;
 import dev.xcolorful.customgun.core.util.JsonUtils;
 
@@ -14,7 +14,7 @@ public final class MeleeData extends ResourcePojo<MeleeData> {
 
     private int drawTime = 0;
     private int putAwayTime = 0;
-    private _CombatData attackData;
+    private _AttackData attackData;
     private _AttributeData attributeData;
     private int maxDurability = 0;
     private int enchantmentValue = 14;
@@ -32,7 +32,7 @@ public final class MeleeData extends ResourcePojo<MeleeData> {
                 switch (key) {
                     case MeleeDataTag.DRAW_TIME -> pojo.drawTime = JsonUtils.readInt(reader);
                     case MeleeDataTag.PUT_AWAY_TIME -> pojo.putAwayTime = JsonUtils.readInt(reader);
-                    case MeleeDataTag.ATTACK -> pojo.attackData = JsonUtils.read(reader, _CombatData::fromJson);
+                    case MeleeDataTag.ATTACK -> pojo.attackData = JsonUtils.read(reader, _AttackData::fromJson);
                     case MeleeDataTag.ATTRIBUTES -> pojo.attributeData = JsonUtils.read(reader, _AttributeData::fromJson);
                     case MeleeDataTag.MAX_DURABILITY -> pojo.maxDurability = JsonUtils.readInt(reader);
                     case MeleeDataTag.ENCHANTMENT_VALUE -> pojo.enchantmentValue = JsonUtils.readInt(reader);
@@ -52,7 +52,7 @@ public final class MeleeData extends ResourcePojo<MeleeData> {
         writer.beginObject(); {
             JsonUtils.writeInt(writer, MeleeDataTag.DRAW_TIME, this.drawTime);
             JsonUtils.writeInt(writer, MeleeDataTag.PUT_AWAY_TIME, this.putAwayTime);
-            JsonUtils.write(writer, MeleeDataTag.ATTACK, this.attackData, _CombatData::toJson);
+            JsonUtils.write(writer, MeleeDataTag.ATTACK, this.attackData, _AttackData::toJson);
             JsonUtils.write(writer, MeleeDataTag.ATTRIBUTES, this.attributeData, _AttributeData::toJson);
             JsonUtils.writeInt(writer, MeleeDataTag.MAX_DURABILITY, this.maxDurability);
             JsonUtils.writeInt(writer, MeleeDataTag.ENCHANTMENT_VALUE, this.enchantmentValue);
@@ -106,7 +106,7 @@ public final class MeleeData extends ResourcePojo<MeleeData> {
     public int getPutAwayTime() {
         return putAwayTime;
     }
-    public _CombatData getAttackData() {
+    public _AttackData getAttackData() {
         return attackData;
     }
     public _AttributeData getAttributeData() {
@@ -125,7 +125,7 @@ public final class MeleeData extends ResourcePojo<MeleeData> {
     public void setPutAwayTime(int putAwayTime) {
         this.putAwayTime = putAwayTime;
     }
-    public void setAttackData(_CombatData attackData) {
+    public void setAttackData(_AttackData attackData) {
         this.attackData = attackData;
     }
     public void setAttributeData(_AttributeData attributeData) {
@@ -142,7 +142,7 @@ public final class MeleeData extends ResourcePojo<MeleeData> {
 
     @Override
     public MeleeData applyBackCompatibility() {
-        this.attackData = this.attackData == null ? new _CombatData().applyBackCompatibility() : this.attackData.applyBackCompatibility();
+        this.attackData = this.attackData == null ? new _AttackData().applyBackCompatibility() : this.attackData.applyBackCompatibility();
         this.attributeData = this.attributeData == null ? new _AttributeData().applyBackCompatibility() : this.attributeData.applyBackCompatibility();
         return this;
     }

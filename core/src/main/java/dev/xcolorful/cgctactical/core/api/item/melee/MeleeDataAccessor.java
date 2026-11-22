@@ -4,7 +4,7 @@ import dev.xcolorful.cgctactical.core.api.item.tactical.TacticalAction;
 import dev.xcolorful.cgctactical.core.api.item.tactical.TacticalDataAccessor;
 import dev.xcolorful.cgctactical.core.api.resource.ResourceApi;
 import dev.xcolorful.cgctactical.core.resource.data.data.MeleeData;
-import dev.xcolorful.cgctactical.core.resource.data.data.melee._CombatData;
+import dev.xcolorful.cgctactical.core.resource.data.data.melee._AttackData;
 import dev.xcolorful.cgctactical.core.resource.data.data.melee.combat._MeleeAttackInfo;
 import dev.xcolorful.cgctactical.core.resource.data.data.melee.combat._MeleeMovement;
 import dev.xcolorful.cgctactical.core.resource.instance.data.MeleeIndexInstance;
@@ -56,7 +56,7 @@ public interface MeleeDataAccessor extends TacticalDataAccessor, IMeleeDataAcces
     }
 
     @ApiStatus.Internal
-    static @Nullable _MeleeAttackInfo getMeleeAttackInfo(_CombatData combatData, TacticalAction tacticalAction, int combo) {
+    static @Nullable _MeleeAttackInfo getMeleeAttackInfo(_AttackData combatData, TacticalAction tacticalAction, int combo) {
         if (combo < 0) return null;
 
         @Nullable List<_MeleeAttackInfo> meleeAttackInfos = switch (tacticalAction) {
@@ -75,7 +75,7 @@ public interface MeleeDataAccessor extends TacticalDataAccessor, IMeleeDataAcces
         if (meleeIndexInstance == null) return 0;
 
         MeleeData meleeData = meleeIndexInstance.getMeleeData();
-        _CombatData combatData = meleeData.getAttackData();
+        _AttackData combatData = meleeData.getAttackData();
         @Nullable _MeleeAttackInfo meleeAttackInfo = getMeleeAttackInfo(combatData, tacticalAction, combo);
         return meleeAttackInfo != null ? meleeAttackInfo.getCooldown() : 0;
     }
@@ -86,7 +86,7 @@ public interface MeleeDataAccessor extends TacticalDataAccessor, IMeleeDataAcces
         if (meleeIndexInstance == null) return 0;
 
         MeleeData meleeData = meleeIndexInstance.getMeleeData();
-        _CombatData combatData = meleeData.getAttackData();
+        _AttackData combatData = meleeData.getAttackData();
         @Nullable _MeleeAttackInfo meleeAttackInfo = getMeleeAttackInfo(combatData, tacticalAction, combo);
         return meleeAttackInfo != null ? meleeAttackInfo.getDelay() : 0;
     }
@@ -97,7 +97,7 @@ public interface MeleeDataAccessor extends TacticalDataAccessor, IMeleeDataAcces
         if (meleeIndexInstance == null) return null;
 
         MeleeData meleeData = meleeIndexInstance.getMeleeData();
-        _CombatData combatData = meleeData.getAttackData();
+        _AttackData combatData = meleeData.getAttackData();
         @Nullable _MeleeAttackInfo meleeAttackInfo = getMeleeAttackInfo(combatData, tacticalAction, 0);
         return meleeAttackInfo != null ? meleeAttackInfo.getMovement() : null;
     }

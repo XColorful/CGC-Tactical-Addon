@@ -16,6 +16,7 @@ import net.minecraft.world.entity.LivingEntity;
 import net.minecraft.world.inventory.tooltip.TooltipComponent;
 import net.minecraft.world.item.Item;
 import net.minecraft.world.item.ItemStack;
+import net.minecraft.world.phys.Vec3;
 import org.jetbrains.annotations.NotNull;
 
 import java.util.List;
@@ -62,4 +63,9 @@ public class MeleeItem extends Item implements IMelee, MeleeDataAccessor {
                 .meleeAttack(combatantProperty, iMelee, meleeItem, iLivingCombatant, livingCombatant, damage, knockback, meleeVictim);
     }
     // ----IMeleePhysicsRuntime----
+    @Override public List<Entity> prepareMeleeVictims(CombatantProperty combatantProperty, @NotNull IMelee iMelee, @NotNull ItemStack meleeItem, ILivingCombatant iLivingCombatant, LivingEntity livingCombatant, TacticalAction tacticalAction, Vec3 origin, Vec3 direction) {
+        return CgcTactical.getMeleeManager().getManagerGroup(this.getManagerGroupTag(meleeItem))
+                .meleePhysicsManager()
+                .prepareMeleeVictims(combatantProperty, iMelee, meleeItem, iLivingCombatant, livingCombatant, tacticalAction, origin, direction);
+    }
 }

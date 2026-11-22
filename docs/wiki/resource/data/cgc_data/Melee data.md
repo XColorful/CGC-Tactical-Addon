@@ -1,18 +1,18 @@
 [English](#English)
 
 # 近战数据
-> wiki 版本：`0.0.0`.1
+> wiki 版本：`0.0.35.1`.2
 
 - `draw_time`（int）：
 - `put_away_time`（int）：
-- `attack`（\_CombatData）：
+- `attack`（\_AttackData）：
 	- `primary_action`/`attack_left`（List<\_MeleeAttackInfo>）：
 		- `factor`（float）：
 		- `knockback`（float）：
 		- `cooldown`（int）：
 		- `delay`（int）：
-		- `hitbox`（\_TargetFilterData）：
-			- `type`（String）：
+		- `target_filter_data`/`hitbox`（\_TargetFilterData）：
+			- `hit_volume_type`/`type`（HitVolumeType）：
 			- `max_range`（float）：
 			- `exclude_self`（boolean）：
 			- `max_angle`（float）：
@@ -57,8 +57,8 @@
 				"knockback": 0.0,
 				"cooldown": 0,
 				"delay": 0,
-				"hitbox": {
-					"type": "",
+				"target_filter_data": {
+					"hit_volume_type": "",
 					"max_range": 0.0,
 					"exclude_self": false,
 					"max_angle": 0.0,
@@ -106,18 +106,18 @@
 ```
 
 # English
-> wiki version: `0.0.0`.1
+> wiki version: `0.0.35.1`.2
 
 - `draw_time`(int):
 - `put_away_time`(int):
-- `attack`(\_CombatData):
+- `attack`(\_AttackData):
 	- `primary_action`/`attack_left`(List<\_MeleeAttackInfo>):
 		- `factor`(float):
 		- `knockback`(float):
 		- `cooldown`(int):
 		- `delay`(int):
 		- `hitbox`(\_TargetFilterData):
-			- `type`(String):
+			- `hit_volume_type`/`type`(HitVolumeType):
 			- `max_range`(float):
 			- `exclude_self`(boolean):
 			- `max_angle`(float):
@@ -134,7 +134,7 @@
 		- `knockback`(float):
 		- `cooldown`(int):
 		- `delay`(int):
-		- `hitbox`(\_TargetFilterData):
+		- `target_filter_data`/`hitbox`(\_TargetFilterData):
 			- `type`(String):
 			- `max_range`(float):
 			- `exclude_self`(boolean):
@@ -162,8 +162,8 @@
 				"knockback": 0.0,
 				"cooldown": 0,
 				"delay": 0,
-				"hitbox": {
-					"type": "",
+				"target_filter_data": {
+					"hit_volume_type": "",
 					"max_range": 0.0,
 					"exclude_self": false,
 					"max_angle": 0.0,

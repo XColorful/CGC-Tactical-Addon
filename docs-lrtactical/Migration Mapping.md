@@ -53,8 +53,11 @@ Notation:
 
 |me.xjqsh.lrtactical.api.collision|dev.xcolorful.cgctactical.core.resource|
 |---|---|
-|`ITargetFilter`|data.data.melee|
-|`*`|data.data.melee|
+|`ITargetFilter`|data.data.melee.`_TargetFilterData`|
+
+|me.xjqsh.lrtactical.api.collision|dev.xcolorful.cgctactical.core.api.melee|
+|---|---|
+|`*Filter`|physics.volume.`*`|
 
 #### Event API
 > ```java

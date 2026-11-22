@@ -13,18 +13,18 @@ import java.io.IOException;
 import java.util.ArrayList;
 import java.util.List;
 
-public final class _CombatData extends ResourcePojo<_CombatData> {
+public final class _AttackData extends ResourcePojo<_AttackData> {
 
     private @Nullable List<_MeleeAttackInfo> leftAttacks;
     private @Nullable List<_MeleeAttackInfo> rightAttacks;
 
-    private static final _CombatData PARSER = new _CombatData();
-    public static _CombatData fromJson(JsonReader reader) throws IOException {
+    private static final _AttackData PARSER = new _AttackData();
+    public static _AttackData fromJson(JsonReader reader) throws IOException {
         return PARSER.fromJsonReader(reader);
     }
     @Override
-    protected _CombatData fromJsonReader(JsonReader reader) throws IOException {
-        _CombatData pojo = new _CombatData();
+    protected _AttackData fromJsonReader(JsonReader reader) throws IOException {
+        _AttackData pojo = new _AttackData();
         reader.beginObject(); {
             while (reader.hasNext()) {
                 String key = reader.nextName();
@@ -57,7 +57,7 @@ public final class _CombatData extends ResourcePojo<_CombatData> {
         return new ArrayList<>();
     }
 
-    public static void toJson(JsonWriter writer, _CombatData pojo) throws IOException {
+    public static void toJson(JsonWriter writer, _AttackData pojo) throws IOException {
         if (pojo != null) pojo.toJson(writer);
     }
     @Override
@@ -98,7 +98,7 @@ public final class _CombatData extends ResourcePojo<_CombatData> {
     }
 
     @Override
-    protected _CombatData copyTo(final _CombatData pojo) {
+    protected _AttackData copyTo(final _AttackData pojo) {
         @Nullable List<_MeleeAttackInfo> leftAttacks = null; {
             if (this.leftAttacks != null) {
                 leftAttacks = new ArrayList<>(this.leftAttacks.size());
@@ -119,8 +119,8 @@ public final class _CombatData extends ResourcePojo<_CombatData> {
     }
 
     @Override
-    public _CombatData copy() {
-        _CombatData pojo = copyTo(new _CombatData());
+    public _AttackData copy() {
+        _AttackData pojo = copyTo(new _AttackData());
         pojo.setValid(this.isValid());
         return pojo;
     }
@@ -144,7 +144,7 @@ public final class _CombatData extends ResourcePojo<_CombatData> {
     // --------Back compatibility--------
 
     @Override
-    public _CombatData applyBackCompatibility() {
+    public _AttackData applyBackCompatibility() {
         if (this.leftAttacks == null) this.leftAttacks = new ArrayList<>();
         else this.leftAttacks.forEach(_MeleeAttackInfo::applyBackCompatibility);
         if (this.rightAttacks == null) this.rightAttacks = new ArrayList<>();

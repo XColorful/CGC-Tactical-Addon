@@ -4,6 +4,8 @@ import dev.xcolorful.cgctactical.client.api.resource.ClientResourceApi;
 import dev.xcolorful.cgctactical.client.resource.assets.display.MeleeDisplay;
 import dev.xcolorful.cgctactical.client.resource.instance.assets.MeleeDisplayInstance;
 import dev.xcolorful.cgctactical.core.api.entity.CombatantProperty;
+import dev.xcolorful.cgctactical.core.api.entity.ILivingCombatant;
+import dev.xcolorful.cgctactical.core.api.entity.combatant.ILivingCombatantGetter;
 import dev.xcolorful.cgctactical.core.api.item.IMelee;
 import dev.xcolorful.cgctactical.core.api.item.melee.IMeleeGetter;
 import dev.xcolorful.cgctactical.core.api.item.tactical.TacticalAction;
@@ -91,8 +93,9 @@ public class LocalCombatantMelee {
 
             if (_iMelee.switchItemNeedReset(meleeItem, _meleeItem)) return;
 
-            List<Entity> victims = _iMelee.collectTargets(localCombatant, _meleeItem, tacticalAction, origin, direction);
-            SendUtils.sendMessageToServer(new C2SMessageCombatantMelee_attack(tacticalAction, combo, _filterMeleeVictims(victims)));
+            ILivingCombatant iLivingCombatant = ILivingCombatantGetter.cgctactical$fromLivingEntity(localCombatant);
+            List<Entity> meleeVictims = _iMelee.prepareMeleeVictims(iLivingCombatant.cgctactical$getCombatantProperty(), _iMelee, _meleeItem, iLivingCombatant, localCombatant,tacticalAction, origin, direction);
+            SendUtils.sendMessageToServer(new C2SMessageCombatantMelee_attack(tacticalAction, combo, _filterMeleeVictims(meleeVictims)));
         };
 
         int meleeDelay = iMelee.getMeleeDelay(meleeItem, tacticalAction, combo);
