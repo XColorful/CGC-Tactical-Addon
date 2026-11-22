@@ -1,7 +1,7 @@
 [English](#English)
 
 # 近战数据
-> wiki 版本：`0.0.35.1`.2
+> wiki 版本：`0.0.35.1`.3
 
 - `draw_time`（int）：
 - `put_away_time`（int）：
@@ -16,7 +16,7 @@
 			- `max_range`（float）：
 			- `exclude_self`（boolean）：
 			- `max_angle`（float）：
-			- `penetration`（int）：
+			- `pierce`/`penetration`（int）：
 			- `half_width`（float）：
 			- `half_height`（float）：
 			- `roll`（float）：
@@ -29,12 +29,12 @@
 		- `knockback`（float）：
 		- `cooldown`（int）：
 		- `delay`（int）：
-		- `hitbox`（\_TargetFilterData）：
-			- `type`（String）：
+		- `target_filter_data`（\_TargetFilterData）：
+			- `hit_volume_type`/`type`（String）：
 			- `max_range`（float）：
 			- `exclude_self`（boolean）：
 			- `max_angle`（float）：
-			- `penetration`（int）：
+			- `pierce`/`penetration`（int）：
 			- `half_width`（float）：
 			- `half_height`（float）：
 			- `roll`（float）：
@@ -62,7 +62,7 @@
 					"max_range": 0.0,
 					"exclude_self": false,
 					"max_angle": 0.0,
-					"penetration": 0,
+					"pierce": 0,
 					"half_width": 0.0,
 					"half_height": 0.0,
 					"roll": 0.0
@@ -80,12 +80,12 @@
 				"knockback": 0.0,
 				"cooldown": 0,
 				"delay": 0,
-				"hitbox": {
-					"type": "",
+				"target_filter_data": {
+					"hit_volume_type": "",
 					"max_range": 0.0,
 					"exclude_self": false,
 					"max_angle": 0.0,
-					"penetration": 0,
+					"pierce": 0,
 					"half_width": 0.0,
 					"half_height": 0.0,
 					"roll": 0.0
@@ -106,7 +106,7 @@
 ```
 
 # English
-> wiki version: `0.0.35.1`.2
+> wiki version: `0.0.35.1`.3
 
 - `draw_time`(int):
 - `put_away_time`(int):
@@ -116,12 +116,12 @@
 		- `knockback`(float):
 		- `cooldown`(int):
 		- `delay`(int):
-		- `hitbox`(\_TargetFilterData):
+		- `target_filter_data`/`hitbox`(\_TargetFilterData):
 			- `hit_volume_type`/`type`(HitVolumeType):
 			- `max_range`(float):
 			- `exclude_self`(boolean):
 			- `max_angle`(float):
-			- `penetration`(int):
+			- `pierce`/`penetration`(int):
 			- `half_width`(float):
 			- `half_height`(float):
 			- `roll`(float):
@@ -135,11 +135,11 @@
 		- `cooldown`(int):
 		- `delay`(int):
 		- `target_filter_data`/`hitbox`(\_TargetFilterData):
-			- `type`(String):
+			- `hit_volume_type`/`type`(String):
 			- `max_range`(float):
 			- `exclude_self`(boolean):
 			- `max_angle`(float):
-			- `penetration`(int):
+			- `pierce`/`penetration`(int):
 			- `half_width`(float):
 			- `half_height`(float):
 			- `roll`(float):
@@ -167,7 +167,7 @@
 					"max_range": 0.0,
 					"exclude_self": false,
 					"max_angle": 0.0,
-					"penetration": 0,
+					"pierce": 0,
 					"half_width": 0.0,
 					"half_height": 0.0,
 					"roll": 0.0
@@ -185,12 +185,12 @@
 				"knockback": 0.0,
 				"cooldown": 0,
 				"delay": 0,
-				"hitbox": {
-					"type": "",
+				"target_filter_data": {
+					"hit_volume_type": "",
 					"max_range": 0.0,
 					"exclude_self": false,
 					"max_angle": 0.0,
-					"penetration": 0,
+					"pierce": 0,
 					"half_width": 0.0,
 					"half_height": 0.0,
 					"roll": 0.0

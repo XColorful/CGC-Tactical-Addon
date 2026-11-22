@@ -3,14 +3,15 @@ package dev.xcolorful.cgctactical.core.resource.data.data.melee;
 import com.google.gson.stream.JsonReader;
 import com.google.gson.stream.JsonWriter;
 import dev.xcolorful.cgctactical.core.api.melee.physics.HitVolumeType;
-import dev.xcolorful.cgctactical.core.api.melee.physics.IHitVolume;import dev.xcolorful.cgctactical.core.api.resource.data.data.melee._TargetFilterDataTag;
+import dev.xcolorful.cgctactical.core.api.melee.physics.IHitVolume;
+import dev.xcolorful.cgctactical.core.api.resource.data.data.melee._TargetFilterDataTag;
 import dev.xcolorful.customgun.core.resource.ResourcePojo;
 import dev.xcolorful.customgun.core.util.JsonUtils;
+import net.minecraft.world.entity.Entity;
 import net.minecraft.world.entity.LivingEntity;
 import net.minecraft.world.phys.Vec3;
 import org.jetbrains.annotations.NotNull;
 
-import javax.swing.text.html.parser.Entity;
 import java.io.IOException;
 import java.util.List;
 
@@ -20,7 +21,7 @@ public final class _TargetFilterData extends ResourcePojo<_TargetFilterData> {
     private float maxRange = 3.5f;
     private float maxAngle = 60f;
     private boolean excludeSelf = true;
-    private int penetration = 0;
+    private int pierce = 0;
     private float halfWidth = 0.5f;
     private float halfHeight = 0.5f;
     private float roll = 0f;
@@ -40,7 +41,7 @@ public final class _TargetFilterData extends ResourcePojo<_TargetFilterData> {
                     case _TargetFilterDataTag.MAX_RANGE -> pojo.maxRange = JsonUtils.readFloat(reader);
                     case _TargetFilterDataTag.EXCLUDE_SELF -> pojo.excludeSelf = JsonUtils.readBoolean(reader);
                     case _TargetFilterDataTag.MAX_ANGLE -> pojo.maxAngle = JsonUtils.readFloat(reader);
-                    case _TargetFilterDataTag.PENETRATION -> pojo.penetration = JsonUtils.readInt(reader);
+                    case _TargetFilterDataTag.PIERCE, _TargetFilterDataTag.PIERCE_OLD1 -> pojo.pierce = JsonUtils.readInt(reader);
                     case _TargetFilterDataTag.HALF_WIDTH -> pojo.halfWidth = JsonUtils.readFloat(reader);
                     case _TargetFilterDataTag.HALF_HEIGHT -> pojo.halfHeight = JsonUtils.readFloat(reader);
                     case _TargetFilterDataTag.ROLL -> pojo.roll = JsonUtils.readFloat(reader);
@@ -62,7 +63,7 @@ public final class _TargetFilterData extends ResourcePojo<_TargetFilterData> {
             JsonUtils.writeFloat(writer, _TargetFilterDataTag.MAX_RANGE, this.maxRange);
             JsonUtils.writeBoolean(writer, _TargetFilterDataTag.EXCLUDE_SELF, this.excludeSelf);
             JsonUtils.writeFloat(writer, _TargetFilterDataTag.MAX_ANGLE, this.maxAngle);
-            JsonUtils.writeInt(writer, _TargetFilterDataTag.PENETRATION, this.penetration);
+            JsonUtils.writeInt(writer, _TargetFilterDataTag.PIERCE, this.pierce);
             JsonUtils.writeFloat(writer, _TargetFilterDataTag.HALF_WIDTH, this.halfWidth);
             JsonUtils.writeFloat(writer, _TargetFilterDataTag.HALF_HEIGHT, this.halfHeight);
             JsonUtils.writeFloat(writer, _TargetFilterDataTag.ROLL, this.roll);
@@ -88,7 +89,7 @@ public final class _TargetFilterData extends ResourcePojo<_TargetFilterData> {
         pojo.setMaxRange(this.maxRange);
         pojo.setMaxAngle(this.maxAngle);
         pojo.setExcludeSelf(this.excludeSelf);
-        pojo.setPenetration(this.penetration);
+        pojo.setPierce(this.pierce);
         pojo.setHalfWidth(this.halfWidth);
         pojo.setHalfHeight(this.halfHeight);
         pojo.setRoll(this.roll);
@@ -116,8 +117,8 @@ public final class _TargetFilterData extends ResourcePojo<_TargetFilterData> {
     public boolean isExcludeSelf() {
         return excludeSelf;
     }
-    public int getPenetration() {
-        return penetration;
+    public int getPierce() {
+        return pierce;
     }
     public float getHalfWidth() {
         return halfWidth;
@@ -141,8 +142,8 @@ public final class _TargetFilterData extends ResourcePojo<_TargetFilterData> {
     public void setExcludeSelf(boolean excludeSelf) {
         this.excludeSelf = excludeSelf;
     }
-    public void setPenetration(int penetration) {
-        this.penetration = penetration;
+    public void setPierce(int pierce) {
+        this.pierce = pierce;
     }
     public void setHalfWidth(float halfWidth) {
         this.halfWidth = halfWidth;
