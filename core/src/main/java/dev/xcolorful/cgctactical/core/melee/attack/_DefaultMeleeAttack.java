@@ -19,13 +19,20 @@ import dev.xcolorful.cgctactical.core.resource.data.data.melee._TargetFilterData
 import dev.xcolorful.cgctactical.core.resource.data.data.melee.combat._MeleeAttackInfo;
 import dev.xcolorful.cgctactical.core.resource.instance.data.MeleeIndexInstance;
 import dev.xcolorful.cgctactical.core.util.SendUtils;
+import dev.xcolorful.customgun.core.util.EntityUtils;
 import net.minecraft.resources.ResourceLocation;
 import net.minecraft.server.level.ServerPlayer;
+import net.minecraft.util.Mth;
+import net.minecraft.world.damagesource.DamageSource;
+import net.minecraft.world.effect.MobEffects;
 import net.minecraft.world.entity.Entity;
 import net.minecraft.world.entity.EquipmentSlot;
 import net.minecraft.world.entity.LivingEntity;
+import net.minecraft.world.entity.MobType;
 import net.minecraft.world.entity.ai.attributes.Attributes;
+import net.minecraft.world.entity.player.Player;
 import net.minecraft.world.item.ItemStack;
+import net.minecraft.world.item.enchantment.EnchantmentHelper;
 import net.minecraft.world.phys.Vec3;
 import org.jetbrains.annotations.ApiStatus;
 import org.jetbrains.annotations.NotNull;
@@ -147,5 +154,94 @@ public class _DefaultMeleeAttack {
         float pitch = 1;
         // TODO 加距离限制
         SendUtils.sendMessageToNearbyPlayers(serverPlayer, new S2CMessageResourceSound(TacticalCategory.MELEE, meleeLocation, sound, soundPos, volume, pitch));
+    }
+
+    public static EnumSet<IMeleeAttackRuntime.MeleeAttackResult> meleeAttack(CombatantProperty combatantProperty,
+                                                                             @NotNull IMelee iMelee, @NotNull ItemStack meleeItem,
+                                                                             ILivingCombatant iLivingCombatant, LivingEntity livingCombatant,
+                                                                             float damage, float knockback,
+                                                                             Entity meleeVictim) {
+        if (
+                // 不可攻击
+                !meleeVictim.isAttackable()
+                // 跳过攻击交互
+                || meleeVictim.skipAttackInteraction(livingCombatant)
+        ) return EnumSet.of(IMeleeAttackRuntime.MeleeAttackResult.MISS);
+
+        MobType mobType = meleeVictim instanceof LivingEntity ? livingCombatant.getMobType() : MobType.UNDEFINED;
+        float bonusDamage = _DefaultMeleeEffect.calculateBonusDamageModifier(meleeItem, mobType);
+
+        boolean isCriticalHit;
+        float damageModifier;
+        { // 原版暴击判定
+            boolean vanillaCriticalHit = isVanillaCriticalHit(livingCombatant, meleeVictim);
+            damageModifier = vanillaCriticalHit ? 1.5f : 1f;
+            @Nullable MeleeAttackManager.CriticalHitContext criticalHitContext = new MeleeAttackManager.CriticalHitContext(livingCombatant, meleeVictim, vanillaCriticalHit, damageModifier);
+            criticalHitContext = MeleeAttackManager.onCriticalHit(criticalHitContext);
+            isCriticalHit = criticalHitContext != null && criticalHitContext.vanillaCritical;
+            damageModifier = criticalHitContext != null ? criticalHitContext.damageModifier : 1f;
+        }
+
+        // 火焰附加
+        _DefaultMeleeEffect.calculateFireAspect(meleeItem, livingCombatant, meleeVictim);
+
+        if (EntityUtils.getInvulnerableTime(meleeVictim) < MeleeConfig.MELEE_IGNORE_INVULNERABLE_TICK_THRESHOLD.get()) {
+            // 无敌时间低于阈值则本次攻击无视其无敌
+            EntityUtils.setInvulnerableTime(meleeVictim, 0);
+        }
+
+        DamageSource damageSource = livingCombatant instanceof Player player ? livingCombatant.damageSources().playerAttack(player) : livingCombatant.damageSources().generic();
+        if (!meleeVictim.hurt(damageSource, damage + bonusDamage)) {
+            // 免疫伤害/没造成伤害，不算命中
+            return EnumSet.of(IMeleeAttackRuntime.MeleeAttackResult.MISS);
+        }
+        EnumSet<IMeleeAttackRuntime.MeleeAttackResult> results = EnumSet.of(IMeleeAttackRuntime.MeleeAttackResult.HIT);
+
+        if (meleeVictim instanceof LivingEntity livingMeleeVictim) {
+            livingMeleeVictim.knockback(knockback,
+                    Mth.sin(livingCombatant.getYRot() * ((float) Math.PI / 180F)),
+                    -Mth.cos(livingCombatant.getYRot() * ((float) Math.PI / 180F)));
+            _DefaultMeleeEffect.postHurtEffect(livingCombatant, livingMeleeVictim);
+        }
+
+        if (isCriticalHit) {
+            results.add(IMeleeAttackRuntime.MeleeAttackResult.CRIT);
+            if (livingCombatant instanceof Player player) {
+                player.crit(meleeVictim);
+            }
+        }
+
+        if (isKilled(meleeVictim)) {
+            results.add(IMeleeAttackRuntime.MeleeAttackResult.KILL);
+        }
+
+        return results;
+    }
+
+    public static boolean isVanillaCriticalHit(LivingEntity livingCombatant, Entity meleeVictim) {
+        if (
+                // 只对生物暴击
+                !(meleeVictim instanceof LivingEntity)
+                // 未处于下落状态
+                || livingCombatant.fallDistance <= 0 || livingCombatant.onGround()
+                // 在攀爬
+                || livingCombatant.onClimbable()
+                // 在水里
+                || livingCombatant.isInWater()
+                // 失明
+                || livingCombatant.hasEffect(MobEffects.BLINDNESS)
+                // 骑乘载具
+                || livingCombatant.isPassenger()
+        ) return false;
+
+        return true;
+    }
+
+    /**
+     * 这个并不能检测不死图腾之类的
+     */
+    public static boolean isKilled(Entity meleeVictim) {
+        // mixin注入点
+        return meleeVictim instanceof LivingEntity livingEntity && livingEntity.isDeadOrDying();
     }
 }

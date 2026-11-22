@@ -10,8 +10,11 @@ import dev.xcolorful.cgctactical.core.api.melee.attack.IMeleeAttackRuntime;
 import net.minecraft.world.entity.Entity;
 import net.minecraft.world.entity.LivingEntity;
 import net.minecraft.world.item.ItemStack;
+import org.jetbrains.annotations.ApiStatus;
 import org.jetbrains.annotations.NotNull;
+import org.jetbrains.annotations.Nullable;
 
+import java.util.EnumSet;
 import java.util.List;
 
 public class MeleeAttackManager implements IMeleeAttackManager {
@@ -45,7 +48,31 @@ public class MeleeAttackManager implements IMeleeAttackManager {
                            ILivingCombatant iLivingCombatant, LivingEntity livingCombatant,
                            float damage, float knockback,
                            Entity meleeVictim) {
-        // TODO 近战攻击逻辑移植
-        return 0;
+        EnumSet<MeleeAttackResult> results = _DefaultMeleeAttack.meleeAttack(combatantProperty,
+                iMelee, meleeItem,
+                iLivingCombatant, livingCombatant,
+                damage, knockback,
+                meleeVictim);
+        return MeleeAttackResult.toBitmap(results);
+    }
+
+    @ApiStatus.Internal
+    public static class CriticalHitContext {
+        public final LivingEntity livingCombatant;
+        public final Entity meleeVictim;
+        public boolean vanillaCritical;
+        public float damageModifier;
+
+        public CriticalHitContext(LivingEntity livingCombatant, Entity meleeVictim, boolean vanillaCritical, float damageModifier) {
+            this.livingCombatant = livingCombatant;
+            this.meleeVictim = meleeVictim;
+            this.vanillaCritical = vanillaCritical;
+            this.damageModifier = damageModifier;
+        }
+    }
+    @ApiStatus.Internal
+    public static @Nullable CriticalHitContext onCriticalHit(CriticalHitContext criticalHitContext) {
+        // mixin注入点
+        return criticalHitContext;
     }
 }
