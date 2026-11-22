@@ -1,5 +1,9 @@
 package dev.xcolorful.cgctactical.core.api.entity.combatant.melee;
 
+import dev.xcolorful.cgctactical.core.api.item.tactical.TacticalAction;
+import dev.xcolorful.customgun.CustomGun;
+import dev.xcolorful.customgun.core.api.common.McLogicalSide;
+
 public interface IMeleeOperator {
 
     // --------近战操作--------
@@ -8,7 +12,7 @@ public interface IMeleeOperator {
      * 执行{@link #cgctactical$meleeAttack}前的蓄力动作 (攻击前摇)
      * @return 是否成功开始蓄力
      */
-    boolean cgctactical$meleeCharge();
+    boolean cgctactical$meleeCharge(McLogicalSide logicalSide, TacticalAction tacticalAction);
 
     /**
      * 执行近战行为
@@ -17,4 +21,11 @@ public interface IMeleeOperator {
      * </ul>
      */
     void cgctactical$meleeAttack();
+
+    // --------Deprecated--------
+
+    @Deprecated(forRemoval = true)
+    default boolean cgctactical$meleeCharge() {
+        return cgctactical$meleeCharge(CustomGun.getSideExecutor().getLogicalSide(), TacticalAction.PRIMARY_ACTION);
+    }
 }

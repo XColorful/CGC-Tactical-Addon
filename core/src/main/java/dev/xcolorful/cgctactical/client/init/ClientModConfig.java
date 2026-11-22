@@ -1,5 +1,6 @@
 package dev.xcolorful.cgctactical.client.init;
 
+import dev.xcolorful.cgctactical.client.config.KeyConfig;
 import dev.xcolorful.cgctactical.client.config.RenderConfig;
 import dev.xcolorful.customgun.CustomGun;
 import dev.xcolorful.customgun.core.api.config.IModConfigSpecBuilder;
@@ -14,6 +15,7 @@ public class ClientModConfig {
     private static class ClientConfig {
         public static void init() {
             IModConfigSpecBuilder builder = CustomGun.getModConfigSpecBuilder();
+            KeyConfig.init(builder);
             RenderConfig.init(builder);
             builder.buildAndRegister(ModConfigType.CLIENT);
         }

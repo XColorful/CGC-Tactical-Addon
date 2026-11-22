@@ -1,20 +1,33 @@
 package dev.xcolorful.cgctactical.client.input.combatant;
 
 import dev.xcolorful.cgctactical.CgcTactical;
+import dev.xcolorful.cgctactical.client.api.entity.ILocalCombatant;
+import dev.xcolorful.cgctactical.client.api.entity.combatant.ILocalCombatantGetter;
 import dev.xcolorful.cgctactical.client.api.minecraft.input.CustomInputKey;
+import dev.xcolorful.cgctactical.client.config.KeyConfig;
 import dev.xcolorful.cgctactical.client.init.registry.ClientInputCategory;
+import dev.xcolorful.cgctactical.core.api.entity.ILivingCombatant;
+import dev.xcolorful.cgctactical.core.api.entity.combatant.ILivingCombatantGetter;
+import dev.xcolorful.cgctactical.core.api.item.ITacticalItem;
+import dev.xcolorful.cgctactical.core.api.item.tactical.ITacticalItemGetter;
+import dev.xcolorful.cgctactical.core.api.item.tactical.TacticalAction;
 import dev.xcolorful.customgun.CustomGun;
+import dev.xcolorful.customgun.client.api.event.IClientTickEvent;
 import dev.xcolorful.customgun.client.api.event.IInputKeyEvent;
 import dev.xcolorful.customgun.client.api.event.IMouseButtonEvent;
-import dev.xcolorful.customgun.client.api.input.IInputKeyManager;
-import dev.xcolorful.customgun.client.api.input.IKeyConflictContext;
-import dev.xcolorful.customgun.client.api.input.IKeyMapping;
-import dev.xcolorful.customgun.client.api.input.IKeyModifier;
+import dev.xcolorful.customgun.client.api.event.IPrepareClientTickEvent;
+import dev.xcolorful.customgun.client.api.input.*;
 import dev.xcolorful.customgun.client.input.InputKey;
+import dev.xcolorful.customgun.client.input.shooter.ShootKey;
 import dev.xcolorful.customgun.client.util.ClientInputUtils;
-import dev.xcolorful.customgun.core.api.event.ICustomEventRegister;
+import dev.xcolorful.customgun.core.api.common.McLogicalSide;
+import dev.xcolorful.customgun.core.api.event.*;
+import net.minecraft.client.Minecraft;
+import net.minecraft.client.player.LocalPlayer;
+import net.minecraft.world.item.ItemStack;
+import org.jetbrains.annotations.Nullable;
 
-public final class PrimaryActionKey extends InputKey {
+public final class PrimaryActionKey extends InputKey implements IEventHandler {
 
     private static final class PrimaryKeyHolder {
         public static final PrimaryActionKey INSTANCE = new PrimaryActionKey();
@@ -44,12 +57,28 @@ public final class PrimaryActionKey extends InputKey {
     @Override
     public boolean registerEventHandler() {
         ICustomEventRegister customEventRegister = CustomGun.getEventRegister();
+        customEventRegister.register(this, EventType.PREPARE_CLIENT_TICK_EVENT, EventPriority.NORMAL, false);
+        customEventRegister.register(this, EventType.CLIENT_TICK_EVENT, EventPriority.NORMAL, false);
         return true;
     }
     @Override
     public boolean unregisterEventHandler() {
         ICustomEventRegister customEventRegister = CustomGun.getEventRegister();
+        customEventRegister.unregister(this, EventType.PREPARE_CLIENT_TICK_EVENT, EventPriority.NORMAL, false);
+        customEventRegister.unregister(this, EventType.CLIENT_TICK_EVENT, EventPriority.NORMAL, false);
         return true;
+    }
+
+    @Override public String getEventHandlerName() {
+        return this.getClass().getName();
+    }
+    @Override
+    public void handleEvent(EventType eventType, IEvent event) {
+        switch (eventType) {
+            case PREPARE_CLIENT_TICK_EVENT -> onPrimaryActionPreInput((IPrepareClientTickEvent) event);
+            case CLIENT_TICK_EVENT -> tickPrimaryAction((IClientTickEvent) event);
+            default -> onReceiveWrongEvent(eventType);
+        }
     }
 
     // --------IInputHandler--------
@@ -63,5 +92,69 @@ public final class PrimaryActionKey extends InputKey {
         this.onPrimaryActionKeyInput(event.getAction());
     }
     private void onPrimaryActionKeyInput(int action) {
+        // 不在焦点就不进input队列，否则从screen点击回去的时候会误触
+        if (!ClientInputUtils.isGameplayFocused()) return;
+
+        switch (InputAction.of(action)) {
+            case PRESS -> this.inputQueue = true;
+            case RELEASE -> {}
+        }
+    }
+
+    /**
+     * 设计类似 {@link ShootKey#inputQueue}
+     */
+    private volatile boolean inputQueue = false;
+    /**
+     * 本tick是否出现过按压
+     */
+    private boolean hasPressedKey = false;
+
+    /**
+     * 清空上一tick信息 + 消费输入队列
+     */
+    private void onPrimaryActionPreInput(IPrepareClientTickEvent event) {
+        this.hasPressedKey = this.inputQueue;
+
+        // 消费输入队列
+        this.inputQueue = false;
+    }
+    private void tickPrimaryAction(IClientTickEvent event) {
+        _checkAndDoPrimaryAction();
+    }
+    /**
+     * 只读 this 状态
+     * @return 是否执行成功
+     */
+    private boolean _checkAndDoPrimaryAction() {
+        if (!ClientInputUtils.isGameplayFocused()) return false; // 不在焦点
+
+        Minecraft mc = Minecraft.getInstance();
+        LocalPlayer player = mc.player;
+        if (player == null || player.isSpectator()) return false; // 旁观模式
+
+        ItemStack tacticalItem = player.getMainHandItem();
+        @Nullable ITacticalItem iTacticalItem = ITacticalItemGetter.fromItemStack(tacticalItem);
+        if (iTacticalItem == null) return false; // 主手没战术物品
+
+        // --------primary action--------
+
+        boolean currentKeyDown = this.keyMapping.get().isDown(); // 当前是否按下按键
+        boolean actionPressed = this.hasPressedKey | currentKeyDown;
+        if (
+                // 没输入按键
+                !actionPressed
+                // 输入按键但是没配置按压持续输入
+                || !currentKeyDown && !KeyConfig.CONTINUOUS_ACTION_INPUT.get()
+        ) return false;
+
+        ILocalCombatant iLocalCombatant = ILocalCombatantGetter.cgctactical$fromLocalPlayer(player);
+        ILivingCombatant iLivingCombatant = ILivingCombatantGetter.cgctactical$fromLivingEntity(player);
+        if (iLivingCombatant.cgctactical$meleeCharge(McLogicalSide.CLIENT, TacticalAction.PRIMARY_ACTION)) {
+            // 目前就IMelee有primary action
+            return true;
+        } else {
+            return false;
+        }
     }
 }

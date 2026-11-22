@@ -119,6 +119,11 @@ Notation:
 |`CombatProperties`.tick|combatant.`LivingCombatantDraw`.tickDraw|
 |`CustomItemCoolDowns`|combatant.`LivingCombatantCooldown`|
 
+|me.xjqsh.lrtactical.capability|dev.xcolorful.cgctactical.cilent.entity|
+|---|---|
+|`CombatProperties`.`DelayMove`|combatant.`LocalCombatantMelee`.chargeMove|
+|`CombatProperties`.`DelayAttack`|combatant.`LocalCombatantMelee`.chargeAttack|
+
 |me.xjqsh.lrtactical.capability|dev.xcolorful.cgctactical.core.mixin|
 |---|---|
 |`TickHandler`.onPlayerTick|entity.`LivingEntityMixin`.cgctactical$onLivingTick|
