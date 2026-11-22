@@ -41,8 +41,9 @@ public abstract class LivingEntityMixin extends Entity implements ILivingCombata
     }
 
     private void cgctactical$defaultLivingCombatantTick() {
-        this.cgctactical$draw.tickDrawLegacy();
         this.cgctactical$cooldown.tickItemCooldown();
+        this.cgctactical$draw.tickDrawLegacy();
+        this.cgctactical$cooldown.tickCooldown();
         this.cgctactical$sprint.tickSprint();
         LivingCombatantScheduler.tickScheduler(this.cgctactical$livingCombatant, this.cgctactical$combatantProperty);
         this.cgctactical$draw.tickDraw();
