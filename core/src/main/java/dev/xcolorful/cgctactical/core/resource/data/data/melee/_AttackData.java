@@ -3,7 +3,7 @@ package dev.xcolorful.cgctactical.core.resource.data.data.melee;
 import com.google.gson.stream.JsonReader;
 import com.google.gson.stream.JsonToken;
 import com.google.gson.stream.JsonWriter;
-import dev.xcolorful.cgctactical.core.api.resource.data.data.melee._CombatDataTag;
+import dev.xcolorful.cgctactical.core.api.resource.data.data.melee._AttackDataTag;
 import dev.xcolorful.cgctactical.core.resource.data.data.melee.attack._MeleeAttackInfo;
 import dev.xcolorful.customgun.core.resource.ResourcePojo;
 import dev.xcolorful.customgun.core.util.JsonUtils;
@@ -29,8 +29,8 @@ public final class _AttackData extends ResourcePojo<_AttackData> {
             while (reader.hasNext()) {
                 String key = reader.nextName();
                 switch (key) {
-                    case _CombatDataTag.PRIMARY_ACTION, _CombatDataTag.PRIMARY_ACTION_OLD1 -> pojo.leftAttacks = readAttackInfos(reader);
-                    case _CombatDataTag.SECONDARY_ACTION, _CombatDataTag.SECONDARY_ACTION_OLD1 -> pojo.rightAttacks = readAttackInfos(reader);
+                    case _AttackDataTag.PRIMARY_ACTION, _AttackDataTag.PRIMARY_ACTION_OLD1 -> pojo.leftAttacks = readAttackInfos(reader);
+                    case _AttackDataTag.SECONDARY_ACTION, _AttackDataTag.SECONDARY_ACTION_OLD1 -> pojo.rightAttacks = readAttackInfos(reader);
                     default -> reader.skipValue();
                 }
             }
@@ -63,8 +63,8 @@ public final class _AttackData extends ResourcePojo<_AttackData> {
     @Override
     public void toJson(JsonWriter writer) throws IOException {
         writer.beginObject(); {
-            JsonUtils.writeList(writer, _CombatDataTag.PRIMARY_ACTION, this.leftAttacks, _MeleeAttackInfo::toJson);
-            JsonUtils.writeList(writer, _CombatDataTag.SECONDARY_ACTION, this.rightAttacks, _MeleeAttackInfo::toJson);
+            JsonUtils.writeList(writer, _AttackDataTag.PRIMARY_ACTION, this.leftAttacks, _MeleeAttackInfo::toJson);
+            JsonUtils.writeList(writer, _AttackDataTag.SECONDARY_ACTION, this.rightAttacks, _MeleeAttackInfo::toJson);
         }
         writer.endObject();
     }
