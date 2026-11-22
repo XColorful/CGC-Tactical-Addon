@@ -85,3 +85,23 @@ I'll apply the three changes: use `RayTraceUtils`' own overloads for the ray, mo
 - English：对应的 `HitVolumeUtils: Standard detection utilities for melee hit volumes` 及子项说明。
 
 仅文档改动，未提交。
+
+# 
+---
+
+```
+效仿dev.xcolorful.cgctactical.client.input.combatant.PrimaryActionKey，完成SecondaryActionKey
+SecondaryActionKey不需要持续按压检测
+其余部分应该完全同构
+```
+
+# 
+
+[SecondaryActionKey.java](core/src/main/java/dev/xcolorful/cgctactical/client/input/combatant/SecondaryActionKey.java) 已完成，结构与 `PrimaryActionKey` 一致：
+
+- 实现 `IEventHandler`，注册 `PREPARE_CLIENT_TICK_EVENT` / `CLIENT_TICK_EVENT` 并做事件派发。
+- `onSecondaryActionKeyInput` 与主键相同：仅在游戏焦点内、`PRESS` 时写入 `inputQueue`。
+- 蓄力/动画部分同构，仅把 `TacticalAction.PRIMARY_ACTION` 换成 `SECONDARY_ACTION`（含 `typeNameOld`），同样在蓄力成功后调用 `ensureHasSentCarriedItem` 并摆臂。
+- 按你的要求去掉了持续按压检测：`actionPressed` 只取本 tick 的 `hasPressedKey`，不读 `keyMapping.isDown()`，也不检查 `KeyConfig.CONTINUOUS_ACTION_INPUT`。
+
+`:core:compileJava` 编译通过；改动未提交。
