@@ -1,6 +1,10 @@
 package dev.xcolorful.cgctactical.core.network.message.combatant;
 
+import dev.xcolorful.cgctactical.core.api.entity.ILivingCombatant;
+import dev.xcolorful.cgctactical.core.api.entity.combatant.ILivingCombatantGetter;
 import dev.xcolorful.cgctactical.core.api.item.tactical.TacticalAction;
+import dev.xcolorful.cgctactical.core.entity.combatant.LivingCombatantMelee;
+import dev.xcolorful.customgun.core.api.common.McLogicalSide;
 import dev.xcolorful.customgun.core.api.network.MessageDirection;
 import dev.xcolorful.customgun.core.api.network.message.IMessage;
 import net.minecraft.network.FriendlyByteBuf;
@@ -39,13 +43,19 @@ public record C2SMessageCombatantMelee_prepare(TacticalAction tacticalAction,
 
     @Override
     public void handle(Consumer<Runnable> handler, NetworkContext context) {
+        var message = this;
         if (context.direction() == MessageDirection.CLIENT_TO_SERVER) {
             handler.accept(() -> {
                 if (!(context.sender() instanceof ServerPlayer player)) {
                     return;
                 }
 
-                // TODO ILivingCombatant, S2CMessageSyncMeleeAnimation
+                ILivingCombatant iLivingCombatant = ILivingCombatantGetter.cgctactical$fromLivingEntity(player);
+                if (iLivingCombatant.cgctactical$meleeCharge(McLogicalSide.SERVER, message.tacticalAction)) {
+                    /**
+                     * 已经在 {@link LivingCombatantMelee#_doCharge} 处理好了
+                     */
+                }
             });
         }
     }

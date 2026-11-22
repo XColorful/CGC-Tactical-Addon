@@ -5,6 +5,8 @@ import dev.xcolorful.cgctactical.core.api.entity.CombatantProperty;
 import dev.xcolorful.cgctactical.core.api.item.IMelee;
 import dev.xcolorful.cgctactical.core.api.item.melee.IMeleeGetter;
 import dev.xcolorful.cgctactical.core.api.item.tactical.TacticalAction;
+import dev.xcolorful.cgctactical.core.network.message.sync.S2CMessageSyncMeleeAnimation;
+import dev.xcolorful.cgctactical.core.util.SendUtils;
 import dev.xcolorful.customgun.core.api.common.McLogicalSide;
 import net.minecraft.world.entity.LivingEntity;
 import net.minecraft.world.item.ItemStack;
@@ -55,6 +57,15 @@ public final class LivingCombatantMelee extends LivingCombatantAspect {
         combatantProperty.preparingAttack = true;
         combatantProperty.preparingAttackCombo = combo;
         combatantProperty.cooldownTick = Math.max(0, combatantProperty.cooldownTick - 1);
+
+        var animationLocation = iMelee.getMeleeLocation(meleeItem);
+        SendUtils.sendMessageToNearbyPlayersAndSelf(
+                livingCombatant,
+                new S2CMessageSyncMeleeAnimation(livingCombatant.getId(),
+                        animationLocation,
+                        tacticalAction,
+                        combatantProperty.getCombo(tacticalAction))
+        );
     }
 
     public void meleeAttack() {
