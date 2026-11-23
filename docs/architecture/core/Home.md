@@ -61,6 +61,7 @@
 > _./core/melee_
 
 [近战框架](./melee/melee-framework.md)
+- [近战网络模型](./melee/melee-network-model.md)：蓄力/攻击/超时的时序与数值边界
 - [MeleeManager](./melee/melee-manager.md)：近战管理器（全能易用门面）
 
 🤔深度定制近战：[注册近战管理器组](./melee/register-melee-manager-group.md)
@@ -165,6 +166,7 @@ Module division based on the `dev.xcolorful.cgctactical.core` top-level package
 > _./core/melee_
 
 [Melee Framework](./melee/melee-framework.md#English):
+- [Melee Network Model](./melee/melee-network-model.md#English): charge/attack/timeout timing and numeric boundaries
 - [MeleeManager](./melee/melee-manager.md#English): Melee manager (almighty easy-to-use facade)
 
 🤔Deeply customized melee: [Register MeleeManagerGroup](./melee/register-melee-manager-group.md)

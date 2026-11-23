@@ -281,3 +281,98 @@ IDE 构建已通过；未进游戏实测。
 - 清掉了磁盘上残留的未使用 `result` 变量、空的 `if (result.isSuccess()) {}` 以及随之失效的 `@NotNull` 导入。
 
 IDE 构建通过，未进游戏实测。改动都在工作区，未提交。
+
+# 
+
+```
+目前的网络模型是否有必要让LivingCombatantCooldown改成多延迟1tick再强制重置？
+是否这个重置默认了延迟？
+```
+
+# 
+
+先给结论：**不建议加这 1 tick**。这段超时并不是"默认了网络延迟"，它默认的是资源数据里的 `delay`；而 `prepare` 和 `attack` 走的是同一方向的同一条链路，网络延迟在两者的相对时序里会互相抵消。
+
+## 时序推导
+
+以客户端 `C0` 发出 prepare、服务器在 `R` 处理为前提：
+
+- 客户端在 `C_T` 才能再次蓄力（输入在 `ClientTickEvent.END` 处理，实体 tick 里的 `tickCooldown` 先跑，所以正好 T tick 一循环）。
+- 服务器处理 prepare 时把冷却设成 `T-1`（[LivingCombatantMelee.java:70](core/src/main/java/dev/xcolorful/cgctactical/core/entity/combatant/LivingCombatantMelee.java:70)），于是超时点 = `R + (T-1)`。
+- 下一次 prepare 到达 ≈ `R + T`。**超时恰好比下一次合法蓄力早 1 tick**，这就是那个 `-1` 的目的。
+- 攻击包在 `C0+delay` 发出，到达 ≈ `R + delay + (L_attack - L_prepare)`。延迟相等时条件化简为 `delay ≤ cooldown - 1`。
+
+所以重置默认的是**攻击延迟必须落在冷却预算内**（`delay < cooldown`），而不是网络延迟。默认数据 `cooldown = 20`、`delay = 0`（[_MeleeAttackInfo.java:18](core/src/main/java/dev/xcolorful/cgctactical/core/resource/data/data/melee/attack/_MeleeAttackInfo.java:18)），余量有近 20 tick，正常情况下超时根本不该触发——之前每轮都触发，是因为打空被当成失败、蓄力状态没清掉。
+
+## 改成 +1 tick 的后果
+
+超时点后移 1 tick 后就和下一次 prepare 落在同一个服务器 tick：重置发生在实体 tick 内，而 prepare 在 tick 前的收包窗口执行，此时 `preparingAttack` 仍为 true，`meleeCharge` 会拒绝它；但客户端本地 combo 已经自增并会照常发出攻击包，服务端随即重置 —— 下一次就必然 mismatch。等于用一个极窄的边界收益换一个更常见的同步错位。
+
+另外，Lrtactical 的 `CombatProperties.tick()` 就是同样的结构（含 `T-1` 补偿），这里不是移植遗漏。
+
+## 如果以后确实要放宽
+
+不要动共享的 `cooldownTick`（它同时承担限速和超时两个职责）。正确做法是加一个独立的攻击超时计数，预算取 `delay + 常数` 且仍 `≤ cooldown`；或者在资源加载时显式校验 `delay + 1 < cooldown`。默认数据下目前没有必要。
+
+补充一点：真正脆弱的是"服务端推重置 + 客户端本地自增 combo"这对组合——只要 RTT 大于 1 tick，重置包永远赶在下次蓄力之后到达，所以任何超时都注定丢 1~2 个 cycle。这也是为什么修好"打空也结束蓄力"比调 tick 更关键。
+
+另外提醒一下：[LivingCombatantMelee.java:112](core/src/main/java/dev/xcolorful/cgctactical/core/entity/combatant/LivingCombatantMelee.java:112) 磁盘上的 `result` 变量和空的 `if (result.isSuccess()) {}` 又回来了（`@NotNull` 导入也在），和上一轮的清理结果不一致——可能是 IDEA 侧合并时留下的。不影响编译，但属于死代码，需要的话我再清掉。
+
+# 
+
+```
+看git工作区，加一页.md说明一下这个模型，并且在当前状态下数值填到什么时候可能出现问题（比如delay和cooldown接近）
+并且模型需要指向代码，避免文档指向的代码已经更新，而文档没更新
+```
+
+# 
+
+I'll check the working tree and the docs structure first.
+
+The code fixes are committed (`fe76989`, `d554dcc`), and there's a placeholder link `./melee/.md` in [docs/architecture/core/Home.md:64](docs/architecture/core/Home.md:64). I'll fill that in with a proper model page.
+
+新增了 [melee-network-model.md](docs/architecture/core/melee/melee-network-model.md)，中英双语，结构：
+
+- **时序图**：prepare → attack → 超时兜底的完整交互。
+- **状态归属**：combo、cooldownTick、preparingAttack、clientSchedule 各自在哪一端维护。
+- **代码入口表**：每个环节（客户端蓄力、服务端蓄力、攻击校验、超时重置、客户端同步、tick 驱动、数值来源）都链到具体源文件和符号。
+- **时序推导**：服务端 `C-1` 补偿的由来，以及"超时恰好早于下一次合法蓄力 1 tick"的结论。
+- **数值边界**：`D ≤ C-2` 安全；`D = C-1` 为硬边界；`D ≥ C` 必然丢包/重置；`C = 0` 时超时兜底完全失效。默认 `C=20, D=0`，余量 19 tick。
+- **延迟与抖动**：固定延迟抵消、抖动吃余量；不要给超时再加 tick 的原因。
+- **修改自检清单**：改模型时必须复核的 5 条不变量。
+
+防漂移处理：引用只写**文件链接 + 符号名**（如 `LivingCombatantCooldown#tickCooldown`），不用行号；页首标注基线提交 `d554dcc`，并写明"符号变更时同步更新本页"的维护约定。
+
+[core/Home.md](docs/architecture/core/Home.md) 里占位的 `./melee/.md` 已替换为实际文件名，英文区也补了对应条目。所有代码链接和符号已逐个核对存在。
+
+改动只在 docs 目录，未提交，等你 review。
+
+# 
+
+```
+不要做代码链接，直接用``包起来即可
+并且markdown格式需要对齐已有文档（类似CGC ./docs/architecture/client/render/），如表格左右不加空格
+不用指定基线，提示直接查文档内容提交时的commit就行
+```
+
+# 
+
+已按参考文档调整：
+
+- **代码引用**：全部改为行内代码，如 `LivingCombatantMelee#_doCharge`、`PrimaryActionKey#tickPrimaryAction`，不再有任何源文件链接。
+- **表格**：分隔行统一为 `|---|`，单元格不加左右空格，去掉了 `:--` 对齐标记。
+- **基线**：删除了固定 commit `d554dcc`，改为"代码以本页最后一次提交为准"，并给出 `git log -1 -- docs/architecture/core/melee/melee-network-model.md`。
+
+已核对：文档内无 `/core/src` 链接、无基线哈希、无旧表格写法。中英双语结构保留（与本仓库其他架构文档一致）；若要像 render 文档那样只留中文，告诉我即可去掉英文段。
+
+改动仍只在 docs 目录，未提交。
+
+# 
+
+```
+加一下对填数值的参考，delay和cooldown的关系，跟延迟的关系
+```
+
+# 
+
+
