@@ -375,4 +375,16 @@ The code fixes are committed (`fe76989`, `d554dcc`), and there's a placeholder l
 
 # 
 
+I'll add a value-selection section tying `delay`/`cooldown` to jitter, and correct one boundary detail (it's `cooldown ≤ 1`, not `= 0`, that disables the timeout net).
 
+已在 [melee-network-model.md](docs/architecture/core/melee/melee-network-model.md) 增加「数值填写参考」章节（中英双语），核心内容：
+
+- **逻辑硬约束**：`D ≤ C - 1`，攻击包必须先于下一次蓄力发出。
+- **网络安全约束**：`C - 1 - D ≥ J`（`J` 为 prepare 与 attack 两包之间的抖动），即 `C ≥ D + 1 + J`；实际填写建议 `C ≥ D + 2 + J`，多留 1 tick。
+- **抖动参考表**：局域网 `J=1 → C ≥ D + 3`；稳定公网 `J=2 → D + 4`；抖动明显 `J=3~4 → D + 5~6`；弱网 `J≥6 → D + 8`。
+- **与延迟的关系**：单向延迟在 prepare/attack 的相对时序里抵消，不参与判定；吃余量的是抖动。但延迟会让服务端伤害整体后移 `D + L`，并让重置包更晚到客户端，所以高延迟环境优先 `D = 0`。
+- 补充：`C` 是连点间隔（攻速），`D` 是前摇；要长前摇就加大 `C`，别把 `D` 推到接近 `C`。以默认 `C=20, D=0` 为例余量 19 tick。
+
+顺带修正了边界描述：超时兜底失效的条件是 **`cooldown ≤ 1`** 而不只是 `= 0`——因为服务端蓄力后 `cooldownTick = max(0, C-1)`，`C=1` 同样归零后 `tickCooldown` 直接返回。
+
+改动仍只在 docs 目录，未提交。
