@@ -265,3 +265,19 @@ CGC 把这一步改成了依赖攻击结果，而空目标被当作 `ERROR`，�
 IDE 构建已通过；未进游戏实测。
 
 另外同方法里还有一处与 Lrtactical 不一致：连击数不匹配时 Lrtactical 会 `forceResetMeleeSync` 后 `return`，而 CGC 重置后仍继续用这个不匹配的 combo 执行攻击。这不影响打空气的连段，但属于同步校验上的漏洞，已放到下一步确认框里。
+
+# 
+
+```
+也修
+```
+
+# 
+
+已按 Lrtactical 对齐连击数不匹配分支（[LivingCombatantMelee.java:93](core/src/main/java/dev/xcolorful/cgctactical/core/entity/combatant/LivingCombatantMelee.java:93)）：
+
+- 重置并发 reset 包后直接 `return`，不再继续用不匹配的 combo 执行攻击。
+- 顺手修了同一处的日志：原来 `resetMeleeSync()` 先把 `preparingAttackCombo` 清零，日志里的 `expect {}` 永远打印 0；现在先取出期望值再重置，日志才有诊断意义。
+- 清掉了磁盘上残留的未使用 `result` 变量、空的 `if (result.isSuccess()) {}` 以及随之失效的 `@NotNull` 导入。
+
+IDE 构建通过，未进游戏实测。改动都在工作区，未提交。

@@ -94,12 +94,14 @@ public final class LivingCombatantMelee extends LivingCombatantAspect {
                 // 连击数对不上
                 this.combatantProperty.preparingAttackCombo != combo
         ) {
+            int expectCombo = this.combatantProperty.preparingAttackCombo;
             // 强制重置
             this.combatantProperty.resetMeleeSync();
             if (this.livingCombatant instanceof ServerPlayer serverPlayer) {
-                CgcTactical.LOGGER.info("{} attack combo {} mismatched (expect {}), resetting", serverPlayer.getName().getString(), combo, this.combatantProperty.preparingAttackCombo);
+                CgcTactical.LOGGER.info("{} attack combo {} mismatched (expect {}), resetting", serverPlayer.getName().getString(), combo, expectCombo);
                 SendUtils.sendMessageToPlayer(serverPlayer, new S2CMessageCombatantMelee_reset());
             }
+            return;
         }
 
         { // 3. IMeleeRuntime操作结果 -> Combatant状态
