@@ -105,3 +105,106 @@ SecondaryActionKey不需要持续按压检测
 - 按你的要求去掉了持续按压检测：`actionPressed` 只取本 tick 的 `hasPressedKey`，不读 `keyMapping.isDown()`，也不检查 `KeyConfig.CONTINUOUS_ACTION_INPUT`。
 
 `:core:compileJava` 编译通过；改动未提交。
+
+# 
+---
+
+```
+读git工作区，可以从CGC Tactical Addon和CGC已有的ResourcePojo写法寻找参照，完成_AttributeData、_AttributeInfo、MeleeItem#getAttributeModifiers、MeleeIndexInstance
+其中xxxTag已经固定，MeleeIndexInstance使用BuiltInRegistries.ATTRIBUTE而不要引入ForgeRegistries
+还需要检查以上两个ResourcePojo是否跟me.xjqsh.lrtactical.item.melee.AttributeData反序列化的一致 (这个Deserializer写法对人类不友好)
+工作区wiki也要补上
+```
+
+# 
+
+我先读取工作区现状和相关文件，理解现有约定。
+
+现在实现。先写 `_AttributeInfo`。
+
+已完成，`core` 与 `forge-compat` 均编译通过（`:core:compileJava`、`:forge-compat:compileJava`）。
+
+**实现内容**
+
+- [_AttributeInfo.java](core/src/main/java/dev/xcolorful/cgctactical/core/resource/data/data/melee/attribute/_AttributeInfo.java)：读 `attribute_location`/`id`、`amount`、`modifier_operation`/`operation`；值为裸数字时按 `amount` + `SHARED_BASE_ADD` 解析；带 `toJson`、`validatePojo`（缺 location 或未知 operation 判为无效）、深拷贝与 back-compat（operation 缺省补 `SHARED_BASE_ADD`）。
+- [_AttributeData.java](core/src/main/java/dev/xcolorful/cgctactical/core/resource/data/data/melee/_AttributeData.java)：`attribute_info`/`attributes` 接受列表或 id 为键的映射；同时把 `attribute_data` 对象下的非包装键当作 lrtactical 旧式属性映射解析（数值或 `{amount, operation}`），无效 id 与非数值/对象值均跳过。
+- [MeleeIndexInstance.java:53](core/src/main/java/dev/xcolorful/cgctactical/core/resource/instance/data/MeleeIndexInstance.java:53)：用 `BuiltInRegistries.ATTRIBUTE` 构建 `ImmutableMultimap`；未注册属性记 debug 并跳过；UUID 按 `ResourceLocation#toString` 经 `nameUUIDFromBytes` 生成并缓存，与 lrtactical 的 `DefaultAttrUUIDUtil`“每属性一个 UUID”语义一致（但为确定性 UUID）。
+- [MeleeItem.java:45](core/src/main/java/dev/xcolorful/cgctactical/core/item/melee/MeleeItem.java:45)：仅主手返回实例缓存的修饰符，实例/缓存缺失时返回空 map。
+- [Melee data.md](docs/wiki/resource/data/cgc_data/Melee%20data.md)：中英文都补了 `attribute_data → attribute_info → _AttributeInfo` 结构与 JSON 示例，并注明 lrtactical 的映射写法兼容。
+
+**与 lrtactical `AttributeData.Deserializer` 的核对**
+
+一致：id 作键、数值值等价 `amount` + ADDITION、对象值 `amount` 缺省 0、`addition`/`percent`/`multiply` 恰好对应 `AttributeModifierOperation` 的 `typeNameOld`、无效 id 跳过。
+
+一处刻意不一致：lrtactical 对未知 operation 字符串会静默回退为 ADDITION；本项目按既有 Pojo 规范（同 `_TargetFilterData` 的枚举处理）会返回 null 并让整份数据校验失败，属于 fail-loud。如果你希望完全对齐它，我可以改成回退。
+
+**未验证**：没有运行时的 JSON 解析测试（项目无测试源集），也没有进游戏实测属性是否生效；按项目规则未提交。
+
+# 
+
+```
+看工作区对wiki的改动，现在MeleeData的attributeData改成JsonUtils RL2ObjectMap的方式，把数字和beginObject的区分放在_AttributeInfo的read里，避免出现额外专门处理读取的函数
+```
+
+# 
+
+我先确认兼容开关的默认值，再按 RL2ObjectMap 方式改写。
+
+用户的 IDE 已把 `MeleeData.attributeData` 改成 `Map` 字段。我先读完 MeleeData 的其余部分再统一改。
+
+已按你的方向改完，`:forge-compat:compileJava`（含 core）通过。
+
+**改动**
+
+- [MeleeData.java:41](core/src/main/java/dev/xcolorful/cgctactical/core/resource/data/data/MeleeData.java:41)：`attribute_data`/`attributes` 直接 `JsonUtils.readRl2ObjectMap(reader, _AttributeInfo::fromJson)`，写出用 `writeRl2ObjectMap`；字段、getter/setter、`validatePojo`、`copyTo`、`applyBackCompatibility` 都改为 `Map<ResourceLocation, _AttributeInfo>` 语义。
+- [_AttributeInfo.java](core/src/main/java/dev/xcolorful/cgctactical/core/resource/data/data/melee/attribute/_AttributeInfo.java)：只保留 `amount`、`modifier_operation`/`operation`；`fromJsonReader` 里用 `peek() != BEGIN_OBJECT` 区分裸数字与对象，未再读 `attribute_location`。
+- [MeleeIndexInstance.java:58](core/src/main/java/dev/xcolorful/cgctactical/core/resource/instance/data/MeleeIndexInstance.java:58)：按 `entrySet()` 取键作属性 id 构建修饰符。
+- 删除了 [_AttributeData.java](core/src/main/java/dev/xcolorful/cgctactical/core/resource/data/data/melee/_AttributeData.java)（已无引用，两个专门读取函数随之消失）。
+- [Melee data.md](docs/wiki/resource/data/cgc_data/Melee%20data.md)：中英文都改为 `Map<ResourceLocation, \_AttributeInfo>`，JSON 示例统一成你改过的键为属性 id 的写法。
+
+**两点说明**
+
+- 现在 `attribute_data`/`attributes` 的旧键直接对应 lrtactical 的 `data.attributes` 映射，形状完全一致，仍依赖 `addition`/`percent`/`multiply` 这组 `typeNameOld` 对齐 operation。
+- `_AttributeDataTag` 和 `_AttributeInfoTag.ATTRIBUTE_LOCATION`/`_OLD1` 已不再被引用；因为你说过 Tag 已固定，我没有动它们。需要清理的话告诉我。
+
+改动未提交，未做运行时反序列化验证。
+
+# 
+
+```
+格式要以CGC已有的为标注，如从GunData里有参考，包括copyTo等
+```
+
+# 
+
+我先读 CGC 的 GunData 作为格式基准。
+
+用户已把 `_AttributeInfo` 移到 `melee` 包。现在按 GunData 的写法统一格式。
+
+已按 GunData 的模板统一格式，`core`/`forge-compat` 编译通过。
+
+**MeleeData**
+- 字段改为 `private @Nullable Map<ResourceLocation, _AttributeInfo> attributeData;`，getter 同步加 `@Nullable`。
+- `fromJsonReader` 的 `default` 改为 `this.readCustomKey(reader, key)`，并补上 `readCustomKey` 覆写。
+- `toJson` 末尾调用 `writeCustomValue(writer)`，并补上对应覆写。
+- `validatePojo` 保持 GunData 的 `n1` 空检查分组、先校验标量再单独循环 map 值。
+- `copyTo` 改用 GunData 的可空复制写法：
+
+```java
+@Nullable Map<ResourceLocation, _AttributeInfo> attributeData = null; {
+    if (this.attributeData != null) {
+        attributeData = new HashMap<>();
+        for (var entry : this.attributeData.entrySet()) {
+            attributeData.put(entry.getKey(), entry.getValue().copy());
+        }
+    }
+} pojo.setAttributeData(attributeData);
+```
+
+- `applyBackCompatibility` 改为 GunData 的 `if (null) ... else ...forEach(...)` 形式。
+
+**_AttributeInfo**（按你移动后的 `melee` 包）
+- 同样补了 `readCustomKey` / `writeCustomValue` 与 `default` 分支。
+- `validatePojo` 改为 `boolean n1 = (...); if (n1)` 的 CGC 写法。
+
+`MeleeIndexInstance` 不是 ResourcePojo，未套用 GunData 模板。改动未提交。

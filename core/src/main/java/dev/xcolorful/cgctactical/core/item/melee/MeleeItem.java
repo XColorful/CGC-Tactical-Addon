@@ -1,5 +1,7 @@
 package dev.xcolorful.cgctactical.core.item.melee;
 
+import com.google.common.collect.ImmutableMultimap;
+import com.google.common.collect.Multimap;
 import dev.xcolorful.cgctactical.CgcTactical;
 import dev.xcolorful.cgctactical.client.item.melee._MeleeItem;
 import dev.xcolorful.cgctactical.core.api.entity.CombatantProperty;
@@ -8,16 +10,22 @@ import dev.xcolorful.cgctactical.core.api.item.IMelee;
 import dev.xcolorful.cgctactical.core.api.item.tactical.TacticalAction;
 import dev.xcolorful.cgctactical.core.api.item.melee.MeleeDataAccessor;
 import dev.xcolorful.cgctactical.core.api.minecraft.item.ItemType;
+import dev.xcolorful.cgctactical.core.api.resource.ResourceApi;
 import dev.xcolorful.cgctactical.core.gui.tooltip.melee.MeleeTooltip;
 import dev.xcolorful.cgctactical.core.init.registry.ModItems;
+import dev.xcolorful.cgctactical.core.resource.instance.data.MeleeIndexInstance;
 import net.minecraft.network.chat.Component;
 import net.minecraft.world.entity.Entity;
+import net.minecraft.world.entity.EquipmentSlot;
 import net.minecraft.world.entity.LivingEntity;
+import net.minecraft.world.entity.ai.attributes.Attribute;
+import net.minecraft.world.entity.ai.attributes.AttributeModifier;
 import net.minecraft.world.inventory.tooltip.TooltipComponent;
 import net.minecraft.world.item.Item;
 import net.minecraft.world.item.ItemStack;
 import net.minecraft.world.phys.Vec3;
 import org.jetbrains.annotations.NotNull;
+import org.jetbrains.annotations.Nullable;
 
 import java.util.List;
 import java.util.Optional;
@@ -29,6 +37,18 @@ public class MeleeItem extends Item implements IMelee, MeleeDataAccessor {
     }
     public MeleeItem() {
         this(ModItems.CUSTOM_ITEM_PROPERTY.apply(ItemType.MELEE.getRegistryLocation()));
+    }
+
+    // --------
+    // 可用于Forge getAttributeModifiers
+    public @NotNull Multimap<Attribute, AttributeModifier> getAttributeModifiers(ItemStack meleeItem, EquipmentSlot equipmentSlot) {
+        if (equipmentSlot != EquipmentSlot.MAINHAND) return ImmutableMultimap.of();
+
+        var meleeLocation = this.getMeleeLocation(meleeItem);
+        @Nullable MeleeIndexInstance meleeIndexInstance = ResourceApi.getMeleeIndexInstance(meleeLocation);
+        if (meleeIndexInstance == null) return ImmutableMultimap.of();
+
+        return meleeIndexInstance.getAttributeModifierCache();
     }
 
     // --------Item--------

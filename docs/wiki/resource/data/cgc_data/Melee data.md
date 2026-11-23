@@ -1,7 +1,7 @@
 [English](#English)
 
 # 近战数据
-> wiki 版本：`0.0.35.1`.3
+> wiki 版本：`0.0.35.1`.4
 
 - `draw_time`（int）：
 - `put_away_time`（int）：
@@ -42,7 +42,9 @@
 		- `movement`（\_MeleeMovement）：
 			- `delay`（int）：
 			- `speed`（float）：
-- `attributes`（\_AttributeData）：
+- `attribute_data`/`attributes`（Map<ResourceLocation, \_AttributeInfo>）：
+	- `amount`（float）：
+	- `modifier_operation`/`operation`（AttributeModifierOperation）：
 - `max_durability`（int）：
 - `enchantment_value`（int）：
 
@@ -98,7 +100,11 @@
 			}
 		]
 	},
-	"attributes": {
+	"attribute_data": {
+		"attribute_location": {
+			"amount": 0.0,
+			"modifier_operation": ""
+		}
 	},
 	"max_durability": 0,
 	"enchantment_value": 0
@@ -106,7 +112,7 @@
 ```
 
 # English
-> wiki version: `0.0.35.1`.3
+> wiki version: `0.0.35.1`.4
 
 - `draw_time`(int):
 - `put_away_time`(int):
@@ -147,7 +153,9 @@
 		- `movement`(\_MeleeMovement):
 			- `delay`(int):
 			- `speed`(float):
-- `attributes`(\_AttributeData):
+- `attribute_data`/`attributes`(Map<ResourceLocation, \_AttributeInfo>):
+	- `amount`(float):
+	- `modifier_operation`/`operation`(AttributeModifierOperation):
 - `max_durability`(int):
 - `enchantment_value`(int):
 
@@ -203,7 +211,11 @@
 			}
 		]
 	},
-	"attributes": {
+	"attribute_data": {
+		"attribute_location": {
+			"amount": 0.0,
+			"modifier_operation": ""
+		}
 	},
 	"max_durability": 0,
 	"enchantment_value": 0

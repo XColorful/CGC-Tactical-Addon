@@ -3,19 +3,23 @@ package dev.xcolorful.cgctactical.core.resource.data.data;
 import com.google.gson.stream.JsonReader;
 import com.google.gson.stream.JsonWriter;
 import dev.xcolorful.cgctactical.core.api.resource.data.data.MeleeDataTag;
-import dev.xcolorful.cgctactical.core.resource.data.data.melee._AttributeData;
 import dev.xcolorful.cgctactical.core.resource.data.data.melee._AttackData;
+import dev.xcolorful.cgctactical.core.resource.data.data.melee._AttributeInfo;
 import dev.xcolorful.customgun.core.resource.ResourcePojo;
 import dev.xcolorful.customgun.core.util.JsonUtils;
+import net.minecraft.resources.ResourceLocation;
+import org.jetbrains.annotations.Nullable;
 
 import java.io.IOException;
+import java.util.HashMap;
+import java.util.Map;
 
 public final class MeleeData extends ResourcePojo<MeleeData> {
 
     private int drawTime = 0;
     private int putAwayTime = 0;
     private _AttackData attackData;
-    private _AttributeData attributeData;
+    private Map<ResourceLocation, _AttributeInfo> attributeData;
     private int maxDurability = 0;
     private int enchantmentValue = 14;
 
@@ -33,15 +37,19 @@ public final class MeleeData extends ResourcePojo<MeleeData> {
                     case MeleeDataTag.DRAW_TIME -> pojo.drawTime = JsonUtils.readInt(reader);
                     case MeleeDataTag.PUT_AWAY_TIME -> pojo.putAwayTime = JsonUtils.readInt(reader);
                     case MeleeDataTag.ATTACK -> pojo.attackData = JsonUtils.read(reader, _AttackData::fromJson);
-                    case MeleeDataTag.ATTRIBUTES -> pojo.attributeData = JsonUtils.read(reader, _AttributeData::fromJson);
+                    case MeleeDataTag.ATTRIBUTE_DATA, MeleeDataTag.ATTRIBUTE_DATA_OLD1 -> pojo.attributeData = JsonUtils.readRl2ObjectMap(reader, _AttributeInfo::fromJson);
                     case MeleeDataTag.MAX_DURABILITY -> pojo.maxDurability = JsonUtils.readInt(reader);
                     case MeleeDataTag.ENCHANTMENT_VALUE -> pojo.enchantmentValue = JsonUtils.readInt(reader);
-                    default -> reader.skipValue();
+                    default -> this.readCustomKey(reader, key);
                 }
             }
         }
         reader.endObject();
         return pojo;
+    }
+    @Override
+    protected boolean readCustomKey(JsonReader reader, String key) throws IOException {
+        return super.readCustomKey(reader, key);
     }
 
     public static void toJson(JsonWriter writer, MeleeData pojo) throws IOException {
@@ -53,11 +61,16 @@ public final class MeleeData extends ResourcePojo<MeleeData> {
             JsonUtils.writeInt(writer, MeleeDataTag.DRAW_TIME, this.drawTime);
             JsonUtils.writeInt(writer, MeleeDataTag.PUT_AWAY_TIME, this.putAwayTime);
             JsonUtils.write(writer, MeleeDataTag.ATTACK, this.attackData, _AttackData::toJson);
-            JsonUtils.write(writer, MeleeDataTag.ATTRIBUTES, this.attributeData, _AttributeData::toJson);
+            JsonUtils.writeRl2ObjectMap(writer, MeleeDataTag.ATTRIBUTE_DATA, this.attributeData, _AttributeInfo::toJson);
             JsonUtils.writeInt(writer, MeleeDataTag.MAX_DURABILITY, this.maxDurability);
             JsonUtils.writeInt(writer, MeleeDataTag.ENCHANTMENT_VALUE, this.enchantmentValue);
+            writeCustomValue(writer);
         }
         writer.endObject();
+    }
+    @Override
+    protected void writeCustomValue(JsonWriter writer) {
+        super.writeCustomValue(writer);
     }
 
     @Override
@@ -70,11 +83,18 @@ public final class MeleeData extends ResourcePojo<MeleeData> {
             return;
         }
         this.attackData.validate();
-        this.attributeData.validate();
-        boolean v1 = (this.attackData.isValid() & this.attributeData.isValid());
+        boolean v1 = this.attackData.isValid();
         if (!v1) {
             this.setValid(false);
             return;
+        }
+
+        for (_AttributeInfo info : this.attributeData.values()) {
+            info.validate();
+            if (!info.isValid()) {
+                this.setValid(false);
+                return;
+            }
         }
 
         this.setValid(true);
@@ -85,7 +105,16 @@ public final class MeleeData extends ResourcePojo<MeleeData> {
         pojo.setDrawTime(this.drawTime);
         pojo.setPutAwayTime(this.putAwayTime);
         pojo.setAttackData(this.attackData.copy());
-        pojo.setAttributeData(this.attributeData.copy());
+
+        @Nullable Map<ResourceLocation, _AttributeInfo> attributeData = null; {
+            if (this.attributeData != null) {
+                attributeData = new HashMap<>();
+                for (var entry : this.attributeData.entrySet()) {
+                    attributeData.put(entry.getKey(), entry.getValue().copy());
+                }
+            }
+        } pojo.setAttributeData(attributeData);
+
         pojo.setMaxDurability(this.maxDurability);
         pojo.setEnchantmentValue(this.enchantmentValue);
         return pojo;
@@ -109,7 +138,7 @@ public final class MeleeData extends ResourcePojo<MeleeData> {
     public _AttackData getAttackData() {
         return attackData;
     }
-    public _AttributeData getAttributeData() {
+    public Map<ResourceLocation, _AttributeInfo> getAttributeData() {
         return attributeData;
     }
     public int getMaxDurability() {
@@ -128,7 +157,7 @@ public final class MeleeData extends ResourcePojo<MeleeData> {
     public void setAttackData(_AttackData attackData) {
         this.attackData = attackData;
     }
-    public void setAttributeData(_AttributeData attributeData) {
+    public void setAttributeData(Map<ResourceLocation, _AttributeInfo> attributeData) {
         this.attributeData = attributeData;
     }
     public void setMaxDurability(int maxDurability) {
@@ -143,7 +172,8 @@ public final class MeleeData extends ResourcePojo<MeleeData> {
     @Override
     public MeleeData applyBackCompatibility() {
         this.attackData = this.attackData == null ? new _AttackData().applyBackCompatibility() : this.attackData.applyBackCompatibility();
-        this.attributeData = this.attributeData == null ? new _AttributeData().applyBackCompatibility() : this.attributeData.applyBackCompatibility();
+        if (this.attributeData == null) this.attributeData = new HashMap<>();
+        else this.attributeData.values().forEach(_AttributeInfo::applyBackCompatibility);
         return this;
     }
 }
