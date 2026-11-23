@@ -108,8 +108,9 @@ public final class LivingCombatantMelee extends LivingCombatantAspect {
              * {@link IMeleeAttackRuntime#combatantAttack}的默认实现为{@link MeleeAttackManager#combatantAttack}
              */
             @NotNull IMeleeAttackRuntime.CombatantAttackResult result = iMelee.combatantAttack(this.combatantProperty, iMelee, meleeItem, iLivingCombatant, this.livingCombatant, tacticalAction, combo, meleeVictims);
+            // 收到合法攻击包即结束蓄力（即使没命中/打空）；否则服务端冷却超时会强制重置，连击数被清零
+            this.combatantProperty.preparingAttack = false;
             if (result.isSuccess()) {
-                this.combatantProperty.preparingAttack = false;
             }
         }
     }

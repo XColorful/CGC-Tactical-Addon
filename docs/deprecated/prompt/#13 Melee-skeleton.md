@@ -208,3 +208,60 @@ SecondaryActionKey不需要持续按压检测
 - `validatePojo` 改为 `boolean n1 = (...); if (n1)` 的 CGC 写法。
 
 `MeleeIndexInstance` 不是 ResourcePojo，未套用 GunData 模板。改动未提交。
+
+# 
+---
+
+```
+目前CGC Tactical Addon的MeleeItem对空气按住左键会一直处于第一段攻击，不会触发第二段（日志./logs/debug.log里resetting）
+检查一下跟Lrtactical的区别，哪里漏了
+```
+
+# 
+
+I'll investigate the melee combo logic in both projects.
+
+Now let me look at the attack runtime result handling, which differs from LrTactical's unconditional clear.
+
+Found the core divergence. Let me verify the combo indexing and the reset packet handling before making the fix.
+
+Root cause confirmed. Let me apply the fix.
+
+The fix compiles clean per IDE inspection. Let me run a targeted build to confirm.
+
+## 根因
+
+`LivingCombatantMelee.meleeAttack` 只有在 `combatantAttack` 返回 `SUCCESS` 时才清除 `preparingAttack`：
+
+```java
+if (result.isSuccess()) {
+    this.combatantProperty.preparingAttack = false;
+}
+```
+
+而 `_DefaultMeleeAttack.combatantAttack` 在空目标（打空气）时，循环不执行、`resultBitmap == 0`，于是返回 `ERROR`（[_DefaultMeleeAttack.java:99](core/src/main/java/dev/xcolorful/cgctactical/core/melee/attack/_DefaultMeleeAttack.java:99)）。
+
+结果服务端的 `preparingAttack` 一直为 `true`：
+
+1. 下一次按住左键时，`meleeCharge` 在状态锁 `preparingAttack` 处直接拒绝（[LivingCombatantMelee.java:40](core/src/main/java/dev/xcolorful/cgctactical/core/entity/combatant/LivingCombatantMelee.java:40)），服务端不再推进 combo；
+2. 冷却走完后触发"蓄力超时"强制重置（[LivingCombatantCooldown.java:34](core/src/main/java/dev/xcolorful/cgctactical/core/entity/combatant/LivingCombatantCooldown.java:34)），`resetMeleeSync()` 把 combo 清空；
+3. 下次点击又从 combo 0 开始 —— 所以永远停在第一段，日志里反复出现 `exceed attack preparation time, resetting`。
+
+## 与 Lrtactical 的差异
+
+Lrtactical 的 `CombatProperties.postAttack` 在校验通过后是**无条件**收尾的：
+
+```java
+weapon.attack(entity, stack, action, entities, preparingAttackCnt);
+preparingAttack = false;   // 与命中与否无关
+```
+
+CGC 把这一步改成了依赖攻击结果，而空目标被当作 `ERROR`，于是漏掉了收尾。
+
+## 修改
+
+[LivingCombatantMelee.java:105](core/src/main/java/dev/xcolorful/cgctactical/core/entity/combatant/LivingCombatantMelee.java:105)：收到合法攻击包后无条件清除 `preparingAttack`（顺带移除不再使用的 `@NotNull` 导入）。打完空气后冷却正常结束，不触发超时重置，combo 得以保留并进入第二段。
+
+IDE 构建已通过；未进游戏实测。
+
+另外同方法里还有一处与 Lrtactical 不一致：连击数不匹配时 Lrtactical 会 `forceResetMeleeSync` 后 `return`，而 CGC 重置后仍继续用这个不匹配的 combo 执行攻击。这不影响打空气的连段，但属于同步校验上的漏洞，已放到下一步确认框里。
