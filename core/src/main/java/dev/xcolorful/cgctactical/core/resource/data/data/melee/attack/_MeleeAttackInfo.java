@@ -39,12 +39,16 @@ public final class _MeleeAttackInfo extends ResourcePojo<_MeleeAttackInfo> {
                     case _MeleeAttackInfoTag.TARGET_FILTER_DATA, _MeleeAttackInfoTag.TARGET_FILTER_DATA_OLD1 -> pojo.targetFilterData = JsonUtils.read(reader, _TargetFilterData::fromJson);
                     case _MeleeAttackInfoTag.DURABILITY_DAMAGE -> pojo.durabilityDamage = JsonUtils.readInt(reader);
                     case _MeleeAttackInfoTag.MOVEMENT -> pojo.movement = JsonUtils.read(reader, _MeleeMovement::fromJson);
-                    default -> reader.skipValue();
+                    default -> this.readCustomKey(reader, key);
                 }
             }
         }
         reader.endObject();
         return pojo;
+    }
+    @Override
+    protected boolean readCustomKey(JsonReader reader, String key) throws IOException {
+        return super.readCustomKey(reader, key);
     }
 
     public static void toJson(JsonWriter writer, _MeleeAttackInfo pojo) throws IOException {
@@ -60,8 +64,13 @@ public final class _MeleeAttackInfo extends ResourcePojo<_MeleeAttackInfo> {
             JsonUtils.write(writer, _MeleeAttackInfoTag.TARGET_FILTER_DATA, this.targetFilterData, _TargetFilterData::toJson);
             JsonUtils.writeInt(writer, _MeleeAttackInfoTag.DURABILITY_DAMAGE, this.durabilityDamage);
             JsonUtils.write(writer, _MeleeAttackInfoTag.MOVEMENT, this.movement, _MeleeMovement::toJson);
+            writeCustomValue(writer);
         }
         writer.endObject();
+    }
+    @Override
+    protected void writeCustomValue(JsonWriter writer) {
+        super.writeCustomValue(writer);
     }
 
     @Override

@@ -26,12 +26,16 @@ public final class _MeleeMovement extends ResourcePojo<_MeleeMovement> {
                 switch (key) {
                     case _MeleeMovementTag.DELAY -> pojo.delay = JsonUtils.readInt(reader);
                     case _MeleeMovementTag.SPEED -> pojo.speed = JsonUtils.readFloat(reader);
-                    default -> reader.skipValue();
+                    default -> this.readCustomKey(reader, key);
                 }
             }
         }
         reader.endObject();
         return pojo;
+    }
+    @Override
+    protected boolean readCustomKey(JsonReader reader, String key) throws IOException {
+        return super.readCustomKey(reader, key);
     }
 
     public static void toJson(JsonWriter writer, _MeleeMovement pojo) throws IOException {
@@ -42,8 +46,13 @@ public final class _MeleeMovement extends ResourcePojo<_MeleeMovement> {
         writer.beginObject(); {
             JsonUtils.writeInt(writer, _MeleeMovementTag.DELAY, this.delay);
             JsonUtils.writeFloat(writer, _MeleeMovementTag.SPEED, this.speed);
+            writeCustomValue(writer);
         }
         writer.endObject();
+    }
+    @Override
+    protected void writeCustomValue(JsonWriter writer) {
+        super.writeCustomValue(writer);
     }
 
     @Override

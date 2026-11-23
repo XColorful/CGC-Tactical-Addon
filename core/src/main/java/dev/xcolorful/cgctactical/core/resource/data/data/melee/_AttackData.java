@@ -31,12 +31,16 @@ public final class _AttackData extends ResourcePojo<_AttackData> {
                 switch (key) {
                     case _AttackDataTag.PRIMARY_ACTION, _AttackDataTag.PRIMARY_ACTION_OLD1 -> pojo.leftAttacks = readAttackInfos(reader);
                     case _AttackDataTag.SECONDARY_ACTION, _AttackDataTag.SECONDARY_ACTION_OLD1 -> pojo.rightAttacks = readAttackInfos(reader);
-                    default -> reader.skipValue();
+                    default -> this.readCustomKey(reader, key);
                 }
             }
         }
         reader.endObject();
         return pojo;
+    }
+    @Override
+    protected boolean readCustomKey(JsonReader reader, String key) throws IOException {
+        return super.readCustomKey(reader, key);
     }
 
     private static List<_MeleeAttackInfo> readAttackInfos(JsonReader reader) throws IOException {
@@ -65,8 +69,13 @@ public final class _AttackData extends ResourcePojo<_AttackData> {
         writer.beginObject(); {
             JsonUtils.writeList(writer, _AttackDataTag.PRIMARY_ACTION, this.leftAttacks, _MeleeAttackInfo::toJson);
             JsonUtils.writeList(writer, _AttackDataTag.SECONDARY_ACTION, this.rightAttacks, _MeleeAttackInfo::toJson);
+            writeCustomValue(writer);
         }
         writer.endObject();
+    }
+    @Override
+    protected void writeCustomValue(JsonWriter writer) {
+        super.writeCustomValue(writer);
     }
 
     @Override

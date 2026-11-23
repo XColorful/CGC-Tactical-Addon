@@ -1,5 +1,7 @@
 package dev.xcolorful.cgctactical.client.resource.assets.display;
 
+import com.google.gson.stream.JsonReader;
+import com.google.gson.stream.JsonWriter;
 import dev.xcolorful.cgctactical.core.api.resource.assets.display.SoundName;
 import dev.xcolorful.cgctactical.core.api.resource.assets.display.SoundNameTag;
 import dev.xcolorful.customgun.CustomGun;
@@ -11,6 +13,7 @@ import dev.xcolorful.customgun.core.resource.ResourcePojo;
 import net.minecraft.resources.ResourceLocation;
 import org.jetbrains.annotations.Nullable;
 
+import java.io.IOException;
 import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.List;
@@ -65,6 +68,15 @@ public abstract class _AssetsDisplay<T extends _AssetsDisplay<T>> extends Resour
     }
 
     // --------Getter & Setter--------
+
+    @Override
+    protected boolean readCustomKey(JsonReader reader, String key) throws IOException {
+        return super.readCustomKey(reader, key);
+    }
+    @Override
+    protected void writeCustomValue(JsonWriter writer) {
+        super.writeCustomValue(writer);
+    }
 
     public final @Nullable ResourceLocation getModelLocation() {
         return modelLocation;

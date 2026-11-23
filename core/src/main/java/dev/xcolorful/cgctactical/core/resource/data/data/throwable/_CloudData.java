@@ -48,12 +48,16 @@ public final class _CloudData extends ResourcePojo<_CloudData> {
                     case _CloudDataTag.IGNITE_TIME -> pojo.igniteTime = JsonUtils.readInt(reader);
                     case _CloudDataTag.EXTINGUISH_BY_SMOKE -> pojo.extinguishBySmoke = JsonUtils.readBoolean(reader);
                     case _CloudDataTag.EFFECTS -> pojo.effects = JsonUtils.readList(reader, _EffectData::fromJson);
-                    default -> reader.skipValue();
+                    default -> this.readCustomKey(reader, key);
                 }
             }
         }
         reader.endObject();
         return pojo;
+    }
+    @Override
+    protected boolean readCustomKey(JsonReader reader, String key) throws IOException {
+        return super.readCustomKey(reader, key);
     }
 
     public static void toJson(JsonWriter writer, _CloudData pojo) throws IOException {
@@ -72,8 +76,13 @@ public final class _CloudData extends ResourcePojo<_CloudData> {
             JsonUtils.writeInt(writer, _CloudDataTag.IGNITE_TIME, this.igniteTime);
             JsonUtils.writeBoolean(writer, _CloudDataTag.EXTINGUISH_BY_SMOKE, this.extinguishBySmoke);
             JsonUtils.writeList(writer, _CloudDataTag.EFFECTS, this.effects, _EffectData::toJson);
+            writeCustomValue(writer);
         }
         writer.endObject();
+    }
+    @Override
+    protected void writeCustomValue(JsonWriter writer) {
+        super.writeCustomValue(writer);
     }
 
     @Override

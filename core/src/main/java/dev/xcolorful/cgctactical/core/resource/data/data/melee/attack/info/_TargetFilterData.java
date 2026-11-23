@@ -45,12 +45,16 @@ public final class _TargetFilterData extends ResourcePojo<_TargetFilterData> {
                     case _TargetFilterDataTag.HALF_WIDTH -> pojo.halfWidth = JsonUtils.readFloat(reader);
                     case _TargetFilterDataTag.HALF_HEIGHT -> pojo.halfHeight = JsonUtils.readFloat(reader);
                     case _TargetFilterDataTag.ROLL -> pojo.roll = JsonUtils.readFloat(reader);
-                    default -> reader.skipValue();
+                    default -> this.readCustomKey(reader, key);
                 }
             }
         }
         reader.endObject();
         return pojo;
+    }
+    @Override
+    protected boolean readCustomKey(JsonReader reader, String key) throws IOException {
+        return super.readCustomKey(reader, key);
     }
 
     public static void toJson(JsonWriter writer, _TargetFilterData pojo) throws IOException {
@@ -67,8 +71,13 @@ public final class _TargetFilterData extends ResourcePojo<_TargetFilterData> {
             JsonUtils.writeFloat(writer, _TargetFilterDataTag.HALF_WIDTH, this.halfWidth);
             JsonUtils.writeFloat(writer, _TargetFilterDataTag.HALF_HEIGHT, this.halfHeight);
             JsonUtils.writeFloat(writer, _TargetFilterDataTag.ROLL, this.roll);
+            writeCustomValue(writer);
         }
         writer.endObject();
+    }
+    @Override
+    protected void writeCustomValue(JsonWriter writer) {
+        super.writeCustomValue(writer);
     }
 
     @Override
