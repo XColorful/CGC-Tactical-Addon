@@ -6,6 +6,8 @@ import dev.xcolorful.cgctactical.CgcTactical;
 import dev.xcolorful.cgctactical.core.api.entity.CombatantProperty;
 import dev.xcolorful.cgctactical.core.api.entity.ILivingCombatant;
 import dev.xcolorful.cgctactical.core.api.item.IMelee;
+import dev.xcolorful.cgctactical.core.api.item.melee.IMeleeDataAccess;
+import dev.xcolorful.cgctactical.core.api.item.melee.IMeleeGetter;
 import dev.xcolorful.cgctactical.core.api.item.melee.MeleeDataAccessor;
 import dev.xcolorful.cgctactical.core.api.item.tactical.TacticalAction;
 import dev.xcolorful.cgctactical.core.api.minecraft.item.ItemType;
@@ -58,6 +60,14 @@ public class MeleeItem extends Item implements IMelee, MeleeDataAccessor {
         return 5;
     }
     // 可用于Forge getMaxDamage(ItemStack)
+    /**
+     * <ul>
+     *     <li>不放在 {@link IMeleeDataAccess} 是因为 {@link IMelee} 本身不应该保证一个<b>vanilla</b>的耐久度机制</li>
+     *     <li>从而没必要把该方法提到 {@link IMelee}</li>
+     *     <li>并且对于非 {@code instanceof MeleeItem} 的 {@link IMelee}，都不一定是 {@link Item} ({@link IMeleeGetter} 使其跟 {@link Item} 解耦，可 Mixin 做中间人转发)，</li>
+     *     <li>进而自己处理耐久度读取和应用</li>
+     * </ul>
+     */
     public int getMaxDurability(ItemStack meleeItem) {
         var meleeLocation = this.getMeleeLocation(meleeItem);
         @Nullable MeleeIndexInstance meleeIndexInstance = ResourceApi.getMeleeIndexInstance(meleeLocation);
