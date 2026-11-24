@@ -57,6 +57,15 @@ public class MeleeItem extends Item implements IMelee, MeleeDataAccessor {
     public int getEnchantmentPotential(ItemStack meleeItem) {
         return 5;
     }
+    // 可用于Forge getMaxDamage(ItemStack)
+    public int getMaxDurability(ItemStack meleeItem) {
+        var meleeLocation = this.getMeleeLocation(meleeItem);
+        @Nullable MeleeIndexInstance meleeIndexInstance = ResourceApi.getMeleeIndexInstance(meleeLocation);
+        if (meleeIndexInstance == null) return 0;
+
+        MeleeData meleeData = meleeIndexInstance.getMeleeData();
+        return meleeData.getMaxDurability();
+    }
 
     // --------Item--------
 
@@ -76,16 +85,6 @@ public class MeleeItem extends Item implements IMelee, MeleeDataAccessor {
     @Override
     public @NotNull Optional<TooltipComponent> getTooltipImage(@NotNull ItemStack meleeItem) {
         return Optional.ofNullable(MeleeTooltip.fromItem(meleeItem));
-    }
-
-    @Override
-    public int getMaxDamage(ItemStack meleeItem) {
-        var meleeLocation = this.getMeleeLocation(meleeItem);
-        @Nullable MeleeIndexInstance meleeIndexInstance = ResourceApi.getMeleeIndexInstance(meleeLocation);
-        if (meleeIndexInstance == null) return 0;
-
-        MeleeData meleeData = meleeIndexInstance.getMeleeData();
-        return meleeData.getMaxDurability();
     }
 
     @Override
