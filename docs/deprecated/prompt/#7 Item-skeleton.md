@@ -29,7 +29,7 @@ Compilation passes with only pre-existing warnings. Let me verify the changed fi
 - [ConsumableProperty.java](core/src/main/java/dev/xcolorful/cgctactical/core/api/item/consumable/ConsumableProperty.java)、[ConsumablePropertyTag.java](core/src/main/java/dev/xcolorful/cgctactical/core/api/item/consumable/ConsumablePropertyTag.java)、[_IConsumablePropertyAccess.java](core/src/main/java/dev/xcolorful/cgctactical/core/api/item/consumable/_IConsumablePropertyAccess.java)
 
 **Melee**
-- [MeleeDataAccessor.java](core/src/main/java/dev/xcolorful/cgctactical/core/api/item/melee/MeleeDataAccessor.java)：manager group、melee_ rl、display 回退；cooldown/delay/movement 从 `_CombatData` 的左/右攻击列表按 combo 索引取（越界返回 0/null）
+- [MeleeDataAccessor.java](core/src/main/java/dev/xcolorful/cgctactical/core/api/item/melee/MeleeDataAccessor.java)：manager group、melee_ rl、display 回退；cooldown/delay/movement 从 `_AttackData` 的左/右攻击列表按 combo 索引取（越界返回 0/null）
 - [MeleeProperty.java](core/src/main/java/dev/xcolorful/cgctactical/core/api/item/melee/MeleeProperty.java)、[MeleePropertyTag.java](core/src/main/java/dev/xcolorful/cgctactical/core/api/item/melee/MeleePropertyTag.java)、[_IMeleePropertyAccess.java](core/src/main/java/dev/xcolorful/cgctactical/core/api/item/melee/_IMeleePropertyAccess.java)
 
 **Throwable**

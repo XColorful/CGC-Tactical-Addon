@@ -1,9 +1,10 @@
-package dev.xcolorful.cgctactical.core.resource.data.data.melee.combat;
+package dev.xcolorful.cgctactical.core.resource.data.data.melee.attack;
 
 import com.google.gson.stream.JsonReader;
 import com.google.gson.stream.JsonWriter;
-import dev.xcolorful.cgctactical.core.api.resource.data.data.melee.combat._MeleeAttackInfoTag;
-import dev.xcolorful.cgctactical.core.resource.data.data.melee._TargetFilterData;
+import dev.xcolorful.cgctactical.core.api.resource.data.data.melee.attack._MeleeAttackInfoTag;
+import dev.xcolorful.cgctactical.core.resource.data.data.melee.attack.info._TargetFilterData;
+import dev.xcolorful.cgctactical.core.resource.data.data.melee.attack.info._MeleeMovement;
 import dev.xcolorful.customgun.core.resource.ResourcePojo;
 import dev.xcolorful.customgun.core.util.JsonUtils;
 import org.jetbrains.annotations.Nullable;
@@ -16,7 +17,7 @@ public final class _MeleeAttackInfo extends ResourcePojo<_MeleeAttackInfo> {
     private float knockback = 0.02f;
     private int cooldown = 20;
     private int delay = 0;
-    private _TargetFilterData hitbox;
+    private _TargetFilterData targetFilterData;
     private int durabilityDamage = 1;
     private @Nullable _MeleeMovement movement;
 
@@ -35,15 +36,19 @@ public final class _MeleeAttackInfo extends ResourcePojo<_MeleeAttackInfo> {
                     case _MeleeAttackInfoTag.KNOCKBACK -> pojo.knockback = JsonUtils.readFloat(reader);
                     case _MeleeAttackInfoTag.COOLDOWN -> pojo.cooldown = JsonUtils.readInt(reader);
                     case _MeleeAttackInfoTag.DELAY -> pojo.delay = JsonUtils.readInt(reader);
-                    case _MeleeAttackInfoTag.HITBOX -> pojo.hitbox = JsonUtils.read(reader, _TargetFilterData::fromJson);
+                    case _MeleeAttackInfoTag.TARGET_FILTER_DATA, _MeleeAttackInfoTag.TARGET_FILTER_DATA_OLD1 -> pojo.targetFilterData = JsonUtils.read(reader, _TargetFilterData::fromJson);
                     case _MeleeAttackInfoTag.DURABILITY_DAMAGE -> pojo.durabilityDamage = JsonUtils.readInt(reader);
                     case _MeleeAttackInfoTag.MOVEMENT -> pojo.movement = JsonUtils.read(reader, _MeleeMovement::fromJson);
-                    default -> reader.skipValue();
+                    default -> this.readCustomKey(reader, key);
                 }
             }
         }
         reader.endObject();
         return pojo;
+    }
+    @Override
+    protected boolean readCustomKey(JsonReader reader, String key) throws IOException {
+        return super.readCustomKey(reader, key);
     }
 
     public static void toJson(JsonWriter writer, _MeleeAttackInfo pojo) throws IOException {
@@ -56,25 +61,30 @@ public final class _MeleeAttackInfo extends ResourcePojo<_MeleeAttackInfo> {
             JsonUtils.writeFloat(writer, _MeleeAttackInfoTag.KNOCKBACK, this.knockback);
             JsonUtils.writeInt(writer, _MeleeAttackInfoTag.COOLDOWN, this.cooldown);
             JsonUtils.writeInt(writer, _MeleeAttackInfoTag.DELAY, this.delay);
-            JsonUtils.write(writer, _MeleeAttackInfoTag.HITBOX, this.hitbox, _TargetFilterData::toJson);
+            JsonUtils.write(writer, _MeleeAttackInfoTag.TARGET_FILTER_DATA, this.targetFilterData, _TargetFilterData::toJson);
             JsonUtils.writeInt(writer, _MeleeAttackInfoTag.DURABILITY_DAMAGE, this.durabilityDamage);
             JsonUtils.write(writer, _MeleeAttackInfoTag.MOVEMENT, this.movement, _MeleeMovement::toJson);
+            writeCustomValue(writer);
         }
         writer.endObject();
+    }
+    @Override
+    protected void writeCustomValue(JsonWriter writer) {
+        super.writeCustomValue(writer);
     }
 
     @Override
     protected void validatePojo() {
         if (ENABLE_BACK_COMPATIBILITY) this.applyBackCompatibility();
 
-        boolean n1 = (this.hitbox == null);
+        boolean n1 = (this.targetFilterData == null);
         if (n1) {
             this.setValid(false);
             return;
         }
-        this.hitbox.validate();
+        this.targetFilterData.validate();
         if (this.movement != null) this.movement.validate();
-        boolean v1 = (this.hitbox.isValid() & (this.movement == null || this.movement.isValid()));
+        boolean v1 = (this.targetFilterData.isValid() & (this.movement == null || this.movement.isValid()));
         if (!v1) {
             this.setValid(false);
             return;
@@ -89,7 +99,7 @@ public final class _MeleeAttackInfo extends ResourcePojo<_MeleeAttackInfo> {
         pojo.setKnockback(this.knockback);
         pojo.setCooldown(this.cooldown);
         pojo.setDelay(this.delay);
-        pojo.setHitbox(this.hitbox.copy());
+        pojo.setTargetFilterData(this.targetFilterData.copy());
         pojo.setDurabilityDamage(this.durabilityDamage);
         @Nullable _MeleeMovement movement = null; {
             if (this.movement != null) movement = this.movement.copy();
@@ -118,8 +128,8 @@ public final class _MeleeAttackInfo extends ResourcePojo<_MeleeAttackInfo> {
     public int getDelay() {
         return delay;
     }
-    public _TargetFilterData getHitbox() {
-        return hitbox;
+    public _TargetFilterData getTargetFilterData() {
+        return targetFilterData;
     }
     public int getDurabilityDamage() {
         return durabilityDamage;
@@ -140,8 +150,8 @@ public final class _MeleeAttackInfo extends ResourcePojo<_MeleeAttackInfo> {
     public void setDelay(int delay) {
         this.delay = delay;
     }
-    public void setHitbox(_TargetFilterData hitbox) {
-        this.hitbox = hitbox;
+    public void setTargetFilterData(_TargetFilterData targetFilterData) {
+        this.targetFilterData = targetFilterData;
     }
     public void setDurabilityDamage(int durabilityDamage) {
         this.durabilityDamage = durabilityDamage;
@@ -154,7 +164,7 @@ public final class _MeleeAttackInfo extends ResourcePojo<_MeleeAttackInfo> {
 
     @Override
     public _MeleeAttackInfo applyBackCompatibility() {
-        this.hitbox = this.hitbox == null ? new _TargetFilterData().applyBackCompatibility() : this.hitbox.applyBackCompatibility();
+        this.targetFilterData = this.targetFilterData == null ? new _TargetFilterData().applyBackCompatibility() : this.targetFilterData.applyBackCompatibility();
         if (this.movement != null) this.movement.applyBackCompatibility();
         return this;
     }

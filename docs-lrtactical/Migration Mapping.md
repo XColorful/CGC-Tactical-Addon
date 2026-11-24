@@ -53,8 +53,11 @@ Notation:
 
 |me.xjqsh.lrtactical.api.collision|dev.xcolorful.cgctactical.core.resource|
 |---|---|
-|`ITargetFilter`|data.data.melee|
-|`*`|data.data.melee|
+|`ITargetFilter`|data.data.melee.attack.info.`_TargetFilterData`|
+
+|me.xjqsh.lrtactical.api.collision|dev.xcolorful.cgctactical.core.api.melee|
+|---|---|
+|`*Filter`|physics.volume.`*`|
 
 #### Event API
 > ```java
@@ -118,6 +121,11 @@ Notation:
 |`CombatProperties`.tick|combatant.`LivingCombatantSpring`.tickSprint|
 |`CombatProperties`.tick|combatant.`LivingCombatantDraw`.tickDraw|
 |`CustomItemCoolDowns`|combatant.`LivingCombatantCooldown`|
+
+|me.xjqsh.lrtactical.capability|dev.xcolorful.cgctactical.cilent.entity|
+|---|---|
+|`CombatProperties`.`DelayMove`|combatant.`LocalCombatantMelee`.chargeMove|
+|`CombatProperties`.`DelayAttack`|combatant.`LocalCombatantMelee`.chargeAttack|
 
 |me.xjqsh.lrtactical.capability|dev.xcolorful.cgctactical.core.mixin|
 |---|---|
@@ -364,12 +372,15 @@ Notation:
 > package me.xjqsh.lrtactical.client.audio;
 > ```
 
-|me.xjqsh.lrtactical.client.audio||
+|me.xjqsh.lrtactical.client.audio|dev.xcolorful.cgctactical.client.network|
 |---|---|
-|`ICustomSoundSupplier`||
 |`SmokeReleaseSound`|_Deprecated_|
 |`SoundHandler`||
 |`StunRingingSound`||
+
+|me.xjqsh.lrtactical.client.audio|dev.xcolorful.cgctactical.client.network|
+|---|---|
+|`ICustomSoundSupplier`|message.resource.`_S2CMessageResourceSound`.getSounds|
 
 ### GUI (Client)
 > ```java
