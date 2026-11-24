@@ -1,5 +1,7 @@
 package dev.xcolorful.cgctactical.client.api.script.context;
 
+import dev.xcolorful.cgctactical.client.api.entity.ILocalCombatant;
+import dev.xcolorful.cgctactical.client.api.entity.combatant.ILocalCombatantGetter;
 import dev.xcolorful.cgctactical.core.api.entity.ILivingCombatant;
 import dev.xcolorful.cgctactical.core.api.entity.combatant.ILivingCombatantGetter;
 import dev.xcolorful.cgctactical.core.api.item.tactical.TacticalAction;
@@ -90,6 +92,12 @@ public interface IClientMeleeScriptBackCompat extends IClientMeleeScriptContextA
 
         @Nullable Entity cameraShooter = this.getCameraCombatant();
         if (cameraShooter == null) return 0;
+
+        if (!(cameraShooter instanceof LocalPlayer localPlayer)) return 0;
+
+        ILocalCombatant iLocalCombatant = ILocalCombatantGetter.cgctactical$fromLocalPlayer(localPlayer);
+
+//        return iLocalCombatant.cgctactical$getLocalCombatantProperty().getActionCount(tacticalAction);
 
         @Nullable ILivingCombatant iLivingCombatant = ILivingCombatantGetter.cgctactical$fromEntity(cameraShooter);
         if (iLivingCombatant == null) return 0;

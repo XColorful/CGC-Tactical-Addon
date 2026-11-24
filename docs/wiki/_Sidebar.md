@@ -8,6 +8,7 @@
 			- [手雷配置](https://github.com/XColorful/CGC-Tactical-Addon/wiki/Grenade-config)
 			- [近战配置](https://github.com/XColorful/CGC-Tactical-Addon/wiki/Melee-config)
 		- ⚙️客户端配置
+			- [按键配置](https://github.com/XColorful/CGC-Tactical-Addon/wiki/Key-config)
 			- [渲染配置](https://github.com/XColorful/CGC-Tactical-Addon/wiki/Render-config)
 		- ⚙️服务端配置
 			- [同步配置](https://github.com/XColorful/CGC-Tactical-Addon/wiki/Sync-config)
@@ -44,6 +45,7 @@
 			- [Grenade config](https://github.com/XColorful/CGC-Tactical-Addon/wiki/Grenade-config#English)
 			- [Melee config](https://github.com/XColorful/CGC-Tactical-Addon/wiki/Melee-config#English)
 		- ⚙️Client configuration
+			- [Key config](https://github.com/XColorful/CGC-Tactical-Addon/wiki/Key-config#English)
 			- [Render config](https://github.com/XColorful/CGC-Tactical-Addon/wiki/Render-config#English)
 		- ⚙️Server configuration
 			- [Sync config](https://github.com/XColorful/CGC-Tactical-Addon/wiki/Sync-config#English)
