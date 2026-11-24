@@ -15,7 +15,6 @@ import dev.xcolorful.cgctactical.core.init.registry.ModItems;
 import dev.xcolorful.cgctactical.core.resource.data.data.MeleeData;
 import dev.xcolorful.cgctactical.core.resource.data.index.MeleeIndex;
 import dev.xcolorful.cgctactical.core.resource.instance.data.MeleeIndexInstance;
-import net.minecraft.network.chat.Component;
 import net.minecraft.world.entity.Entity;
 import net.minecraft.world.entity.EquipmentSlot;
 import net.minecraft.world.entity.LivingEntity;
@@ -70,16 +69,6 @@ public class MeleeItem extends Item implements IMelee, MeleeDataAccessor {
     @Override
     public @NotNull Optional<TooltipComponent> getTooltipImage(@NotNull ItemStack meleeItem) {
         return Optional.ofNullable(MeleeTooltip.fromItem(meleeItem));
-    }
-
-    // --------Client--------
-
-    /**
-     * 复用 {@link #getDescriptionId}
-     */
-    @Override
-    public @NotNull Component getName(@NotNull ItemStack meleeItem) {
-        return super.getName(meleeItem);
     }
 
     // --------IMeleeRuntime--------
