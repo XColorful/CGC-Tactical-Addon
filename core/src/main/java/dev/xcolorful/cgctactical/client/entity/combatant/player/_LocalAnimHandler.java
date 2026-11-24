@@ -43,7 +43,8 @@ public class _LocalAnimHandler implements IEventHandler {
         @Nullable IMelee iMelee = IMeleeGetter.fromItemStack(meleeItem);
         if (iMelee == null) return;
 
-        @Nullable MeleeDisplayInstance meleeDisplayInstance = ClientResourceApi.getMeleeDisplayInstance(meleeItem);
+        var meleeDisplayLocation = iMelee.getMeleeDisplayLocation(meleeItem);
+        @Nullable MeleeDisplayInstance meleeDisplayInstance = ClientResourceApi.getMeleeDisplayInstance(meleeDisplayLocation);
         if (meleeDisplayInstance == null) return;
 
         LuaAnimStateMachine<MeleeAnimStateContext> animStateMachine = meleeDisplayInstance.getAnimStateMachine();

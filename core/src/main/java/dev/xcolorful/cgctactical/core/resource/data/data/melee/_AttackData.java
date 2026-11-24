@@ -3,8 +3,8 @@ package dev.xcolorful.cgctactical.core.resource.data.data.melee;
 import com.google.gson.stream.JsonReader;
 import com.google.gson.stream.JsonToken;
 import com.google.gson.stream.JsonWriter;
-import dev.xcolorful.cgctactical.core.api.resource.data.data.melee._CombatDataTag;
-import dev.xcolorful.cgctactical.core.resource.data.data.melee.combat._MeleeAttackInfo;
+import dev.xcolorful.cgctactical.core.api.resource.data.data.melee._AttackDataTag;
+import dev.xcolorful.cgctactical.core.resource.data.data.melee.attack._MeleeAttackInfo;
 import dev.xcolorful.customgun.core.resource.ResourcePojo;
 import dev.xcolorful.customgun.core.util.JsonUtils;
 import org.jetbrains.annotations.Nullable;
@@ -13,30 +13,34 @@ import java.io.IOException;
 import java.util.ArrayList;
 import java.util.List;
 
-public final class _CombatData extends ResourcePojo<_CombatData> {
+public final class _AttackData extends ResourcePojo<_AttackData> {
 
     private @Nullable List<_MeleeAttackInfo> leftAttacks;
     private @Nullable List<_MeleeAttackInfo> rightAttacks;
 
-    private static final _CombatData PARSER = new _CombatData();
-    public static _CombatData fromJson(JsonReader reader) throws IOException {
+    private static final _AttackData PARSER = new _AttackData();
+    public static _AttackData fromJson(JsonReader reader) throws IOException {
         return PARSER.fromJsonReader(reader);
     }
     @Override
-    protected _CombatData fromJsonReader(JsonReader reader) throws IOException {
-        _CombatData pojo = new _CombatData();
+    protected _AttackData fromJsonReader(JsonReader reader) throws IOException {
+        _AttackData pojo = new _AttackData();
         reader.beginObject(); {
             while (reader.hasNext()) {
                 String key = reader.nextName();
                 switch (key) {
-                    case _CombatDataTag.PRIMARY_ACTION, _CombatDataTag.PRIMARY_ACTION_OLD1 -> pojo.leftAttacks = readAttackInfos(reader);
-                    case _CombatDataTag.SECONDARY_ACTION, _CombatDataTag.SECONDARY_ACTION_OLD1 -> pojo.rightAttacks = readAttackInfos(reader);
-                    default -> reader.skipValue();
+                    case _AttackDataTag.PRIMARY_ACTION, _AttackDataTag.PRIMARY_ACTION_OLD1 -> pojo.leftAttacks = readAttackInfos(reader);
+                    case _AttackDataTag.SECONDARY_ACTION, _AttackDataTag.SECONDARY_ACTION_OLD1 -> pojo.rightAttacks = readAttackInfos(reader);
+                    default -> this.readCustomKey(reader, key);
                 }
             }
         }
         reader.endObject();
         return pojo;
+    }
+    @Override
+    protected boolean readCustomKey(JsonReader reader, String key) throws IOException {
+        return super.readCustomKey(reader, key);
     }
 
     private static List<_MeleeAttackInfo> readAttackInfos(JsonReader reader) throws IOException {
@@ -57,16 +61,21 @@ public final class _CombatData extends ResourcePojo<_CombatData> {
         return new ArrayList<>();
     }
 
-    public static void toJson(JsonWriter writer, _CombatData pojo) throws IOException {
+    public static void toJson(JsonWriter writer, _AttackData pojo) throws IOException {
         if (pojo != null) pojo.toJson(writer);
     }
     @Override
     public void toJson(JsonWriter writer) throws IOException {
         writer.beginObject(); {
-            JsonUtils.writeList(writer, _CombatDataTag.PRIMARY_ACTION, this.leftAttacks, _MeleeAttackInfo::toJson);
-            JsonUtils.writeList(writer, _CombatDataTag.SECONDARY_ACTION, this.rightAttacks, _MeleeAttackInfo::toJson);
+            JsonUtils.writeList(writer, _AttackDataTag.PRIMARY_ACTION, this.leftAttacks, _MeleeAttackInfo::toJson);
+            JsonUtils.writeList(writer, _AttackDataTag.SECONDARY_ACTION, this.rightAttacks, _MeleeAttackInfo::toJson);
+            writeCustomValue(writer);
         }
         writer.endObject();
+    }
+    @Override
+    protected void writeCustomValue(JsonWriter writer) {
+        super.writeCustomValue(writer);
     }
 
     @Override
@@ -98,7 +107,7 @@ public final class _CombatData extends ResourcePojo<_CombatData> {
     }
 
     @Override
-    protected _CombatData copyTo(final _CombatData pojo) {
+    protected _AttackData copyTo(final _AttackData pojo) {
         @Nullable List<_MeleeAttackInfo> leftAttacks = null; {
             if (this.leftAttacks != null) {
                 leftAttacks = new ArrayList<>(this.leftAttacks.size());
@@ -119,8 +128,8 @@ public final class _CombatData extends ResourcePojo<_CombatData> {
     }
 
     @Override
-    public _CombatData copy() {
-        _CombatData pojo = copyTo(new _CombatData());
+    public _AttackData copy() {
+        _AttackData pojo = copyTo(new _AttackData());
         pojo.setValid(this.isValid());
         return pojo;
     }
@@ -144,7 +153,7 @@ public final class _CombatData extends ResourcePojo<_CombatData> {
     // --------Back compatibility--------
 
     @Override
-    public _CombatData applyBackCompatibility() {
+    public _AttackData applyBackCompatibility() {
         if (this.leftAttacks == null) this.leftAttacks = new ArrayList<>();
         else this.leftAttacks.forEach(_MeleeAttackInfo::applyBackCompatibility);
         if (this.rightAttacks == null) this.rightAttacks = new ArrayList<>();

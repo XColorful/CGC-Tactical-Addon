@@ -53,12 +53,16 @@ public final class ConsumableData extends ResourcePojo<ConsumableData> {
                     case ConsumableDataTag.FOOD -> pojo.food = JsonUtils.readInt(reader);
                     case ConsumableDataTag.SATURATION -> pojo.saturation = JsonUtils.readFloat(reader);
                     case ConsumableDataTag.EFFECTS -> pojo.effects = JsonUtils.readList(reader, _EffectData::fromJson);
-                    default -> reader.skipValue();
+                    default -> this.readCustomKey(reader, key);
                 }
             }
         }
         reader.endObject();
         return pojo;
+    }
+    @Override
+    protected boolean readCustomKey(JsonReader reader, String key) throws IOException {
+        return super.readCustomKey(reader, key);
     }
 
     public static void toJson(JsonWriter writer, ConsumableData pojo) throws IOException {
@@ -79,8 +83,13 @@ public final class ConsumableData extends ResourcePojo<ConsumableData> {
             JsonUtils.writeInt(writer, ConsumableDataTag.FOOD, this.food);
             JsonUtils.writeFloat(writer, ConsumableDataTag.SATURATION, this.saturation);
             JsonUtils.writeList(writer, ConsumableDataTag.EFFECTS, this.effects, _EffectData::toJson);
+            writeCustomValue(writer);
         }
         writer.endObject();
+    }
+    @Override
+    protected void writeCustomValue(JsonWriter writer) {
+        super.writeCustomValue(writer);
     }
 
     @Override

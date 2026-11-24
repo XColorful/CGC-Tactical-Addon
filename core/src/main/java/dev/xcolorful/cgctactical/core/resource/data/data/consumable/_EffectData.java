@@ -38,12 +38,16 @@ public final class _EffectData extends ResourcePojo<_EffectData> {
                     case _EffectDataTag.AMBIENT -> pojo.ambient = JsonUtils.readBoolean(reader);
                     case _EffectDataTag.VISIBLE -> pojo.visible = JsonUtils.readBoolean(reader);
                     case _EffectDataTag.SHOW_ICON -> pojo.showIcon = JsonUtils.readBoolean(reader);
-                    default -> reader.skipValue();
+                    default -> this.readCustomKey(reader, key);
                 }
             }
         }
         reader.endObject();
         return pojo;
+    }
+    @Override
+    protected boolean readCustomKey(JsonReader reader, String key) throws IOException {
+        return super.readCustomKey(reader, key);
     }
 
     public static void toJson(JsonWriter writer, _EffectData pojo) throws IOException {
@@ -59,8 +63,13 @@ public final class _EffectData extends ResourcePojo<_EffectData> {
             JsonUtils.writeBoolean(writer, _EffectDataTag.AMBIENT, this.ambient);
             JsonUtils.writeBoolean(writer, _EffectDataTag.VISIBLE, this.visible);
             JsonUtils.writeBoolean(writer, _EffectDataTag.SHOW_ICON, this.showIcon);
+            writeCustomValue(writer);
         }
         writer.endObject();
+    }
+    @Override
+    protected void writeCustomValue(JsonWriter writer) {
+        super.writeCustomValue(writer);
     }
 
     @Override

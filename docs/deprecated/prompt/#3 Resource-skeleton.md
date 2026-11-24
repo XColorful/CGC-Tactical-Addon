@@ -43,7 +43,7 @@ Compilation passes. Let me review the full diff for correctness and consistency 
 已完成 `dev.xcolorful.cgctactical.core.resource` 与 `dev.xcolorful.cgctactical.client.resource` 的同构迁移。核心结果：
 
 **核心资源层**
-- `MeleeIndex` / `ThrowableIndex`、`MeleeData` / `ThrowableData` 及其嵌套 `ResourcePojo`（`_CombatData`、`_MeleeAttackInfo`、`_TargetFilterData`、`_EntityData`、`_CloudData`、`_ExplodeData`、`_StunData` 等）
+- `MeleeIndex` / `ThrowableIndex`、`MeleeData` / `ThrowableData` 及其嵌套 `ResourcePojo`（`_AttackData`、`_MeleeAttackInfo`、`_TargetFilterData`、`_EntityData`、`_CloudData`、`_ExplodeData`、`_StunData` 等）
 - `DataManager` / `IndexManager`、`_AllDataManager`、`_DataInstanceManager`、`SyncDataType`、服务端索引实例、`ResourceApi`
 - 标签按 CGC 语义更正：`name_lang`、`tooltip_lang`、`data_location`、`display_index_location`、`slot_sort`；LR 的 `type` → `*_category`、`stack_size` → `max_stack_size`、爆炸参数 → `explode_scale` / `explode_damage` / `enable_world_destruction`
 
@@ -139,7 +139,7 @@ I'll inspect the current on-disk state of the files you edited, then apply the r
 - 对应标签 `_MeleeAttackInfoTag`、`_MeleeMovementTag` → `core.api.resource.data.data.melee.combat`
 - throwable `_EffectData` → `core.resource.data.data.throwable.cloud`，标签 → `core.api.resource.data.data.throwable.cloud`
 - `_BlindData`、`_DeafenedData` → `core.resource.data.data.throwable.stun`，标签 → `core.api.resource.data.data.throwable.stun`
-- `_CombatData`、`_CloudData`、`_StunData` 的引用已同步更新
+- `_AttackData`、`_CloudData`、`_StunData` 的引用已同步更新
 
 **平台 API 残留检查**
 - 代码中已无 `AttributeModifier`、`MobEffectCategory`、`Transformation`、`Mth` 的实际引用，仅剩 TODO 注释
@@ -166,9 +166,9 @@ I'll revert the extra subpackage sinking so nested pojos sit in the same package
 - `_BlindData`、`_DeafenedData` → 回到 `core.resource.data.data.throwable`
 - 对应标签回到 `core.api.resource.data.data.throwable`
 - 删除了空的 `melee.combat`、`throwable.cloud`、`throwable.stun` 目录
-- `_CombatData`、`_CloudData`、`_StunData` 中的跨包 import 已移除，恢复为同包直接引用
+- `_AttackData`、`_CloudData`、`_StunData` 中的跨包 import 已移除，恢复为同包直接引用
 
-现在 `_CombatData`、`_CloudData`、`_StunData` 的字段仍分别是 `JsonUtils.readList(..., _MeleeAttackInfo::fromJson)`、`JsonUtils.readList(..., _EffectData::fromJson)`、`JsonUtils.read(..., _BlindData::fromJson)` 等写法，与 `GunData` 的嵌套 Pojo 读取方式一致。
+现在 `_AttackData`、`_CloudData`、`_StunData` 的字段仍分别是 `JsonUtils.readList(..., _MeleeAttackInfo::fromJson)`、`JsonUtils.readList(..., _EffectData::fromJson)`、`JsonUtils.read(..., _BlindData::fromJson)` 等写法，与 `GunData` 的嵌套 Pojo 读取方式一致。
 
 验证：`:forge-compat:compileJava --rerun-tasks` 通过，无残留的 `melee.combat` / `throwable.cloud` / `throwable.stun` 引用。若你之前要求的 `melee.combat` 是有意保留的，请告诉我，我再按那个结构单独调整。
 
@@ -189,7 +189,7 @@ I'll revert the extra subpackage sinking so nested pojos sit in the same package
 - `_EffectData` → `core.resource.data.data.throwable.cloud`
 - `_BlindData`、`_DeafenedData` → `core.resource.data.data.throwable.stun`
 - 对应标签同步回到 `core.api.resource.data.data.melee.combat`、`throwable.cloud`、`throwable.stun`
-- `_CombatData`、`_CloudData`、`_StunData` 的 import 已恢复为跨子包引用
+- `_AttackData`、`_CloudData`、`_StunData` 的 import 已恢复为跨子包引用
 - Mapping 文档补充了这些子包对应的行
 
 **2. 向量改为 float[]，不再转 Vec3**
@@ -236,7 +236,7 @@ CGC 侧确认 ResourceLocation、float[]、Map、Object 都有使用。再核对
 | `MeleeIndex` / `ThrowableIndex` | `ResourceLocation` ×2 | [MeleeIndex.java:15](core/src/main/java/dev/xcolorful/cgctactical/core/resource/data/index/MeleeIndex.java:15) |
 | `ConsumableIndex` | 无自有字段，继承 CGC `_DataIndex` | [ConsumableIndex.java:11](core/src/main/java/dev/xcolorful/cgctactical/core/resource/data/index/ConsumableIndex.java:11) |
 
-其余 Pojo（`_CombatData`、`_AttributeData`、`_TargetFilterData`、`_MeleeAttackInfo`、`_MeleeMovement`、`_ExplodeData`、`_StunData`、`_BlindData`、`_DeafenedData`、`MeleeData`）均为基本类型或嵌套 Pojo。`_TargetFilterData.type` 目前是 `String` 占位（[第 13 行](core/src/main/java/dev/xcolorful/cgctactical/core/resource/data/data/melee/_TargetFilterData.java:13)），不是枚举。
+其余 Pojo（`_AttackData`、`_AttributeData`、`_TargetFilterData`、`_MeleeAttackInfo`、`_MeleeMovement`、`_ExplodeData`、`_StunData`、`_BlindData`、`_DeafenedData`、`MeleeData`）均为基本类型或嵌套 Pojo。`_TargetFilterData.type` 目前是 `String` 占位（[第 13 行](core/src/main/java/dev/xcolorful/cgctactical/core/resource/data/data/melee/_TargetFilterData.java:13)），不是枚举。
 
 ## CGC 对照结果
 
