@@ -37,7 +37,7 @@ public abstract class MeleeItemMixin extends Item {
     }
 
     @Deprecated(since = "1.21.1forge")
-    @Override
+//    @Override
     public int getMaxDamage(ItemStack meleeItem) {
         MeleeItem _this = (MeleeItem) (Object) this;
         return _this.getMaxDurability(meleeItem);
@@ -60,9 +60,10 @@ public abstract class MeleeItemMixin extends Item {
     }
 
     @Deprecated(since = "1.21.1forge")
-    @Override
+//    @Override
     public boolean isDamageable(ItemStack meleeItem) {
-        return this.getMaxDamage(meleeItem) > 0;
+        MeleeItem _this = (MeleeItem) (Object) this;
+        return _this.getMaxDurability(meleeItem) > 0;
     }
 
     // --------IMeleeRuntime--------
