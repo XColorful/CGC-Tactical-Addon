@@ -17,6 +17,7 @@ import dev.xcolorful.cgctactical.core.init.registry.ModItems;
 import dev.xcolorful.cgctactical.core.resource.data.data.MeleeData;
 import dev.xcolorful.cgctactical.core.resource.data.index.MeleeIndex;
 import dev.xcolorful.cgctactical.core.resource.instance.data.MeleeIndexInstance;
+import net.minecraft.core.Holder;
 import net.minecraft.world.entity.Entity;
 import net.minecraft.world.entity.EquipmentSlot;
 import net.minecraft.world.entity.LivingEntity;
@@ -43,7 +44,7 @@ public class MeleeItem extends Item implements IMelee, MeleeDataAccessor {
 
     // --------
     // 可用于Forge getAttributeModifiers
-    public @NotNull Multimap<Attribute, AttributeModifier> getAttributeModifiers(ItemStack meleeItem, EquipmentSlot equipmentSlot) {
+    public @NotNull Multimap<Holder<Attribute>, AttributeModifier> getAttributeModifiers(ItemStack meleeItem, EquipmentSlot equipmentSlot) {
         if (equipmentSlot != EquipmentSlot.MAINHAND) return ImmutableMultimap.of();
 
         var meleeLocation = this.getMeleeLocation(meleeItem);
