@@ -2,10 +2,10 @@ package dev.xcolorful.cgctactical.core.mixin.entity;
 
 import dev.xcolorful.cgctactical.core.api.entity.CombatantProperty;
 import dev.xcolorful.cgctactical.core.api.entity.ILivingCombatant;
-import dev.xcolorful.cgctactical.core.entity.combatant.LivingCombatantDraw;
-import dev.xcolorful.cgctactical.core.entity.combatant.LivingCombatantMelee;
-import dev.xcolorful.cgctactical.core.entity.combatant.LivingCombatantCooldown;
-import dev.xcolorful.cgctactical.core.entity.combatant.LivingCombatantSprint;import net.minecraft.world.entity.Entity;
+import dev.xcolorful.cgctactical.core.api.item.tactical.TacticalAction;
+import dev.xcolorful.cgctactical.core.entity.combatant.*;
+import dev.xcolorful.customgun.core.api.common.McLogicalSide;
+import net.minecraft.world.entity.Entity;
 import net.minecraft.world.entity.EntityType;
 import net.minecraft.world.entity.LivingEntity;
 import net.minecraft.world.level.Level;
@@ -13,6 +13,8 @@ import org.spongepowered.asm.mixin.Mixin;
 import org.spongepowered.asm.mixin.injection.At;
 import org.spongepowered.asm.mixin.injection.Inject;
 import org.spongepowered.asm.mixin.injection.callback.CallbackInfo;
+
+import java.util.List;
 
 @Mixin(LivingEntity.class)
 public abstract class LivingEntityMixin extends Entity implements ILivingCombatant {
@@ -41,9 +43,11 @@ public abstract class LivingEntityMixin extends Entity implements ILivingCombata
     }
 
     private void cgctactical$defaultLivingCombatantTick() {
-        this.cgctactical$draw.tickDrawLegacy();
         this.cgctactical$cooldown.tickItemCooldown();
+        this.cgctactical$draw.tickDrawLegacy();
+        this.cgctactical$cooldown.tickCooldown();
         this.cgctactical$sprint.tickSprint();
+        LivingCombatantScheduler.tickScheduler(this.cgctactical$livingCombatant, this.cgctactical$combatantProperty);
         this.cgctactical$draw.tickDraw();
     }
 
@@ -62,11 +66,11 @@ public abstract class LivingEntityMixin extends Entity implements ILivingCombata
 
     // ----IMeleeOperator----
     @Override
-    public boolean cgctactical$meleeCharge() {
-        return this.cgctactical$melee.meleeCharge();
+    public boolean cgctactical$meleeCharge(McLogicalSide logicalSide, TacticalAction tacticalAction) {
+        return this.cgctactical$melee.meleeCharge(logicalSide, tacticalAction);
     }
     @Override
-    public void cgctactical$meleeAttack() {
-        this.cgctactical$melee.meleeAttack();
+    public void cgctactical$meleeAttack(TacticalAction tacticalAction, int combo, List<Entity> meleeVictims) {
+        this.cgctactical$melee.meleeAttack(tacticalAction, combo, meleeVictims);
     }
 }

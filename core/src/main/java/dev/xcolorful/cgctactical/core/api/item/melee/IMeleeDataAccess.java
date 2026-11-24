@@ -4,7 +4,7 @@ import dev.xcolorful.cgctactical.core.api.item.IMelee;
 import dev.xcolorful.cgctactical.core.api.item.tactical.ITacticalDataAccess;
 import dev.xcolorful.cgctactical.core.api.item.tactical.TacticalAction;
 import dev.xcolorful.cgctactical.core.api.resource.ResourceApi;
-import dev.xcolorful.cgctactical.core.resource.data.data.melee.combat._MeleeMovement;
+import dev.xcolorful.cgctactical.core.resource.data.data.melee.attack.info._MeleeMovement;
 import dev.xcolorful.cgctactical.core.resource.data.index.MeleeIndex;
 import dev.xcolorful.cgctactical.core.resource.instance.data.MeleeIndexInstance;
 import dev.xcolorful.customgun.core.api.resource.ResourceTag;
@@ -34,7 +34,7 @@ public interface IMeleeDataAccess extends ITacticalDataAccess,
 
     int getMeleeCooldown(ItemStack meleeItem, TacticalAction tacticalAction, int combo);
     int getMeleeDelay(ItemStack meleeItem, TacticalAction tacticalAction, int combo);
-    @Nullable _MeleeMovement getMeleeMovement(ItemStack meleeItem, TacticalAction tacticalAction);
+    @Nullable _MeleeMovement getMeleeMovement(ItemStack meleeItem, TacticalAction tacticalAction, int combo);
 
     // --------Deprecated--------
 
@@ -57,7 +57,7 @@ public interface IMeleeDataAccess extends ITacticalDataAccess,
     @Deprecated default int getAttackDelay(Player livingCombatant, ItemStack meleeItem, TacticalAction tacticalAction, int combo) {
         return getMeleeDelay(meleeItem, tacticalAction, combo);
     }
-    @Deprecated default @Nullable _MeleeMovement getAttachMovement(Player livingCombatant, ItemStack meleeItem, TacticalAction tacticalAction) {
-        return getMeleeMovement(meleeItem, tacticalAction);
+    @Deprecated default @Nullable _MeleeMovement getAttackMovement(Player livingCombatant, ItemStack meleeItem, TacticalAction tacticalAction) {
+        return getMeleeMovement(meleeItem, tacticalAction, 0);
     }
 }

@@ -30,12 +30,16 @@ public final class _StunData extends ResourcePojo<_StunData> {
                     case _StunDataTag.RADIUS -> pojo.radius = JsonUtils.readFloat(reader);
                     case _StunDataTag.BLIND -> pojo.blind = JsonUtils.read(reader, _BlindData::fromJson);
                     case _StunDataTag.DEAFENED -> pojo.deafened = JsonUtils.read(reader, _DeafenedData::fromJson);
-                    default -> reader.skipValue();
+                    default -> this.readCustomKey(reader, key);
                 }
             }
         }
         reader.endObject();
         return pojo;
+    }
+    @Override
+    protected boolean readCustomKey(JsonReader reader, String key) throws IOException {
+        return super.readCustomKey(reader, key);
     }
 
     public static void toJson(JsonWriter writer, _StunData pojo) throws IOException {
@@ -47,8 +51,13 @@ public final class _StunData extends ResourcePojo<_StunData> {
             JsonUtils.writeFloat(writer, _StunDataTag.RADIUS, this.radius);
             JsonUtils.write(writer, _StunDataTag.BLIND, this.blind, _BlindData::toJson);
             JsonUtils.write(writer, _StunDataTag.DEAFENED, this.deafened, _DeafenedData::toJson);
+            writeCustomValue(writer);
         }
         writer.endObject();
+    }
+    @Override
+    protected void writeCustomValue(JsonWriter writer) {
+        super.writeCustomValue(writer);
     }
 
     @Override
