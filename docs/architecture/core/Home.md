@@ -61,6 +61,7 @@
 > _./core/melee_
 
 [近战框架](./melee/melee-framework.md)
+- [近战网络模型](./melee/melee-network-model.md)：蓄力/攻击/超时的时序与数值边界
 - [MeleeManager](./melee/melee-manager.md)：近战管理器（全能易用门面）
 
 🤔深度定制近战：[注册近战管理器组](./melee/register-melee-manager-group.md)
@@ -99,6 +100,8 @@
 > 
 > 当存在对应工具时，必须优先使用工具提供的统一接口，而非直接调用平台或 Minecraft API，以保持一致性与兼容性
 
+- HitVolumeUtils：近战判定体积标准检测工具
+	- 统一实现 cone/ray/obb 的候选收集、视线遮挡与射线命中检测，内部复用 `RayTraceUtils`
 - SendUtils：网络消息统一发送入口
 	- 所有消息发送均通过此处，与网络实现（`NetworkHandler`）解耦
 
@@ -163,6 +166,7 @@ Module division based on the `dev.xcolorful.cgctactical.core` top-level package
 > _./core/melee_
 
 [Melee Framework](./melee/melee-framework.md#English):
+- [Melee Network Model](./melee/melee-network-model.md#English): charge/attack/timeout timing and numeric boundaries
 - [MeleeManager](./melee/melee-manager.md#English): Melee manager (almighty easy-to-use facade)
 
 🤔Deeply customized melee: [Register MeleeManagerGroup](./melee/register-melee-manager-group.md)
@@ -201,5 +205,7 @@ Module division based on the `dev.xcolorful.cgctactical.core` top-level package
 >
 > When an equivalent utility exists, it must be used instead of calling platform or Minecraft APIs directly, to preserve consistency and compatibility.
 
+- HitVolumeUtils: Standard detection utilities for melee hit volumes
+	- Implements candidate collection, line-of-sight and ray-hit detection for cone/ray/obb, reusing `RayTraceUtils`
 - SendUtils: Unified entry point for sending network messages
 	- All network messages must be sent through this utility, decoupling callers from the underlying `NetworkHandler`
