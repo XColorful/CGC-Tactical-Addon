@@ -18,6 +18,7 @@ import dev.xcolorful.cgctactical.core.resource.data.data.melee._AttackData;
 import dev.xcolorful.cgctactical.core.resource.data.data.melee.attack.info._TargetFilterData;
 import dev.xcolorful.cgctactical.core.resource.data.data.melee.attack._MeleeAttackInfo;
 import dev.xcolorful.cgctactical.core.resource.instance.data.MeleeIndexInstance;
+import dev.xcolorful.cgctactical.core.util.ItemStackUtils;
 import dev.xcolorful.cgctactical.core.util.SendUtils;
 import dev.xcolorful.customgun.core.util.EntityUtils;
 import net.minecraft.resources.ResourceLocation;
@@ -102,9 +103,7 @@ public class _DefaultMeleeAttack {
             if (results.contains(IMeleeAttackRuntime.MeleeAttackResult.HIT)) {
                 if (MeleeConfig.MELEE_ITEM_CONSUME_DURABILITY.get()) {
                     // 消耗耐久
-                    meleeItem.hurtAndBreak(meleeAttackInfo.getDurabilityDamage(), livingCombatant, (livingEntity) -> {
-                        livingEntity.broadcastBreakEvent(EquipmentSlot.MAINHAND);
-                    });
+                    ItemStackUtils.hurtAndBreak(meleeItem, meleeAttackInfo.getDurabilityDamage(), livingCombatant, EquipmentSlot.MAINHAND);
                 }
 
                 boolean blankHit = false; // 是否仅命中，无击杀/暴击等
