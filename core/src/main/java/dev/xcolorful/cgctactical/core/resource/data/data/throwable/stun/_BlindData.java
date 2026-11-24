@@ -30,12 +30,16 @@ public final class _BlindData extends ResourcePojo<_BlindData> {
                     case _BlindDataTag.MIN_DURATION -> pojo.minDuration = JsonUtils.readInt(reader);
                     case _BlindDataTag.MAX_ANGLE -> pojo.maxAngle = JsonUtils.readFloat(reader);
                     case _BlindDataTag.VIEW_ANGLE_FACTOR -> pojo.viewAngleFactor = JsonUtils.readFloat(reader);
-                    default -> reader.skipValue();
+                    default -> this.readCustomKey(reader, key);
                 }
             }
         }
         reader.endObject();
         return pojo;
+    }
+    @Override
+    protected boolean readCustomKey(JsonReader reader, String key) throws IOException {
+        return super.readCustomKey(reader, key);
     }
 
     public static void toJson(JsonWriter writer, _BlindData pojo) throws IOException {
@@ -48,8 +52,13 @@ public final class _BlindData extends ResourcePojo<_BlindData> {
             JsonUtils.writeInt(writer, _BlindDataTag.MIN_DURATION, this.minDuration);
             JsonUtils.writeFloat(writer, _BlindDataTag.MAX_ANGLE, this.maxAngle);
             JsonUtils.writeFloat(writer, _BlindDataTag.VIEW_ANGLE_FACTOR, this.viewAngleFactor);
+            writeCustomValue(writer);
         }
         writer.endObject();
+    }
+    @Override
+    protected void writeCustomValue(JsonWriter writer) {
+        super.writeCustomValue(writer);
     }
 
     @Override
