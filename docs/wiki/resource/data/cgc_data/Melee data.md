@@ -1,22 +1,22 @@
 [English](#English)
 
 # 近战数据
-> wiki 版本：`0.0.0`.1
+> wiki 版本：`0.0.35.1`.4
 
 - `draw_time`（int）：
 - `put_away_time`（int）：
-- `attack`（\_CombatData）：
+- `attack`（\_AttackData）：
 	- `primary_action`/`attack_left`（List<\_MeleeAttackInfo>）：
 		- `factor`（float）：
 		- `knockback`（float）：
 		- `cooldown`（int）：
 		- `delay`（int）：
-		- `hitbox`（\_TargetFilterData）：
-			- `type`（String）：
+		- `target_filter_data`/`hitbox`（\_TargetFilterData）：
+			- `hit_volume_type`/`type`（HitVolumeType）：
 			- `max_range`（float）：
 			- `exclude_self`（boolean）：
 			- `max_angle`（float）：
-			- `penetration`（int）：
+			- `pierce`/`penetration`（int）：
 			- `half_width`（float）：
 			- `half_height`（float）：
 			- `roll`（float）：
@@ -29,12 +29,12 @@
 		- `knockback`（float）：
 		- `cooldown`（int）：
 		- `delay`（int）：
-		- `hitbox`（\_TargetFilterData）：
-			- `type`（String）：
+		- `target_filter_data`（\_TargetFilterData）：
+			- `hit_volume_type`/`type`（String）：
 			- `max_range`（float）：
 			- `exclude_self`（boolean）：
 			- `max_angle`（float）：
-			- `penetration`（int）：
+			- `pierce`/`penetration`（int）：
 			- `half_width`（float）：
 			- `half_height`（float）：
 			- `roll`（float）：
@@ -42,7 +42,9 @@
 		- `movement`（\_MeleeMovement）：
 			- `delay`（int）：
 			- `speed`（float）：
-- `attributes`（\_AttributeData）：
+- `attribute_data`/`attributes`（Map<ResourceLocation, \_AttributeInfo>）：
+	- `amount`（float）：
+	- `modifier_operation`/`operation`（AttributeModifierOperation）：
 - `max_durability`（int）：
 - `enchantment_value`（int）：
 
@@ -57,12 +59,12 @@
 				"knockback": 0.0,
 				"cooldown": 0,
 				"delay": 0,
-				"hitbox": {
-					"type": "",
+				"target_filter_data": {
+					"hit_volume_type": "",
 					"max_range": 0.0,
 					"exclude_self": false,
 					"max_angle": 0.0,
-					"penetration": 0,
+					"pierce": 0,
 					"half_width": 0.0,
 					"half_height": 0.0,
 					"roll": 0.0
@@ -80,12 +82,12 @@
 				"knockback": 0.0,
 				"cooldown": 0,
 				"delay": 0,
-				"hitbox": {
-					"type": "",
+				"target_filter_data": {
+					"hit_volume_type": "",
 					"max_range": 0.0,
 					"exclude_self": false,
 					"max_angle": 0.0,
-					"penetration": 0,
+					"pierce": 0,
 					"half_width": 0.0,
 					"half_height": 0.0,
 					"roll": 0.0
@@ -98,7 +100,11 @@
 			}
 		]
 	},
-	"attributes": {
+	"attribute_data": {
+		"attribute_location": {
+			"amount": 0.0,
+			"modifier_operation": ""
+		}
 	},
 	"max_durability": 0,
 	"enchantment_value": 0
@@ -106,22 +112,22 @@
 ```
 
 # English
-> wiki version: `0.0.0`.1
+> wiki version: `0.0.35.1`.4
 
 - `draw_time`(int):
 - `put_away_time`(int):
-- `attack`(\_CombatData):
+- `attack`(\_AttackData):
 	- `primary_action`/`attack_left`(List<\_MeleeAttackInfo>):
 		- `factor`(float):
 		- `knockback`(float):
 		- `cooldown`(int):
 		- `delay`(int):
-		- `hitbox`(\_TargetFilterData):
-			- `type`(String):
+		- `target_filter_data`/`hitbox`(\_TargetFilterData):
+			- `hit_volume_type`/`type`(HitVolumeType):
 			- `max_range`(float):
 			- `exclude_self`(boolean):
 			- `max_angle`(float):
-			- `penetration`(int):
+			- `pierce`/`penetration`(int):
 			- `half_width`(float):
 			- `half_height`(float):
 			- `roll`(float):
@@ -134,12 +140,12 @@
 		- `knockback`(float):
 		- `cooldown`(int):
 		- `delay`(int):
-		- `hitbox`(\_TargetFilterData):
-			- `type`(String):
+		- `target_filter_data`/`hitbox`(\_TargetFilterData):
+			- `hit_volume_type`/`type`(String):
 			- `max_range`(float):
 			- `exclude_self`(boolean):
 			- `max_angle`(float):
-			- `penetration`(int):
+			- `pierce`/`penetration`(int):
 			- `half_width`(float):
 			- `half_height`(float):
 			- `roll`(float):
@@ -147,7 +153,9 @@
 		- `movement`(\_MeleeMovement):
 			- `delay`(int):
 			- `speed`(float):
-- `attributes`(\_AttributeData):
+- `attribute_data`/`attributes`(Map<ResourceLocation, \_AttributeInfo>):
+	- `amount`(float):
+	- `modifier_operation`/`operation`(AttributeModifierOperation):
 - `max_durability`(int):
 - `enchantment_value`(int):
 
@@ -162,12 +170,12 @@
 				"knockback": 0.0,
 				"cooldown": 0,
 				"delay": 0,
-				"hitbox": {
-					"type": "",
+				"target_filter_data": {
+					"hit_volume_type": "",
 					"max_range": 0.0,
 					"exclude_self": false,
 					"max_angle": 0.0,
-					"penetration": 0,
+					"pierce": 0,
 					"half_width": 0.0,
 					"half_height": 0.0,
 					"roll": 0.0
@@ -185,12 +193,12 @@
 				"knockback": 0.0,
 				"cooldown": 0,
 				"delay": 0,
-				"hitbox": {
-					"type": "",
+				"target_filter_data": {
+					"hit_volume_type": "",
 					"max_range": 0.0,
 					"exclude_self": false,
 					"max_angle": 0.0,
-					"penetration": 0,
+					"pierce": 0,
 					"half_width": 0.0,
 					"half_height": 0.0,
 					"roll": 0.0
@@ -203,7 +211,11 @@
 			}
 		]
 	},
-	"attributes": {
+	"attribute_data": {
+		"attribute_location": {
+			"amount": 0.0,
+			"modifier_operation": ""
+		}
 	},
 	"max_durability": 0,
 	"enchantment_value": 0

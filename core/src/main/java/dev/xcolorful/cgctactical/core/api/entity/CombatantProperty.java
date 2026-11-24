@@ -13,34 +13,32 @@ import java.util.ArrayList;
 import java.util.EnumMap;
 import java.util.List;
 import java.util.Map;
+import java.util.function.Consumer;
 
 public class CombatantProperty {
 
-    private final List<DelayTask> delayedActions = new ArrayList<>();
+    public final List<_ClientDelayedEvent> clientSchedule = new ArrayList<>();
 
     private @Deprecated ItemStack lastItem = ItemStack.EMPTY;
     private final LivingEntity entity;
-    private int coolDownTick = 0;
-    private int lastMaxTick = 0; // TODO 啥玩意?
+    public int cooldownTick = 0;
+    public int lastCooldownTick = 0;
     private @Deprecated int lastSelected = 0;
     public int drawingTick = 0;
-    private boolean preparingAttack = false;
-    private int preparingAttackCnt = 0;
+    public boolean preparingAttack = false;
+    /**
+     * 当前攻击蓄力的连击数，用于校验连击数是否对的上
+     */
+    public int preparingAttackCombo = 0;
 
-    private final Map<TacticalAction, Integer> actionCounts = new EnumMap<>(TacticalAction.class);
+    private final Map<TacticalAction, Integer> combo = new EnumMap<>(TacticalAction.class);
 
     public CombatantProperty(LivingEntity entity) {
         this.entity = entity;
     }
 
-    public int getCoolDownTick() {
-        return coolDownTick;
-    }
-    public int getLastMaxTick() {
-        return lastMaxTick;
-    }
-    public void setCoolDownTick(int coolDownTick) {
-        this.coolDownTick = coolDownTick;
+    public int getLastCooldownTick() {
+        return lastCooldownTick;
     }
 
     @Deprecated
@@ -48,8 +46,11 @@ public class CombatantProperty {
         return drawingTick > 0;
     }
 
-    public int getActionCount(TacticalAction meleeAction) {
-        return actionCounts.getOrDefault(meleeAction, 0);
+    public int getCombo(TacticalAction tacticalAction) {
+        return combo.getOrDefault(tacticalAction, 0);
+    }
+    public void setCombo(TacticalAction tacticalAction, int combo) {
+        this.combo.put(tacticalAction, combo);
     }
 
     @Deprecated(forRemoval = true)
@@ -82,28 +83,81 @@ public class CombatantProperty {
         if (tacticalItem1 != null) {
             newCoolDown += tacticalItem1.getPutAwayTime(last);
         }
-        coolDownTick = newCoolDown;
-        lastMaxTick = newCoolDown;
+        cooldownTick = newCoolDown;
+        lastCooldownTick = newCoolDown;
         drawingTick = newCoolDown;
         preparingAttack = false;
-        delayedActions.clear();
-        actionCounts.clear();
-        preparingAttackCnt = 0;
+        clientSchedule.clear();
+        combo.clear();
+        preparingAttackCombo = 0;
     }
 
     public void resetMeleeSync() {
-        coolDownTick = 0;
-        lastMaxTick = 0;
+        cooldownTick = 0;
+        lastCooldownTick = 0;
         preparingAttack = false;
-        actionCounts.clear();
-        delayedActions.clear();
-        preparingAttackCnt = 0;
+        combo.clear();
+        clientSchedule.clear();
+        preparingAttackCombo = 0;
     }
 
     /**
-     * TODO 改用提前准备task函数(含异常终止状态检查)并调用 {@link dev.xcolorful.customgun.core.api.event.CycledEvent}
+     * 同 {@code dev.xcolorful.customgun.client.api.event.ClientDelayedEvent}
+     */
+    @Deprecated
+    public static class _ClientDelayedEvent {
+
+        private final Consumer<LivingEntity> task;
+        private int ticksLeft;
+
+        /**
+         * 创建一个延迟事件，不注册到事件总线
+         * @param task      要执行的函数
+         * @param delay     延迟的tick数
+         */
+        public _ClientDelayedEvent(Consumer<LivingEntity> task, int delay) {
+            this.task = task;
+            this.ticksLeft = delay;
+        }
+
+        /**
+         * @return 是否已结束
+         */
+        public boolean onTick(LivingEntity livingEntity) {
+            if (this.ticksLeft < 0) return true;
+
+            if (--this.ticksLeft > 0) return false;
+
+            run(livingEntity);
+            return true;
+        }
+
+        private void run(LivingEntity livingEntity) {
+            this.task.accept(livingEntity);
+        }
+    }
+
+    // --------Deprecated--------
+
+    @Deprecated public int getCoolDownTick() {
+        return cooldownTick;
+    }
+    @Deprecated public void setCoolDownTick(int cooldownTick) {
+        this.cooldownTick = cooldownTick;
+    }
+    @Deprecated
+    public int getActionCount(TacticalAction tacticalAction) {
+        return getCombo(tacticalAction);
+    }
+    @Deprecated
+    public void setActionCount(TacticalAction tacticalAction, int actionCount) {
+        setCombo(tacticalAction, actionCount);
+    }
+    /**
+     * @deprecated 什么沙雕命名
      */
     @Deprecated(forRemoval = true)
-    public abstract static class DelayTask {
+    public int getLastMaxTick() {
+        return lastCooldownTick;
     }
 }
