@@ -1,5 +1,6 @@
 package dev.xcolorful.cgctactical.core.melee.attack;
 
+import net.minecraft.world.damagesource.DamageSource;
 import net.minecraft.world.entity.Entity;
 import net.minecraft.world.entity.LivingEntity;
 import net.minecraft.world.entity.MobType;
@@ -12,22 +13,27 @@ import net.minecraft.world.item.enchantment.EnchantmentHelper;
 @Deprecated(forRemoval = false)
 public class _DefaultMeleeEffect {
 
-    public static float calculateBonusDamageModifier(ItemStack meleeItem, MobType mobType) {
-        return EnchantmentHelper.getDamageBonus(meleeItem, mobType); // TODO 待移植，高版本不兼容
+    public static float calculateEnchantedDamage(LivingEntity livingCombatant,
+                                                 ItemStack meleeItem,
+                                                 Entity meleeVictim,
+                                                 DamageSource damageSource,
+                                                 float damage) {
+        MobType mobType = meleeVictim instanceof LivingEntity livingVictim ? livingVictim.getMobType() : MobType.UNDEFINED;
+        return damage + EnchantmentHelper.getDamageBonus(meleeItem, mobType);
     }
 
-    public static void calculateFireAspect(ItemStack meleeItem,
-                                           LivingEntity livingCombatant,
-                                           Entity meleeVictim) {
-        if (!(meleeVictim instanceof LivingEntity livingEntity)) return;
+    public static void doPostAttackEffects(LivingEntity livingCombatant,
+                                           ItemStack meleeItem,
+                                           Entity meleeVictim,
+                                           DamageSource damageSource) {
+        if (!(meleeVictim instanceof LivingEntity livingVictim)) return;
 
-        int enchantmentLevel = EnchantmentHelper.getFireAspect(livingCombatant); // TODO 待移植，高版本不兼容
-        if (enchantmentLevel > 0) {
-            livingEntity.setSecondsOnFire(enchantmentLevel * 4);
+        // 火焰附加等命中后附魔效果
+        int fireAspect = EnchantmentHelper.getFireAspect(livingCombatant);
+        if (fireAspect > 0) {
+            livingVictim.setSecondsOnFire(fireAspect * 4);
         }
-    }
-
-    public static void postHurtEffect(LivingEntity livingCombatant, LivingEntity meleeVictim) {
-        EnchantmentHelper.doPostHurtEffects(meleeVictim, livingCombatant); // TODO 待移植，高版本不兼容
+        EnchantmentHelper.doPostHurtEffects(livingVictim, livingCombatant);
+        EnchantmentHelper.doPostDamageEffects(livingCombatant, meleeVictim);
     }
 }
