@@ -36,6 +36,7 @@ public abstract class MeleeItemMixin extends Item {
         return _this.getAttributeModifiers(meleeItem, equipmentSlot);
     }
 
+    @Deprecated(since = "1.21.1forge")
     @Override
     public int getMaxDamage(ItemStack meleeItem) {
         MeleeItem _this = (MeleeItem) (Object) this;
