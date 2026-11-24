@@ -29,7 +29,6 @@ import net.minecraft.world.effect.MobEffects;
 import net.minecraft.world.entity.Entity;
 import net.minecraft.world.entity.EquipmentSlot;
 import net.minecraft.world.entity.LivingEntity;
-import net.minecraft.world.entity.MobType;
 import net.minecraft.world.entity.ai.attributes.Attributes;
 import net.minecraft.world.entity.player.Player;
 import net.minecraft.world.item.ItemStack;
@@ -157,7 +156,7 @@ public class _DefaultMeleeAttack {
     public static EnumSet<IMeleeAttackRuntime.MeleeAttackResult> meleeAttack(CombatantProperty combatantProperty,
                                                                              @NotNull IMelee iMelee, @NotNull ItemStack meleeItem,
                                                                              ILivingCombatant iLivingCombatant, LivingEntity livingCombatant,
-                                                                             float damage, float knockback,
+                                                                             float baseDamage, float knockback,
                                                                              Entity meleeVictim) {
         if (
                 // 不可攻击
@@ -166,8 +165,8 @@ public class _DefaultMeleeAttack {
                 || meleeVictim.skipAttackInteraction(livingCombatant)
         ) return EnumSet.of(IMeleeAttackRuntime.MeleeAttackResult.MISS);
 
-        MobType mobType = meleeVictim instanceof LivingEntity ? livingCombatant.getMobType() : MobType.UNDEFINED;
-        float bonusDamage = _DefaultMeleeEffect.calculateBonusDamageModifier(meleeItem, mobType);
+        DamageSource damageSource = livingCombatant instanceof Player player ? livingCombatant.damageSources().playerAttack(player) : livingCombatant.damageSources().generic();
+        float damage = _DefaultMeleeEffect.calculateEnchantedDamage(livingCombatant, meleeItem, meleeVictim, damageSource, baseDamage);
 
         boolean isCriticalHit;
         float damageModifier;
@@ -180,16 +179,12 @@ public class _DefaultMeleeAttack {
             damageModifier = criticalHitContext != null ? criticalHitContext.damageModifier : 1f;
         }
 
-        // 火焰附加
-        _DefaultMeleeEffect.calculateFireAspect(meleeItem, livingCombatant, meleeVictim);
-
         if (EntityUtils.getInvulnerableTime(meleeVictim) < MeleeConfig.MELEE_IGNORE_INVULNERABLE_TICK_THRESHOLD.get()) {
             // 无敌时间低于阈值则本次攻击无视其无敌
             EntityUtils.setInvulnerableTime(meleeVictim, 0);
         }
 
-        DamageSource damageSource = livingCombatant instanceof Player player ? livingCombatant.damageSources().playerAttack(player) : livingCombatant.damageSources().generic();
-        if (!meleeVictim.hurt(damageSource, damage + bonusDamage)) {
+        if (!meleeVictim.hurt(damageSource, damage)) {
             // 免疫伤害/没造成伤害，不算命中
             return EnumSet.of(IMeleeAttackRuntime.MeleeAttackResult.MISS);
         }
@@ -199,7 +194,7 @@ public class _DefaultMeleeAttack {
             livingMeleeVictim.knockback(knockback,
                     Mth.sin(livingCombatant.getYRot() * ((float) Math.PI / 180F)),
                     -Mth.cos(livingCombatant.getYRot() * ((float) Math.PI / 180F)));
-            _DefaultMeleeEffect.postHurtEffect(livingCombatant, livingMeleeVictim);
+            _DefaultMeleeEffect.doPostAttackEffects(livingCombatant, meleeItem, livingMeleeVictim, damageSource);
         }
 
         if (isCriticalHit) {
