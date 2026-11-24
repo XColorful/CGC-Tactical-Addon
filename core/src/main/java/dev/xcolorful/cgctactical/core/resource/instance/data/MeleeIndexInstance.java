@@ -7,11 +7,16 @@ import dev.xcolorful.cgctactical.core.api.resource.ResourceApi;
 import dev.xcolorful.cgctactical.core.resource.data.data.MeleeData;
 import dev.xcolorful.cgctactical.core.resource.data.data.melee._AttributeInfo;
 import dev.xcolorful.cgctactical.core.resource.data.index.MeleeIndex;
+import dev.xcolorful.customgun.CustomGun;
+import dev.xcolorful.customgun.core.api.minecraft.IMcRegistry;
 import dev.xcolorful.customgun.core.resource.instance.PojoInstance;
 import net.minecraft.core.registries.BuiltInRegistries;
 import net.minecraft.resources.ResourceLocation;
+import net.minecraft.world.entity.EquipmentSlot;
 import net.minecraft.world.entity.ai.attributes.Attribute;
 import net.minecraft.world.entity.ai.attributes.AttributeModifier;
+import net.minecraft.world.entity.ai.attributes.Attributes;
+import net.minecraft.world.item.Items;
 import org.jetbrains.annotations.NotNull;
 import org.jetbrains.annotations.Nullable;
 
@@ -24,8 +29,17 @@ public class MeleeIndexInstance extends PojoInstance<MeleeIndex> {
 
     /**
      * 使用 {@code ResourceLocation#toString} 生成 {@link UUID}
+     * <li>攻击伤害/攻速直接取原版物品默认属性修饰符里的实例，因为原版 tooltip 以 {@code ==} 判断这两项</li>
      */
     private static final Map<ResourceLocation, UUID> attributeUuidCache = new HashMap<>();
+    static {
+        IMcRegistry mcRegistry = CustomGun.getMcRegistry();
+        Multimap<Attribute, AttributeModifier> vanillaModifiers = Items.IRON_SWORD.getDefaultAttributeModifiers(EquipmentSlot.MAINHAND);
+        attributeUuidCache.put(mcRegistry.createResourceLocation("minecraft:generic.attack_damage"),
+                vanillaModifiers.get(Attributes.ATTACK_DAMAGE).iterator().next().getId());
+        attributeUuidCache.put(mcRegistry.createResourceLocation("minecraft:generic.attack_speed"),
+                vanillaModifiers.get(Attributes.ATTACK_SPEED).iterator().next().getId());
+    }
 
     private MeleeData meleeDataCache;
     private Multimap<Attribute, AttributeModifier> attributeModifierCache;
