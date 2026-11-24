@@ -37,6 +37,12 @@ public abstract class MeleeItemMixin extends Item {
     }
 
     @Override
+    public int getMaxDamage(ItemStack meleeItem) {
+        MeleeItem _this = (MeleeItem) (Object) this;
+        return _this.getMaxDurability(meleeItem);
+    }
+
+    @Override
     public boolean canPerformAction(ItemStack meleeItem, ToolAction toolAction) {
         return toolAction == ToolActions.SWORD_SWEEP;
     }
