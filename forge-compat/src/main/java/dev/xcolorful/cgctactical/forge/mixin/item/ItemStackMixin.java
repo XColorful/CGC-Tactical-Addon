@@ -11,9 +11,16 @@ import org.spongepowered.asm.mixin.injection.callback.CallbackInfoReturnable;
 
 /**
  * <ul>
- *     <li>Forge 1.21.1 删了很久旧接口导致很多地方都要额外 Mixin 处理</li>
- *     <li>NeoForge 依然保留了 {@code IItemExtensim#getMaxDamage}，还是 Forge 的味道</li>
- *     <li>所以只对 Forge 1.21.1+ 这个多灾多难的区间进行专门兼容</li>
+ *     <li>Forge 1.21.1 移除了 {@code getMaxDamage}/{@code isDamageable} 等 Item 侧耐久钩子，需要额外 Mixin 处理</li>
+ *     <li>NeoForge 1.21.1 保留了这些钩子，但 {@code ItemStack#isDamageableItem} 仍按数据组件判断</li>
+ *     <li>所以两个平台都需要该 Mixin 才能让数据驱动的物品耐久生效</li>
+ * </ul>
+ * 关于放在{@code cgctactical.core}还是{@code cgctactical.forge}/{@code cgctactical.neoforge}
+ * <ul>
+ *     <li>如果放{@code core}就相当于把从NBT/组件系统读unbreakable的方式给跨版本统一，需要系统性封装</li>
+ *     <li>而放平台层则视为可逐版本一次性处理的差异</li>
+ *     <li>毕竟这玩意估计就用这一两次，跨版本封装的成本划不来</li>
+ *     <li>进而，没有向后构造版本差异(低版本分支不知道)，也就当作是平台侧处理好的事情</li>
  * </ul>
  */
 @ApiStatus.AvailableSince("1.21.1forge")
