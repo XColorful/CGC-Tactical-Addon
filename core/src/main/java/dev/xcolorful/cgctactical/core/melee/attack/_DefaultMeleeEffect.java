@@ -1,9 +1,9 @@
 package dev.xcolorful.cgctactical.core.melee.attack;
 
+import net.minecraft.server.level.ServerLevel;
 import net.minecraft.world.damagesource.DamageSource;
 import net.minecraft.world.entity.Entity;
 import net.minecraft.world.entity.LivingEntity;
-import net.minecraft.world.entity.MobType;
 import net.minecraft.world.item.ItemStack;
 import net.minecraft.world.item.enchantment.EnchantmentHelper;
 
@@ -18,22 +18,19 @@ public class _DefaultMeleeEffect {
                                                  Entity meleeVictim,
                                                  DamageSource damageSource,
                                                  float damage) {
-        MobType mobType = meleeVictim instanceof LivingEntity livingVictim ? livingVictim.getMobType() : MobType.UNDEFINED;
-        return damage + EnchantmentHelper.getDamageBonus(meleeItem, mobType);
+        if (!(livingCombatant.level() instanceof ServerLevel serverLevel)) return damage;
+
+        // 附魔伤害加成（锋利/亡灵杀手/节肢杀手/穿刺）
+        return EnchantmentHelper.modifyDamage(serverLevel, meleeItem, meleeVictim, damageSource, damage);
     }
 
     public static void doPostAttackEffects(LivingEntity livingCombatant,
                                            ItemStack meleeItem,
                                            Entity meleeVictim,
                                            DamageSource damageSource) {
-        if (!(meleeVictim instanceof LivingEntity livingVictim)) return;
+        if (!(livingCombatant.level() instanceof ServerLevel serverLevel)) return;
 
         // 火焰附加等命中后附魔效果
-        int fireAspect = EnchantmentHelper.getFireAspect(livingCombatant);
-        if (fireAspect > 0) {
-            livingVictim.setSecondsOnFire(fireAspect * 4);
-        }
-        EnchantmentHelper.doPostHurtEffects(livingVictim, livingCombatant);
-        EnchantmentHelper.doPostDamageEffects(livingCombatant, meleeVictim);
+        EnchantmentHelper.doPostAttackEffectsWithItemSource(serverLevel, meleeVictim, damageSource, meleeItem);
     }
 }

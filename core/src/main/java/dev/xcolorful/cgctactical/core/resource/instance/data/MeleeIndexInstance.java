@@ -10,39 +10,46 @@ import dev.xcolorful.cgctactical.core.resource.data.index.MeleeIndex;
 import dev.xcolorful.customgun.CustomGun;
 import dev.xcolorful.customgun.core.api.minecraft.IMcRegistry;
 import dev.xcolorful.customgun.core.resource.instance.PojoInstance;
+import net.minecraft.core.Holder;
+import net.minecraft.core.component.DataComponents;
 import net.minecraft.core.registries.BuiltInRegistries;
 import net.minecraft.resources.ResourceLocation;
-import net.minecraft.world.entity.EquipmentSlot;
 import net.minecraft.world.entity.ai.attributes.Attribute;
 import net.minecraft.world.entity.ai.attributes.AttributeModifier;
 import net.minecraft.world.entity.ai.attributes.Attributes;
+import net.minecraft.world.item.ItemStack;
 import net.minecraft.world.item.Items;
+import net.minecraft.world.item.component.ItemAttributeModifiers;
 import org.jetbrains.annotations.NotNull;
 import org.jetbrains.annotations.Nullable;
 
-import java.nio.charset.StandardCharsets;
 import java.util.HashMap;
 import java.util.Map;
-import java.util.UUID;
 
 public class MeleeIndexInstance extends PojoInstance<MeleeIndex> {
 
     /**
-     * 使用 {@code ResourceLocation#toString} 生成 {@link UUID}
+     * 使用 {@code ResourceLocation#toString} 生成 {@code Identifier} (UUID功能)
      * <li>攻击伤害/攻速直接取原版物品默认属性修饰符里的实例，因为原版 tooltip 以 {@code ==} 判断这两项</li>
      */
-    private static final Map<ResourceLocation, UUID> attributeUuidCache = new HashMap<>();
+    private static final Map<ResourceLocation, ResourceLocation> attributeModifierIdCache = new HashMap<>();
     static {
         IMcRegistry mcRegistry = CustomGun.getMcRegistry();
-        Multimap<Attribute, AttributeModifier> vanillaModifiers = Items.IRON_SWORD.getDefaultAttributeModifiers(EquipmentSlot.MAINHAND);
-        attributeUuidCache.put(mcRegistry.createResourceLocation("minecraft:generic.attack_damage"),
-                vanillaModifiers.get(Attributes.ATTACK_DAMAGE).iterator().next().getId());
-        attributeUuidCache.put(mcRegistry.createResourceLocation("minecraft:generic.attack_speed"),
-                vanillaModifiers.get(Attributes.ATTACK_SPEED).iterator().next().getId());
+        ItemAttributeModifiers vanillaModifiers = new ItemStack(Items.IRON_SWORD).getOrDefault(DataComponents.ATTRIBUTE_MODIFIERS, ItemAttributeModifiers.EMPTY);
+        attributeModifierIdCache.put(mcRegistry.createResourceLocation("minecraft:generic.attack_damage"),
+                _getVanillaModifierId(vanillaModifiers, Attributes.ATTACK_DAMAGE));
+        attributeModifierIdCache.put(mcRegistry.createResourceLocation("minecraft:generic.attack_speed"),
+                _getVanillaModifierId(vanillaModifiers, Attributes.ATTACK_SPEED));
+    }
+    private static ResourceLocation _getVanillaModifierId(ItemAttributeModifiers modifiers, Holder<Attribute> attribute) {
+        for (ItemAttributeModifiers.Entry entry : modifiers.modifiers()) {
+            if (entry.attribute().equals(attribute)) return entry.modifier().id();
+        }
+        throw new IllegalStateException("Vanilla iron sword has no attribute modifier for " + attribute);
     }
 
     private MeleeData meleeDataCache;
-    private Multimap<Attribute, AttributeModifier> attributeModifierCache;
+    private Multimap<Holder<Attribute>, AttributeModifier> attributeModifierCache;
 
     private MeleeIndexInstance(@NotNull MeleeIndex pojo) {
         super(pojo);
@@ -68,12 +75,12 @@ public class MeleeIndexInstance extends PojoInstance<MeleeIndex> {
         }
 
         {
-            ImmutableMultimap.Builder<Attribute, AttributeModifier> builder = ImmutableMultimap.builder();
+            ImmutableMultimap.Builder<Holder<Attribute>, AttributeModifier> builder = ImmutableMultimap.builder();
             Map<ResourceLocation, _AttributeInfo> attributeData = this.meleeDataCache.getAttributeData();
             if (attributeData != null) {
                 for (Map.Entry<ResourceLocation, _AttributeInfo> entry : attributeData.entrySet()) {
                     var attributeLocation = entry.getKey();
-                    @Nullable Attribute attribute = BuiltInRegistries.ATTRIBUTE.get(attributeLocation);
+                    @Nullable Holder<Attribute> attribute = BuiltInRegistries.ATTRIBUTE.getHolder(attributeLocation).orElse(null);
                     if (attribute == null) {
                         CgcTactical.LOGGER.debug("MeleeIndexInstance: Attribute {} not found", attributeLocation);
                         continue;
@@ -81,9 +88,7 @@ public class MeleeIndexInstance extends PojoInstance<MeleeIndex> {
 
                     _AttributeInfo attributeInfo = entry.getValue();
                     builder.put(attribute, new AttributeModifier(
-                            attributeUuidCache.computeIfAbsent(attributeLocation,
-                                    location -> UUID.nameUUIDFromBytes(location.toString().getBytes(StandardCharsets.UTF_8))),
-                            attributeLocation.toString(),
+                            attributeModifierIdCache.computeIfAbsent(attributeLocation, location -> location),
                             attributeInfo.getAmount(),
                             attributeInfo.getModifierOperation().getOperation()));
                 }
@@ -99,7 +104,7 @@ public class MeleeIndexInstance extends PojoInstance<MeleeIndex> {
     public MeleeData getMeleeData() {
         return this.meleeDataCache;
     }
-    public Multimap<Attribute, AttributeModifier> getAttributeModifierCache() {
+    public Multimap<Holder<Attribute>, AttributeModifier> getAttributeModifierCache() {
         return this.attributeModifierCache;
     }
 }
