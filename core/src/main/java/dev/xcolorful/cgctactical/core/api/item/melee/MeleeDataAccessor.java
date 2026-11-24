@@ -55,18 +55,21 @@ public interface MeleeDataAccessor extends TacticalDataAccessor, IMeleeDataAcces
         NBTUtils.setResourceLocation(meleeItem, MeleeProperty.MELEE_DISPLAY_LOCATION.getTagName(), meleeDisplayLocation);
     }
 
+    /**
+     * 对齐 {@link TacticalAction#getMeleeAttackInfo}
+     */
     @ApiStatus.Internal
     static @Nullable _MeleeAttackInfo getMeleeAttackInfo(_AttackData combatData, TacticalAction tacticalAction, int combo) {
         if (combo < 0) return null;
 
-        @Nullable List<_MeleeAttackInfo> meleeAttackInfos = switch (tacticalAction) {
+        @Nullable List<_MeleeAttackInfo> meleeAttackInfoList = switch (tacticalAction) {
             case PRIMARY_ACTION -> combatData.getLeftAttacks();
             case SECONDARY_ACTION -> combatData.getRightAttacks();
             // 增加类型使此处强制不通过
         };
-        if (meleeAttackInfos == null) return null;
+        if (meleeAttackInfoList == null || meleeAttackInfoList.isEmpty()) return null;
 
-        return meleeAttackInfos.get(combo % meleeAttackInfos.size());
+        return meleeAttackInfoList.get(combo % meleeAttackInfoList.size());
     }
     @Override
     default int getMeleeCooldown(ItemStack meleeItem, TacticalAction tacticalAction, int combo) {

@@ -48,14 +48,15 @@ public enum TacticalAction implements ResourceTag.CategoryTag {
     public static @Nullable _MeleeAttackInfo getMeleeAttackInfo(TacticalAction tacticalAction,
                                                                 _AttackData attackData,
                                                                 int combo) {
-        @Nullable List<_MeleeAttackInfo> meleeAttackInfo = switch (tacticalAction) {
+        if (combo < 0) return null;
+
+        @Nullable List<_MeleeAttackInfo> meleeAttackInfoList = switch (tacticalAction) {
             case PRIMARY_ACTION -> attackData.getLeftAttacks();
             case SECONDARY_ACTION -> attackData.getRightAttacks();
         };
-        if (meleeAttackInfo == null) return null;
+        if (meleeAttackInfoList == null || meleeAttackInfoList.isEmpty()) return null;
 
-        if (combo < 0 || combo > meleeAttackInfo.size()) return null;
-        else return meleeAttackInfo.get(combo);
+        return meleeAttackInfoList.get(combo % meleeAttackInfoList.size());
     }
 
     // --------Deprecated--------
