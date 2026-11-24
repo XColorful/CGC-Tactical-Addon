@@ -7,6 +7,13 @@
  */
 ```
 
+- Local Combatant：战斗生物
+```java
+/**
+ * {@link dev.xcolorful.cgctactical.client.api.entity.ILocalCombatant}
+ */
+```
+
 ### Melee
 
 - Melee Manager Group：近战管理器组

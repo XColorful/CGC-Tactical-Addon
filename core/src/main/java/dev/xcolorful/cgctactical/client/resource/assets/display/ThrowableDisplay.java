@@ -29,12 +29,16 @@ public final class ThrowableDisplay extends _AssetsDisplay<ThrowableDisplay> {
                     case ThrowableDisplayTag.SCRIPT_LOCATION, ThrowableDisplayTag.SCRIPT_LOCATION_OLD1 -> pojo.setScriptLocation(JsonUtils.readResourceLocation(reader));
                     case ThrowableDisplayTag.DISPLAY_OFFSET -> pojo.setDisplayOffset(JsonUtils.readFloatArrayFast(reader, 3));
                     case ThrowableDisplayTag.SOUNDS -> pojo.setSounds(JsonUtils.readString2ObjectMap(reader, JsonUtils::readResourceLocation));
-                    default -> reader.skipValue();
+                    default -> this.readCustomKey(reader, key);
                 }
             }
         }
         reader.endObject();
         return pojo;
+    }
+    @Override
+    protected boolean readCustomKey(JsonReader reader, String key) throws IOException {
+        return super.readCustomKey(reader, key);
     }
 
     public static void toJson(JsonWriter writer, ThrowableDisplay pojo) throws IOException {
@@ -50,8 +54,13 @@ public final class ThrowableDisplay extends _AssetsDisplay<ThrowableDisplay> {
             JsonUtils.writeResourceLocation(writer, ThrowableDisplayTag.SCRIPT_LOCATION, this.getScriptLocation());
             JsonUtils.writeFloatArray(writer, ThrowableDisplayTag.DISPLAY_OFFSET, this.getDisplayOffset());
             JsonUtils.writeString2ObjectMap(writer, ThrowableDisplayTag.SOUNDS, this.getSounds(), JsonUtils::writeResourceLocationValue);
+            writeCustomValue(writer);
         }
         writer.endObject();
+    }
+    @Override
+    protected void writeCustomValue(JsonWriter writer) {
+        super.writeCustomValue(writer);
     }
 
     @Override

@@ -1,5 +1,9 @@
 package dev.xcolorful.cgctactical.client.resource.assets.display;
 
+import com.google.gson.stream.JsonReader;
+import com.google.gson.stream.JsonWriter;
+import dev.xcolorful.cgctactical.core.api.resource.assets.display.SoundName;
+import dev.xcolorful.cgctactical.core.api.resource.assets.display.SoundNameTag;
 import dev.xcolorful.customgun.CustomGun;
 import dev.xcolorful.customgun.client.api.resource.assets.AssetsFolderType;
 import dev.xcolorful.customgun.core.api.minecraft.IMcRegistry;
@@ -9,7 +13,10 @@ import dev.xcolorful.customgun.core.resource.ResourcePojo;
 import net.minecraft.resources.ResourceLocation;
 import org.jetbrains.annotations.Nullable;
 
+import java.io.IOException;
+import java.util.ArrayList;
 import java.util.HashMap;
+import java.util.List;
 import java.util.Map;
 
 public abstract class _AssetsDisplay<T extends _AssetsDisplay<T>> extends ResourcePojo<T> {
@@ -61,6 +68,15 @@ public abstract class _AssetsDisplay<T extends _AssetsDisplay<T>> extends Resour
     }
 
     // --------Getter & Setter--------
+
+    @Override
+    protected boolean readCustomKey(JsonReader reader, String key) throws IOException {
+        return super.readCustomKey(reader, key);
+    }
+    @Override
+    protected void writeCustomValue(JsonWriter writer) {
+        super.writeCustomValue(writer);
+    }
 
     public final @Nullable ResourceLocation getModelLocation() {
         return modelLocation;
@@ -119,7 +135,26 @@ public abstract class _AssetsDisplay<T extends _AssetsDisplay<T>> extends Resour
         this.slotTextureLocation = this.slotTextureLocation == null ? ResourceTag.NULL_LOCATION : this.slotTextureLocation;
 
         this.displayOffset = this.displayOffset == null ? new float[]{0f, 0f, 0f} : this.displayOffset;
-        this.sounds = this.sounds == null ? new HashMap<>() : this.sounds;
+        if (this.sounds == null) {
+            this.sounds = new HashMap<>();
+        } else if (!this.sounds.isEmpty()) {
+            // 非空时尝试填补新键名
+            List<String> sounds = new ArrayList<>(); // 每次插入新sound
+            List<ResourceLocation> soundLocations = new ArrayList<>(); // 每次插入旧soundLocation
+            for (var entry : this.sounds.entrySet()) {
+                // 收集旧名
+                String soundOld = entry.getKey();
+                @Nullable String sound = SoundName.fromOldName(soundOld);
+                if (sound != null) {
+                    sounds.add(sound);
+                    soundLocations.add(entry.getValue());
+                }
+            }
+            for (int i = 0; i < soundLocations.size(); i++) {
+                // 写新名
+                this.sounds.putIfAbsent(sounds.get(i), soundLocations.get(i));
+            }
+        }
         return (T) this;
     }
 

@@ -27,12 +27,16 @@ public final class MeleeDisplay extends _AssetsDisplay<MeleeDisplay> {
                     case MeleeDisplayTag.SCRIPT_LOCATION, MeleeDisplayTag.SCRIPT_LOCATION_OLD1 -> pojo.setScriptLocation(JsonUtils.readResourceLocation(reader));
                     case MeleeDisplayTag.DISPLAY_OFFSET -> pojo.setDisplayOffset(JsonUtils.readFloatArrayFast(reader, 3));
                     case MeleeDisplayTag.SOUNDS -> pojo.setSounds(JsonUtils.readString2ObjectMap(reader, JsonUtils::readResourceLocation));
-                    default -> reader.skipValue();
+                    default -> this.readCustomKey(reader, key);
                 }
             }
         }
         reader.endObject();
         return pojo;
+    }
+    @Override
+    protected boolean readCustomKey(JsonReader reader, String key) throws IOException {
+        return super.readCustomKey(reader, key);
     }
 
     public static void toJson(JsonWriter writer, MeleeDisplay pojo) throws IOException {
@@ -48,8 +52,13 @@ public final class MeleeDisplay extends _AssetsDisplay<MeleeDisplay> {
             JsonUtils.writeResourceLocation(writer, MeleeDisplayTag.SCRIPT_LOCATION, this.getScriptLocation());
             JsonUtils.writeFloatArray(writer, MeleeDisplayTag.DISPLAY_OFFSET, this.getDisplayOffset());
             JsonUtils.writeString2ObjectMap(writer, MeleeDisplayTag.SOUNDS, this.getSounds(), JsonUtils::writeResourceLocationValue);
+            writeCustomValue(writer);
         }
         writer.endObject();
+    }
+    @Override
+    protected void writeCustomValue(JsonWriter writer) {
+        super.writeCustomValue(writer);
     }
 
     @Override
