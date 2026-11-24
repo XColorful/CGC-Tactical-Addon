@@ -1,7 +1,7 @@
 [English](#English)
 
 # 自定义枪械永续战术扩展wiki
-> wiki 版本：`0.0.0`.4
+> wiki 版本：`0.0.35.1`.5
 
 > 推荐安装[Stylus](https://chromewebstore.google.com/detail/stylus/clngdbkpkpeebahjckkjfobafhncgmne)插件并使用配置[Stylus-Obsidian-Topaz-Nord.json](https://github.com/XColorful/XColorful.github.io/blob/main/stylus/Stylus-Obsidian-Topaz-Nord.json)
 
@@ -14,6 +14,7 @@
 
 ### ⚙️客户端配置
 
+- [按键配置](https://github.com/XColorful/CGC-Tactical-Addon/wiki/Key-config)
 - [渲染配置](https://github.com/XColorful/CGC-Tactical-Addon/wiki/Render-config)
 
 ### ⚙️服务端配置
@@ -43,7 +44,7 @@
 除非另有明确说明，代码、图片及其他材料也不属于本许可证的适用范围
 
 # English
-> wiki version: `0.0.0`.4
+> wiki version: `0.0.35.1`.5
 
 > Recommend installing the [Stylus](https://chromewebstore.google.com/detail/stylus/clngdbkpkpeebahjckkjfobafhncgmne) extension and using the configuration [Stylus-Obsidian-Topaz-Nord.json](https://github.com/XColorful/XColorful.github.io/blob/main/stylus/Stylus-Obsidian-Topaz-Nord.json)
 
@@ -56,6 +57,7 @@
 
 ### ⚙️Client configuration
 
+- [Key config](https://github.com/XColorful/CGC-Tactical-Addon/wiki/Key-config#English)
 - [Render config](https://github.com/XColorful/CGC-Tactical-Addon/wiki/Render-config#English)
 
 ### ⚙️Server configuration

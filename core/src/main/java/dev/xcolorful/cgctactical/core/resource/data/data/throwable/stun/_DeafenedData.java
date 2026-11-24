@@ -26,12 +26,16 @@ public final class _DeafenedData extends ResourcePojo<_DeafenedData> {
                 switch (key) {
                     case _DeafenedDataTag.MAX_DURATION -> pojo.maxDuration = JsonUtils.readInt(reader);
                     case _DeafenedDataTag.MIN_DURATION -> pojo.minDuration = JsonUtils.readInt(reader);
-                    default -> reader.skipValue();
+                    default -> this.readCustomKey(reader, key);
                 }
             }
         }
         reader.endObject();
         return pojo;
+    }
+    @Override
+    protected boolean readCustomKey(JsonReader reader, String key) throws IOException {
+        return super.readCustomKey(reader, key);
     }
 
     public static void toJson(JsonWriter writer, _DeafenedData pojo) throws IOException {
@@ -42,8 +46,13 @@ public final class _DeafenedData extends ResourcePojo<_DeafenedData> {
         writer.beginObject(); {
             JsonUtils.writeInt(writer, _DeafenedDataTag.MAX_DURATION, this.maxDuration);
             JsonUtils.writeInt(writer, _DeafenedDataTag.MIN_DURATION, this.minDuration);
+            writeCustomValue(writer);
         }
         writer.endObject();
+    }
+    @Override
+    protected void writeCustomValue(JsonWriter writer) {
+        super.writeCustomValue(writer);
     }
 
     @Override

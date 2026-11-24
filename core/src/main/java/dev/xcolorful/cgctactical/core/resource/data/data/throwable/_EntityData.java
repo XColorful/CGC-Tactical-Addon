@@ -40,12 +40,16 @@ public final class _EntityData extends ResourcePojo<_EntityData> {
                     case _EntityDataTag.BOUNCE_FACTOR -> pojo.bounceFactor = JsonUtils.readFloat(reader);
                     case _EntityDataTag.HIT_DAMAGE -> pojo.hitDamage = JsonUtils.readFloat(reader);
                     case _EntityDataTag.TAIL_PARTICLES -> pojo.tailParticlesLocation = JsonUtils.readResourceLocation(reader);
-                    default -> reader.skipValue();
+                    default -> this.readCustomKey(reader, key);
                 }
             }
         }
         reader.endObject();
         return pojo;
+    }
+    @Override
+    protected boolean readCustomKey(JsonReader reader, String key) throws IOException {
+        return super.readCustomKey(reader, key);
     }
 
     public static void toJson(JsonWriter writer, _EntityData pojo) throws IOException {
@@ -61,8 +65,13 @@ public final class _EntityData extends ResourcePojo<_EntityData> {
             JsonUtils.writeFloat(writer, _EntityDataTag.BOUNCE_FACTOR, this.bounceFactor);
             JsonUtils.writeFloat(writer, _EntityDataTag.HIT_DAMAGE, this.hitDamage);
             JsonUtils.writeResourceLocation(writer, _EntityDataTag.TAIL_PARTICLES, this.tailParticlesLocation);
+            writeCustomValue(writer);
         }
         writer.endObject();
+    }
+    @Override
+    protected void writeCustomValue(JsonWriter writer) {
+        super.writeCustomValue(writer);
     }
 
     @Override
