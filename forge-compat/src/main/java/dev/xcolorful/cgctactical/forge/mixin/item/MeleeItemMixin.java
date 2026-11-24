@@ -58,6 +58,7 @@ public abstract class MeleeItemMixin extends Item {
         return enchantment.category == EnchantmentCategory.WEAPON;
     }
 
+    @Deprecated(since = "1.21.1forge")
     @Override
     public boolean isDamageable(ItemStack meleeItem) {
         return this.getMaxDamage(meleeItem) > 0;
