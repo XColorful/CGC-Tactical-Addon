@@ -107,9 +107,9 @@ public class MeleeItem extends Item implements IMelee, MeleeDataAccessor {
                 .meleeAttack(combatantProperty, iMelee, meleeItem, iLivingCombatant, livingCombatant, damage, knockback, meleeVictim);
     }
     // ----IMeleePhysicsRuntime----
-    @Override public List<Entity> prepareMeleeVictims(CombatantProperty combatantProperty, @NotNull IMelee iMelee, @NotNull ItemStack meleeItem, ILivingCombatant iLivingCombatant, LivingEntity livingCombatant, TacticalAction tacticalAction, Vec3 origin, Vec3 direction) {
+    @Override public List<Entity> prepareMeleeVictims(CombatantProperty combatantProperty, @NotNull IMelee iMelee, @NotNull ItemStack meleeItem, ILivingCombatant iLivingCombatant, LivingEntity livingCombatant, TacticalAction tacticalAction, int combo, Vec3 origin, Vec3 direction) {
         return CgcTactical.getMeleeManager().getManagerGroup(this.getManagerGroupTag(meleeItem))
                 .meleePhysicsManager()
-                .prepareMeleeVictims(combatantProperty, iMelee, meleeItem, iLivingCombatant, livingCombatant, tacticalAction, origin, direction);
+                .prepareMeleeVictims(combatantProperty, iMelee, meleeItem, iLivingCombatant, livingCombatant, tacticalAction, combo, origin, direction);
     }
 }

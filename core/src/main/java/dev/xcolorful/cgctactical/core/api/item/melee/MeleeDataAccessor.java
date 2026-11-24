@@ -12,10 +12,8 @@ import dev.xcolorful.customgun.core.api.resource.ResourceTag;
 import dev.xcolorful.customgun.core.util.NBTUtils;
 import net.minecraft.resources.ResourceLocation;
 import net.minecraft.world.item.ItemStack;
-import org.jetbrains.annotations.ApiStatus;import org.jetbrains.annotations.NotNull;
+import org.jetbrains.annotations.NotNull;
 import org.jetbrains.annotations.Nullable;
-
-import java.util.List;
 
 public interface MeleeDataAccessor extends TacticalDataAccessor, IMeleeDataAccess {
 
@@ -55,22 +53,6 @@ public interface MeleeDataAccessor extends TacticalDataAccessor, IMeleeDataAcces
         NBTUtils.setResourceLocation(meleeItem, MeleeProperty.MELEE_DISPLAY_LOCATION.getTagName(), meleeDisplayLocation);
     }
 
-    /**
-     * 对齐 {@link TacticalAction#getMeleeAttackInfo}
-     */
-    @ApiStatus.Internal
-    static @Nullable _MeleeAttackInfo getMeleeAttackInfo(_AttackData combatData, TacticalAction tacticalAction, int combo) {
-        if (combo < 0) return null;
-
-        @Nullable List<_MeleeAttackInfo> meleeAttackInfoList = switch (tacticalAction) {
-            case PRIMARY_ACTION -> combatData.getLeftAttacks();
-            case SECONDARY_ACTION -> combatData.getRightAttacks();
-            // 增加类型使此处强制不通过
-        };
-        if (meleeAttackInfoList == null || meleeAttackInfoList.isEmpty()) return null;
-
-        return meleeAttackInfoList.get(combo % meleeAttackInfoList.size());
-    }
     @Override
     default int getMeleeCooldown(ItemStack meleeItem, TacticalAction tacticalAction, int combo) {
         var meleeLocation = this.getMeleeLocation(meleeItem);
@@ -79,7 +61,7 @@ public interface MeleeDataAccessor extends TacticalDataAccessor, IMeleeDataAcces
 
         MeleeData meleeData = meleeIndexInstance.getMeleeData();
         _AttackData combatData = meleeData.getAttackData();
-        @Nullable _MeleeAttackInfo meleeAttackInfo = getMeleeAttackInfo(combatData, tacticalAction, combo);
+        @Nullable _MeleeAttackInfo meleeAttackInfo = TacticalAction.getMeleeAttackInfo(tacticalAction, combatData, combo);
         return meleeAttackInfo != null ? meleeAttackInfo.getCooldown() : 0;
     }
     @Override
@@ -90,18 +72,18 @@ public interface MeleeDataAccessor extends TacticalDataAccessor, IMeleeDataAcces
 
         MeleeData meleeData = meleeIndexInstance.getMeleeData();
         _AttackData combatData = meleeData.getAttackData();
-        @Nullable _MeleeAttackInfo meleeAttackInfo = getMeleeAttackInfo(combatData, tacticalAction, combo);
+        @Nullable _MeleeAttackInfo meleeAttackInfo = TacticalAction.getMeleeAttackInfo(tacticalAction, combatData, combo);
         return meleeAttackInfo != null ? meleeAttackInfo.getDelay() : 0;
     }
     @Override
-    default @Nullable _MeleeMovement getMeleeMovement(ItemStack meleeItem, TacticalAction tacticalAction) {
+    default @Nullable _MeleeMovement getMeleeMovement(ItemStack meleeItem, TacticalAction tacticalAction, int combo) {
         var meleeLocation = this.getMeleeLocation(meleeItem);
         @Nullable MeleeIndexInstance meleeIndexInstance = ResourceApi.getMeleeIndexInstance(meleeLocation);
         if (meleeIndexInstance == null) return null;
 
         MeleeData meleeData = meleeIndexInstance.getMeleeData();
         _AttackData combatData = meleeData.getAttackData();
-        @Nullable _MeleeAttackInfo meleeAttackInfo = getMeleeAttackInfo(combatData, tacticalAction, 0);
+        @Nullable _MeleeAttackInfo meleeAttackInfo = TacticalAction.getMeleeAttackInfo(tacticalAction, combatData, combo);
         return meleeAttackInfo != null ? meleeAttackInfo.getMovement() : null;
     }
 

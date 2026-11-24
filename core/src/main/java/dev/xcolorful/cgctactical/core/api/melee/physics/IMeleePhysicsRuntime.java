@@ -20,6 +20,7 @@ public interface IMeleePhysicsRuntime {
 
     /**
      * 可放客户端执行
+     * @param combo 当前连击数
      * @param origin 近战攻击的起始点
      * @param direction 近战攻击的朝向
      * @return 受击实体列表
@@ -27,7 +28,7 @@ public interface IMeleePhysicsRuntime {
     List<Entity> prepareMeleeVictims(CombatantProperty combatantProperty,
                                      @NotNull IMelee iMelee, @NotNull ItemStack meleeItem,
                                      ILivingCombatant iLivingCombatant, LivingEntity livingCombatant,
-                                     TacticalAction tacticalAction,
+                                     TacticalAction tacticalAction, int combo,
                                      Vec3 origin, Vec3 direction);
 
     // --------Deprecated--------
@@ -43,7 +44,7 @@ public interface IMeleePhysicsRuntime {
         return prepareMeleeVictims(iLivingCombatant.cgctactical$getCombatantProperty(),
                 iMelee, meleeItem,
                 iLivingCombatant, livingCombatant,
-                tacticalAction,
+                tacticalAction, 0,
                 origin, direction);
     }
 }

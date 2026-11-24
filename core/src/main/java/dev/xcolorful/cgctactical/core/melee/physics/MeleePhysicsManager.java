@@ -39,7 +39,7 @@ public class MeleePhysicsManager implements IMeleePhysicsManager {
     public List<Entity> prepareMeleeVictims(CombatantProperty combatantProperty,
                                             @NotNull IMelee iMelee, @NotNull ItemStack meleeItem,
                                             ILivingCombatant iLivingCombatant, LivingEntity livingCombatant,
-                                            TacticalAction tacticalAction,
+                                            TacticalAction tacticalAction, int combo,
                                             Vec3 origin, Vec3 direction) {
         var meleeLocation = iMelee.getMeleeLocation(meleeItem);
         @Nullable MeleeIndexInstance meleeIndexInstance = ResourceApi.getMeleeIndexInstance(meleeLocation);
@@ -48,7 +48,7 @@ public class MeleePhysicsManager implements IMeleePhysicsManager {
         _TargetFilterData targetFilterData; {
             MeleeData meleeData = meleeIndexInstance.getMeleeData();
             _AttackData attackData = meleeData.getAttackData();
-            @Nullable _MeleeAttackInfo attackInfo = TacticalAction.getMeleeAttackInfo(tacticalAction, attackData, 0);
+            @Nullable _MeleeAttackInfo attackInfo = TacticalAction.getMeleeAttackInfo(tacticalAction, attackData, combo);
             if (attackInfo == null) return new ArrayList<>();
 
             targetFilterData = attackInfo.getTargetFilterData();

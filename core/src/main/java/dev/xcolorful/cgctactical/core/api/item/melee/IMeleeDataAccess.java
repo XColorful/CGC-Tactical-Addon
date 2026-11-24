@@ -34,7 +34,7 @@ public interface IMeleeDataAccess extends ITacticalDataAccess,
 
     int getMeleeCooldown(ItemStack meleeItem, TacticalAction tacticalAction, int combo);
     int getMeleeDelay(ItemStack meleeItem, TacticalAction tacticalAction, int combo);
-    @Nullable _MeleeMovement getMeleeMovement(ItemStack meleeItem, TacticalAction tacticalAction);
+    @Nullable _MeleeMovement getMeleeMovement(ItemStack meleeItem, TacticalAction tacticalAction, int combo);
 
     // --------Deprecated--------
 
@@ -57,7 +57,7 @@ public interface IMeleeDataAccess extends ITacticalDataAccess,
     @Deprecated default int getAttackDelay(Player livingCombatant, ItemStack meleeItem, TacticalAction tacticalAction, int combo) {
         return getMeleeDelay(meleeItem, tacticalAction, combo);
     }
-    @Deprecated default @Nullable _MeleeMovement getAttachMovement(Player livingCombatant, ItemStack meleeItem, TacticalAction tacticalAction) {
-        return getMeleeMovement(meleeItem, tacticalAction);
+    @Deprecated default @Nullable _MeleeMovement getAttackMovement(Player livingCombatant, ItemStack meleeItem, TacticalAction tacticalAction) {
+        return getMeleeMovement(meleeItem, tacticalAction, 0);
     }
 }

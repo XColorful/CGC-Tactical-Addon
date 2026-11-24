@@ -77,7 +77,7 @@ public class LocalCombatantMelee {
         SendUtils.sendMessageToServer(new C2SMessageCombatantMelee_prepare(tacticalAction, origin, direction));
 
         chargeAttack(combatantProperty, iMelee, meleeItem, localCombatant, tacticalAction, origin, direction, combo);
-        chargeMove(combatantProperty, iMelee, meleeItem, localCombatant, tacticalAction);
+        chargeMove(combatantProperty, iMelee, meleeItem, localCombatant, tacticalAction, combo);
         chargeSound(iMelee, meleeItem, localCombatant, tacticalAction, origin);
     }
 
@@ -94,7 +94,7 @@ public class LocalCombatantMelee {
             if (_iMelee.switchItemNeedReset(meleeItem, _meleeItem)) return;
 
             ILivingCombatant iLivingCombatant = ILivingCombatantGetter.cgctactical$fromLivingEntity(localCombatant);
-            List<Entity> meleeVictims = _iMelee.prepareMeleeVictims(iLivingCombatant.cgctactical$getCombatantProperty(), _iMelee, _meleeItem, iLivingCombatant, localCombatant,tacticalAction, origin, direction);
+            List<Entity> meleeVictims = _iMelee.prepareMeleeVictims(iLivingCombatant.cgctactical$getCombatantProperty(), _iMelee, _meleeItem, iLivingCombatant, localCombatant, tacticalAction, combo, origin, direction);
             SendUtils.sendMessageToServer(new C2SMessageCombatantMelee_attack(tacticalAction, combo, _filterMeleeVictims(meleeVictims)));
         };
 
@@ -121,8 +121,8 @@ public class LocalCombatantMelee {
     public static void chargeMove(CombatantProperty combatantProperty,
                                   IMelee iMelee, ItemStack meleeItem,
                                   LocalPlayer localCombatant,
-                                  TacticalAction tacticalAction) {
-        @Nullable _MeleeMovement meleeMovement = iMelee.getMeleeMovement(meleeItem, tacticalAction);
+                                  TacticalAction tacticalAction, int combo) {
+        @Nullable _MeleeMovement meleeMovement = iMelee.getMeleeMovement(meleeItem, tacticalAction, combo);
         if (meleeMovement == null) return;
 
         float speed = meleeMovement.getSpeed();
