@@ -16,6 +16,10 @@ description='''${mod_description}'''
 [[mixins]]
 config="cgctactical.mixins.json"
 [[mixins]]
+config="cgctacticalclient.mixins.json"
+[[mixins]]
+config="cgctacticalneoforge.mixins.json"
+[[mixins]]
 config="cgctacticalneoforgeclient.mixins.json"
 
 [[dependencies.${mod_id}]]
