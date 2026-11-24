@@ -13,8 +13,8 @@ import net.minecraft.world.entity.ai.attributes.AttributeModifier;
 import net.minecraft.world.entity.player.Player;
 import net.minecraft.world.item.Item;
 import net.minecraft.world.item.ItemStack;
+import net.minecraft.world.item.Items;
 import net.minecraft.world.item.enchantment.Enchantment;
-import net.minecraft.world.item.enchantment.EnchantmentCategory;
 import net.minecraftforge.common.ForgeHooks;
 import net.minecraftforge.common.ToolAction;
 import net.minecraftforge.common.ToolActions;
@@ -54,9 +54,12 @@ public abstract class MeleeItemMixin extends Item {
         return _this.getEnchantmentPotential(meleeItem);
     }
 
+    /**
+     * 以原版剑能否附魔该附魔作为武器附魔判定
+     */
     @Override
     public boolean canApplyAtEnchantingTable(ItemStack meleeItem, Enchantment enchantment) {
-        return enchantment.category == EnchantmentCategory.WEAPON;
+        return enchantment.category.canEnchant(Items.IRON_SWORD);
     }
 
     @Deprecated(since = "1.21.1forge")
