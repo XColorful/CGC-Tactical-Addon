@@ -2,6 +2,12 @@ package dev.xcolorful.cgctactical.core.api.config;
 
 public class ClientModConfigTag {
 
+    // KeyConfig
+    public static final String key_path = "key";
+
+    public static final String continuousActionInput_path = "ContinuousActionInput";
+    public static final String continuousActionInput_comment = "Whether to hold the left mouse button to continuously perform primary actions";
+
     // RenderConfig
     public static final String render_path = "render";
 

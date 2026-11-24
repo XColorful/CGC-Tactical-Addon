@@ -52,12 +52,16 @@ public final class ThrowableData extends ResourcePojo<ThrowableData> {
                     case ThrowableDataTag.EXPLODE -> pojo.explodeData = JsonUtils.read(reader, _ExplodeData::fromJson);
                     case ThrowableDataTag.CLOUD -> pojo.cloudData = JsonUtils.read(reader, _CloudData::fromJson);
                     case ThrowableDataTag.STUN -> pojo.stunData = JsonUtils.read(reader, _StunData::fromJson);
-                    default -> reader.skipValue();
+                    default -> this.readCustomKey(reader, key);
                 }
             }
         }
         reader.endObject();
         return pojo;
+    }
+    @Override
+    protected boolean readCustomKey(JsonReader reader, String key) throws IOException {
+        return super.readCustomKey(reader, key);
     }
 
     public static void toJson(JsonWriter writer, ThrowableData pojo) throws IOException {
@@ -78,8 +82,13 @@ public final class ThrowableData extends ResourcePojo<ThrowableData> {
             JsonUtils.write(writer, ThrowableDataTag.EXPLODE, this.explodeData, _ExplodeData::toJson);
             JsonUtils.write(writer, ThrowableDataTag.CLOUD, this.cloudData, _CloudData::toJson);
             JsonUtils.write(writer, ThrowableDataTag.STUN, this.stunData, _StunData::toJson);
+            writeCustomValue(writer);
         }
         writer.endObject();
+    }
+    @Override
+    protected void writeCustomValue(JsonWriter writer) {
+        super.writeCustomValue(writer);
     }
 
     @Override
