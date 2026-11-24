@@ -3,16 +3,17 @@ package dev.xcolorful.cgctactical.core.item.melee;
 import com.google.common.collect.ImmutableMultimap;
 import com.google.common.collect.Multimap;
 import dev.xcolorful.cgctactical.CgcTactical;
-import dev.xcolorful.cgctactical.client.item.melee._MeleeItem;
 import dev.xcolorful.cgctactical.core.api.entity.CombatantProperty;
 import dev.xcolorful.cgctactical.core.api.entity.ILivingCombatant;
 import dev.xcolorful.cgctactical.core.api.item.IMelee;
-import dev.xcolorful.cgctactical.core.api.item.tactical.TacticalAction;
 import dev.xcolorful.cgctactical.core.api.item.melee.MeleeDataAccessor;
+import dev.xcolorful.cgctactical.core.api.item.tactical.TacticalAction;
 import dev.xcolorful.cgctactical.core.api.minecraft.item.ItemType;
 import dev.xcolorful.cgctactical.core.api.resource.ResourceApi;
 import dev.xcolorful.cgctactical.core.gui.tooltip.melee.MeleeTooltip;
 import dev.xcolorful.cgctactical.core.init.registry.ModItems;
+import dev.xcolorful.cgctactical.core.resource.data.data.MeleeData;
+import dev.xcolorful.cgctactical.core.resource.data.index.MeleeIndex;
 import dev.xcolorful.cgctactical.core.resource.instance.data.MeleeIndexInstance;
 import net.minecraft.network.chat.Component;
 import net.minecraft.world.entity.Entity;
@@ -53,6 +54,16 @@ public class MeleeItem extends Item implements IMelee, MeleeDataAccessor {
 
     // --------Item--------
 
+    @Override
+    public @NotNull String getDescriptionId(@NotNull ItemStack meleeItem) {
+        var meleeLocation = this.getMeleeLocation(meleeItem);
+        @Nullable MeleeIndexInstance meleeIndexInstance = ResourceApi.getMeleeIndexInstance(meleeLocation);
+        if (meleeIndexInstance == null) return super.getDescriptionId();
+
+        MeleeIndex meleeIndex = meleeIndexInstance.getPojo();
+        return meleeIndex.getNameLang();
+    }
+
     /**
      * 获取供客户端使用的 Tooltip 信息
      */
@@ -63,10 +74,12 @@ public class MeleeItem extends Item implements IMelee, MeleeDataAccessor {
 
     // --------Client--------
 
+    /**
+     * 复用 {@link #getDescriptionId}
+     */
     @Override
     public @NotNull Component getName(@NotNull ItemStack meleeItem) {
-        var name = _MeleeItem.getName(this, meleeItem);
-        return name != null ? name : super.getName(meleeItem);
+        return super.getName(meleeItem);
     }
 
     // --------IMeleeRuntime--------

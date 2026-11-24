@@ -1,4 +1,8 @@
 {
+	"item.cgctactical.melee": "Melee item",
+	"item.cgctactical.throwable": "Throwable item",
+	"item.cgctactical.consumable": "Consumable item",
+
 	"key.category.cgctactical.combatant": "CGC Tactical Addon: Combatant",
 	"key.cgctactical.primary_action": "Primary Action (Attack)",
 	"key.cgctactical.secondary_action": "Secondary Action (Use Item/Attack)",
