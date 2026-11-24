@@ -4,6 +4,7 @@
   "compatibilityLevel": "JAVA_17",
   "refmap": "cgctactical.refmap.json",
   "mixins": [
+    "item.ItemStackMixin",
     "item.MeleeItemMixin"
   ],
   "injectors": {
