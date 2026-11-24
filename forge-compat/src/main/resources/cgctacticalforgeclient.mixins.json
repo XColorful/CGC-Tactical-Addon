@@ -3,7 +3,7 @@
   "minVersion": "0.8",
   "compatibilityLevel": "JAVA_17",
   "refmap": "cgctactical.refmap.json",
-  "mixins": [
+  "client": [
     "item.ConsumableItemMixin",
     "item.MeleeItemMixin",
     "item.ThrowableItemMixin"

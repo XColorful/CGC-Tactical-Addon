@@ -38,12 +38,16 @@ public final class _ExplodeData extends ResourcePojo<_ExplodeData> {
                     case _ExplodeDataTag.REMOTE_DETONATION -> pojo.remoteDetonation = JsonUtils.readBoolean(reader);
                     case _ExplodeDataTag.SCREEN_SHAKE_TIME -> pojo.screenShakeTime = JsonUtils.readFloat(reader);
                     case _ExplodeDataTag.SCREEN_SHAKE_AMPLITUDE -> pojo.screenShakeAmplitude = JsonUtils.readFloat(reader);
-                    default -> reader.skipValue();
+                    default -> this.readCustomKey(reader, key);
                 }
             }
         }
         reader.endObject();
         return pojo;
+    }
+    @Override
+    protected boolean readCustomKey(JsonReader reader, String key) throws IOException {
+        return super.readCustomKey(reader, key);
     }
 
     public static void toJson(JsonWriter writer, _ExplodeData pojo) throws IOException {
@@ -60,8 +64,13 @@ public final class _ExplodeData extends ResourcePojo<_ExplodeData> {
             JsonUtils.writeBoolean(writer, _ExplodeDataTag.REMOTE_DETONATION, this.remoteDetonation);
             JsonUtils.writeFloat(writer, _ExplodeDataTag.SCREEN_SHAKE_TIME, this.screenShakeTime);
             JsonUtils.writeFloat(writer, _ExplodeDataTag.SCREEN_SHAKE_AMPLITUDE, this.screenShakeAmplitude);
+            writeCustomValue(writer);
         }
         writer.endObject();
+    }
+    @Override
+    protected void writeCustomValue(JsonWriter writer) {
+        super.writeCustomValue(writer);
     }
 
     @Override

@@ -1,0 +1,12 @@
+{
+  "package": "dev.xcolorful.cgctactical.forge.mixin",
+  "minVersion": "0.8",
+  "compatibilityLevel": "JAVA_17",
+  "refmap": "cgctactical.refmap.json",
+  "mixins": [
+    "item.MeleeItemMixin"
+  ],
+  "injectors": {
+    "defaultRequire": 1
+  }
+}
