@@ -13,7 +13,11 @@ import net.minecraft.world.entity.ai.attributes.AttributeModifier;
 import net.minecraft.world.entity.player.Player;
 import net.minecraft.world.item.Item;
 import net.minecraft.world.item.ItemStack;
+import net.minecraft.world.item.enchantment.Enchantment;
+import net.minecraft.world.item.enchantment.EnchantmentCategory;
 import net.minecraftforge.common.ForgeHooks;
+import net.minecraftforge.common.ToolAction;
+import net.minecraftforge.common.ToolActions;
 import org.spongepowered.asm.mixin.Mixin;
 import org.spongepowered.asm.mixin.injection.At;
 import org.spongepowered.asm.mixin.injection.Inject;
@@ -30,6 +34,27 @@ public abstract class MeleeItemMixin extends Item {
     public Multimap<Attribute, AttributeModifier> getAttributeModifiers(EquipmentSlot equipmentSlot, ItemStack meleeItem) {
         MeleeItem _this = (MeleeItem) (Object) this;
         return _this.getAttributeModifiers(meleeItem, equipmentSlot);
+    }
+
+    @Override
+    public boolean canPerformAction(ItemStack meleeItem, ToolAction toolAction) {
+        return toolAction == ToolActions.SWORD_SWEEP;
+    }
+
+    @Override
+    public int getEnchantmentValue(ItemStack meleeItem) {
+        MeleeItem _this = (MeleeItem) (Object) this;
+        return _this.getEnchantmentPotential(meleeItem);
+    }
+
+    @Override
+    public boolean canApplyAtEnchantingTable(ItemStack meleeItem, Enchantment enchantment) {
+        return enchantment.category == EnchantmentCategory.WEAPON;
+    }
+
+    @Override
+    public boolean isDamageable(ItemStack meleeItem) {
+        return this.getMaxDamage(meleeItem) > 0;
     }
 
     // --------IMeleeRuntime--------

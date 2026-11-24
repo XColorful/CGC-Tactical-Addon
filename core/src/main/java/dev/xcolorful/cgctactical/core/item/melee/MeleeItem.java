@@ -50,6 +50,13 @@ public class MeleeItem extends Item implements IMelee, MeleeDataAccessor {
 
         return meleeIndexInstance.getAttributeModifierCache();
     }
+    // 可用于Forge getEnchantmentValue(ItemStack)
+    /**
+     * 获取附魔潜力值，同原版 {@code Item#getEnchantmentValue}
+     */
+    public int getEnchantmentPotential(ItemStack meleeItem) {
+        return 5;
+    }
 
     // --------Item--------
 
@@ -69,6 +76,21 @@ public class MeleeItem extends Item implements IMelee, MeleeDataAccessor {
     @Override
     public @NotNull Optional<TooltipComponent> getTooltipImage(@NotNull ItemStack meleeItem) {
         return Optional.ofNullable(MeleeTooltip.fromItem(meleeItem));
+    }
+
+    @Override
+    public int getMaxDamage(ItemStack meleeItem) {
+        var meleeLocation = this.getMeleeLocation(meleeItem);
+        @Nullable MeleeIndexInstance meleeIndexInstance = ResourceApi.getMeleeIndexInstance(meleeLocation);
+        if (meleeIndexInstance == null) return 0;
+
+        MeleeData meleeData = meleeIndexInstance.getMeleeData();
+        return meleeData.getMaxDurability();
+    }
+
+    @Override
+    public boolean isEnchantable(@NotNull ItemStack meleeItem) {
+        return true;
     }
 
     // --------IMeleeRuntime--------
