@@ -13,6 +13,7 @@ import net.minecraft.world.entity.ai.attributes.Attribute;
 import net.minecraft.world.entity.ai.attributes.AttributeModifier;
 import net.minecraft.world.entity.player.Player;
 import net.minecraft.world.item.Item;
+import net.minecraft.world.item.ItemInstance;
 import net.minecraft.world.item.ItemStack;
 import net.minecraft.world.item.Items;
 import net.minecraft.world.item.component.ItemAttributeModifiers;
@@ -52,7 +53,7 @@ public abstract class MeleeItemMixin extends Item {
     }
 
     @Override
-    public boolean canPerformAction(ItemStack meleeItem, ItemAbility itemAbility) {
+    public boolean canPerformAction(ItemInstance meleeItem, ItemAbility itemAbility) {
         return itemAbility == ItemAbilities.SWORD_SWEEP;
     }
 
