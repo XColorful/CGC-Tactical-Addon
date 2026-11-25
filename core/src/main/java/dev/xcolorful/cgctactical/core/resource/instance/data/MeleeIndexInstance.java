@@ -13,7 +13,7 @@ import dev.xcolorful.customgun.core.resource.instance.PojoInstance;
 import net.minecraft.core.Holder;
 import net.minecraft.core.component.DataComponents;
 import net.minecraft.core.registries.BuiltInRegistries;
-import net.minecraft.resources.ResourceLocation;
+import net.minecraft.resources.Identifier;
 import net.minecraft.world.entity.ai.attributes.Attribute;
 import net.minecraft.world.entity.ai.attributes.AttributeModifier;
 import net.minecraft.world.entity.ai.attributes.Attributes;
@@ -32,7 +32,7 @@ public class MeleeIndexInstance extends PojoInstance<MeleeIndex> {
      * 使用 {@code ResourceLocation#toString} 生成 {@code Identifier} (UUID功能)
      * <li>攻击伤害/攻速直接取原版物品默认属性修饰符里的实例，因为原版 tooltip 以 {@code ==} 判断这两项</li>
      */
-    private static final Map<ResourceLocation, ResourceLocation> attributeModifierIdCache = new HashMap<>();
+    private static final Map<Identifier, Identifier> attributeModifierIdCache = new HashMap<>();
     static {
         IMcRegistry mcRegistry = CustomGun.getMcRegistry();
         ItemAttributeModifiers vanillaModifiers = new ItemStack(Items.IRON_SWORD).getOrDefault(DataComponents.ATTRIBUTE_MODIFIERS, ItemAttributeModifiers.EMPTY);
@@ -42,7 +42,7 @@ public class MeleeIndexInstance extends PojoInstance<MeleeIndex> {
         attributeModifierIdCache.put(mcRegistry.createResourceLocation("minecraft:attack_speed"),
                 _getVanillaModifierId(vanillaModifiers, Attributes.ATTACK_SPEED));
     }
-    private static ResourceLocation _getVanillaModifierId(ItemAttributeModifiers modifiers, Holder<Attribute> attribute) {
+    private static Identifier _getVanillaModifierId(ItemAttributeModifiers modifiers, Holder<Attribute> attribute) {
         for (ItemAttributeModifiers.Entry entry : modifiers.modifiers()) {
             if (entry.attribute().equals(attribute)) return entry.modifier().id();
         }
@@ -51,7 +51,7 @@ public class MeleeIndexInstance extends PojoInstance<MeleeIndex> {
     /**
      * 1.21.4 起原版属性 ID 去掉了 {@code generic.} 前缀，旧版数据包仍可能使用旧 ID
      */
-    private static @Nullable ResourceLocation _resolveAttributeLocation(ResourceLocation location) {
+    private static @Nullable Identifier _resolveAttributeLocation(Identifier location) {
         if (BuiltInRegistries.ATTRIBUTE.containsKey(location)) return location;
         if ("minecraft".equals(location.getNamespace()) && location.getPath().startsWith("generic.")) {
             var stripped = CustomGun.getMcRegistry().createResourceLocation(
@@ -89,9 +89,9 @@ public class MeleeIndexInstance extends PojoInstance<MeleeIndex> {
 
         {
             ImmutableMultimap.Builder<Holder<Attribute>, AttributeModifier> builder = ImmutableMultimap.builder();
-            Map<ResourceLocation, _AttributeInfo> attributeData = this.meleeDataCache.getAttributeData();
+            Map<Identifier, _AttributeInfo> attributeData = this.meleeDataCache.getAttributeData();
             if (attributeData != null) {
-                for (Map.Entry<ResourceLocation, _AttributeInfo> entry : attributeData.entrySet()) {
+                for (Map.Entry<Identifier, _AttributeInfo> entry : attributeData.entrySet()) {
                     var dataLocation = entry.getKey();
                     @Nullable var attributeLocation = _resolveAttributeLocation(dataLocation);
                     @Nullable Holder<Attribute> attribute = attributeLocation == null ? null : BuiltInRegistries.ATTRIBUTE.get(attributeLocation).orElse(null);

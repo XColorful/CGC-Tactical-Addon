@@ -11,7 +11,7 @@ import dev.xcolorful.cgctactical.core.network.message.resource.S2CMessageResourc
 import net.minecraft.client.Minecraft;
 import net.minecraft.client.multiplayer.ClientLevel;
 import net.minecraft.client.player.LocalPlayer;
-import net.minecraft.resources.ResourceLocation;
+import net.minecraft.resources.Identifier;
 import net.minecraft.sounds.SoundEvent;
 import net.minecraft.sounds.SoundSource;
 import net.minecraft.world.phys.Vec3;
@@ -52,7 +52,7 @@ public class _S2CMessageResourceSound {
                 SoundSource.PLAYERS, message.volume(), message.pitch(), false);
     }
 
-    private static @Nullable Map<String, ResourceLocation> getSounds(S2CMessageResourceSound message) {
+    private static @Nullable Map<String, Identifier> getSounds(S2CMessageResourceSound message) {
         return switch (message.tacticalCategory()) {
             case MELEE -> {
                 @Nullable MeleeDisplayInstance meleeDisplayInstance = ClientResourceApi.getMeleeDisplayInstance(message.tacticalLocation());

@@ -7,7 +7,7 @@ import dev.xcolorful.cgctactical.core.resource.data.data.melee._AttackData;
 import dev.xcolorful.cgctactical.core.resource.data.data.melee._AttributeInfo;
 import dev.xcolorful.customgun.core.resource.ResourcePojo;
 import dev.xcolorful.customgun.core.util.JsonUtils;
-import net.minecraft.resources.ResourceLocation;
+import net.minecraft.resources.Identifier;
 import org.jetbrains.annotations.Nullable;
 
 import java.io.IOException;
@@ -19,7 +19,7 @@ public final class MeleeData extends ResourcePojo<MeleeData> {
     private int drawTime = 0;
     private int putAwayTime = 0;
     private _AttackData attackData;
-    private Map<ResourceLocation, _AttributeInfo> attributeData;
+    private Map<Identifier, _AttributeInfo> attributeData;
     private int maxDurability = 0;
     private int enchantmentValue = 14;
 
@@ -106,7 +106,7 @@ public final class MeleeData extends ResourcePojo<MeleeData> {
         pojo.setPutAwayTime(this.putAwayTime);
         pojo.setAttackData(this.attackData.copy());
 
-        @Nullable Map<ResourceLocation, _AttributeInfo> attributeData = null; {
+        @Nullable Map<Identifier, _AttributeInfo> attributeData = null; {
             if (this.attributeData != null) {
                 attributeData = new HashMap<>();
                 for (var entry : this.attributeData.entrySet()) {
@@ -138,7 +138,7 @@ public final class MeleeData extends ResourcePojo<MeleeData> {
     public _AttackData getAttackData() {
         return attackData;
     }
-    public Map<ResourceLocation, _AttributeInfo> getAttributeData() {
+    public Map<Identifier, _AttributeInfo> getAttributeData() {
         return attributeData;
     }
     public int getMaxDurability() {
@@ -157,7 +157,7 @@ public final class MeleeData extends ResourcePojo<MeleeData> {
     public void setAttackData(_AttackData attackData) {
         this.attackData = attackData;
     }
-    public void setAttributeData(Map<ResourceLocation, _AttributeInfo> attributeData) {
+    public void setAttributeData(Map<Identifier, _AttributeInfo> attributeData) {
         this.attributeData = attributeData;
     }
     public void setMaxDurability(int maxDurability) {

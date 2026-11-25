@@ -8,12 +8,12 @@ import dev.xcolorful.customgun.core.api.network.MessageDirection;
 import dev.xcolorful.customgun.core.api.network.message.IMessage;
 import dev.xcolorful.customgun.core.util.NetworkUtils;
 import net.minecraft.network.FriendlyByteBuf;
-import net.minecraft.resources.ResourceLocation;
+import net.minecraft.resources.Identifier;
 
 import java.util.function.Consumer;
 
 public record S2CMessageSyncMeleeAnimation(int livingCombatantId,
-                                           ResourceLocation animationLocation,
+                                           Identifier animationLocation,
                                            TacticalAction tacticalAction,
                                            int combo)
         implements IMessage<S2CMessageSyncMeleeAnimation> {
