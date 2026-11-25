@@ -48,6 +48,7 @@ public abstract class MeleeItemMixin extends Item {
         return toolAction == ToolActions.SWORD_SWEEP;
     }
 
+    @Deprecated(since = "1.21.4")
     @Override
     public int getEnchantmentValue(ItemStack meleeItem) {
         MeleeItem _this = (MeleeItem) (Object) this;

@@ -35,6 +35,8 @@ import java.util.Optional;
 
 public class MeleeItem extends Item implements IMelee, MeleeDataAccessor {
 
+    private static final int ENCHANTMENT_POTENTIAL = 5;
+
     protected MeleeItem(Properties properties) {
         super(properties);
     }
@@ -58,7 +60,7 @@ public class MeleeItem extends Item implements IMelee, MeleeDataAccessor {
      * 获取附魔潜力值，同原版 {@code Item#getEnchantmentValue}
      */
     public int getEnchantmentPotential(ItemStack meleeItem) {
-        return 5;
+        return ENCHANTMENT_POTENTIAL;
     }
     // 可用于Forge getMaxDamage(ItemStack)
     /**
@@ -98,6 +100,7 @@ public class MeleeItem extends Item implements IMelee, MeleeDataAccessor {
         return Optional.ofNullable(MeleeTooltip.fromItem(meleeItem));
     }
 
+    @Deprecated(since = "1.21.4")
     @Override
     public boolean isEnchantable(@NotNull ItemStack meleeItem) {
         return true;
