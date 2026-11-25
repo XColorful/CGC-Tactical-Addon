@@ -173,6 +173,8 @@ public final class SecondaryActionKey extends InputKey implements IEventHandler 
 
         render.triggerAnimation(tacticalItem, TacticalAction.SECONDARY_ACTION.getCategoryName());
         render.triggerAnimation(tacticalItem, TacticalAction.SECONDARY_ACTION.typeNameOld);
-        player.swing(InteractionHand.MAIN_HAND);
+        player.swing(InteractionHand.MAIN_HAND
+//                , SwingAnimation.DEFAULT, false // [26.3, )
+        );
     }
 }
