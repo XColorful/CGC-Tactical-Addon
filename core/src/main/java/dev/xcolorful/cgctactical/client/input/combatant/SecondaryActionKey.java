@@ -29,6 +29,7 @@ import net.minecraft.client.multiplayer.MultiPlayerGameMode;
 import net.minecraft.client.player.LocalPlayer;
 import net.minecraft.world.InteractionHand;
 import net.minecraft.world.item.ItemStack;
+import net.minecraft.world.item.component.SwingAnimation;
 import org.jetbrains.annotations.Nullable;
 
 public final class SecondaryActionKey extends InputKey implements IEventHandler {
@@ -174,7 +175,7 @@ public final class SecondaryActionKey extends InputKey implements IEventHandler 
         render.triggerAnimation(tacticalItem, TacticalAction.SECONDARY_ACTION.getCategoryName());
         render.triggerAnimation(tacticalItem, TacticalAction.SECONDARY_ACTION.typeNameOld);
         player.swing(InteractionHand.MAIN_HAND
-//                , SwingAnimation.DEFAULT, false // [26.3, )
+                , SwingAnimation.DEFAULT, false // [26.3, )
         );
     }
 }
