@@ -8,13 +8,13 @@ import dev.xcolorful.customgun.core.api.network.MessageDirection;
 import dev.xcolorful.customgun.core.api.network.message.IMessage;
 import dev.xcolorful.customgun.core.util.NetworkUtils;
 import net.minecraft.network.FriendlyByteBuf;
-import net.minecraft.resources.ResourceLocation;
+import net.minecraft.resources.Identifier;
 import net.minecraft.world.phys.Vec3;
 
 import java.util.function.Consumer;
 
 public record S2CMessageResourceSound(TacticalCategory tacticalCategory,
-                                      ResourceLocation tacticalLocation,
+                                      Identifier tacticalLocation,
                                       String sound,
                                       Vec3 soundPos,
                                       float volume,
