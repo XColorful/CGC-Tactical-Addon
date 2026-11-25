@@ -11,15 +11,11 @@ import dev.xcolorful.customgun.CustomGun;
 import dev.xcolorful.customgun.core.api.minecraft.IMcRegistry;
 import dev.xcolorful.customgun.core.resource.instance.PojoInstance;
 import net.minecraft.core.Holder;
-import net.minecraft.core.component.DataComponents;
 import net.minecraft.core.registries.BuiltInRegistries;
 import net.minecraft.resources.ResourceLocation;
 import net.minecraft.world.entity.ai.attributes.Attribute;
 import net.minecraft.world.entity.ai.attributes.AttributeModifier;
-import net.minecraft.world.entity.ai.attributes.Attributes;
-import net.minecraft.world.item.ItemStack;
-import net.minecraft.world.item.Items;
-import net.minecraft.world.item.component.ItemAttributeModifiers;
+import net.minecraft.world.item.Item;
 import org.jetbrains.annotations.NotNull;
 import org.jetbrains.annotations.Nullable;
 
@@ -35,18 +31,9 @@ public class MeleeIndexInstance extends PojoInstance<MeleeIndex> {
     private static final Map<ResourceLocation, ResourceLocation> attributeModifierIdCache = new HashMap<>();
     static {
         IMcRegistry mcRegistry = CustomGun.getMcRegistry();
-        ItemAttributeModifiers vanillaModifiers = new ItemStack(Items.IRON_SWORD).getOrDefault(DataComponents.ATTRIBUTE_MODIFIERS, ItemAttributeModifiers.EMPTY);
         // [1.21.4, ) 移除了 "generic." 前缀
-        attributeModifierIdCache.put(mcRegistry.createResourceLocation("minecraft:attack_damage"),
-                _getVanillaModifierId(vanillaModifiers, Attributes.ATTACK_DAMAGE));
-        attributeModifierIdCache.put(mcRegistry.createResourceLocation("minecraft:attack_speed"),
-                _getVanillaModifierId(vanillaModifiers, Attributes.ATTACK_SPEED));
-    }
-    private static ResourceLocation _getVanillaModifierId(ItemAttributeModifiers modifiers, Holder<Attribute> attribute) {
-        for (ItemAttributeModifiers.Entry entry : modifiers.modifiers()) {
-            if (entry.attribute().equals(attribute)) return entry.modifier().id();
-        }
-        throw new IllegalStateException("Vanilla iron sword has no attribute modifier for " + attribute);
+        attributeModifierIdCache.put(mcRegistry.createResourceLocation("minecraft:attack_damage"), Item.BASE_ATTACK_DAMAGE_ID);
+        attributeModifierIdCache.put(mcRegistry.createResourceLocation("minecraft:attack_speed"), Item.BASE_ATTACK_SPEED_ID);
     }
     /**
      * 1.21.4 起原版属性 ID 去掉了 {@code generic.} 前缀，旧版数据包仍可能使用旧 ID
