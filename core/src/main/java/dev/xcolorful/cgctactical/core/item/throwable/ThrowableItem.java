@@ -8,6 +8,7 @@ import dev.xcolorful.cgctactical.core.gui.tooltip.throwable.ThrowableTooltip;
 import dev.xcolorful.cgctactical.core.init.registry.ModItems;
 import dev.xcolorful.cgctactical.core.resource.data.index.ThrowableIndex;
 import dev.xcolorful.cgctactical.core.resource.instance.data.ThrowableIndexInstance;
+import net.minecraft.network.chat.Component;
 import net.minecraft.world.inventory.tooltip.TooltipComponent;
 import net.minecraft.world.item.Item;
 import net.minecraft.world.item.ItemStack;
@@ -28,13 +29,13 @@ public class ThrowableItem extends Item implements IThrowable, ThrowableDataAcce
     // --------Item--------
 
     @Override
-    public @NotNull String getDescriptionId(@NotNull ItemStack throwableItem) {
+    public @NotNull Component getName(@NotNull ItemStack throwableItem) {
         var throwableLocation = this.getThrowableLocation(throwableItem);
         @Nullable ThrowableIndexInstance throwableIndexInstance = ResourceApi.getThrowableIndexInstance(throwableLocation);
-        if (throwableIndexInstance == null) return super.getDescriptionId();
+        if (throwableIndexInstance == null) return super.getName(throwableItem);
 
         ThrowableIndex throwableIndex = throwableIndexInstance.getPojo();
-        return throwableIndex.getNameLang();
+        return Component.translatable(throwableIndex.getNameLang());
     }
 
     /**
