@@ -42,7 +42,9 @@ public class MeleeItem extends Item implements IMelee, MeleeDataAccessor {
         super(properties);
     }
     public MeleeItem() {
-        this(ModItems.CUSTOM_ITEM_PROPERTY.apply(ItemType.MELEE.getRegistryLocation()));
+        this(ModItems.CUSTOM_ITEM_PROPERTY.apply(ItemType.MELEE.getRegistryLocation())
+//                .enchantable(ENCHANTMENT_POTENTIAL) // [1.21.4, )
+        );
     }
 
     // --------
