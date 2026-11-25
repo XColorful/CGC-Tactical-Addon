@@ -57,7 +57,7 @@ public abstract class MeleeItemMixin extends Item {
     }
 
     @Deprecated(since = "1.21.4")
-    @Override
+//    @Override
     public int getEnchantmentValue(ItemStack meleeItem) {
         MeleeItem _this = (MeleeItem) (Object) this;
         return _this.getEnchantmentPotential(meleeItem);
