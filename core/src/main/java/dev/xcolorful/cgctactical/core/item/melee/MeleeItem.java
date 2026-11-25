@@ -17,6 +17,7 @@ import dev.xcolorful.cgctactical.core.init.registry.ModItems;
 import dev.xcolorful.cgctactical.core.resource.data.data.MeleeData;
 import dev.xcolorful.cgctactical.core.resource.data.index.MeleeIndex;
 import dev.xcolorful.cgctactical.core.resource.instance.data.MeleeIndexInstance;
+import net.minecraft.network.chat.Component;
 import net.minecraft.world.entity.Entity;
 import net.minecraft.world.entity.EquipmentSlot;
 import net.minecraft.world.entity.LivingEntity;
@@ -80,13 +81,13 @@ public class MeleeItem extends Item implements IMelee, MeleeDataAccessor {
     // --------Item--------
 
     @Override
-    public @NotNull String getDescriptionId(@NotNull ItemStack meleeItem) {
+    public @NotNull Component getName(@NotNull ItemStack meleeItem) {
         var meleeLocation = this.getMeleeLocation(meleeItem);
         @Nullable MeleeIndexInstance meleeIndexInstance = ResourceApi.getMeleeIndexInstance(meleeLocation);
-        if (meleeIndexInstance == null) return super.getDescriptionId();
+        if (meleeIndexInstance == null) return super.getName(meleeItem);
 
         MeleeIndex meleeIndex = meleeIndexInstance.getPojo();
-        return meleeIndex.getNameLang();
+        return Component.translatable(meleeIndex.getNameLang());
     }
 
     /**
