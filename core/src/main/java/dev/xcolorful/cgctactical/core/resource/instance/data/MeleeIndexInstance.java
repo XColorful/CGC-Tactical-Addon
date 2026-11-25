@@ -36,9 +36,10 @@ public class MeleeIndexInstance extends PojoInstance<MeleeIndex> {
     static {
         IMcRegistry mcRegistry = CustomGun.getMcRegistry();
         ItemAttributeModifiers vanillaModifiers = new ItemStack(Items.IRON_SWORD).getOrDefault(DataComponents.ATTRIBUTE_MODIFIERS, ItemAttributeModifiers.EMPTY);
-        attributeModifierIdCache.put(mcRegistry.createResourceLocation("minecraft:generic.attack_damage"),
+        // [1.21.4, ) 移除了 "generic." 前缀
+        attributeModifierIdCache.put(mcRegistry.createResourceLocation("minecraft:attack_damage"),
                 _getVanillaModifierId(vanillaModifiers, Attributes.ATTACK_DAMAGE));
-        attributeModifierIdCache.put(mcRegistry.createResourceLocation("minecraft:generic.attack_speed"),
+        attributeModifierIdCache.put(mcRegistry.createResourceLocation("minecraft:attack_speed"),
                 _getVanillaModifierId(vanillaModifiers, Attributes.ATTACK_SPEED));
     }
     private static ResourceLocation _getVanillaModifierId(ItemAttributeModifiers modifiers, Holder<Attribute> attribute) {
@@ -46,6 +47,18 @@ public class MeleeIndexInstance extends PojoInstance<MeleeIndex> {
             if (entry.attribute().equals(attribute)) return entry.modifier().id();
         }
         throw new IllegalStateException("Vanilla iron sword has no attribute modifier for " + attribute);
+    }
+    /**
+     * 1.21.4 起原版属性 ID 去掉了 {@code generic.} 前缀，旧版数据包仍可能使用旧 ID
+     */
+    private static @Nullable ResourceLocation _resolveAttributeLocation(ResourceLocation location) {
+        if (BuiltInRegistries.ATTRIBUTE.containsKey(location)) return location;
+        if ("minecraft".equals(location.getNamespace()) && location.getPath().startsWith("generic.")) {
+            var stripped = CustomGun.getMcRegistry().createResourceLocation(
+                    "minecraft:" + location.getPath().substring("generic.".length()));
+            if (BuiltInRegistries.ATTRIBUTE.containsKey(stripped)) return stripped;
+        }
+        return null;
     }
 
     private MeleeData meleeDataCache;
@@ -79,10 +92,11 @@ public class MeleeIndexInstance extends PojoInstance<MeleeIndex> {
             Map<ResourceLocation, _AttributeInfo> attributeData = this.meleeDataCache.getAttributeData();
             if (attributeData != null) {
                 for (Map.Entry<ResourceLocation, _AttributeInfo> entry : attributeData.entrySet()) {
-                    var attributeLocation = entry.getKey();
-                    @Nullable Holder<Attribute> attribute = BuiltInRegistries.ATTRIBUTE.getHolder(attributeLocation).orElse(null);
+                    var dataLocation = entry.getKey();
+                    @Nullable var attributeLocation = _resolveAttributeLocation(dataLocation);
+                    @Nullable Holder<Attribute> attribute = attributeLocation == null ? null : BuiltInRegistries.ATTRIBUTE.get(attributeLocation).orElse(null);
                     if (attribute == null) {
-                        CgcTactical.LOGGER.debug("MeleeIndexInstance: Attribute {} not found", attributeLocation);
+                        CgcTactical.LOGGER.debug("MeleeIndexInstance: Attribute {} not found", dataLocation);
                         continue;
                     }
 
