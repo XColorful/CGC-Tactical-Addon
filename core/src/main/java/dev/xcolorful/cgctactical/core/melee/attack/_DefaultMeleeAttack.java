@@ -21,7 +21,7 @@ import dev.xcolorful.cgctactical.core.resource.instance.data.MeleeIndexInstance;
 import dev.xcolorful.cgctactical.core.util.ItemStackUtils;
 import dev.xcolorful.cgctactical.core.util.SendUtils;
 import dev.xcolorful.customgun.core.util.EntityUtils;
-import net.minecraft.resources.ResourceLocation;
+import net.minecraft.resources.Identifier;
 import net.minecraft.server.level.ServerPlayer;
 import net.minecraft.util.Mth;
 import net.minecraft.world.damagesource.DamageSource;
@@ -128,7 +128,7 @@ public class _DefaultMeleeAttack {
 
     @ApiStatus.Internal
     private static void playMeleeSoundToNearbyPlayersAndSelf(LivingEntity livingCombatant,
-                                                             ResourceLocation meleeLocation,
+                                                             Identifier meleeLocation,
                                                              String sound) {
         if (!(livingCombatant instanceof ServerPlayer serverPlayer)) return;
 
@@ -142,7 +142,7 @@ public class _DefaultMeleeAttack {
 
     @ApiStatus.Internal
     private static void playMeleeSoundToNearbyPlayers(LivingEntity livingCombatant,
-                                                      ResourceLocation meleeLocation,
+                                                      Identifier meleeLocation,
                                                       String sound) {
         if (!(livingCombatant instanceof ServerPlayer serverPlayer)) return;
 
