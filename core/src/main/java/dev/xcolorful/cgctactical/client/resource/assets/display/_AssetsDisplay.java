@@ -140,7 +140,7 @@ public abstract class _AssetsDisplay<T extends _AssetsDisplay<T>> extends Resour
         } else if (!this.sounds.isEmpty()) {
             // 非空时尝试填补新键名
             List<String> sounds = new ArrayList<>(); // 每次插入新sound
-            List<ResourceLocation> soundLocations = new ArrayList<>(); // 每次插入旧soundLocation
+            List<Identifier> soundLocations = new ArrayList<>(); // 每次插入旧soundLocation
             for (var entry : this.sounds.entrySet()) {
                 // 收集旧名
                 String soundOld = entry.getKey();
