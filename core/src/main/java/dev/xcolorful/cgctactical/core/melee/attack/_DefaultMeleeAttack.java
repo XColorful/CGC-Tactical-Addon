@@ -184,7 +184,7 @@ public class _DefaultMeleeAttack {
             EntityUtils.setInvulnerableTime(meleeVictim, 0);
         }
 
-        if (!meleeVictim.hurt(damageSource, damage)) {
+        if (!EntityUtils.hurt(meleeVictim, damageSource, damage)) {
             // 免疫伤害/没造成伤害，不算命中
             return EnumSet.of(IMeleeAttackRuntime.MeleeAttackResult.MISS);
         }
