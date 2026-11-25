@@ -43,7 +43,7 @@ public class MeleeItem extends Item implements IMelee, MeleeDataAccessor {
     }
     public MeleeItem() {
         this(ModItems.CUSTOM_ITEM_PROPERTY.apply(ItemType.MELEE.getRegistryLocation())
-//                .enchantable(ENCHANTMENT_POTENTIAL) // [1.21.4, )
+                .enchantable(ENCHANTMENT_POTENTIAL) // [1.21.4, )
         );
     }
 
@@ -104,7 +104,7 @@ public class MeleeItem extends Item implements IMelee, MeleeDataAccessor {
     }
 
     @Deprecated(since = "1.21.4")
-    @Override
+//    @Override
     public boolean isEnchantable(@NotNull ItemStack meleeItem) {
         return true;
     }
