@@ -193,7 +193,9 @@ public class _DefaultMeleeAttack {
         if (meleeVictim instanceof LivingEntity livingMeleeVictim) {
             livingMeleeVictim.knockback(knockback,
                     Mth.sin(livingCombatant.getYRot() * ((float) Math.PI / 180F)),
-                    -Mth.cos(livingCombatant.getYRot() * ((float) Math.PI / 180F)));
+                    -Mth.cos(livingCombatant.getYRot() * ((float) Math.PI / 180F)),
+                    damageSource, 0
+            );
             _DefaultMeleeEffect.doPostAttackEffects(livingCombatant, meleeItem, livingMeleeVictim, damageSource);
         }
 
