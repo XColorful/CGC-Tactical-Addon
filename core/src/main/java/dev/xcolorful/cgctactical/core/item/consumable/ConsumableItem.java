@@ -8,6 +8,7 @@ import dev.xcolorful.cgctactical.core.gui.tooltip.consumable.ConsumableTooltip;
 import dev.xcolorful.cgctactical.core.init.registry.ModItems;
 import dev.xcolorful.cgctactical.core.resource.data.index.ConsumableIndex;
 import dev.xcolorful.cgctactical.core.resource.instance.data.ConsumableIndexInstance;
+import net.minecraft.network.chat.Component;
 import net.minecraft.world.inventory.tooltip.TooltipComponent;
 import net.minecraft.world.item.Item;
 import net.minecraft.world.item.ItemStack;
@@ -28,13 +29,13 @@ public class ConsumableItem extends Item implements IConsumable, ConsumableDataA
     // --------Item--------
 
     @Override
-    public @NotNull String getDescriptionId(@NotNull ItemStack consumableItem) {
+    public @NotNull Component getName(@NotNull ItemStack consumableItem) {
         var consumableLocation = this.getConsumableLocation(consumableItem);
         @Nullable ConsumableIndexInstance consumableIndexInstance = ResourceApi.getConsumableIndexInstance(consumableLocation);
-        if (consumableIndexInstance == null) return super.getDescriptionId();
+        if (consumableIndexInstance == null) return super.getName(consumableItem);
 
         ConsumableIndex consumableIndex = consumableIndexInstance.getPojo();
-        return consumableIndex.getNameLang();
+        return Component.translatable(consumableIndex.getNameLang());
     }
 
     /**
