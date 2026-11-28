@@ -30,3 +30,45 @@ Addon 是继承 CGC 的 `AnimatedModelObject` + `AnimateGeoItemRenderer` 的。�
 - slot 贴图路径（GUI / 缺失材质）用的是 `SlotModel` + 直接缓冲写入，本来就不进烘焙，与 CGC 枪械 renderer 的写法一致。
 
 验证：用 `customgun-26.11.36-forge-1.20.1.jar` 跑了 `core:compileJava`，通过。唯一未覆盖的是游戏内画面与帧时间实测（本机跑不了客户端）。
+
+# 
+
+```
+看26.2是否要改
+```
+
+# 
+
+我来检查 26.2 这对 worktree。先确认两边的分支状态和文档版本。
+
+26.2 也不用改，未修改任何文件。逐项对了 26.2 的额外要求：
+
+- **烘焙入口**：CGC 26.2 的 `ModelObject.render` 走 `drawOrBake26_2`（[ModelObject.java:289](../Custom-Gun-Continued-26.2neoforge/core/src/main/java/dev/xcolorful/customgun/client/model/ModelObject.java:289)），常驻显存失败时回放。Addon 的 `renderByItem` 和继承的 `renderFirstPerson` 都先把 `SubmitNodeCollector` 设进 `FirstPersonArmHelper` 再调 `modelObject.render`，`StaticBake.available()` 成立，整模烘焙与第一人称分块烘焙自动生效。
+- **硬约束 1「包装 RenderType 必须缓存」**：Addon 只用 `ClientRenderUtils.RenderType_.entityCutout/entityTranslucent`，底层 `RenderTypes` 在 26.2 是 `Util.memoize`（已查 26.2 sources 确认），实例稳定；`bakePipelineState` 由 `ModelObject.render` 内部完成，Addon 不需要自己包。
+- **硬约束 2「submit 阶段提交手臂」**：`_TacticalModelRender` 与 CGC 的 `_GunModelRender` 同构——`super_render` 之后调 `HandRender.renderFirstPersonArm`（[_TacticalModelRender.java:40](../CGC-Tactical-Addon-26.2neoforge/core/src/main/java/dev/xcolorful/cgctactical/client/model/_TacticalModelRender.java:40)）；functional 的 `HandRender` 委托在 prepare 阶段 collector 已清空，不会重复画手臂。
+- **硬约束 3「effectVisible 要在 submit 设好且不能还原」**：`MeleeItemRenderer.renderFirstPerson` 设 true 且不在 finally 还原，`renderByItem` 设 false（[MeleeItemRenderer.java:120](../CGC-Tactical-Addon-26.2neoforge/core/src/main/java/dev/xcolorful/cgctactical/client/renderer/item/MeleeItemRenderer.java:120)）。
+- 功能性回调仍只写 `visible`、幂等，没有直接发射几何，不会触发即时管线退回；slot 贴图走 `submitCustomGeometry`，与 `GunItemRenderer._renderSlotTexture` 一致且不进烘焙。代码里没有 `MultiBufferSource` 等旧 API 残留，注册路径（`IAnimateGeoItem` + `IItemBEWLR` mixin）与 `GunItemMixin` 一致。
+
+验证：`:core:compileJava` 对 `customgun-26.11.39-neoforge-26.2.jar` 通过（exit 0）。两处与本次重构无关、1.20.1 也存在的既有缺口仅作记录：`entityRendering` 从未被置位（entity_hide 等投掷物实体渲染器），第三人称没有接 CGC 的 `visualUpdate` 渲染帧逻辑。
+
+# 
+
+```
+1.20.1既有缺口从未被置位是什么意思？
+```
+
+# 
+
+「从未被置位」的意思是：`TacticalModelObject` 里的 `entityRendering` 字段从来没有被设为过 `true`。
+
+具体链条：
+
+1. 字段默认 `false`（[TacticalModelObject.java:38](../CGC-Tactical-Addon-26.2neoforge/core/src/main/java/dev/xcolorful/cgctactical/client/model/TacticalModelObject.java:38)），setter `setEntityRendering(boolean)` 存在（[TacticalModelObject.java:118](../CGC-Tactical-Addon-26.2neoforge/core/src/main/java/dev/xcolorful/cgctactical/client/model/TacticalModelObject.java:118)）。
+2. 全仓（1.20.1、26.2 两个分支，含 forge/neoforge-compat、mixin）grep `entityRendering`，**只有定义、getter、setter 三处，没有任何调用 `setEntityRendering(...)` 的地方**。
+3. 唯一的读取点在 `_TacticalLoader` 给 `ENTITY_HIDE` / `entity_hide_*` 节点绑的回调里：`bedrockPart.visible = !_this.getEntityRendering();`（[_TacticalLoader.java:39](../CGC-Tactical-Addon-26.2neoforge/core/src/main/java/dev/xcolorful/cgctactical/client/model/_TacticalLoader.java:39)）。字段恒为 `false`，所以这个回调恒等于 `visible = true`。
+
+结果就是：`entity_hide` 这套节点约定目前是**空转**的——模型无论拿在手里、放展示框还是画在实体上，这些节点都会正常显示，不会隐藏。
+
+它本来是留给「模型被当作实体渲染时隐藏某些节点」的入口（比如投掷物飞在空中时的本体），但 addon 目前没有投掷物实体渲染器，也就没有地方调用它；`docs/deprecated/prompt/#12` 里也记着「`entity_hide` 要等投掷物实体渲染器落地才会碰到」。另外 26.2 下这个状态必须在 submit 阶段设好且不能随即还原（注释里已写明），所以将来接线时不能沿用 1.20.1 那种「设完立刻还原」的写法。
+
+这与烘焙/性能重构无关：影响的是节点显隐，不影响是否走烘焙；1.20.1、26.2、26.3 三个分支都是同样情况。
