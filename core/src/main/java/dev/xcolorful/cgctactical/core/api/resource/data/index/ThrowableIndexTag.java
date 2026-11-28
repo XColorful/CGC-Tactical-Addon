@@ -7,5 +7,7 @@ public class ThrowableIndexTag extends _DataIndexTag {
     public static final String THROWABLE_CATEGORY = "throwable_category"; public static final String THROWABLE_CATEGORY_OLD1 = "type";
     public static final String BASE_ITEM = "base_item";
 
+    public static final String MAX_STACK_SIZE = "max_stack_size"; public static final String MAX_STACK_SIZE_OLD1 = "stack_size";
+
     private ThrowableIndexTag() {}
 }

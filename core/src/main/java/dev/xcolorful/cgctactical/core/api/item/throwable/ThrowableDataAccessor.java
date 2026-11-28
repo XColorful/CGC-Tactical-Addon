@@ -2,6 +2,7 @@ package dev.xcolorful.cgctactical.core.api.item.throwable;
 
 import dev.xcolorful.cgctactical.core.api.item.tactical.TacticalDataAccessor;
 import dev.xcolorful.cgctactical.core.api.resource.ResourceApi;
+import dev.xcolorful.cgctactical.core.resource.data.index.ThrowableIndex;
 import dev.xcolorful.cgctactical.core.resource.instance.data.ThrowableIndexInstance;
 import dev.xcolorful.customgun.core.api.resource.ResourceTag;
 import dev.xcolorful.customgun.core.util.NBTUtils;
@@ -37,6 +38,16 @@ public interface ThrowableDataAccessor extends TacticalDataAccessor, IThrowableD
     @Override
     default void setThrowableDisplayLocation(ItemStack throwableItem, ResourceLocation throwableDisplayLocation) {
         NBTUtils.setResourceLocation(throwableItem, ThrowableProperty.THROWABLE_DISPLAY_LOCATION.getTagName(), throwableDisplayLocation);
+    }
+
+    @Override
+    default int getThrowableMaxStackSize(ItemStack throwableItem) {
+        var throwableLocation = this.getThrowableLocation(throwableItem);
+        @Nullable ThrowableIndexInstance throwableIndexInstance = ResourceApi.getThrowableIndexInstance(throwableLocation);
+        if (throwableIndexInstance == null) return 1;
+
+        ThrowableIndex throwableIndex = throwableIndexInstance.getPojo();
+        return throwableIndex.getMaxStackSize();
     }
 
     // --------IThrowableStateAccess--------

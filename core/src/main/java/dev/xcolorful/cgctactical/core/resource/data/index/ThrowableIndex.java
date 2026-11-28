@@ -24,6 +24,11 @@ public final class ThrowableIndex extends _DataIndex<ThrowableIndex> {
     private ResourceLocation throwableCategoryLocation; // TODO
     private ResourceLocation baseItemLocation;
 
+    /**
+     * 物品堆叠数量
+     */
+    private int maxStackSize = 1;
+
     private static final ThrowableIndex PARSER = new ThrowableIndex();
     public static ThrowableIndex fromJson(JsonReader reader) throws IOException {
         return PARSER.fromJsonReader(reader);
@@ -44,6 +49,8 @@ public final class ThrowableIndex extends _DataIndex<ThrowableIndex> {
 
                     case ThrowableIndexTag.THROWABLE_CATEGORY, ThrowableIndexTag.THROWABLE_CATEGORY_OLD1 -> pojo.throwableCategoryLocation = JsonUtils.readResourceLocation(reader);
                     case ThrowableIndexTag.BASE_ITEM -> pojo.baseItemLocation = JsonUtils.readResourceLocation(reader);
+
+                    case ThrowableIndexTag.MAX_STACK_SIZE, ThrowableIndexTag.MAX_STACK_SIZE_OLD1 -> pojo.maxStackSize = JsonUtils.readInt(reader);
                     default -> this.readCustomKey(reader, key);
                 }
             }
@@ -71,6 +78,8 @@ public final class ThrowableIndex extends _DataIndex<ThrowableIndex> {
 
             JsonUtils.writeResourceLocation(writer, ThrowableIndexTag.THROWABLE_CATEGORY, this.throwableCategoryLocation);
             JsonUtils.writeResourceLocation(writer, ThrowableIndexTag.BASE_ITEM, this.baseItemLocation);
+
+            JsonUtils.writeInt(writer, ThrowableIndexTag.MAX_STACK_SIZE, this.maxStackSize);
             writeCustomValue(writer);
         }
         writer.endObject();
@@ -91,14 +100,18 @@ public final class ThrowableIndex extends _DataIndex<ThrowableIndex> {
             return;
         }
 
+        if (this.maxStackSize < 1) this.maxStackSize = 1;
         this.setValid(true);
     }
 
     @Override
     protected ThrowableIndex copyTo(final ThrowableIndex pojo) {
         super.copyTo(pojo);
+
         pojo.setThrowableCategoryLocation(this.throwableCategoryLocation);
         pojo.setBaseItemLocation(this.baseItemLocation);
+
+        pojo.setMaxStackSize(this.maxStackSize);
         return pojo;
     }
 
@@ -117,12 +130,18 @@ public final class ThrowableIndex extends _DataIndex<ThrowableIndex> {
     public ResourceLocation getBaseItemLocation() {
         return baseItemLocation;
     }
+    public int getMaxStackSize() {
+        return maxStackSize;
+    }
 
     public void setThrowableCategoryLocation(ResourceLocation throwableCategoryLocation) {
         this.throwableCategoryLocation = throwableCategoryLocation;
     }
     public void setBaseItemLocation(ResourceLocation baseItemLocation) {
         this.baseItemLocation = baseItemLocation;
+    }
+    public void setMaxStackSize(int maxStackSize) {
+        this.maxStackSize = maxStackSize;
     }
 
     // --------Back compatibility--------
@@ -131,6 +150,8 @@ public final class ThrowableIndex extends _DataIndex<ThrowableIndex> {
     public ThrowableIndex applyBackCompatibility() {
         super.applyBackCompatibility();
         this.baseItemLocation = this.baseItemLocation == null ? ResourceTag.NULL_LOCATION : this.baseItemLocation;
+
+        if (this.throwableData != null) this.maxStackSize = this.throwableData.getMaxStackSize();
         return this;
     }
 

@@ -21,7 +21,6 @@ public final class ThrowableData extends ResourcePojo<ThrowableData> {
     private float initialSpeed = 1.5f;
     private int cooldown = 40;
     private @Nullable ResourceLocation cooldownCategoryLocation; // TODO
-    private int maxStackSize = 1;
     private _EntityData entityData;
     private long putAwayTime = 0;
 
@@ -45,13 +44,14 @@ public final class ThrowableData extends ResourcePojo<ThrowableData> {
                     case ThrowableDataTag.INITIAL_SPEED -> pojo.initialSpeed = JsonUtils.readFloat(reader);
                     case ThrowableDataTag.COOLDOWN -> pojo.cooldown = JsonUtils.readInt(reader);
                     case ThrowableDataTag.COOLDOWN_CATEGORY -> pojo.cooldownCategoryLocation = JsonUtils.readResourceLocation(reader);
-                    case ThrowableDataTag.MAX_STACK_SIZE, ThrowableDataTag.MAX_STACK_SIZE_OLD1 -> pojo.maxStackSize = JsonUtils.readInt(reader);
                     case ThrowableDataTag.ENTITY -> pojo.entityData = JsonUtils.read(reader, _EntityData::fromJson);
                     case ThrowableDataTag.PUT_AWAY_TIME -> pojo.putAwayTime = JsonUtils.readLong(reader);
 
                     case ThrowableDataTag.EXPLODE -> pojo.explodeData = JsonUtils.read(reader, _ExplodeData::fromJson);
                     case ThrowableDataTag.CLOUD -> pojo.cloudData = JsonUtils.read(reader, _CloudData::fromJson);
                     case ThrowableDataTag.STUN -> pojo.stunData = JsonUtils.read(reader, _StunData::fromJson);
+
+                    case ThrowableDataTag.MAX_STACK_SIZE_OLD1 -> pojo.maxStackSize = JsonUtils.readInt(reader);
                     default -> this.readCustomKey(reader, key);
                 }
             }
@@ -75,7 +75,6 @@ public final class ThrowableData extends ResourcePojo<ThrowableData> {
             JsonUtils.writeFloat(writer, ThrowableDataTag.INITIAL_SPEED, this.initialSpeed);
             JsonUtils.writeInt(writer, ThrowableDataTag.COOLDOWN, this.cooldown);
             JsonUtils.writeResourceLocation(writer, ThrowableDataTag.COOLDOWN_CATEGORY, this.cooldownCategoryLocation);
-            JsonUtils.writeInt(writer, ThrowableDataTag.MAX_STACK_SIZE, this.maxStackSize);
             JsonUtils.write(writer, ThrowableDataTag.ENTITY, this.entityData, _EntityData::toJson);
             JsonUtils.writeLong(writer, ThrowableDataTag.PUT_AWAY_TIME, this.putAwayTime);
 
@@ -111,6 +110,7 @@ public final class ThrowableData extends ResourcePojo<ThrowableData> {
             return;
         }
 
+        if (this.maxStackSize < 1) this.maxStackSize = 1;
         this.setValid(true);
     }
 
@@ -121,7 +121,6 @@ public final class ThrowableData extends ResourcePojo<ThrowableData> {
         pojo.setInitialSpeed(this.initialSpeed);
         pojo.setCooldown(this.cooldown);
         pojo.setCooldownCategoryLocation(this.cooldownCategoryLocation);
-        pojo.setMaxStackSize(this.maxStackSize);
         pojo.setEntityData(this.entityData.copy());
         pojo.setPutAwayTime(this.putAwayTime);
 
@@ -161,9 +160,6 @@ public final class ThrowableData extends ResourcePojo<ThrowableData> {
     public @Nullable ResourceLocation getCooldownCategoryLocation() {
         return cooldownCategoryLocation;
     }
-    public int getMaxStackSize() {
-        return maxStackSize;
-    }
     public _EntityData getEntityData() {
         return entityData;
     }
@@ -195,9 +191,6 @@ public final class ThrowableData extends ResourcePojo<ThrowableData> {
     public void setCooldownCategoryLocation(ResourceLocation cooldownCategoryLocation) {
         this.cooldownCategoryLocation = cooldownCategoryLocation;
     }
-    public void setMaxStackSize(int maxStackSize) {
-        this.maxStackSize = maxStackSize;
-    }
     public void setEntityData(_EntityData entityData) {
         this.entityData = entityData;
     }
@@ -223,5 +216,13 @@ public final class ThrowableData extends ResourcePojo<ThrowableData> {
         if (this.cloudData != null) this.cloudData.applyBackCompatibility();
         if (this.stunData != null) this.stunData.applyBackCompatibility();
         return this;
+    }
+
+    @Deprecated private int maxStackSize = 1;
+    @Deprecated public int getMaxStackSize() {
+        return maxStackSize;
+    }
+    @Deprecated public void setMaxStackSize(int maxStackSize) {
+        this.maxStackSize = maxStackSize;
     }
 }

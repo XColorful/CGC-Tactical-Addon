@@ -1,14 +1,14 @@
 [English](#English)
 
 # 投掷物数据
-> wiki 版本：`0.0.0`.0
+> wiki 版本：`0.0.36.2`.1
 
 - `prepare_time`（int）：
 - `cookable`（boolean）：
 - `initial_speed`（float）：
 - `cooldown`（int）：
 - `cooldown_category`（ResourceLocation）：
-- `max_stack_size`/`stack_size`（int）：
+- ~~`stack_size`~~
 - `entity`（\_EntityData）：
 	- `life_time`（int）：
 	- `gravity`（float）：
@@ -62,7 +62,6 @@
 	"initial_speed": 0.0,
 	"cooldown": 0,
 	"cooldown_category": "namespace:location",
-	"max_stack_size": 0,
 	"entity": {
 		"life_time": 0,
 		"gravity": 0.0,
@@ -121,14 +120,14 @@
 ```
 
 # English
-> wiki version: `0.0.0`.0
+> wiki version: `0.0.36.2`.1
 
 - `prepare_time`(int):
 - `cookable`(boolean):
 - `initial_speed`(float):
 - `cooldown`(int):
 - `cooldown_category`(ResourceLocation):
-- `max_stack_size`/`stack_size`(int):
+- ~~`stack_size`~~
 - `entity`(\_EntityData):
 	- `life_time`(int):
 	- `gravity`(float):
@@ -182,7 +181,6 @@
 	"initial_speed": 0.0,
 	"cooldown": 0,
 	"cooldown_category": "namespace:location",
-	"max_stack_size": 0,
 	"entity": {
 		"life_time": 0,
 		"gravity": 0.0,

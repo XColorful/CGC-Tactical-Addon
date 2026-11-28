@@ -30,6 +30,8 @@ public abstract class MeleeItemMixin extends Item {
         super(properties);
     }
 
+    // --------IForgeItem--------
+
     @Override
     public Multimap<Attribute, AttributeModifier> getAttributeModifiers(EquipmentSlot equipmentSlot, ItemStack meleeItem) {
         MeleeItem _this = (MeleeItem) (Object) this;

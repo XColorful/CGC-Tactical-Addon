@@ -23,6 +23,8 @@ public interface IThrowableDataAccess extends IThrowableStateAccess,
     @NotNull ResourceLocation getThrowableDisplayLocation(ItemStack throwableItem);
     void setThrowableDisplayLocation(ItemStack throwableItem, ResourceLocation throwableDisplayLocation);
 
+    int getThrowableMaxStackSize(ItemStack throwableItem);
+
     // --------Deprecated--------
 
     @Deprecated(forRemoval = true) default @Nullable ThrowableIndex getThrowableIndex(ItemStack throwableItem) {
