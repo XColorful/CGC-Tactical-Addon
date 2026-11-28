@@ -105,11 +105,18 @@ public final class LivingCombatantCooldown extends LivingCombatantAspect {
      */
     @ApiStatus.Internal
     public static class _ItemCooldown {
-        public int tickCount;
-        public int cooldownTick;
+        private int tickCount;
+        private final int cooldownTick;
         public _ItemCooldown(int cooldownTick) {
             this.tickCount = 0;
             this.cooldownTick = cooldownTick;
+        }
+
+        public int getTickCount() {
+            return this.tickCount;
+        }
+        public int getCooldownTick() {
+            return this.cooldownTick;
         }
 
         /**
@@ -123,7 +130,7 @@ public final class LivingCombatantCooldown extends LivingCombatantAspect {
             return this.cooldownTick - this.tickCount;
         }
         public float getCooldownRemainPercent(float partialTick) {
-            return this.cooldownTick - (this.tickCount + partialTick);
+            return Math.min(this.cooldownTick - (this.tickCount + partialTick), 1.0f);
         }
     }
 }
