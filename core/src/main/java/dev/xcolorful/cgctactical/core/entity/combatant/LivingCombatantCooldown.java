@@ -20,7 +20,7 @@ import java.util.Map;
 
 public final class LivingCombatantCooldown extends LivingCombatantAspect {
 
-    private Map<ResourceLocation, _ItemCooldown> itemCooldown = new HashMap<>();
+    private final Map<ResourceLocation, _ItemCooldown> itemCooldown = new HashMap<>();
 
     public LivingCombatantCooldown(LivingEntity livingCombatant, CombatantProperty combatantProperty) {
         super(livingCombatant, combatantProperty);
