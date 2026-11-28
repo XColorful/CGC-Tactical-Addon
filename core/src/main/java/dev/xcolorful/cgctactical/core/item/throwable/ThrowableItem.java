@@ -1,5 +1,7 @@
 package dev.xcolorful.cgctactical.core.item.throwable;
 
+import dev.xcolorful.cgctactical.core.api.entity.ILivingCombatant;
+import dev.xcolorful.cgctactical.core.api.entity.combatant.ILivingCombatantGetter;
 import dev.xcolorful.cgctactical.core.api.item.IThrowable;
 import dev.xcolorful.cgctactical.core.api.item.throwable.ThrowableDataAccessor;
 import dev.xcolorful.cgctactical.core.api.minecraft.item.ItemType;
@@ -9,9 +11,14 @@ import dev.xcolorful.cgctactical.core.init.registry.ModItems;
 import dev.xcolorful.cgctactical.core.resource.data.index.ThrowableIndex;
 import dev.xcolorful.cgctactical.core.resource.instance.data.ThrowableIndexInstance;
 import net.minecraft.network.chat.Component;
+import net.minecraft.world.InteractionHand;
+import net.minecraft.world.InteractionResultHolder;
+import net.minecraft.world.entity.player.Player;
 import net.minecraft.world.inventory.tooltip.TooltipComponent;
 import net.minecraft.world.item.Item;
 import net.minecraft.world.item.ItemStack;
+import net.minecraft.world.item.UseAnim;
+import net.minecraft.world.level.Level;
 import org.jetbrains.annotations.NotNull;
 import org.jetbrains.annotations.Nullable;
 
@@ -36,6 +43,24 @@ public class ThrowableItem extends Item implements IThrowable, ThrowableDataAcce
 
         ThrowableIndex throwableIndex = throwableIndexInstance.getPojo();
         return Component.translatable(throwableIndex.getNameLang());
+    }
+
+    @Override
+    public @NotNull InteractionResultHolder<ItemStack> use(@NotNull Level level,
+                                                           @NotNull Player player,
+                                                           @NotNull InteractionHand hand) {
+        if (hand == InteractionHand.OFF_HAND) {
+            return InteractionResultHolder.fail(player.getItemInHand(hand));
+        }
+
+        ItemStack throwableItem = player.getItemInHand(hand);
+        ILivingCombatant iLivingCombatant = ILivingCombatantGetter.cgctactical$fromLivingEntity(player);
+        int cooldown = iLivingCombatant.cgctactical$getItemCooldown(throwableItem);
+        if (cooldown <= 0) {
+            player.startUsingItem(hand);
+        }
+
+        return InteractionResultHolder.consume(throwableItem);
     }
 
     /**

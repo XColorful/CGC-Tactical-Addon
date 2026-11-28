@@ -2,6 +2,7 @@ package dev.xcolorful.cgctactical.core.api.entity.combatant;
 
 import dev.xcolorful.cgctactical.core.api.entity.ILivingCombatant;
 import dev.xcolorful.cgctactical.core.api.entity.combatant.melee.IMeleeOperator;
+import dev.xcolorful.cgctactical.core.api.entity.combatant.throwable.IThrowableOperator;
 
 /**
  * <ul>
@@ -9,5 +10,6 @@ import dev.xcolorful.cgctactical.core.api.entity.combatant.melee.IMeleeOperator;
  * </ul>
  * @see ILivingCombatant
  */
-public interface ITacticalOperator extends IMeleeOperator {
+public interface ITacticalOperator extends IMeleeOperator,
+        IThrowableOperator {
 }

@@ -5,9 +5,11 @@ import dev.xcolorful.cgctactical.core.api.entity.ILivingCombatant;
 import dev.xcolorful.cgctactical.core.api.item.tactical.TacticalAction;
 import dev.xcolorful.cgctactical.core.entity.combatant.*;
 import dev.xcolorful.customgun.core.api.common.McLogicalSide;
+import net.minecraft.resources.ResourceLocation;
 import net.minecraft.world.entity.Entity;
 import net.minecraft.world.entity.EntityType;
 import net.minecraft.world.entity.LivingEntity;
+import net.minecraft.world.item.ItemStack;
 import net.minecraft.world.level.Level;
 import org.spongepowered.asm.mixin.Mixin;
 import org.spongepowered.asm.mixin.injection.At;
@@ -72,5 +74,21 @@ public abstract class LivingEntityMixin extends Entity implements ILivingCombata
     @Override
     public void cgctactical$meleeAttack(TacticalAction tacticalAction, int combo, List<Entity> meleeVictims) {
         this.cgctactical$melee.meleeAttack(tacticalAction, combo, meleeVictims);
+    }
+
+    // --------ICombatantState--------
+
+    @Override
+    public int cgctactical$getItemCooldown(ItemStack tacticalItem) {
+        return this.cgctactical$cooldown.getItemCooldown(tacticalItem);
+    }
+    @Override
+    public float cgctactical$getItemCooldownPercent(ItemStack tacticalItem, float partialTick) {
+        return this.cgctactical$cooldown.getItemCooldownPercent(tacticalItem, partialTick);
+    }
+
+    @Override
+    public void cgctactical$setItemCooldown(ResourceLocation cooldownLocation, int cooldown) {
+        this.cgctactical$cooldown.setItemCooldown(cooldownLocation, cooldown);
     }
 }

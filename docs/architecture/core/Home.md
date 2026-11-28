@@ -24,7 +24,7 @@
 > _./core/entity_
 
 - Living Combatant (aspect)：战斗生物（切面）
-	- LivingCombatantCooldown：物品冷却
+	- LivingCombatantCooldown：物品冷却、近战冷却
 	- LivingCombatantDraw：切换物品
 	- LivingCombatantMelee：近战
 	- LivingCombatantSprint：冲刺
@@ -129,7 +129,7 @@ Module division based on the `dev.xcolorful.cgctactical.core` top-level package
 > _./core/entity_
 
 - Living Combatant (aspect):
-	- LivingCombatantCooldown: Item cooldown
+	- LivingCombatantCooldown: Item cooldown, melee cooldown
 	- LivingCombatantDraw: Draw item
 	- LivingCombatantMelee: Melee
 	- LivingCombatantSprint: Sprint

@@ -1,5 +1,6 @@
 package dev.xcolorful.cgctactical.core.api.entity;
 
+import dev.xcolorful.cgctactical.core.api.entity.combatant.ICombatantState;
 import dev.xcolorful.cgctactical.core.api.entity.combatant.ILivingCombatantConfig;
 import dev.xcolorful.cgctactical.core.api.entity.combatant.ITacticalOperator;
 import dev.xcolorful.cgctactical.core.api.melee.attack.IMeleeAttackRuntime;
@@ -25,7 +26,8 @@ import dev.xcolorful.customgun.core.api.item.gun.FireModeType;
  * </ol>
  */
 public interface ILivingCombatant extends ILivingCombatantConfig,
-        ITacticalOperator {
+        ITacticalOperator,
+        ICombatantState {
 
     /**
      * 初始化战斗操作的各个数据
