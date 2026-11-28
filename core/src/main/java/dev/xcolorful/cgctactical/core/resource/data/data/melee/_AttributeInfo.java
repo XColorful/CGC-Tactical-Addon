@@ -3,8 +3,8 @@ package dev.xcolorful.cgctactical.core.resource.data.data.melee;
 import com.google.gson.stream.JsonReader;
 import com.google.gson.stream.JsonToken;
 import com.google.gson.stream.JsonWriter;
-import dev.xcolorful.cgctactical.core.api.minecraft.attribute.AttributeModifierOperation;
 import dev.xcolorful.cgctactical.core.api.resource.data.data.melee._AttributeInfoTag;
+import dev.xcolorful.customgun.core.api.minecraft.attribute.AttributeModifierOperation;
 import dev.xcolorful.customgun.core.resource.ResourcePojo;
 import dev.xcolorful.customgun.core.util.JsonUtils;
 
